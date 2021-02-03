@@ -1,0 +1,120 @@
+﻿
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
+    <meta name="description" content="" />
+    <meta name="author" content="" />
+    <title>Dashboard - SB Admin</title>
+    <link href="~/Content/css/Style1.css" rel="stylesheet" />
+    <link href="~/Content/css/styles.css" rel="stylesheet" />
+    <link href="https://cdn.datatables.net/1.10.20/css/dataTables.bootstrap4.min.css" rel="stylesheet" crossorigin="anonymous" />
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.1/js/all.min.js" crossorigin="anonymous"></script>
+</head>
+<body class="sb-nav-fixed bg-light   ">
+    <div id="layoutSidenav">      
+        <div id="layoutSidenav ">
+            <div class="container-fluid">
+                <div id="DongHo">
+                    <div class="card-body">
+                        <h1>Đồng Hồ</h1>
+                    </div>
+                </div>
+                <main>
+                    <div id="layoutSidenav_content">
+                        <div class="container-fluid">
+
+                            <div class="card mb-4">
+                                <div class="card-header">
+                                    <span>Đề Thi Trắc Nghiệm</span>
+                                </div>
+
+                            </div>
+
+                            <div class="card mb-4">
+
+                                @for (int i = 0; i < 10; i++)
+                                {
+
+                                    <div class="card-body">
+                                        <form>
+                                            <div class="form-group">
+                                                <h5 style="width:710px;"> Câu  @(i+1) : sddddd ddddd ddddd  dddddd  ddd ddqedss  sssddss sssssd ddddd d dd dsssssssss ssss ssss dddddd d ddd dd dd ddd dddd ddd dddd ddd  ddddd</h5>
+
+                                                @if (i == 3 || i == 8)
+                                                {
+                                                    <div class="card-body ">
+                                                        <img class="img-circle center-block" style="margin-left:140px" src="https://znews-photo.zadn.vn/w1024/Uploaded/kbd_bcvi/2019_11_23/5d8291bb6f24eb36944980e5.jpg"
+                                                             alt="anh viet nam anh 1 " width="400px" height="400px" />
+                                                    </div>
+                                                }
+
+                                            </div>
+
+
+                                            @for (int j = 0; j < 4; j++)
+                                            {
+                                                <div class="form-group">
+                                                    @if (i == 3 || j == 2)
+                                                    {
+
+                                                        <img class="img-circle center-block" style="margin-left:80px" src="https://znews-photo.zadn.vn/w1024/Uploaded/kbd_bcvi/2019_11_23/5d8291bb6f24eb36944980e5.jpg"
+                                                             alt="anh viet nam anh 1 " width="150px" />
+
+                                                    }
+
+                                                    <div class="custom-control custom-radio">
+                                                        <input class="custom-control-inline" id="@j" name="@i" type="radio" value="@j" />
+                                                        <label class="custom-control-inline" style="width:700px" for="@j">
+
+                                                            Remember passwo sasssssssss
+                                                            saaaaaaaaaa
+                                                            saaaaaaaaaaaaaaaaaadssssaaaaaaaaaaaa saaaaaaadsssssaaaaaaard
+                                                        </label>
+
+                                                    </div>
+                                                </div>
+                                            }
+
+                                        </form>
+                                    </div>
+
+
+                                }
+
+                            </div>
+                            <div class="card-body ">
+                                <input class="bg-dark" type="submit" value="Nộp Bài" />
+                            </div>
+                        </div>
+                    </div>
+                </main>
+
+                <footer class="py-4 bg-light mt-auto">
+                    <div class="container-fluid">
+                        <div class="d-flex align-items-center justify-content-between small">
+                            <div class="text-muted">  Copyright &copy; Your Website 2020 </div>
+                            <div>
+                                <a href="#">Privacy Policy</a>
+                                &middot;
+                                <a href="#">Terms &amp; Conditions</a>
+                            </div>
+                        </div>
+                    </div>
+                </footer>
+
+            </div>
+        </div>
+        <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js" crossorigin="anonymous"></script>
+        <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.5.3/dist/js/bootstrap.bundle.min.js" crossorigin="anonymous"></script>
+        <script src="~/Scripts/js/scripts.js"></script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.8.0/Chart.min.js" crossorigin="anonymous"></script>
+        <script src="/assets/demo/chart-area-demo.js"></script>
+        <script src="/assets/demo/chart-bar-demo.js"></script>
+        <script src="https://cdn.datatables.net/1.10.20/js/jquery.dataTables.min.js" crossorigin="anonymous"></script>
+        <script src="https://cdn.datatables.net/1.10.20/js/dataTables.bootstrap4.min.js" crossorigin="anonymous"></script>
+        <script src="/assets/demo/datatables-demo.js"></script>
+</body>
+</html>

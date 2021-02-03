@@ -13,5 +13,9 @@ namespace TracNghiemOnline.Controllers
         {
             return View();
         }
+        public ActionResult Loald( string id)
+        {
+            return View();
+        }
     }
 }
