@@ -1,0 +1,25 @@
+﻿
+@{
+    ViewBag.Title = "MonHoc";
+    Layout = "~/Views/Share/LayOutHome.cshtml";
+}
+<div class="container-fluid">
+
+    <h1 class="mt-4">Đề Thi </h1>
+    <div class="row">
+        @for (int i = 0; i < 20; i++)
+        {
+            <div class="col-xl-3 col-md-6">
+                <div class="card bg-primary  mb-4">   
+                   <div class="card-body"> Thong tin </div>
+                    <div class="card-body progress-group">
+                        <div class="progress progress-sm">
+                            <div class="progress-bar bg-success" style="width: 80%">  <span><b>160</b>/200</span></div>
+                        </div>
+                    </div>
+                    <a class="btn  bg-danger " href="/TaoDE/@i"> Tạo Đề Thi </a>
+                </div>
+            </div>
+        }
+    </div>
+</div>

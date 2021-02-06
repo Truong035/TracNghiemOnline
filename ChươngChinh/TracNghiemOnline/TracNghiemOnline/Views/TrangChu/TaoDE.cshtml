@@ -1,0 +1,131 @@
+﻿
+@{
+    ViewBag.Title = "TaoDE";
+    Layout = "~/Views/Share/LayOutHome.cshtml";
+}
+
+
+<div class="container-fluid">
+    <div id="TaoDe">
+        <div class="container">
+            <div class="row">
+                <div class="col-4">
+                    <div class="card-body">
+                        <label>Mức Độ </label>
+                    </div>
+                </div>
+                <div class="col-8 ">
+                    <div class="card-body">
+                        <select class=" form-control col-11 id="cars" name="cars">
+                            <option value="">Chọn Mức Độ </option>
+                            <option value="Dễ"> Dễ </option>
+                            <option value="Trung Bình"> Trung Bình  </option>
+                            <option value="Khó "> Khó   </option>
+                        </select>
+
+                    </div>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-4 ">
+                    <div class="card-body">
+                        <label>Số Câu Hỏi</label>
+                    </div>
+                </div>
+                <div class="col-8 ">
+                    <div class="card-body">
+                        <input class=" form-control col-11" />
+                    </div>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-4 ">
+                    <div class="card-body">
+                        <label>Thời Gian Làm Bài :  </label>
+                    </div>
+                </div>
+                <div class="col-8 ">
+                    <div class="card-body">
+
+                        <select class=" form-control col-11 id="cars" name="cars">
+                            <option value="">Chọn Thời Gian Làm Bài  </option>
+                            @for (int i = 10; i <= 180; i += 10)
+                            {
+                                <option value="@i"> @i  Phút </option>
+
+                            }
+                        </select>
+
+
+
+                    </div>
+                </div>
+            </div>
+
+            <div class="row">
+                <div class="col-4 ">
+                    <div class="card-body">
+                        <label>Chương Trình Kiến Thức : </label>
+                    </div>
+                </div>
+                <div class="col-8 ">
+                    <div class="card-body">
+
+                        <div class="sb-sidenav-menu">
+                            @for (int i = 0; i < 5; i++)
+                            {
+                                string chuoi = "#collapseLayouts"+i;
+                                string chuoi1 = "collapseLayouts"+i;
+                                <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="@chuoi" aria-expanded="false" aria-controls="collapseLayouts">
+                                    <i class="fas fa-angle-down"></i>
+                                    Chương @i
+                                </a>
+                                <div class="collapse" id="@chuoi1" aria-labelledby="headingOne" data-parent="#sidenavAccordion">
+                                    <div class="col-12">
+                                        <div class="card card-body ">
+                                            <div class=" container-fluid ">
+                                                @for (int j = 0; j < 3; j++)
+                                                {
+                                                    <div class="row">
+                                                        <div class="col-sm-2 col-md-1 ">
+                                                            <input type="checkbox" />
+                                                        </div>
+                                                        <div class="col-sm-6 col-md-3 bg-primary">
+                                                            Bai @i
+                                                        </div>
+
+                                                    </div>
+
+                                                }
+
+
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                  
+
+                                </div>
+
+                            }
+
+
+
+
+
+                        </div>
+                        </div> 
+                </div>
+            </div>
+
+        </div>
+
+
+
+    </div>
+
+ 
+</div>
+
+
+

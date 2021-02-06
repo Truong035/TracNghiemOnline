@@ -18,7 +18,36 @@ namespace TracNghiemOnline
                url: "ThiThu/{id}",
                defaults: new { controller = "TrangChu", action = "Loald", id = UrlParameter.Optional }
            );
+     
+      
+            routes.MapRoute(
+           name: "DeThi",
+           url: "DeThi/{id}",
+           defaults: new { controller = "Home", action = "DSDETHI", id = UrlParameter.Optional }, namespaces: new[] { "TracNghiemOnline.Areas.Admin.Controllers" }
 
+
+       );
+
+
+            routes.MapRoute(
+               name: "TaoDe",
+               url: "TaoDe/{id}",
+               defaults: new { controller = "TrangChu", action = "TAODE", id = UrlParameter.Optional }
+           );
+
+
+            routes.MapRoute(
+               name: "DanhGiaKetQuahocTap",
+               url: "DanhGiaKetQuahocTap/{id}",
+               defaults: new { controller = "TrangChu", action = "DanhGia", id = UrlParameter.Optional }
+           );
+
+
+            routes.MapRoute(
+            name: "DSMONHOC",
+            url: "DSMONHOC/{id}",
+            defaults: new { controller = "TrangChu", action = "MonHoc", id = UrlParameter.Optional }
+        );
             routes.MapRoute(
                 name: "Default",
                 url: "{controller}/{action}/{id}",

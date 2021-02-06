@@ -1,0 +1,127 @@
+﻿
+@{
+    ViewBag.Title = "MonHoc";
+    Layout = "~/Areas/Admin/Views/Shared/LaoutShare.cshtml";
+}
+
+<div class="container-fluid card-header  ">
+    <form>
+        <div class="card mt-5 ">
+
+            <div class="row">
+                <div class="col-2 ">
+                    <div class="card-body">
+                        <label>Môn Học </label>
+                    </div>
+                </div>
+                <div class="col-10 ">
+                    <div class="card-body">
+                        <label>Tin Học Đại Cương</label>
+                    </div>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-2 ">
+                    <div class="card-body">
+                        <label>Mã Đề </label>
+                    </div>
+                </div>
+                <div class="col-10 ">
+                    <div class="card-body">
+                        <label> 103 </label>
+                    </div>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-2 ">
+                    <div class="card-body">
+                        <label>Thời Gian Thi </label>
+                    </div>
+                </div>
+                <div class="col-10 ">
+                    <div class="card-body">
+                        <label> 90 Phút </label>
+                    </div>
+                </div>
+            </div>
+            <div class="card-body  ">
+                    <h5 > Danh Sách Chương </h5>
+            </div>
+            <div class="card">
+                <div class="row">
+                    <div class="col-3 ">
+                        <div class="card-body">
+                            <h6> Tên Chương  </h6>
+                        </div>
+                    </div>
+                    <div class="col-2 ">
+                        <div class="card-body">
+                            <h6> Nhận Biết  </h6>
+                        </div>
+                    </div>
+                    <div class="col-2 ">
+                        <div class="card-body">
+                            <h6> Thông Hiểu   </h6>
+                        </div>
+                    </div>
+                    <div class="col-2 ">
+                        <div class="card-body">
+                            <h6> Vận Dụng  </h6>
+                        </div>
+                    </div>
+                    <div class="col-2 ">
+                        <div class="card-body">
+                            <h6> Vận Dụng Cao </h6>
+                        </div>
+                    </div>
+                </div>
+                @for (int i = 0; i < 5; i++)
+                {
+                    <div class="card-body">
+                        <div class="row">
+                            <div class="col-3">
+
+                                <label>  Chương  @i  </label>
+
+                            </div>
+                            <div class="col-2 ">
+                                <div class="col-10">
+                                    <input type="number" style="width:60px" id="@i" />
+                                </div>
+
+                            </div>
+                            <div class="col-2 ">
+                                <div class="col-10">
+                                    <input type="number" style="width:60px" id="@i" />
+                                </div>
+
+                            </div>
+                            <div class="col-2 ">
+                                <div class="col-10">
+                                    <input type="number" style="width:60px" id="@i" />
+                                </div>
+
+                            </div>
+                            <div class="col-2 ">
+                                <div class="col-10">
+                                    <input type="number" style="width:60px" id="@i" />
+                                </div>
+
+                            </div>
+
+                        </div>
+                    </div>
+                }
+            </div>
+
+
+        </div>
+        <div class="card-body" style="text-align:center" >
+            <button class="badge-dark"> Hoàn Thành  </button>
+            <button class="badge-dark"> Quay Lại </button>
+        </div>
+     
+    </form>
+</div>
+
+

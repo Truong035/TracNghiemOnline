@@ -1,0 +1,66 @@
+﻿
+@{
+    ViewBag.Title = "TaoDeThi";
+    Layout = "~/Areas/Admin/Views/Shared/LaoutShare.cshtml";
+}
+<div class="card-body bg-danger ">
+    <div class="mt-lg-5">
+        <h2 class="mt-4"> Tạo Đề Thi </h2>
+
+    </div>
+</div>
+<div class="container-fluid">
+
+    <div class="card-body mt-5 ">
+        <form>
+            <div class="form-group">
+                <label class="small mb-1" for="">Môn Học</label>
+                <select class=" form-control col-12" id="cars" name="cars">
+                    <option value=" ">  Chọn Tên Môn Học </option>
+                    @for (int i = 0; i < 10; i++)
+                    {
+
+                        <option value="@i"> Môn @i </option>
+
+                    }
+
+                </select>
+            </div>
+            <div class="form-group">
+                <label class="small mb-1" for="">Tên Đề</label>
+                <input class="form-control col-12 " id="inputEmailAddress" type="text" placeholder="Nôi Dung Đề" />
+            </div>
+            <div class="form-group">
+                <label class="small mb-1" for="">Thơi Gian Làm Bài</label>
+                <select class=" form-control col-12 id="cars" name="cars">
+                    <option value="">Chọn Thời Gian Làm Bài  </option>
+                    @for (int i = 10; i <= 180; i += 10)
+                    {
+                        <option value="@i"> @i  Phút </option>
+
+                    }
+                </select>
+            </div>
+            <div class="form-group">
+                <label class="small mb-1" for="">Cách Chọn Câu Hỏi</label>
+                <select class=" form-control col-12 id="cars" name="cars">
+                    <option value="Ngẫu Nhiên">Ngẫu Nhiên </option>
+                    <option value="Tự Chọn"> Tự Chọn</option>
+
+                </select>
+            </div>
+            <div class="row">
+                <div class="col-3">
+                    <a class=" btn-dark nav-link" href="/Admin/Home/MonHoc" style="text-align:center"> Hoàn Thành </a>
+                </div>
+                <div class="col-3">
+                    <a class=" btn-dark nav-link" href="#" style="text-align:center"> Quay Lai </a>
+                </div>
+            </div>
+
+        </form>
+
+
+
+    </div>
+</div>

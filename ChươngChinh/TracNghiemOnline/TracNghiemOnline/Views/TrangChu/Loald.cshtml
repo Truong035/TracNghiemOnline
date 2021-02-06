@@ -11,21 +11,23 @@
     <link href="~/Content/css/Style1.css" rel="stylesheet" />
     <link href="~/Content/css/styles.css" rel="stylesheet" />
     <link href="https://cdn.datatables.net/1.10.20/css/dataTables.bootstrap4.min.css" rel="stylesheet" crossorigin="anonymous" />
+    @Scripts.Render("~/bundles/jquery")
     <script src="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.1/js/all.min.js" crossorigin="anonymous"></script>
 </head>
 <body class="sb-nav-fixed bg-light   ">
-    <div id="layoutSidenav">      
+    <div id="layoutSidenav">
         <div id="layoutSidenav ">
             <div class="container-fluid">
-                <div id="DongHo">
-                    <div class="card-body">
-                        <h1>Đồng Hồ</h1>
-                    </div>
-                </div>
+
                 <main>
                     <div id="layoutSidenav_content">
-                        <div class="container-fluid">
 
+                        <div class="container-fluid">
+                            <div id="DongHo">
+                                <div class="card-body">
+                                    <span id="demo" style="margin-top:100px">Đồng Hồ</span>
+                                </div>
+                            </div>
                             <div class="card mb-4">
                                 <div class="card-header">
                                     <span>Đề Thi Trắc Nghiệm</span>
@@ -35,7 +37,7 @@
 
                             <div class="card mb-4">
 
-                                @for (int i = 0; i < 10; i++)
+                                @for (int i = 0; i < 1; i++)
                                 {
 
                                     <div class="card-body">
@@ -52,8 +54,6 @@
                                                 }
 
                                             </div>
-
-
                                             @for (int j = 0; j < 4; j++)
                                             {
                                                 <div class="form-group">
@@ -62,11 +62,10 @@
 
                                                         <img class="img-circle center-block" style="margin-left:80px" src="https://znews-photo.zadn.vn/w1024/Uploaded/kbd_bcvi/2019_11_23/5d8291bb6f24eb36944980e5.jpg"
                                                              alt="anh viet nam anh 1 " width="150px" />
-
                                                     }
 
                                                     <div class="custom-control custom-radio">
-                                                        <input class="custom-control-inline" id="@j" name="@i" type="radio" value="@j" />
+                                                        <input class="custom-control-inline" id="@j" name="@i" type="radio" onclick="changeText(this.id)" />
                                                         <label class="custom-control-inline" style="width:700px" for="@j">
 
                                                             Remember passwo sasssssssss
@@ -107,14 +106,75 @@
 
             </div>
         </div>
-        <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js" crossorigin="anonymous"></script>
-        <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.5.3/dist/js/bootstrap.bundle.min.js" crossorigin="anonymous"></script>
-        <script src="~/Scripts/js/scripts.js"></script>
-        <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.8.0/Chart.min.js" crossorigin="anonymous"></script>
-        <script src="/assets/demo/chart-area-demo.js"></script>
-        <script src="/assets/demo/chart-bar-demo.js"></script>
-        <script src="https://cdn.datatables.net/1.10.20/js/jquery.dataTables.min.js" crossorigin="anonymous"></script>
-        <script src="https://cdn.datatables.net/1.10.20/js/dataTables.bootstrap4.min.js" crossorigin="anonymous"></script>
-        <script src="/assets/demo/datatables-demo.js"></script>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.5.3/dist/js/bootstrap.bundle.min.js" crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.8.0/Chart.min.js" crossorigin="anonymous"></script>
+    <script src="https://cdn.datatables.net/1.10.20/js/jquery.dataTables.min.js" crossorigin="anonymous"></script>
+    <script src="https://cdn.datatables.net/1.10.20/js/dataTables.bootstrap4.min.js" crossorigin="anonymous"></script>
+
+
+    <script>
+        function changeText(ID) {
+            $.ajax({
+                type: 'GET',
+                data: { id: ID },
+                url: 'LuaChon',
+                success: function (KetQua) {
+                    alert(KetQua)
+                }
+            });
+
+        }
+    </script>
+    <script>
+        // Thiết lập thời gian đích mà ta sẽ đếm
+        var countDownDate = new Date("2021/2/03 23:58:00").getTime();
+        // cập nhập thời gian sau mỗi 1 giây
+        var x = setInterval(function () {
+            // Lấy thời gian hiện tại
+            var now = new Date().getTime();
+
+            // Lấy số thời gian chênh lệch
+            var distance = countDownDate - now;
+
+            // Tính toán số ngày, giờ, phút, giây từ thời gian chênh lệch
+            var days = Math.floor(distance / (1000 * 60 * 60 * 24));
+            var hours = Math.floor((distance % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+            var minutes = Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60));
+            var seconds = Math.floor((distance % (1000 * 60)) / 1000);
+
+            // HIển thị chuỗi thời gian trong thẻ p
+            if (hours > 0) {
+                document.getElementById("demo").innerHTML = "Giờ Kết Thúc  " + hours + " : "
+                    + minutes + " : " + seconds;
+            }
+            else {
+                document.getElementById("demo").innerHTML = "Giờ Kết Thúc  "
+                    + minutes + " : " + seconds;
+            }
+
+
+            // Nếu thời gian kết thúc, hiển thị chuỗi thông báo
+            if (distance < 0) {
+                clearInterval(x);
+                document.getElementById("demo").innerHTML = "Thời gian đếm ngược đã kết thúc";
+            }
+        }, 1000);
+    </script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 </body>
 </html>
