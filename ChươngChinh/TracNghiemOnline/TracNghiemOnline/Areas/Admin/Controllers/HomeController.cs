@@ -29,13 +29,10 @@ namespace TracNghiemOnline.Areas.Admin.Controllers
 
             return View();
         }
+
+     
+
         public ActionResult NgânHangCauHoi(string id)
-        {
-
-            return View();
-        }
-
-        public ActionResult CauHoi(string id)
         {
 
             return View();

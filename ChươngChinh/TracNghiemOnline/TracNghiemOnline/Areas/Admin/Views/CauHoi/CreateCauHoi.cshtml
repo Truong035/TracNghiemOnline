@@ -1,0 +1,112 @@
+﻿@model List<TracNghiemOnline.Model.CauHoi>
+    @{
+        ViewBag.Title = "CreateCauHoi";
+        Layout = "~/Areas/Admin/Views/Shared/LaoutShare.cshtml";
+
+    }
+
+    @section Jsfooter{
+        <script>
+            $(document).ready(function () {
+                $('#txtFile').change(function () {
+                    if (window.FormData !== undefined) {
+                        var fileupload = $('#txtFile').get(0);
+                        var file = fileupload.files;
+                        var formdata = new FormData();
+                        formdata.append('file', file[0]);
+
+                        $.ajax({
+                            type: 'POST',
+                            url: '/Cauhoi/XuLyFile',
+                            contentType: false, //Khong co hear
+                            processData: false,//Khong Xu Ly Du Lieu
+                            data: formdata,
+                            success: function (urlImage) {
+                                if (true) {
+                                    window.location = "/Admin/CauHoi/CreateCauHoi/1";
+                                }
+                                
+                            }
+
+                        });
+                    }
+
+                });
+
+            });
+
+
+        </script>
+    }
+
+    <h2>CreateCauHoi</h2>
+    <div class="card">
+        <input id="txtFile" type="file" name="txtFile" />
+        <button id="Txnbuton">asdada</button>
+    </div>
+    <div class="card">
+        <div class="card mb-4">
+            @{
+
+                            int i = 0;
+                            foreach (var item in Model)
+                            {
+                    
+
+
+                <div class="card-body">
+                    <form> 
+                        <div class="form-group">
+                            <h5 style="width:710px;"> Câu @(i=i+1)  @item.NoiDubg1 </h5>
+                            
+                        @if (item.HinhAnh1.Length > 0)
+                        {
+                                <div class="card-body ">
+                                    <img class="img-circle center-block" style="margin-left:140px" src="@item.HinhAnh1" 
+                                         alt="anh viet nam anh 1 " width="400px" height="400px" />
+                                </div>
+
+                            }
+
+                        </div>
+                        @foreach (var item1 in item.CauHois)
+                    {
+                    <div class="form-group">
+                        @if (item1.HinhAnh1.Length > 0)
+                    {
+                            <img class="img-circle center-block" style="margin-left:80px" src="@item1.HinhAnh1" 
+                                 alt="anh viet nam anh 1 " width="150px" />
+
+                        }
+                    <div class="custom-control custom-radio">
+
+                        @if (item1.TrangThai1 == true)
+                        {
+                            <label class="custom-control-inline" style="width:700px;color:orangered " for="@item1.MaDA">
+                                @item1.NoiDung1
+                            </label>
+                        }
+                        else
+                {
+                            <label class="custom-control-inline" style="width:700px" for="@item1.MaDA">
+                                @item1.NoiDung1
+                            </label>
+                        }
+
+
+
+                    </div>
+                    </div>
+                        }
+
+                    </form>
+                </div>
+
+
+            }
+                }
+        </div>
+
+
+    </div>
+
