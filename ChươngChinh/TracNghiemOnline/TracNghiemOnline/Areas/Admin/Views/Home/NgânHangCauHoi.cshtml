@@ -1,4 +1,4 @@
-﻿
+﻿@model List<TracNghiemOnline.Modell.MonHoc>
 @{
     ViewBag.Title = "NgânHangCauHoi";
     Layout = "~/Areas/Admin/Views/Shared/LaoutShare.cshtml";
@@ -38,7 +38,7 @@
                         <th>Mã Đề </th>
 
                         <th>Tên Môn Học</th>
-                        <th>Tình Trạng</th>
+                        <th>Mô Tả </th>
                         <th></th>
 
 
@@ -46,16 +46,16 @@
                     </tr>
                 </tfoot>
                 <tbody>
-                    @for (int i = 0; i < 20; i++)
+                    @foreach (var item in Model)
                     {
                         <tr>
-                            <td> @i </td>
+                            <td> @item.Ma_Mon </td>
 
-                            <td> Môn  @i</td>
-                            <td>  Không Có </td>
+                            <td > @item.TenMon</td>
+                            <td> @item.TenMon </td>
                             <td style="text-align:center">
                                 <div class="row">
-                                    <div class="col-4"><a href="/Admin/Home/ChuongHoc">  Xem   </a></div>
+                                    <div class="col-4"><a href="/Admin/Home/ChuongHoc/@item.Ma_Mon">  Xem   </a></div>
                                     <div class="col-4"><a href="#"> Sữa</a></div>
                                     <div class="col-4"><a href="#"> Xóa  </a></div>
 

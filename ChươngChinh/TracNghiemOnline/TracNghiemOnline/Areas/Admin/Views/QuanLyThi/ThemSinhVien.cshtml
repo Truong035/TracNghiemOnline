@@ -1,0 +1,75 @@
+﻿
+@{
+    ViewBag.Title = "ThemSinhVien";
+    Layout = "~/Areas/Admin/Views/Shared/LaoutShare.cshtml";
+}
+
+<h2>ThemSinhVien</h2>
+
+
+<div class="card-body bg-danger ">
+    <div class="mt-lg-5">
+        <h2 class="mt-4"> Danh Sach Sinh Viên </h2>
+
+    </div>
+</div>
+
+<div class="card-header ">
+    <div class="container-fluid">
+        <div class="card-body">
+            <div class="table-responsive">
+                <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
+                    <thead>
+                        <tr>
+                            <th>Mã Sinh Viên  </th>
+                            <th>Tên </th>
+                            <th> Lớp  </th>
+                            <th>  </th>
+
+                        </tr>
+                    </thead>
+                    <tfoot>
+                        <tr>
+                            <th>Mã Sinh Viên  </th>
+                            <th>Tên </th>
+                            <th> Lớp  </th>
+                            <th>  </th>
+
+                        </tr>
+                    </tfoot>
+                    <tbody>
+                        @for (int i = 0; i < 20; i++)
+                        {
+                            <tr>
+                                <td> @i </td>
+
+                                <td> Sinh Viên   @i</td>
+                                <td>  Công Nghệ Thông Tin </td>
+                                <td style="text-align:center">
+                                    <div class="row">
+
+                                        <div class="col-4"><input type="checkbox" /></div>
+
+                                    </div>
+                                </td>
+                            </tr>
+
+                        }
+
+                    </tbody>
+
+                </table>
+
+            </div>
+            <div class="row">
+                <div class="col-3 " style="text-align:center">
+                    <a class="btn-dark nav-link" href="/Admin/QuanLyThi/ThemSinhVien" style="text-align:center">Thêm</a>
+                </div>
+                <div class="col-3 " style="text-align:center">
+                    <a class="btn-dark nav-link" href="/Admin/QuanLyThi/DSSinhVen" style="text-align:center">QuayLai</a>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+

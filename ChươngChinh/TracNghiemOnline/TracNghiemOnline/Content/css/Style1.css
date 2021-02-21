@@ -9,9 +9,21 @@
     cursor: pointer;
     z-index: 99;
 }
+#VaoThi {
+    position:fixed;
+    padding:5px;
+    top:80px;
+    left:20px;
+    width:100%;
+    cursor:pointer;
+    z-index:99;
+ 
+}
+
 #TaoDe {
     margin-left: 30%;
     margin-top: 80px;
     width: 700px;
     height: auto;
 }
+

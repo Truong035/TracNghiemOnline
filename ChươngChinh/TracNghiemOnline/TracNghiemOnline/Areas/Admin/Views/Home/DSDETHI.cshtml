@@ -1,4 +1,4 @@
-﻿
+﻿@model List<TracNghiemOnline.Modell.Bo_De>
 @{
     ViewBag.Title = "DSDETHI";
     Layout = "~/Areas/Admin/Views/Shared/LaoutShare.cshtml";
@@ -37,35 +37,40 @@
                         <thead>
                             <tr>
                                 <th>Mã Đề </th>
-
+                                <th>Nội Dung </th>
                                 <th>Tên Môn Học</th>
+                                <th>Số Câu</th>
+                                <th>Thời Gian Thi</th>
                                 <th>Tình Trạng</th>
+                                <th>Người Tạo</th>
                                 <th></th>
-
                             </tr>
                         </thead>
                         <tfoot>
                             <tr>
                                 <th>Mã Đề </th>
-
+                                <th>Nội Dung </th>
                                 <th>Tên Môn Học</th>
+                                <th>Số Câu</th>
+                                <th>Thời Gian Thi</th>
                                 <th>Tình Trạng</th>
+                                <th>Người Tạo</th>
                                 <th></th>
-
-
-
                             </tr>
                         </tfoot>
                         <tbody>
-                            @for (int i = 0; i < 20; i++)
+                            @foreach (var item in Model)
                             {
-                                <tr>
-                                    <td> @i </td>
-
-                                    <td> Ten Mon saaaaaa aaaaaa sad  aaads   adsaaaa sadd aaaaaaaaaaa1  @i</td>
-                                    <td>  Chưa Mở </td>
-                                    <td>  <a href="#">  Xem   </a> | <a href="#"> Sữa</a> |  <a href="#"> Xóa  </a>  </td>
-                                </tr>
+                            <tr>
+                                <td> @item.Ma_BoDe </td>
+                                <td>  @item.NoiDung </td>
+                                <td> @item.MonHoc.TenMon</td>
+                                <td> @item.SoCau</td>
+                                <td> @item.ThoiGianThi</td>
+                                <td>  @item.TrangThai</td>
+                                <td>  @item.GiaoVien.TenGV </td>
+                                <td>  <a href="#">  Xem   </a> | <a href="#"> Sữa</a> |  <a href="#"> Xóa  </a>  </td>
+                            </tr>
 
                             }
 

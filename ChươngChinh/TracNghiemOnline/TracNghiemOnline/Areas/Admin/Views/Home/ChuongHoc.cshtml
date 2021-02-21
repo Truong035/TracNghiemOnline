@@ -1,4 +1,4 @@
-﻿
+﻿@model List<TracNghiemOnline.Modell.Chuong_Hoc>
 @{
     ViewBag.Title = "ChuongHoc";
     Layout = "~/Areas/Admin/Views/Shared/LaoutShare.cshtml";
@@ -41,16 +41,16 @@
                     </tr>
                 </tfoot>
                 <tbody>
-                    @for (int i = 0; i < 20; i++)
+                    @foreach (var item in Model)
                     {
                         <tr>
-                            <td>   @i </td>
+                            <td>   @item.Ma_Chuong </td>
 
-                            <td> Chương   @i</td>
-                            <td>  @(i+1) </td>
+                            <td> Chương   @item.TenChuong</td>
+                            <td>  @item.Kho_CauHoi.Count </td>
                             <td style="text-align:center">
                                 <div class="row">
-                                    <div class="col-6"><a  class="nav-link" href="/Admin/CauHoi/Index/1">  Danh Sách Câu Hỏi  </a></div>
+                                    <div class="col-6"><a  class="nav-link" href="/Admin/CauHoi/Index/@item.Ma_Chuong">  Danh Sách Câu Hỏi  </a></div>
                                     <div class="col-3"><a  class="nav-link" href="#"> Sữa</a></div>
                                     <div class="col-3"><a  class="nav-link" href="#"> Xóa  </a></div>
 
@@ -71,7 +71,7 @@
                     <a class="badge-dark nav-link" href="#"> Thêm Chương </a>
                 </div>
                 <div class="col-2">
-                    <a class="btn-dark nav-link" href="/Admin/Home/NgânHangCauHoi"> Quay Lại </a>
+                    <a class="btn-dark nav-link" href="/Admin/Home/NgânHangCauHoi/"> Quay Lại </a>
                 </div>
                
             </div>

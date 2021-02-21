@@ -34,7 +34,11 @@ namespace TracNghiemOnline
                url: "TaoDe/{id}",
                defaults: new { controller = "TrangChu", action = "TAODE", id = UrlParameter.Optional }
            );
-
+            routes.MapRoute(
+         name: "VaoThi",
+         url: "VaoThi/{id}",
+         defaults: new { controller = "TrangChu", action = "VaoThi", id = UrlParameter.Optional }
+     );
 
             routes.MapRoute(
                name: "DanhGiaKetQuahocTap",

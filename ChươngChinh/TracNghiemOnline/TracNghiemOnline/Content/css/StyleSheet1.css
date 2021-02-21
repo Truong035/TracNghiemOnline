@@ -1,0 +1,31 @@
+﻿#DongHo {
+    position: fixed;
+    margin-left: 1100px;
+    padding: 5px;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    cursor: pointer;
+    z-index: 99;
+}
+
+#VaoThi {
+    position: fixed;
+  
+    padding: 5px;
+    top: 0%;
+    left: 0px;
+    width: 100%;
+    height:100%;
+    cursor: pointer;
+    background-color:rgba(0,0,0,.5);
+    z-index: 99;
+}
+
+#TaoDe {
+    margin-left: 30%;
+    margin-top: 80px;
+    width: 700px;
+    height: auto;
+}

@@ -1,0 +1,72 @@
+﻿
+@{
+    ViewBag.Title = "PhongThi";
+    Layout = "~/Areas/Admin/Views/Shared/LaoutShare.cshtml";
+}
+
+<div class="card-body card-header ">
+    <div class="mt-lg-5">
+        <h2 class="mt-4"> Phòng Thi </h2>
+
+    </div>
+</div>
+
+
+<div class="container-fluid">
+
+    <div class="card-body">
+        <div class="table-responsive">
+            <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
+                <thead>
+                    <tr>
+                        <th>Mã Phòng </th>
+                        <th>Lớp Học Phần </th>
+                        <th> Môn Học </th>
+                        <th>Thời Gian Bắt Đầu </th>
+                        <th></th>
+
+                    </tr>
+                </thead>
+                <tfoot>
+                    <tr>
+                        <th>Mã Phòng </th>
+                        <th>Lớp Học Phần </th>
+                        <th> Môn Học </th>
+                        <th>Thời Gian Bắt Đầu </th>
+                        <th></th>
+                    </tr>
+                </tfoot>
+                <tbody>
+                    @for (int i = 0; i < 20; i++)
+                    {
+                    <tr>
+                        <td> @i </td>
+
+                        <td> Lop  @i</td>
+                        <td>  Môn Học </td>
+                        <td>  từ  đến  </td>
+                        <td style="text-align:center">
+                            <div class="row">
+                                <div class="col-4"><a href="/Admin/Home/ChuongHoc">  Danh Sách Sinh Viên  </a></div>
+                                <div class="col-4"><a href="#"> Sữa</a></div>
+                                <div class="col-4"><a href="#"> Xóa  </a></div>
+
+                            </div>
+                        </td>
+                    </tr>
+
+                    }
+
+                </tbody>
+
+            </table>
+
+        </div>
+        <div class="row">
+            <div class="col-3 " style="text-align:center">
+                <a class="btn-dark nav-link" href="#" style="text-align:center">Tạo Phòng Thi</a>
+            </div>
+        </div>
+    </div>
+</div>
+

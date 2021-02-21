@@ -1,4 +1,9 @@
 ﻿
+@{
+    Layout = null;
+   TracNghiemOnline.Modell.De_Thi Dethi = (TracNghiemOnline.Modell.De_Thi) ViewBag.DeThi;
+}
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -7,7 +12,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
     <meta name="description" content="" />
     <meta name="author" content="" />
-    <title>Dashboard - SB Admin</title>
+    <title>Trắc Nghiệm Online</title>
     <link href="~/Content/css/Style1.css" rel="stylesheet" />
     <link href="~/Content/css/styles.css" rel="stylesheet" />
     <link href="https://cdn.datatables.net/1.10.20/css/dataTables.bootstrap4.min.css" rel="stylesheet" crossorigin="anonymous" />
@@ -18,13 +23,13 @@
     <div id="layoutSidenav">
         <div id="layoutSidenav ">
             <div class="container-fluid">
-
                 <main>
                     <div id="layoutSidenav_content">
-
                         <div class="container-fluid">
                             <div id="DongHo">
                                 <div class="card-body">
+                                    <input id="TxtThoiGian" hidden="hidden" value="@ViewBag.GioThi" />
+                                    <input id="TxtMaDe" hidden="hidden" value="@Dethi.MaDeThi" />
                                     <span id="demo" style="margin-top:100px">Đồng Hồ</span>
                                 </div>
                             </div>
@@ -36,56 +41,68 @@
                             </div>
 
                             <div class="card mb-4">
+                                @{
+                                    int i = 0;
+                                    foreach (var item in Dethi.CauHoiDeThis)
+                                    {
 
-                                @for (int i = 0; i < 1; i++)
-                                {
+                                        <div class="form-group">
+                                            <h5 style="width:710px;"> Câu @(i=i+1) : @item.Kho_CauHoi.NoiDung </h5>
 
-                                    <div class="card-body">
-                                        <form>
-                                            <div class="form-group">
-                                                <h5 style="width:710px;"> Câu  @(i+1) : sddddd ddddd ddddd  dddddd  ddd ddqedss  sssddss sssssd ddddd d dd dsssssssss ssss ssss dddddd d ddd dd dd ddd dddd ddd dddd ddd  ddddd</h5>
-
-                                                @if (i == 3 || i == 8)
-                                                {
-                                                    <div class="card-body ">
-                                                        <img class="img-circle center-block" style="margin-left:140px" src="https://znews-photo.zadn.vn/w1024/Uploaded/kbd_bcvi/2019_11_23/5d8291bb6f24eb36944980e5.jpg"
-                                                             alt="anh viet nam anh 1 " width="400px" height="400px" />
-                                                    </div>
-                                                }
-
-                                            </div>
-                                            @for (int j = 0; j < 4; j++)
+                                            @if (item.Kho_CauHoi.HinhAnh.Length > 0)
                                             {
-                                                <div class="form-group">
-                                                    @if (i == 3 || j == 2)
-                                                    {
-
-                                                        <img class="img-circle center-block" style="margin-left:80px" src="https://znews-photo.zadn.vn/w1024/Uploaded/kbd_bcvi/2019_11_23/5d8291bb6f24eb36944980e5.jpg"
-                                                             alt="anh viet nam anh 1 " width="150px" />
-                                                    }
-
-                                                    <div class="custom-control custom-radio">
-                                                        <input class="custom-control-inline" id="@j" name="@i" type="radio" onclick="changeText(this.id)" />
-                                                        <label class="custom-control-inline" style="width:700px" for="@j">
-
-                                                            Remember passwo sasssssssss
-                                                            saaaaaaaaaa
-                                                            saaaaaaaaaaaaaaaaaadssssaaaaaaaaaaaa saaaaaaadsssssaaaaaaard
-                                                        </label>
-
-                                                    </div>
+                                                <div class="card-body ">
+                                                    <img class="img-circle center-block" style="margin-left:140px" src="@item.Kho_CauHoi.HinhAnh"
+                                                         alt="anh viet nam anh 1 " width="400" height="400" />
                                                 </div>
+
                                             }
 
-                                        </form>
-                                    </div>
+                                        </div>
+                                        foreach (var item1 in item.Kho_CauHoi.Dap_AN)
+                                        {
+                                            <div class="form-group">
+                                                @try
+                                                {
+                                                    if (item1.HinhAnh.Length > 0)
+                                                    {
+                                                        <img class="img-circle center-block" style="margin-left:80px" src="@item1.HinhAnh"
+                                                             alt="anh viet nam anh 1" width="150px" />
+
+                                                    }
+                                                }
+                                                catch { }
+
+                                                <div class="custom-control custom-radio">
+                                                    @{
+                                                        if (item1.TrangThai == true)
+                                                        {
+                                                            <input class="custom-control-inline" id="@item1.MA_DAN" name="@item1.Ma_CauHoi" checked="checked" type="radio" onclick="changeText(this.id)" />
+                                                            <label class="custom-control-inline" style="width:700px" for="@item1.MA_DAN">
+                                                                @item1.NoiDung
+                                                            </label>
+                                                        }
+                                                        else
+                                                        {
+                                                            <input class="custom-control-inline" id="@item1.MA_DAN" name="@item1.Ma_CauHoi" type="radio" onclick="changeText(this.id)" />
+                                                            <label class="custom-control-inline" style="width:700px" for="@item1.MA_DAN">
+                                                                @item1.NoiDung
+                                                            </label>
+                                                        }
+
+                                                    }
+                                                </div>
+                                            </div>
+
+                                        }
 
 
+
+                                    }
                                 }
-
                             </div>
                             <div class="card-body ">
-                                <input class="bg-dark" type="submit" value="Nộp Bài" />
+                                <input id="bntNopBai" class="bg-dark" type="submit" value="Nộp Bài" />
                             </div>
                         </div>
                     </div>
@@ -115,21 +132,26 @@
 
 
     <script>
+        var madethi = $('#TxtMaDe').val();
         function changeText(ID) {
             $.ajax({
                 type: 'GET',
-                data: { id: ID },
-                url: 'LuaChon',
+                url: '/TrangChu/LuaChon/' + ID,
+                data: { madethi },
                 success: function (KetQua) {
-                    alert(KetQua)
                 }
             });
 
-        }
-    </script>
-    <script>
+        };
+
+        $('#bntNopBai').click(function () {
+            window.location = "/Admin/QuanLyThi/DiemSo/" + madethi;
+
+        });
+
         // Thiết lập thời gian đích mà ta sẽ đếm
-        var countDownDate = new Date("2021/2/03 23:58:00").getTime();
+        var tg = $('#TxtThoiGian').val();
+        var countDownDate = new Date(tg).getTime();
         // cập nhập thời gian sau mỗi 1 giây
         var x = setInterval(function () {
             // Lấy thời gian hiện tại
@@ -146,35 +168,26 @@
 
             // HIển thị chuỗi thời gian trong thẻ p
             if (hours > 0) {
-                document.getElementById("demo").innerHTML = "Giờ Kết Thúc  " + hours + " : "
-                    + minutes + " : " + seconds;
+                document.getElementById("demo").innerHTML = "Thời Gian Còn Lại  " + hours + " : "
+                    + minutes + " : " + seconds + " Phút ";
             }
             else {
-                document.getElementById("demo").innerHTML = "Giờ Kết Thúc  "
-                    + minutes + " : " + seconds;
+                document.getElementById("demo").innerHTML = "Thời Gian Còn Lại  "
+                    + minutes + " : " + seconds + " Phút ";
             }
-
-
             // Nếu thời gian kết thúc, hiển thị chuỗi thông báo
             if (distance < 0) {
+                alert("Đã Hết Giờ Làm Bài")
+                window.location = "/Admin/QuanLyThi/DiemSo/" + madethi;
                 clearInterval(x);
-                document.getElementById("demo").innerHTML = "Thời gian đếm ngược đã kết thúc";
             }
         }, 1000);
+
+
     </script>
-
-
-
-
-
-
-
-
-
-
-
 
 
 
 </body>
 </html>
+

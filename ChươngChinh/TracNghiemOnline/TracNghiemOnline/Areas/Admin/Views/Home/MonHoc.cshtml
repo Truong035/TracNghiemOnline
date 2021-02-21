@@ -1,7 +1,57 @@
-﻿
+﻿@model TracNghiemOnline.Modell.Bo_De
 @{
     ViewBag.Title = "MonHoc";
     Layout = "~/Areas/Admin/Views/Shared/LaoutShare.cshtml";
+    List<TracNghiemOnline.Model.SoLuongChuong> chuong_s = (List<TracNghiemOnline.Model.SoLuongChuong>)ViewBag.Chuong;
+    //List<TracNghiemOnline.Model.SoLuongChuong> SL = (List<TracNghiemOnline.Model.SoLuongChuong>)ViewBag.SLChuong;
+}
+@section  Jsfooter{
+    <script>
+        $(document).ready(function () {
+            $('#btnTao').click(function () {
+                var NhanBiet = $('.txtNhanBiet');
+                var ThongHieu = $('.txtThongHieu');
+                var VanDung = $('.txtVanDung');
+                var VanDungCao = $('.txtVanDungCao');
+                var arr = [];
+                $.each(NhanBiet, function (i, item) {
+                    arr.push({
+                        chuong: {
+                            Ma_Chuong: $(item).data('id')
+                        },
+                        nhanbiet : $(item).val(),
+                      thongHieu :"0",
+                        vandung: "0",
+                       vandungcao: "0"
+                    });
+
+                });
+                $.each(ThongHieu, function (i, item) {
+                    arr[i].thongHieu = $(item).val()
+
+                });
+                $.each(VanDung, function (i, item) {
+                    arr[i].vandung = $(item).val()
+
+                });
+                $.each(VanDungCao, function (i, item) {
+                    arr[i].vandungcao = $(item).val()
+
+                });
+                $.ajax({
+                    type: 'POST',
+                    url: "/Home/TaoDe",
+                    data: { SoLuong: JSON.stringify(arr) },
+                    dataType: 'json',
+                    success: function (res) {
+                        if (res.status == true) {
+                            window.location = "/Admin/Home/LoadDeThi"
+                     }
+                    }
+                });
+            });
+        });
+    </script>
 }
 
 <div class="container-fluid card-header  ">
@@ -16,19 +66,19 @@
                 </div>
                 <div class="col-10 ">
                     <div class="card-body">
-                        <label>Tin Học Đại Cương</label>
+                        <label> @Model.MonHoc.TenMon </label>
                     </div>
                 </div>
             </div>
             <div class="row">
                 <div class="col-2 ">
                     <div class="card-body">
-                        <label>Mã Đề </label>
+                        <label>Tên Đề : </label>
                     </div>
                 </div>
                 <div class="col-10 ">
                     <div class="card-body">
-                        <label> 103 </label>
+                        <label> @Model.NoiDung</label>
                     </div>
                 </div>
             </div>
@@ -40,12 +90,12 @@
                 </div>
                 <div class="col-10 ">
                     <div class="card-body">
-                        <label> 90 Phút </label>
+                        <label> @Model.ThoiGianThi Phút  </label>
                     </div>
                 </div>
             </div>
             <div class="card-body  ">
-                    <h5 > Danh Sách Chương </h5>
+                <h5> Danh Sách Chương </h5>
             </div>
             <div class="card">
                 <div class="row">
@@ -75,36 +125,36 @@
                         </div>
                     </div>
                 </div>
-                @for (int i = 0; i < 5; i++)
+                @foreach (var item in chuong_s)
                 {
                     <div class="card-body">
                         <div class="row">
                             <div class="col-3">
 
-                                <label>  Chương  @i  </label>
+                                <label>  @item.Chuong.TenChuong  </label>
 
                             </div>
                             <div class="col-2 ">
                                 <div class="col-10">
-                                    <input type="number" style="width:60px" id="@i" />
+                                    <input type="number" value="0" style="width:60px" class="txtNhanBiet" min="0" max="@item.nhanBiet" data-id="@item.Chuong.Ma_Chuong" />
                                 </div>
 
                             </div>
                             <div class="col-2 ">
                                 <div class="col-10">
-                                    <input type="number" style="width:60px" id="@i" />
+                                    <input type="number" value="0" style="width:60px" class="txtThongHieu" min="0" max="@item.thongHieu" />
                                 </div>
 
                             </div>
                             <div class="col-2 ">
                                 <div class="col-10">
-                                    <input type="number" style="width:60px" id="@i" />
+                                    <input type="number" value="0" style="width:60px" class="txtVanDung" min="0" max="@item.vandung"  />
                                 </div>
 
                             </div>
                             <div class="col-2 ">
                                 <div class="col-10">
-                                    <input type="number" style="width:60px" id="@i" />
+                                    <input type="number" value="0" style="width:60px" class="txtVanDungCao" min="0" max="@item.vandungcao"  />
                                 </div>
 
                             </div>
@@ -116,11 +166,11 @@
 
 
         </div>
-        <div class="card-body" style="text-align:center" >
-            <button class="badge-dark"> Hoàn Thành  </button>
-            <button class="badge-dark"> Quay Lại </button>
+        <div class="card-body" style="text-align:center">
+            <button class="badge-dark" id="btnTao" type="button"> Hoàn Thành  </button>
+            <button class="badge-dark" type="reset" > Quay Lại </button>
         </div>
-     
+
     </form>
 </div>
 

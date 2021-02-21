@@ -1,0 +1,35 @@
+namespace TracNghiemOnline.Modell
+{
+    using System;
+    using System.Collections.Generic;
+    using System.ComponentModel.DataAnnotations;
+    using System.ComponentModel.DataAnnotations.Schema;
+    using System.Data.Entity.Spatial;
+
+    public partial class Phong_Thi
+    {
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
+        public Phong_Thi()
+        {
+            DS_SVThi = new HashSet<DS_SVThi>();
+        }
+
+        [Key]
+        [StringLength(10)]
+        public string MaPhong { get; set; }
+
+        public long? NguoiTao { get; set; }
+
+        public DateTime? ThoiGianMo { get; set; }
+
+        public DateTime? ThoiGianDong { get; set; }
+
+        [StringLength(20)]
+        public string TrangThai { get; set; }
+
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<DS_SVThi> DS_SVThi { get; set; }
+
+        public virtual GiaoVien GiaoVien { get; set; }
+    }
+}

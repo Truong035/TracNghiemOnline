@@ -1,0 +1,73 @@
+﻿
+@{
+    ViewBag.Title = "ToChucThi";
+    Layout = "~/Areas/Admin/Views/Shared/LaoutShare.cshtml";
+}
+
+<div class="card-body card-header">
+    <div class="mt-lg-5">
+        <h2 class="mt-4"> Tổ Chức Thi </h2>
+
+    </div>
+</div>
+
+
+<div class="container-fluid">
+    <div class="card-body">
+        <div class="table-responsive">
+            <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
+                <thead>
+                    <tr>
+                        <th>Mã Phong</th>
+                        <th>Lớp Học Phần </th>
+                        <th> Sĩ Số </th>
+                        <th> Mã Đê Thi </th>
+                        <th></th>
+
+                    </tr>
+                </thead>
+                <tfoot>
+                    <tr>
+                        <th>Mã Phong</th>
+                        <th>Lớp Học Phần </th>
+                        <th> Sĩ Số </th>
+                        <th> Mã Đê Thi </th>
+                        <th></th>
+
+
+                    </tr>
+                </tfoot>
+                <tbody>
+                    @for (int i = 0; i < 20; i++)
+                    {
+                    <tr>
+                        <td> @i </td>
+
+                        <td> Lóp  @i</td>
+                        <td>  @i </td>
+                        <td>  MD @i </td>
+                        <td style="text-align:center">
+                            <div class="row">
+                          
+                    
+                                <div class="col-4"><a href="#"> Vào  </a></div>
+
+                            </div>
+                        </td>
+                    </tr>
+
+                    }
+
+                </tbody>
+
+            </table>
+
+        </div>
+        <div class="row">
+            <div class="col-3 " style="text-align:center">
+                <a class="btn-dark nav-link" href="#" style="text-align:center">Thêm Môn</a>
+            </div>
+        </div>
+    </div>
+</div>
+

@@ -45,10 +45,18 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="EntityFramework, Version=6.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089, processorArchitecture=MSIL">
+      <HintPath>..\packages\EntityFramework.6.2.0\lib\net45\EntityFramework.dll</HintPath>
+    </Reference>
+    <Reference Include="EntityFramework.SqlServer, Version=6.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089, processorArchitecture=MSIL">
+      <HintPath>..\packages\EntityFramework.6.2.0\lib\net45\EntityFramework.SqlServer.dll</HintPath>
+    </Reference>
     <Reference Include="Microsoft.CSharp" />
     <Reference Include="System" />
     <Reference Include="System.Data" />
     <Reference Include="System.Drawing" />
+    <Reference Include="System.Runtime.Serialization" />
+    <Reference Include="System.Security" />
     <Reference Include="System.Web.DynamicData" />
     <Reference Include="System.Web.Entity" />
     <Reference Include="System.Web.ApplicationServices" />
@@ -124,12 +132,44 @@
     <Compile Include="Areas\Admin\AdminAreaRegistration.cs" />
     <Compile Include="Areas\Admin\Controllers\CauHoiController.cs" />
     <Compile Include="Areas\Admin\Controllers\HomeController.cs" />
+    <Compile Include="Areas\Admin\Controllers\QuanLyThiController.cs" />
+    <Compile Include="ComMon\ComMonStants.cs" />
+    <Compile Include="Controllers\BaseController.cs" />
+    <Compile Include="Controllers\LoginController.cs" />
     <Compile Include="Controllers\TrangChuController.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
+    <Compile Include="Modell\Bo_De.cs" />
+    <Compile Include="Modell\CauHoi.cs" />
+    <Compile Include="Modell\CauHoiDeThi.cs" />
+    <Compile Include="Modell\Chuong_Hoc.cs" />
+    <Compile Include="Modell\Dao\BoDeDao.cs" />
+    <Compile Include="Modell\Dao\CauHoiDao.cs" />
+    <Compile Include="Modell\Dao\LoginDao.cs" />
+    <Compile Include="Modell\Dao\MonHocDao.cs" />
+    <Compile Include="Modell\Dao\QuanLyThiDAO.cs" />
+    <Compile Include="Modell\Dap_AN.cs" />
+    <Compile Include="Modell\Da_SVLuaChon.cs" />
+    <Compile Include="Modell\De_Thi.cs" />
+    <Compile Include="Modell\DS_LopHP.cs" />
+    <Compile Include="Modell\DS_MonHoc.cs" />
+    <Compile Include="Modell\DS_SVThi.cs" />
+    <Compile Include="Modell\GiaoVien.cs" />
+    <Compile Include="Modell\KetQuaThi.cs" />
+    <Compile Include="Modell\Kho_CauHoi.cs" />
+    <Compile Include="Modell\Lop.cs" />
+    <Compile Include="Modell\LopHocPhan.cs" />
+    <Compile Include="Modell\MonHoc.cs" />
+    <Compile Include="Modell\Nganh.cs" />
+    <Compile Include="Modell\Phong_Thi.cs" />
+    <Compile Include="Modell\SinhVien.cs" />
+    <Compile Include="Modell\TaiKhoan.cs" />
+    <Compile Include="Modell\TracNghiemOnlineDB.cs" />
+    <Compile Include="Model\BoDeThi.cs" />
     <Compile Include="Model\CauHoi.cs" />
     <Compile Include="Model\DapAn.cs" />
+    <Compile Include="Model\SoLuongChuong.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
@@ -145,6 +185,8 @@
     <Content Include="Content\bootstrap.min.css" />
     <Content Include="Content\css\Style1.css" />
     <Content Include="Content\css\styles.css" />
+    <Content Include="Content\css\StyleSheet1.css" />
+    <Content Include="Content\Img\5.gif" />
     <Content Include="favicon.ico" />
     <Content Include="fonts\glyphicons-halflings-regular.svg" />
     <Content Include="Global.asax" />
@@ -153,19 +195,28 @@
     <Content Include="Scripts\jquery.unobtrusive-ajax.min.js" />
     <Content Include="Scripts\bootstrap.js" />
     <Content Include="Scripts\bootstrap.min.js" />
-    <Content Include="Areas\Admin\Views\web.config" />
-    <Content Include="Areas\Admin\Views\Home\TrangChu.cshtml" />
-    <Content Include="Areas\Admin\Views\Shared\LaoutShare.cshtml" />
-    <Content Include="Areas\Admin\Views\Home\Index.cshtml" />
+    <Content Include="Areas\Admin\Views\CauHoi\DapAn.cshtml" />
+    <Content Include="Areas\Admin\Views\CauHoi\Index.cshtml" />
+    <Content Include="Areas\Admin\Views\CauHoi\LoalFile.cshtml" />
+    <Content Include="Areas\Admin\Views\CauHoi\XuLyFile.cshtml" />
+    <Content Include="Areas\Admin\Views\Home\ChuongHoc.cshtml" />
     <Content Include="Areas\Admin\Views\Home\DSDETHI.cshtml" />
-    <Content Include="Areas\Admin\Views\Home\TaoDeThi.cshtml" />
+    <Content Include="Areas\Admin\Views\Home\Index.cshtml" />
+    <Content Include="Areas\Admin\Views\Home\LoadDeThi.cshtml" />
     <Content Include="Areas\Admin\Views\Home\MonHoc.cshtml" />
     <Content Include="Areas\Admin\Views\Home\NgânHangCauHoi.cshtml" />
-    <Content Include="Areas\Admin\Views\Home\ChuongHoc.cshtml" />
-    <Content Include="Areas\Admin\Views\CauHoi\Index.cshtml" />
+    <Content Include="Areas\Admin\Views\Home\TaoDeThi.cshtml" />
+    <Content Include="Areas\Admin\Views\Home\TrangChu.cshtml" />
+    <Content Include="Areas\Admin\Views\QuanLyThi\DiemSo.cshtml" />
+    <Content Include="Areas\Admin\Views\QuanLyThi\DSSinhVen.cshtml" />
+    <Content Include="Areas\Admin\Views\QuanLyThi\KiThi.cshtml" />
+    <Content Include="Areas\Admin\Views\QuanLyThi\LopHocPhan.cshtml" />
+    <Content Include="Areas\Admin\Views\QuanLyThi\PhongThi.cshtml" />
+    <Content Include="Areas\Admin\Views\QuanLyThi\ThemSinhVien.cshtml" />
+    <Content Include="Areas\Admin\Views\QuanLyThi\ToChucThi.cshtml" />
+    <Content Include="Areas\Admin\Views\Shared\LaoutShare.cshtml" />
+    <Content Include="Areas\Admin\Views\web.config" />
     <Content Include="Areas\Admin\Views\CauHoi\CreateCauHoi.cshtml" />
-    <Content Include="Areas\Admin\Views\CauHoi\XuLyFile.cshtml" />
-    <Content Include="Areas\Admin\Views\CauHoi\LoalFile.cshtml" />
     <None Include="Scripts\jquery-3.4.1.intellisense.js" />
     <Content Include="Scripts\jquery-3.4.1.js" />
     <Content Include="Scripts\jquery-3.4.1.min.js" />
@@ -186,13 +237,18 @@
     <Content Include="Web.Release.config">
       <DependentUpon>Web.config</DependentUpon>
     </Content>
-    <Content Include="Views\Web.config" />
-    <Content Include="Views\TrangChu\Loald.cshtml" />
     <Content Include="Views\Share\LayOutHome.cshtml" />
-    <Content Include="Views\TrangChu\Index.cshtml" />
+    <Content Include="Views\TrangChu\DanhGia.cshtml" />
     <Content Include="Views\TrangChu\MonHoc.cshtml" />
     <Content Include="Views\TrangChu\TaoDE.cshtml" />
-    <Content Include="Views\TrangChu\DanhGia.cshtml" />
+    <Content Include="Views\Web.config" />
+    <Content Include="Views\Login\Login.cshtml" />
+    <Content Include="Views\TrangChu\Index.cshtml" />
+    <Content Include="Views\TrangChu\DangNhapPhongThi.cshtml" />
+    <Content Include="Views\TrangChu\View.cshtml" />
+    <Content Include="Views\TrangChu\PhongCho.cshtml" />
+    <Content Include="Views\TrangChu\Loald.cshtml" />
+    <Content Include="Views\TrangChu\VaoThi.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Areas\Admin\Data\" />

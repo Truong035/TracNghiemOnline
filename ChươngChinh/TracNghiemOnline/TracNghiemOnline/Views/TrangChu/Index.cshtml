@@ -1,4 +1,4 @@
-﻿
+﻿@model  List<TracNghiemOnline.Modell.Bo_De>
 @{
     ViewBag.Title = "Index";
     Layout = "~/Views/Share/LayOutHome.cshtml";
@@ -6,21 +6,21 @@
 <div class="container-fluid">
     <h1 class="mt-4">Đề Thi </h1>
     <div class="row">
-        @for (int i = 0; i < 20; i++)
+        @foreach (var item in Model)
         {
-            <div class="col-xl-3 col-md-6">
+            <div class="col-md-6">
                 <div class="card bg-primary  mb-4">
                     <div class="card-footer d-flex align-items-center justify-content-between">
-                        <h3 class="small text-white">Tên Bộ Đề </h3>
+                        <h3 class="small text-white">@item.NoiDung</h3>
                     </div>
-                    <div class="card-body"> thông tin </div>
-                    <div class="card-body"> Thong tin </div>
+                    <div class="card-body"> Thời Gian : @item.ThoiGianThi Phút </div>
+                    <div class="card-body">Số Câu : @item.SoCau Câu </div>
                     <div class="card-body progress-group">
                         <div class="progress progress-sm">
                             <div class="progress-bar bg-success" style="width: 80%">  <span><b>160</b>/200</span></div>
                         </div>
                     </div>
-                    <a class="btn  bg-danger " href="/ThiThu/@i"> Bat Dau </a>
+                    <a class="btn  bg-danger " href="/ThiThu/@item.Ma_BoDe"> Bat Dau </a>
                 </div>
             </div>
         }
