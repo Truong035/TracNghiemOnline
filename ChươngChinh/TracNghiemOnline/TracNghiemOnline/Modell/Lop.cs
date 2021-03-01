@@ -16,11 +16,17 @@ namespace TracNghiemOnline.Modell
         }
 
         [Key]
-        [StringLength(10)]
+        [StringLength(50)]
         public string Ma_Lop { get; set; }
 
-        [StringLength(10)]
+        [StringLength(50)]
         public string TenLop { get; set; }
+
+        public long? Ma_Nganh { get; set; }
+
+        public byte? DaXoa { get; set; }
+
+        public virtual Nganh Nganh { get; set; }
 
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<SinhVien> SinhViens { get; set; }

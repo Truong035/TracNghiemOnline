@@ -1,4 +1,4 @@
-﻿namespace TracNghiemOnline.Modell
+namespace TracNghiemOnline.Modell
 {
     using System;
     using System.Collections.Generic;
@@ -19,7 +19,6 @@
         public long Ma_BoDe { get; set; }
 
         [Column(TypeName = "text")]
-        [Required(ErrorMessage = " Nôi Dung Không Được Bỏ Trống ")]
         public string NoiDung { get; set; }
 
         public long? Ma_NguoiTao { get; set; }

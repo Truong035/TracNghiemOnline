@@ -49,13 +49,6 @@
     </script>
     }
 
-<div class="card-body bg-danger ">
-    <div class="mt-lg-5">
-        <h2 class="mt-4">Tạo Đề </h2>
-
-    </div>
- 
-</div>
 <div class="container-fluid">
     <div class="card-body mt-5 ">
         @using (Html.BeginForm("MonHoc", "Home", new AjaxOptions { InsertionMode = InsertionMode.Replace, UpdateTargetId = "ThongBao" }))
@@ -91,10 +84,10 @@
 
 
             <div class="form-group">
-                <label class="small mb-1" for="">Thơi Gian Làm Bài</label>
+                <label class="small mb-1" for="">Thời gian làm bài</label>
              
                 <select class=" form-control col-12" id="txtTG" onchange="SHOWTG()">
-                    <option value=""> ==========Thời Gian ============= </option>
+                    <option value=""> --Chọn thời gian-- </option>
                     @for (int i = 10; i <= 180; i += 10)
                     {
                         <option value="@i"> @i  Phút </option>

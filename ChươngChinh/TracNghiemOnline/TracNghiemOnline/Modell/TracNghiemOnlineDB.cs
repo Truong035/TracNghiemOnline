@@ -1,10 +1,10 @@
-using System;
-using System.ComponentModel.DataAnnotations.Schema;
-using System.Data.Entity;
-using System.Linq;
-
 namespace TracNghiemOnline.Modell
 {
+    using System;
+    using System.Data.Entity;
+    using System.ComponentModel.DataAnnotations.Schema;
+    using System.Linq;
+
     public partial class TracNghiemOnlineDB : DbContext
     {
         public TracNghiemOnlineDB()
@@ -31,6 +31,7 @@ namespace TracNghiemOnline.Modell
         public virtual DbSet<Nganh> Nganhs { get; set; }
         public virtual DbSet<Phong_Thi> Phong_Thi { get; set; }
         public virtual DbSet<SinhVien> SinhViens { get; set; }
+        public virtual DbSet<sysdiagram> sysdiagrams { get; set; }
         public virtual DbSet<TaiKhoan> TaiKhoans { get; set; }
 
         protected override void OnModelCreating(DbModelBuilder modelBuilder)
@@ -79,15 +80,6 @@ namespace TracNghiemOnline.Modell
                 .WithOptional(e => e.Kho_CauHoi)
                 .HasForeignKey(e => e.MaCauHoi);
 
-            modelBuilder.Entity<Lop>()
-                .Property(e => e.Ma_Lop)
-                .IsFixedLength()
-                .IsUnicode(false);
-
-            modelBuilder.Entity<Lop>()
-                .Property(e => e.TenLop)
-                .IsFixedLength();
-
             modelBuilder.Entity<LopHocPhan>()
                 .Property(e => e.MaLop)
                 .IsFixedLength()
@@ -130,11 +122,6 @@ namespace TracNghiemOnline.Modell
                 .HasMany(e => e.DS_SVThi)
                 .WithRequired(e => e.Phong_Thi)
                 .WillCascadeOnDelete(false);
-
-            modelBuilder.Entity<SinhVien>()
-                .Property(e => e.Ma_Lop)
-                .IsFixedLength()
-                .IsUnicode(false);
 
             modelBuilder.Entity<SinhVien>()
                 .HasMany(e => e.De_Thi)

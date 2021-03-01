@@ -14,7 +14,7 @@ namespace TracNghiemOnline.Modell
         {
             DS_MonHoc = new HashSet<DS_MonHoc>();
             GiaoViens = new HashSet<GiaoVien>();
-            SinhViens = new HashSet<SinhVien>();
+            Lops = new HashSet<Lop>();
         }
 
         [Key]
@@ -24,6 +24,8 @@ namespace TracNghiemOnline.Modell
         [StringLength(50)]
         public string TenNganh { get; set; }
 
+        public byte? DaXoa { get; set; }
+
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<DS_MonHoc> DS_MonHoc { get; set; }
 
@@ -31,6 +33,6 @@ namespace TracNghiemOnline.Modell
         public virtual ICollection<GiaoVien> GiaoViens { get; set; }
 
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<SinhVien> SinhViens { get; set; }
+        public virtual ICollection<Lop> Lops { get; set; }
     }
 }

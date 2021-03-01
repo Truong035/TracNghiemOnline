@@ -1,0 +1,4 @@
+Sửa csdl của bảng SV (Xóa khoa, và ma_nganh)
+thêm thuộc tính đã xóa vào bảng SV, Nganh, Lop, 
+thêm khóa ngoại Ma_Nganh vào bảng lớp 
+Sửa kiểu dữ liệu của thuộc tính Ma_lop.
