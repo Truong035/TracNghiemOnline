@@ -142,8 +142,10 @@
     <Compile Include="App_Start\RouteConfig.cs" />
     <Compile Include="Areas\Admin\AdminAreaRegistration.cs" />
     <Compile Include="Areas\Admin\Controllers\CauHoiController.cs" />
+    <Compile Include="Areas\Admin\Controllers\Chuong_HocController.cs" />
     <Compile Include="Areas\Admin\Controllers\HeThongController.cs" />
     <Compile Include="Areas\Admin\Controllers\HomeController.cs" />
+    <Compile Include="Areas\Admin\Controllers\MonHocsController.cs" />
     <Compile Include="Areas\Admin\Controllers\QuanLyThiController.cs" />
     <Compile Include="ComMon\ComMonStants.cs" />
     <Compile Include="Controllers\BaseController.cs" />
@@ -253,6 +255,16 @@
     <Content Include="Content\bootstrap-datepicker3.css.map" />
     <Content Include="Content\bootstrap-datepicker.standalone.css.map" />
     <Content Include="Content\bootstrap-datepicker.css.map" />
+    <Content Include="Areas\Admin\Views\MonHocs\Create.cshtml" />
+    <Content Include="Areas\Admin\Views\MonHocs\Delete.cshtml" />
+    <Content Include="Areas\Admin\Views\MonHocs\Details.cshtml" />
+    <Content Include="Areas\Admin\Views\MonHocs\Edit.cshtml" />
+    <Content Include="Areas\Admin\Views\MonHocs\Index.cshtml" />
+    <Content Include="Areas\Admin\Views\Chuong_Hoc\Create.cshtml" />
+    <Content Include="Areas\Admin\Views\Chuong_Hoc\Delete.cshtml" />
+    <Content Include="Areas\Admin\Views\Chuong_Hoc\Details.cshtml" />
+    <Content Include="Areas\Admin\Views\Chuong_Hoc\Edit.cshtml" />
+    <Content Include="Areas\Admin\Views\Chuong_Hoc\Index.cshtml" />
     <None Include="Scripts\jquery-3.4.1.intellisense.js" />
     <Content Include="Scripts\jquery-3.4.1.js" />
     <Content Include="Scripts\jquery-3.4.1.min.js" />

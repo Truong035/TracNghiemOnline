@@ -1,0 +1,51 @@
+﻿@model IEnumerable<TracNghiemOnline.Modell.MonHoc>
+
+@{
+    ViewBag.Controller = "Môn học";
+    ViewBag.Title = "Danh sách môn học";
+    Layout = "~/Areas/Admin/Views/Shared/LaoutShare.cshtml";
+}
+
+<div class="row" style="margin-bottom:6px">
+    <div class="col-lg-12 text-light">
+        <a href="@Url.Action("Create", "MonHocs")" class="btn btn-success">
+            <i class="fa fa-plus" aria-hidden="true"></i>
+            <span>
+                <strong>Thêm mới môn học</strong>
+            </span>
+        </a>
+    </div>
+</div>
+<div class="table-responsive">
+    <table class="table table-striped">
+        <thead>
+            <tr>
+                <th>
+                    Tên Môn Học
+                </th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var item in Model)
+            {
+                <tr>
+                    <td class="col-lg-2">
+                        @Html.DisplayFor(modelItem => item.TenMon)
+                    </td>
+                    <td class=" text-right ">
+                        <a href="@Url.Action("Details", "MonHocs",new { id = item.Ma_Mon })" class="btn btn-xs btn-info">
+                            <span><i class="fas fa-eye"></i></span>
+                        </a> 
+                        <a href="@Url.Action("Edit", "MonHocs",new { id = item.Ma_Mon })" class="btn btn-xs btn-info">
+                            <span><i class="fas fa-edit"></i></span>
+                        </a> 
+                        <a href="@Url.Action("Delete", "MonHocs",new { id = item.Ma_Mon })" class="btn btn-xs btn-info">
+                            <span><i class="far fa-trash-alt"></i></span>
+                        </a>
+                    </td>
+                </tr>
+            }
+        </tbody>
+    </table>
+</div>
+
