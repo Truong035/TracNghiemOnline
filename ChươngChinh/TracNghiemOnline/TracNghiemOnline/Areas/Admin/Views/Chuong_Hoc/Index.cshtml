@@ -1,0 +1,56 @@
+﻿@model IEnumerable<TracNghiemOnline.Modell.Chuong_Hoc>
+
+@{
+    ViewBag.Controller = "Chương Học";
+    ViewBag.Title = "Danh sách câu hỏi";
+    Layout = "~/Areas/Admin/Views/Shared/LaoutShare.cshtml";
+}
+
+
+<div class="row" style="margin-bottom:6px">
+    <div class="col-lg-12 ">
+        <a href="@Url.Action("Create", "Chuong_Hoc")" class="btn btn-success">
+            <i class="fa fa-plus" aria-hidden="true"></i>
+            <span>
+                <strong>Thêm mới môn học</strong>
+            </span>
+        </a>
+    </div>
+</div>
+<div class="table-responsive">
+    <table class="table table-striped">
+        <tr>
+            <th>
+                @Html.DisplayNameFor(model => model.MonHoc.TenMon)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.TenChuong)
+            </th>
+            <th></th>
+        </tr>
+
+        @foreach (var item in Model)
+        {
+            <tr>
+                <td>
+                    @Html.DisplayFor(modelItem => item.MonHoc.TenMon)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.TenChuong)
+                </td>
+                <td class=" text-right">
+                    <a href="@Url.Action("Details", "Chuong_Hoc",new { id =  item.Ma_Chuong })" class="btn btn-xs btn-info">
+                        <span><i class="fas fa-eye"></i></span> Xem
+                    </a>
+                    <a href="@Url.Action("Edit", "Chuong_Hoc",new { id =  item.Ma_Chuong })" class="btn btn-xs btn-info">
+                        <span><i class="fas fa-edit"></i></span> Sửa
+                    </a>
+                    <a href="@Url.Action("Delete", "Chuong_Hoc",new { id =  item.Ma_Chuong })" class="btn btn-xs btn-info">
+                        <span><i class="far fa-trash-alt"></i></span> Xoá
+                    </a>
+                </td>
+            </tr>
+        }
+    </table>
+</div>
+

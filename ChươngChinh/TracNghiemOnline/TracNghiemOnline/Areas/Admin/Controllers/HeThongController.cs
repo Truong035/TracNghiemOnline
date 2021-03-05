@@ -20,11 +20,16 @@ namespace TracNghiemOnline.Areas.Admin.Controllers
         {
             try
             {
+<<<<<<< HEAD
                    var dsNganh = (from n in db.Nganhs where n.DaXoa != 1 
                                select new
                                {
                                    MaNganh = n.Ma_Nganh,
                                    TenNganh = n.TenNganh }).ToList();
+=======
+                var dsNganh = (from n in db.Nganhs where n.DaXoa != 1 select new { MaNganh = n.Ma_Nganh, 
+                    TenNganh = n.TenNganh }).ToList();
+>>>>>>> df9173481f8a0f6734c9605cc86ca011ddeb6dcb
                     
                 return Json(new { code = 200, dsNganh = dsNganh, msg="Lấy danh sách thành công" }, JsonRequestBehavior.AllowGet);
             }
@@ -82,7 +87,11 @@ namespace TracNghiemOnline.Areas.Admin.Controllers
         }
         public ActionResult SinhVien()
         {
+<<<<<<< HEAD
             List<Lop> ltsLop = db.Lops.Where(x=>x.DaXoa!=1).ToList();
+=======
+            List<Lop> ltsLop = db.Lops.Where(x => x.DaXoa != 1).ToList();
+>>>>>>> df9173481f8a0f6734c9605cc86ca011ddeb6dcb
             ViewBag.lstLop = new SelectList(ltsLop, "Ma_Lop", "TenLop");
             return View();
         }
@@ -90,10 +99,15 @@ namespace TracNghiemOnline.Areas.Admin.Controllers
         {
             try
             {
+<<<<<<< HEAD
                 //    var dsSV = (from n in db.SinhViens where n.DaXoa != 1
                 var dsSV = (from n in db.SinhViens
                             where n.DaXoa != 1
                             select new
+=======
+                var dsSV = (from n in db.SinhViens where n.DaXoa != 1
+                               select new
+>>>>>>> df9173481f8a0f6734c9605cc86ca011ddeb6dcb
                                {
                                     MaSV = n.MaSV,
                                     TenSV = n.Ten,
