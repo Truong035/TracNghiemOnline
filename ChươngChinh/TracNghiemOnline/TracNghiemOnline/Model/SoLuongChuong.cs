@@ -14,6 +14,7 @@ namespace TracNghiemOnline.Model
         public string thongHieu { get; set; }
         public string nhanBiet { get; set; }
         public string vandungcao { get; set; }
+        public string TongSoCau { get; set; }
 
     }
 }

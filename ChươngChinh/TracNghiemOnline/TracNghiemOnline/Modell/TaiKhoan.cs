@@ -19,5 +19,7 @@ namespace TracNghiemOnline.Modell
 
         [StringLength(50)]
         public string ChưcVu { get; set; }
+
+        public bool? TrangThai { get; set; }
     }
 }

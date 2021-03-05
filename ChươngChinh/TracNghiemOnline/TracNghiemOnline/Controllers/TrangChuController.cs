@@ -18,7 +18,7 @@ namespace TracNghiemOnline.Controllers
         
         public ActionResult Index()
         {
-            var list = new BoDeDao().ListALLChapterStudy();
+            var list = new BoDeDao().ListALLChapterStudy(1);
             return View(list);
         }
       
@@ -81,24 +81,22 @@ namespace TracNghiemOnline.Controllers
                 ViewBag.MaPhong = id;
                 return View("PhongCho");
             }
-
+           
             var session = (TaiKhoan)Session[ComMon.ComMonStants.UserLogin];
             var DeThi = new QuanLyThiDAO().SeachForTheExam(phong,session.TaiKhoan1);
             if (DeThi == null)
             {
           
-                var list = new BoDeDao().ChapterStudy(long.Parse("10013"));
+                var list = new BoDeDao().ChapterStudy(long.Parse(phong.MaBoDe.ToString()));
                 DeThi = new BoDeDao().MixExemQuestion(list, session.TaiKhoan1);
            
-                DateTime data = DateTime.Now.AddMinutes(double.Parse(list.ThoiGianThi));
+           
 
             }
-
-            new BoDeDao().UpdateDsThi(phong, DeThi,session.TaiKhoan1);
+            new BoDeDao().UpdateDsThi(phong, DeThi,session.TaiKhoan1,"Đang Làm");
             Session[ComMon.ComMonStants.ExamQuesTion] = DeThi;
             DateTime dateTime =DateTime.Parse(phong.ThoiGianDong.ToString());
             ViewBag.GioThi = dateTime.ToString("yyyy/MM/dd HH:mm:ss");
-          
             return View(DeThi);
          
         }
@@ -141,6 +139,16 @@ namespace TracNghiemOnline.Controllers
         public JsonResult PhongThi(string MaPhong)
         {
             var Phong = new QuanLyThiDAO().ExamitionRoom(MaPhong);
+            try {
+                if (Phong.ThoiGianMo <= DateTime.Now) {
+                    Phong.TrangThai = "Đã Đóng";
+                    new QuanLyThiDAO().UpDatePhongThi(Phong);
+                } }
+            catch (Exception e)
+            {
+
+
+            }
             if (Phong == null)
             {
                 return Json(new
@@ -191,8 +199,8 @@ namespace TracNghiemOnline.Controllers
 
                 }
             }
-         
             
+         
         }
 
       

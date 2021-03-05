@@ -10,5 +10,6 @@ namespace TracNghiemOnline.ComMon
        public static string UserLogin = "UserLogin";
         public static string ExamQuesTion = "ExamQuesTion";
         public static string ChapterStudy = "ChapterStudy";
+        public static string ExamRoom = "ExamRoom";
     }
 }

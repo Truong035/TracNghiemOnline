@@ -24,6 +24,8 @@ namespace TracNghiemOnline.Modell
         [StringLength(10)]
         public string TenMon { get; set; }
 
+        public bool? TrangThai { get; set; }
+
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<Bo_De> Bo_De { get; set; }
 

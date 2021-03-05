@@ -15,6 +15,8 @@ namespace TracNghiemOnline.Modell.Dao
             return tracNghiem.Kho_CauHoi.Where(x => x.Ma_Chuong == id).ToList();
         }
 
+     
+
         public Kho_CauHoi Question(long id)
         {
             var Question = tracNghiem.Kho_CauHoi.Find(id);

@@ -77,8 +77,8 @@ C:\Users\GMT\Desktop\TracNghiemOnline\ChươngChinh\TracNghiemOnline\TracNghiemO
 C:\Users\GMT\Desktop\TracNghiemOnline\ChươngChinh\TracNghiemOnline\TracNghiemOnline\bin\roslyn\VBCSCompiler.exe
 C:\Users\GMT\Desktop\TracNghiemOnline\ChươngChinh\TracNghiemOnline\TracNghiemOnline\bin\roslyn\VBCSCompiler.exe.config
 C:\Users\GMT\Desktop\TracNghiemOnline\ChươngChinh\TracNghiemOnline\TracNghiemOnline\obj\Debug\TracNghiemOnline.csproj.ResolveComReference.cache
-C:\Users\GMT\Downloads\TracNghiemOnline\ChươngChinh\TracNghiemOnline\TracNghiemOnline\bin\roslyn\Microsoft.DiaSymReader.Native.amd64.dll
-C:\Users\GMT\Downloads\TracNghiemOnline\ChươngChinh\TracNghiemOnline\TracNghiemOnline\bin\roslyn\VBCSCompiler.exe
+C:\Users\GMT\Downloads\TracNghiemOnline\ChươngChinh\TracNghiemOnline\TracNghiemOnline\bin\roslyn\Microsoft.CodeAnalysis.CSharp.dll
+C:\Users\GMT\Downloads\TracNghiemOnline\ChươngChinh\TracNghiemOnline\TracNghiemOnline\bin\roslyn\Microsoft.CodeAnalysis.VisualBasic.dll
 C:\Users\GMT\Downloads\TracNghiemOnline\ChươngChinh\TracNghiemOnline\TracNghiemOnline\bin\TracNghiemOnline.dll.config
 C:\Users\GMT\Downloads\TracNghiemOnline\ChươngChinh\TracNghiemOnline\TracNghiemOnline\bin\TracNghiemOnline.dll
 C:\Users\GMT\Downloads\TracNghiemOnline\ChươngChinh\TracNghiemOnline\TracNghiemOnline\bin\TracNghiemOnline.pdb
@@ -89,12 +89,11 @@ C:\Users\GMT\Downloads\TracNghiemOnline\ChươngChinh\TracNghiemOnline\TracNghie
 C:\Users\GMT\Downloads\TracNghiemOnline\ChươngChinh\TracNghiemOnline\TracNghiemOnline\bin\roslyn\csi.exe.config
 C:\Users\GMT\Downloads\TracNghiemOnline\ChươngChinh\TracNghiemOnline\TracNghiemOnline\bin\roslyn\csi.rsp
 C:\Users\GMT\Downloads\TracNghiemOnline\ChươngChinh\TracNghiemOnline\TracNghiemOnline\bin\roslyn\Microsoft.Build.Tasks.CodeAnalysis.dll
-C:\Users\GMT\Downloads\TracNghiemOnline\ChươngChinh\TracNghiemOnline\TracNghiemOnline\bin\roslyn\Microsoft.CodeAnalysis.CSharp.dll
 C:\Users\GMT\Downloads\TracNghiemOnline\ChươngChinh\TracNghiemOnline\TracNghiemOnline\bin\roslyn\Microsoft.CodeAnalysis.CSharp.Scripting.dll
 C:\Users\GMT\Downloads\TracNghiemOnline\ChươngChinh\TracNghiemOnline\TracNghiemOnline\bin\roslyn\Microsoft.CodeAnalysis.dll
 C:\Users\GMT\Downloads\TracNghiemOnline\ChươngChinh\TracNghiemOnline\TracNghiemOnline\bin\roslyn\Microsoft.CodeAnalysis.Scripting.dll
-C:\Users\GMT\Downloads\TracNghiemOnline\ChươngChinh\TracNghiemOnline\TracNghiemOnline\bin\roslyn\Microsoft.CodeAnalysis.VisualBasic.dll
 C:\Users\GMT\Downloads\TracNghiemOnline\ChươngChinh\TracNghiemOnline\TracNghiemOnline\bin\roslyn\Microsoft.CSharp.Core.targets
+C:\Users\GMT\Downloads\TracNghiemOnline\ChươngChinh\TracNghiemOnline\TracNghiemOnline\bin\roslyn\Microsoft.DiaSymReader.Native.amd64.dll
 C:\Users\GMT\Downloads\TracNghiemOnline\ChươngChinh\TracNghiemOnline\TracNghiemOnline\bin\roslyn\Microsoft.DiaSymReader.Native.x86.dll
 C:\Users\GMT\Downloads\TracNghiemOnline\ChươngChinh\TracNghiemOnline\TracNghiemOnline\bin\roslyn\Microsoft.Managed.Core.targets
 C:\Users\GMT\Downloads\TracNghiemOnline\ChươngChinh\TracNghiemOnline\TracNghiemOnline\bin\roslyn\Microsoft.VisualBasic.Core.targets
@@ -128,6 +127,7 @@ C:\Users\GMT\Downloads\TracNghiemOnline\ChươngChinh\TracNghiemOnline\TracNghie
 C:\Users\GMT\Downloads\TracNghiemOnline\ChươngChinh\TracNghiemOnline\TracNghiemOnline\bin\roslyn\vbc.exe
 C:\Users\GMT\Downloads\TracNghiemOnline\ChươngChinh\TracNghiemOnline\TracNghiemOnline\bin\roslyn\vbc.exe.config
 C:\Users\GMT\Downloads\TracNghiemOnline\ChươngChinh\TracNghiemOnline\TracNghiemOnline\bin\roslyn\vbc.rsp
+C:\Users\GMT\Downloads\TracNghiemOnline\ChươngChinh\TracNghiemOnline\TracNghiemOnline\bin\roslyn\VBCSCompiler.exe
 C:\Users\GMT\Downloads\TracNghiemOnline\ChươngChinh\TracNghiemOnline\TracNghiemOnline\bin\roslyn\VBCSCompiler.exe.config
 C:\Users\GMT\Downloads\TracNghiemOnline\ChươngChinh\TracNghiemOnline\TracNghiemOnline\bin\Antlr3.Runtime.dll
 C:\Users\GMT\Downloads\TracNghiemOnline\ChươngChinh\TracNghiemOnline\TracNghiemOnline\bin\EntityFramework.dll
@@ -155,9 +155,9 @@ C:\Users\GMT\Downloads\TracNghiemOnline\ChươngChinh\TracNghiemOnline\TracNghie
 C:\Users\GMT\Downloads\TracNghiemOnline\ChươngChinh\TracNghiemOnline\TracNghiemOnline\bin\Newtonsoft.Json.xml
 C:\Users\GMT\Downloads\TracNghiemOnline\ChươngChinh\TracNghiemOnline\TracNghiemOnline\bin\Antlr3.Runtime.pdb
 C:\Users\GMT\Downloads\TracNghiemOnline\ChươngChinh\TracNghiemOnline\TracNghiemOnline\bin\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.xml
+C:\Users\GMT\Downloads\TracNghiemOnline\ChươngChinh\TracNghiemOnline\TracNghiemOnline\obj\Debug\TracNghiemOnline.csprojAssemblyReference.cache
 C:\Users\GMT\Downloads\TracNghiemOnline\ChươngChinh\TracNghiemOnline\TracNghiemOnline\obj\Debug\TracNghiemOnline.csproj.ResolveComReference.cache
 C:\Users\GMT\Downloads\TracNghiemOnline\ChươngChinh\TracNghiemOnline\TracNghiemOnline\obj\Debug\TracNghiemOnline.csproj.CoreCompileInputs.cache
 C:\Users\GMT\Downloads\TracNghiemOnline\ChươngChinh\TracNghiemOnline\TracNghiemOnline\obj\Debug\TracNghiemOnline.csproj.CopyComplete
 C:\Users\GMT\Downloads\TracNghiemOnline\ChươngChinh\TracNghiemOnline\TracNghiemOnline\obj\Debug\TracNghiemOnline.dll
 C:\Users\GMT\Downloads\TracNghiemOnline\ChươngChinh\TracNghiemOnline\TracNghiemOnline\obj\Debug\TracNghiemOnline.pdb
-C:\Users\GMT\Downloads\TracNghiemOnline\ChươngChinh\TracNghiemOnline\TracNghiemOnline\obj\Debug\TracNghiemOnline.csprojAssemblyReference.cache

@@ -17,6 +17,7 @@ namespace TracNghiemOnline.Modell
         public virtual DbSet<CauHoiDeThi> CauHoiDeThis { get; set; }
         public virtual DbSet<Chuong_Hoc> Chuong_Hoc { get; set; }
         public virtual DbSet<Da_SVLuaChon> Da_SVLuaChon { get; set; }
+        public virtual DbSet<Danh_Gia> Danh_Gia { get; set; }
         public virtual DbSet<Dap_AN> Dap_AN { get; set; }
         public virtual DbSet<De_Thi> De_Thi { get; set; }
         public virtual DbSet<DS_LopHP> DS_LopHP { get; set; }
@@ -43,6 +44,20 @@ namespace TracNghiemOnline.Modell
                 .HasMany(e => e.CauHois)
                 .WithRequired(e => e.Bo_De)
                 .WillCascadeOnDelete(false);
+
+            modelBuilder.Entity<Bo_De>()
+                .HasMany(e => e.Phong_Thi)
+                .WithOptional(e => e.Bo_De)
+                .HasForeignKey(e => e.MaBoDe);
+
+            modelBuilder.Entity<Chuong_Hoc>()
+                .HasMany(e => e.Danh_Gia)
+                .WithOptional(e => e.Chuong_Hoc)
+                .HasForeignKey(e => e.MaChuong);
+
+            modelBuilder.Entity<Danh_Gia>()
+                .Property(e => e.NhanXet)
+                .IsUnicode(false);
 
             modelBuilder.Entity<De_Thi>()
                 .HasMany(e => e.KetQuaThis)
@@ -79,15 +94,6 @@ namespace TracNghiemOnline.Modell
                 .WithOptional(e => e.Kho_CauHoi)
                 .HasForeignKey(e => e.MaCauHoi);
 
-            modelBuilder.Entity<Lop>()
-                .Property(e => e.Ma_Lop)
-                .IsFixedLength()
-                .IsUnicode(false);
-
-            modelBuilder.Entity<Lop>()
-                .Property(e => e.TenLop)
-                .IsFixedLength();
-
             modelBuilder.Entity<LopHocPhan>()
                 .Property(e => e.MaLop)
                 .IsFixedLength()
@@ -101,6 +107,11 @@ namespace TracNghiemOnline.Modell
                 .HasMany(e => e.DS_LopHP)
                 .WithOptional(e => e.LopHocPhan)
                 .HasForeignKey(e => e.Ma_LOP);
+
+            modelBuilder.Entity<LopHocPhan>()
+                .HasMany(e => e.Phong_Thi)
+                .WithOptional(e => e.LopHocPhan)
+                .HasForeignKey(e => e.MaLopHP);
 
             modelBuilder.Entity<MonHoc>()
                 .Property(e => e.TenMon)
@@ -121,8 +132,18 @@ namespace TracNghiemOnline.Modell
                 .WithRequired(e => e.Nganh)
                 .WillCascadeOnDelete(false);
 
+            modelBuilder.Entity<Nganh>()
+                .HasMany(e => e.Lops)
+                .WithOptional(e => e.Nganh)
+                .HasForeignKey(e => e.Ma_Nganh);
+
             modelBuilder.Entity<Phong_Thi>()
                 .Property(e => e.MaPhong)
+                .IsFixedLength()
+                .IsUnicode(false);
+
+            modelBuilder.Entity<Phong_Thi>()
+                .Property(e => e.MaLopHP)
                 .IsFixedLength()
                 .IsUnicode(false);
 
@@ -130,11 +151,6 @@ namespace TracNghiemOnline.Modell
                 .HasMany(e => e.DS_SVThi)
                 .WithRequired(e => e.Phong_Thi)
                 .WillCascadeOnDelete(false);
-
-            modelBuilder.Entity<SinhVien>()
-                .Property(e => e.Ma_Lop)
-                .IsFixedLength()
-                .IsUnicode(false);
 
             modelBuilder.Entity<SinhVien>()
                 .HasMany(e => e.De_Thi)

@@ -30,13 +30,10 @@ namespace TracNghiemOnline.Modell
         [StringLength(50)]
         public string DiaChi { get; set; }
 
-        public long? Ma_Nganh { get; set; }
-
-        [StringLength(10)]
+        [StringLength(50)]
         public string Ma_Lop { get; set; }
 
-        [StringLength(10)]
-        public string Khoa { get; set; }
+        public byte? DaXoa { get; set; }
 
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<De_Thi> De_Thi { get; set; }
@@ -48,7 +45,5 @@ namespace TracNghiemOnline.Modell
         public virtual ICollection<DS_SVThi> DS_SVThi { get; set; }
 
         public virtual Lop Lop { get; set; }
-
-        public virtual Nganh Nganh { get; set; }
     }
 }

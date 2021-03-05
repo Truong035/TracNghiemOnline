@@ -1,0 +1,129 @@
+﻿@model List<TracNghiemOnline.Model.DanhGia>
+@{
+    ViewBag.Title = "KetQuaphongthi";
+    Layout = "~/Areas/Admin/Views/Shared/LaoutShare.cshtml";
+    var danhgia = (List<TracNghiemOnline.Modell.Danh_Gia>) ViewBag.DanhGia;
+}
+
+
+
+
+<div class="card-body card-header ">
+    <div class="mt-lg-2">
+        <h2 class="mt-4">  Kết Qủa Thi Mã Phòng @ViewBag.Maphong </h2>
+
+    </div>
+</div>
+
+<div class="container-fluid">
+   
+    <div class="card-body">
+        <div class="container-fluid">
+            <div class="card-body">
+
+                <button type="button" id="bntnhanxet" class=" btn badge-primary navbar-toggle" data-toggle="collapse" data-target="#XemDanhgia">
+                    Nhận Xét
+                </button>
+
+                <button type="button" id="bntbaithi" class=" btn badge-primary navbar-toggle" data-toggle="collapse" data-target="#Xembaithi">
+                    Xem Bài Thi
+                </button>
+                <div class="collapse navbar-collapse" id="XemDanhgia">
+                    <div class="card-body ">
+                        <ul class="nav navbar-nav navbar-right">
+                            <div class="card-body ">
+                                <ul class="navbar-nav navbar-right">
+                                    <table border="1" style="text-align:center">
+                                        <tr class="badge-primary">
+                                            <th>Tên Chương</th>
+                                            <th rowspan="1"> Đánh Gía</th>
+                                            <th>Nhận Xét</th>
+                                        </tr>
+
+                                        @{ foreach (var item in danhgia)
+                                            {
+                                                <tr>
+                                                    <td>@item.Chuong_Hoc.TenChuong</td>
+                                                    <td>   @item.DanhGia  %</td>
+                                                    <td>
+                                                        - @item.NhanXet;
+
+
+                                                    </td>
+                                                </tr>
+
+                                            } }
+
+
+
+                                    </table>
+                                </ul>
+                            </div>
+
+
+
+                        </ul>
+                    </div>
+                </div>
+
+
+
+
+
+            </div>
+        </div>
+
+
+        <div class="table-responsive">
+            <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
+                <thead>
+                    <tr>
+                        <th>Mã Đề</th>
+                        <th>Mã SV  </th>
+                        <th> Họ Tên </th>
+                        <th> Số Câu Sai  </th>
+                        <th> Số Câu đúng  </th>
+                        <th> Điểm </th>
+                        <th>  </th>
+
+                    </tr>
+                </thead>
+                <tfoot>
+                    <tr>
+                        <th>Mã Đề</th>
+                        <th>Mã SV  </th>
+                        <th> Họ Tên </th>
+                        <th> Số Câu sai  </th>
+                        <th> Số Câu đúng  </th>
+                        <th>  </th>
+                    </tr>
+                </tfoot>
+                <tbody>
+                    @foreach (var item in Model)
+                    {
+                        <tr>
+                            <td> @item.ketQuaThi.Ma_DeThi </td>
+                            <td> @item.ketQuaThi.De_Thi.SinhVien.MaSV </td>
+                            <td>  @item.ketQuaThi.De_Thi.SinhVien.Ten  </td>
+                            <td> @item.ketQuaThi.SoCauSai </td>
+                            <td>  @item.ketQuaThi.SoCauDung </td>
+                            <td>  @item.ketQuaThi.DiemSo </td>
+                            <td>
+                                <a href="/Admin/QuanLyThi/DiemSo/@item.ketQuaThi.Ma_DeThi">  Xem Kết Qủa </a>
+                                   </td>
+
+           
+
+
+            </tr>
+        }
+                    </tbody>
+
+                    </table>
+
+                </div>
+        
+        </div>
+    </div>
+
+

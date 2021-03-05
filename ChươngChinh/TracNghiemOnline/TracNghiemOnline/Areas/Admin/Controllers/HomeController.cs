@@ -25,7 +25,91 @@ namespace TracNghiemOnline.Areas.Admin.Controllers
             return View();
           
         }
-   
+
+
+        public JsonResult DanhGia()
+        {
+            var arr = new int[12];
+            for (int i = 0; i < 12; i++)
+            {
+                arr[i] = i+2;
+
+            }
+            return Json(new
+            {
+                mang=arr
+        
+            },JsonRequestBehavior.AllowGet);
+
+        }
+        public JsonResult Update(long maDe,bool trangthai)
+        {
+
+            TracNghiemOnlineDB db = new TracNghiemOnlineDB();
+            var Bode = db.Bo_De.Find(maDe);
+            Bode.TrangThai = trangthai;
+            db.SaveChanges();
+
+            List<Bo_De> bo_Des = new BoDeDao().ListALLChapterStudy();
+            var bode1 = (from n in bo_Des
+                         select new
+                         {
+                             Ten = n.NoiDung,
+                             MaDe = n.Ma_BoDe,
+                             SoCau = n.SoCau,
+                             ThoiGian = n.ThoiGianThi,
+                             TenMon = n.MonHoc.TenMon,
+                             Giaovien = n.GiaoVien.TenGV,
+                             TrangThai = n.TrangThai,
+                         }).ToList();
+            return Json(new
+            {
+                Bode = bode1
+
+            }, JsonRequestBehavior.AllowGet); 
+        }
+
+        public JsonResult UpdateDethi(long maDe ,string nd,string tg,bool xoa )
+        {
+            
+        
+            TracNghiemOnlineDB db = new TracNghiemOnlineDB();
+            var Bode = db.Bo_De.Find(maDe); 
+            Bode.ThoiGianThi = tg;
+            Bode.NoiDung = nd;
+            Bode.Xoa = xoa;
+            db.SaveChanges();
+
+            List<Bo_De> bo_Des = new BoDeDao().ListALLChapterStudy();
+            var bode1 = (from n in bo_Des
+                         select new
+                         {
+                             Ten = n.NoiDung,
+                             MaDe = n.Ma_BoDe,
+                             SoCau = n.SoCau,
+                             ThoiGian = n.ThoiGianThi,
+                             TenMon = n.MonHoc.TenMon,
+                             Giaovien=n.GiaoVien.TenGV,
+                             TrangThai=n.TrangThai,
+                         }).ToList();
+            return Json(new
+            {
+                Bode = bode1
+
+            }, JsonRequestBehavior.AllowGet); ;
+
+        }
+
+        public ActionResult DSSVThi(string id)
+        {
+            
+            Phong_Thi phong_Thi = new QuanLyThiDAO().ExamitionRoom(id);
+            return View(phong_Thi);
+
+        }
+
+
+
         public void reseach()
         {
             Model.BoDeThi boDeThi = new BoDeThi();
@@ -83,6 +167,29 @@ namespace TracNghiemOnline.Areas.Admin.Controllers
             Session[ComMon.ComMonStants.ChapterStudy] = dethi;
             return Content("");
         }
+
+       public void ChonCauHoi(String CauHoi)
+        {
+
+
+            var khocauhoi = new JavaScriptSerializer().Deserialize<List<Kho_CauHoi>>(CauHoi);
+            var sessetion = (BoDeThi)Session[ComMon.ComMonStants.ChapterStudy];
+            var bo_De = sessetion.BoDeThi1;
+            foreach (var item in khocauhoi)
+            {
+                Modell.CauHoi cau = new Modell.CauHoi();
+                cau.Ma_CauHoi = item.Ma_CauHoi;
+                cau.Ma_BoDe = bo_De.Ma_BoDe;
+                cau.Kho_CauHoi = new CauHoiDao().Question(item.Ma_CauHoi);
+                bo_De.CauHois.Add(cau);
+
+            }
+            sessetion.BoDeThi1 = bo_De;
+            Session[ComMon.ComMonStants.ChapterStudy] = sessetion;
+
+
+        }
+
         private static Bo_De bo_De1=new Bo_De();
         [HttpPost]
         public ActionResult MonHoc(Bo_De bo_De)
@@ -94,27 +201,43 @@ namespace TracNghiemOnline.Areas.Admin.Controllers
                 bo_De.Ma_Mon = dethi.BoDeThi1.Ma_Mon;
 
                 bo_De.MonHoc = new MonHocDao().Subject(long.Parse(bo_De.Ma_Mon.ToString()));
-                 bo_De1 = bo_De;
+                dethi.BoDeThi1 = bo_De;
                 Session[ComMon.ComMonStants.ChapterStudy] = dethi;
                 
-               
-                List<SoLuongChuong> sl = new List<SoLuongChuong>();
-                foreach (var item in new TracNghiemOnline.Modell.TracNghiemOnlineDB().Chuong_Hoc.Where(x => x.Ma_Mon == bo_De.Ma_Mon).ToList())
+               if(dethi.LoaiDe1.Equals("Tự Chọn"))
                 {
-                    SoLuongChuong soLuong = new SoLuongChuong();
-                    soLuong.Chuong = item;
-                    soLuong.nhanBiet = new CauHoiDao().Nuberofquestion(item.Ma_Chuong, "Nhận Biết").Count()+"";
-                    soLuong.thongHieu = new CauHoiDao().Nuberofquestion(item.Ma_Chuong, "Thông Hiểu").Count() + "";
-                    soLuong.vandung = new CauHoiDao().Nuberofquestion(item.Ma_Chuong, "Vận Dụng").Count() + "";
-                    soLuong.vandungcao = new CauHoiDao().Nuberofquestion(item.Ma_Chuong, "Vận Dụng Cao").Count() + "";
+                    List<Kho_CauHoi> kho_CauHois = new List<Kho_CauHoi>();
+                    foreach (var item in new MonHocDao().ListChapterStudy(long.Parse(dethi.BoDeThi1.Ma_Mon.ToString()))) 
+                    {
+                        kho_CauHois.AddRange(new CauHoiDao().ListQuestion(long.Parse(item.Ma_Chuong.ToString())));
+                    }
 
-                    sl.Add(soLuong);
+
+                    ViewBag.Question = kho_CauHois;
+                    return View("ChonCauhoi");
+
                 }
+                else {
+                    List<SoLuongChuong> sl = new List<SoLuongChuong>();
+                    foreach (var item in new TracNghiemOnline.Modell.TracNghiemOnlineDB().Chuong_Hoc.Where(x => x.Ma_Mon == bo_De.Ma_Mon).ToList())
+                    {
+                        SoLuongChuong soLuong = new SoLuongChuong();
+                        soLuong.Chuong = item;
+                        soLuong.nhanBiet = new CauHoiDao().Nuberofquestion(item.Ma_Chuong, "Nhận Biết").Count() + "";
+                        soLuong.thongHieu = new CauHoiDao().Nuberofquestion(item.Ma_Chuong, "Thông Hiểu").Count() + "";
+                        soLuong.vandung = new CauHoiDao().Nuberofquestion(item.Ma_Chuong, "Vận Dụng").Count() + "";
+                        soLuong.vandungcao = new CauHoiDao().Nuberofquestion(item.Ma_Chuong, "Vận Dụng Cao").Count() + "";
 
-                ViewBag.Chuong = (List<SoLuongChuong>)sl;
+                        sl.Add(soLuong);
+                    }
+
+                    ViewBag.Chuong = (List<SoLuongChuong>)sl;
 
 
-                return View(bo_De);
+                    return View(bo_De);
+
+                }
+             
             
             }
             else
@@ -151,13 +274,35 @@ namespace TracNghiemOnline.Areas.Admin.Controllers
 
         public ActionResult LoadDeThi(string id)
         {
-       
-            return View(bo_De1);
+            try
+            {
+                if (id.Length > 0)
+                {
+                    var BODETHI = (Model.BoDeThi)Session[ComMon.ComMonStants.ChapterStudy];
+                    BODETHI.BoDeThi1 = new BoDeDao().ChapterStudy(long.Parse(id));
+                    Session[ComMon.ComMonStants.ChapterStudy] = BODETHI;
+                    ViewBag.Mess = "Xem";
+                }
+                else
+                {
+                    ViewBag.Mess = "Tao";
+
+                }
+            }
+            catch
+            {
+                ViewBag.Mess = "Tao";
+            }
+        
+            var dethi = (Model.BoDeThi)Session[ComMon.ComMonStants.ChapterStudy];
+
+            return View(dethi.BoDeThi1);
         }
-        public ActionResult AddChapterStudy(string id)
+        public ActionResult AddChapterStudy()
         {
-            new BoDeDao().CreateChapterStudy(bo_De1);
-            bo_De1 = new Bo_De();  
+            var dethi = (Model.BoDeThi)Session[ComMon.ComMonStants.ChapterStudy];
+            new BoDeDao().CreateChapterStudy(dethi.BoDeThi1);
+          
             return RedirectToAction("DSDETHI","Home");
         }
 
@@ -180,7 +325,7 @@ namespace TracNghiemOnline.Areas.Admin.Controllers
         {
             var soluong = new JavaScriptSerializer().Deserialize<List<SoLuongChuong>>(SoLuong);
             var sessetion = (BoDeThi)Session[ComMon.ComMonStants.ChapterStudy];
-            bo_De1 = sessetion.BoDeThi1;
+          var  bo_De1 = sessetion.BoDeThi1;
             new CauHoiDao().CreateTopic(bo_De1,soluong);
             return Json(new
             {

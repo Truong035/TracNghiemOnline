@@ -24,12 +24,23 @@ namespace TracNghiemOnline.Modell
 
         public DateTime? ThoiGianDong { get; set; }
 
-        [StringLength(20)]
+        [StringLength(15)]
         public string TrangThai { get; set; }
+
+        public long? MaBoDe { get; set; }
+
+        [StringLength(10)]
+        public string MaLopHP { get; set; }
+
+        public bool? Xoa { get; set; }
+
+        public virtual Bo_De Bo_De { get; set; }
 
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<DS_SVThi> DS_SVThi { get; set; }
 
         public virtual GiaoVien GiaoVien { get; set; }
+
+        public virtual LopHocPhan LopHocPhan { get; set; }
     }
 }

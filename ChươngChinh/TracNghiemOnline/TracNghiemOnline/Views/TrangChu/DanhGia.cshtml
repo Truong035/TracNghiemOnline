@@ -22,7 +22,7 @@
             <i class="fas fa-chart-area mr-1"></i>
             Area Chart Example
         </div>
-        <button id="btn" onclick="changeText(this.id)">sddsad</button>
+        <button id="btn">sddsad</button>
         <canvas id="myChart" width="400" height="400">
         </canvas>
         <div class="card-footer small text-muted">Updated yesterday at 11:59 PM</div>
@@ -31,56 +31,72 @@
 </div>
 @section Jsfooter{
     <script>
+       
 
-            var ctx = document.getElementById('myChart').getContext('2d');
-            var c = [0, 0, 12, 0, 5, 0, 9, 20, 0];
+        $(document).ready(function () {
 
-            var chart = new Chart(ctx, {
-                // The type of chart we want to create
-                type: 'line',
+                    var ctx = document.getElementById('myChart').getContext('2d');
+                    var c = [];
 
-                // The data for our dataset
-                data: {
-                labels: ['January', 'February', 'March', 'April', 'May', 'June', 'July'],
-                    datasets: [{
-                label: 'My First dataset',
-                        backgroundColor: [
-                            'rgba(255, 99, 132, 0.2)',
-                            'rgba(54, 162, 235, 0.2)',
-                            'rgba(255, 206, 86, 0.2)',
-                            'rgba(75, 192, 192, 0.2)',
-                            'rgba(153, 102, 255, 0.2)',
-                            'rgba(255, 159, 64, 0.2)'
-                        ],
-                        borderColor: [
-                            'rgba(255, 99, 132, 1)',
-                            'rgba(54, 162, 235, 1)',
-                            'rgba(255, 206, 86, 1)',
-                            'rgba(75, 192, 192, 1)',
-                            'rgba(153, 102, 255, 1)',
-                            'rgba(255, 159, 64, 1)'
-                        ],
-                        data: c
-                    }]
-                },
+       
+                    $.ajax({
+                        type: 'Post',
+                        url: "/Admin/Home/DanhGia",
+                        dataType: 'json',
+                        success: function (res) {
 
-                // Configuration options go here
-                options: { }
-            });
-    
+                            $.each(res.mang, function (k, v) {
+
+                                c.push(v)
+
+                            })
+
+                            var chart = new Chart(ctx, {
+                                // The type of chart we want to create
+                                type: 'line',
+
+                                // The data for our dataset
+                                data: {
+                                    labels: ['January', 'February', 'March', 'April', 'May', 'June', 'July', 'January', 'January', 'January'],
+                                    datasets: [{
+                                        label: 'My First dataset',
+                                        backgroundColor: [
+                                            'rgba(255, 99, 132, 0.2)',
+                                            'rgba(54, 162, 235, 0.2)',
+                                            'rgba(255, 206, 86, 0.2)',
+                                            'rgba(75, 192, 192, 0.2)',
+                                            'rgba(153, 102, 255, 0.2)',
+                                            'rgba(255, 159, 64, 0.2)'
+                                        ],
+                                        borderColor: [
+                                            'rgba(255, 99, 132, 1)',
+                                            'rgba(54, 162, 235, 1)',
+                                            'rgba(255, 206, 86, 1)',
+                                            'rgba(75, 192, 192, 1)',
+                                            'rgba(153, 102, 255, 1)',
+                                            'rgba(255, 159, 64, 1)'
+                                        ],
+                                        data: c
+                                    }]
+                                },
+
+                                // Configuration options go here
+                                options: {}
+                            });
+                        }
 
 
-        function changeText(ID) {
-            $.ajax({
-                type: 'GET',
-                data: { id: ID },
-                url: 'LuaChon',
-                success: function (KetQua) {
-                    alert(KetQua)
-                }
-            });
 
-        }
+                    });
+         
+
+               
+
+                });
+
+
+           
+        
     </script>
 }
 

@@ -32,6 +32,7 @@ namespace TracNghiemOnline.Areas.Admin.Controllers
         public ActionResult CreateCauHoi(string id)
         {
             ViewBag.MaChuong = id;
+          
    
             return View(cauHois);
         }

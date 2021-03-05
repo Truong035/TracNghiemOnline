@@ -5,8 +5,163 @@
 }
 
 
+@section scripts{
+    <script>
+        $(document).ready(function () {
+            var Bode
+            $(document).on('click', 'button[name=btnSua]', function () {
+
+                Bode = $(this).closest('tr');
+                let ma = $(this).closest('tr').find("td:eq(0)").text().trim();
+                let ten = $(this).closest('tr').find("td:eq(1)").text();
+
+                let tg = $(this).closest('tr').find("td:eq(4)").text();
+                $('#MaDe').val(ma.trim());
+                $('#NoiDung').val(ten.trim());
+                $('#txtTG').val(tg.trim());
+                $('#modalSinhVien').modal();
+
+
+            })
+            $(document).on('click', 'button[name=btnTrangThai]', function () {
+            
+                $.ajax({
+                    url: '/Admin/Home/Update', type: 'post',
+                    data: {
+                        made: $(this).closest('tr').find("td:eq(0)").text().trim(),
+                        trangthai: $(this).closest('tr').find("td:eq(6)").attr('id'),
+                    },
+                    success: function (data) {
+                        Loaddata(data);
+                    }
+
+                });
+
+
+            });
+            $(document).on('click', 'button[name=Delete]', function () {
+
+                Bode = $(this).closest('tr');
+                let ma = $(this).closest('tr').find("td:eq(0)").text().trim();
+                let ten = $(this).closest('tr').find("td:eq(1)").text();
+
+                let tg = $(this).closest('tr').find("td:eq(4)").text();
+                $('#MaDe').val(ma.trim());
+                $('#NoiDung').val(ten.trim());
+                $('#txtTG').val(tg.trim());
+
+                $('#modalConfirm').modal();
+
+            });
+            $('#btnYes').click(function () {
+
+                let made = $('#MaDe').val();;
+                let nd = $('#NoiDung').val();
+                let tg = $('#txtTG').val();
+
+                $('#modalSinhVien').modal('hide');
+                $.ajax({
+                    url: '/Admin/Home/UpdateDethi', type: 'post',
+                    data: {
+                        made: made,
+                        nd: nd,
+                        tg: tg,
+                        xoa: false,
+                    },
+                    success: function (data) {
+                        Loaddata(data);
+                    }
+                });
+
+            });
+            $('#btnSubmit').click(function () {
+                let made = $('#MaDe').val();;
+                let nd = $('#NoiDung').val();
+                let tg = $('#txtTG').val();
+
+                if (made.length == 0 || nd.length == 0 || tg.length == 0) {
+                    alert("Vui lòng nhập đầy đủ thông tin");
+                    return;
+                }
+                else {
+                    $('#modalSinhVien').modal('hide');
+                    $.ajax({
+                        url: '/Admin/Home/UpdateDethi', type: 'post',
+                        data: {
+                            made: made,
+                            nd: nd,
+                            tg: tg,
+                            xoa: true,
+                        },
+                        success: function (data) {
+
+                            Loaddata(data);
+                        }
+                    });
+                }
+
+
+            });
+            function Loaddata(data) {
+
+                $('#bodeid').empty();
+                $('#modalSinhVien').hide();
+                $('#modalConfirm').modal('hide');
+                $.each(data.Bode, function (k, v) {
+                    let = '<tr>'
+
+                    let += '<td>' + v.MaDe + '</td>';
+                    let += '<td>' + v.Ten + '</td>';
+                    let += '<td>' + v.TenMon + '</td>';
+                    let += '<td>' + v.SoCau + '</td>';
+                    let += '<td>' + v.ThoiGian + '</td>';
+             
+                    let += '<td>' + v.Giaovien + '</td>';
+                    if (v.TrangThai == false) {
+                        let += '<td id="true"><button  name="btnTrangThai" class="btn badge-success "> Mở </button></td>'
+                    } else {
+                        let += '<td id="false"><button name="btnTrangThai" class="btn badge-success "> Đóng </button></td>'
+                    }
+                   
+                    let += '<td>  <a href="/Admin/Home/LoadDeThi/' + v.MaDe + '">  Xem   </a> |';
+                    let += '<button name = "btnSua" class="btn btn-xs btn-warning" > <i class="fa fa-edit" aria-hidden="true" style="color:white"></i></button>&ensp;';
+                    let += '<button name = "Delete" class="btn btn-xs btn-danger" > <i class="fa fa-trash" aria-hidden="true"></i></button > </td >';
+
+                    let += '</tr>'
+                    $('#bodeid').append(let);
+
+                });
+
+
+
+            }
+
+        })
+
+    </script>
+}
+
+<div class="modal" tabindex="-1" role="dialog" id="modalConfirm">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header bg-primary">
+                <h5 class="modal-title">CẢNH BÁO</h5>
+
+            </div>
+            <div class="modal-body">
+                <input type="text" hidden id="ma" value="" />
+                Bạn có chắc chắn muốn xóa?
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-success" id="btnYes">Xác nhận</button>
+                <button type="button" class="btn btn-secondary" data-dismiss="modal" id="btnDong">Đóng</button>
+            </div>
+        </div>
+    </div>
+</div>
+
 <div class="container-fluid">
-   
+
     <div class="card mb-4 mt-2">
         <div class="card-header">
             <div class="row">
@@ -19,7 +174,7 @@
                 </div>
                 <div class="col-2">
                     <div class="mt-3">
-                        <a type="button" class="card-link btn-danger col"href="/Admin/Home/TaoDeThi" >
+                        <a type="button" class="card-link btn-danger col" href="/Admin/Home/TaoDeThi">
                             <i class="fas fa-table mr-1"> </i>
                             Tạo Thêm Đề
                         </a>
@@ -27,57 +182,109 @@
                     </div>
                 </div>
             </div>
-          
-          
+
+
         </div>
 
-            <div class="card-body">
-                <div class="table-responsive">
-                    <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
-                        <thead>
-                            <tr>
-                                <th>Mã Đề </th>
-                                <th>Nội Dung </th>
-                                <th>Tên Môn Học</th>
-                                <th>Số Câu</th>
-                                <th>Thời Gian Thi</th>
-                                <th>Tình Trạng</th>
-                                <th>Người Tạo</th>
-                                <th></th>
-                            </tr>
-                        </thead>
-                        <tfoot>
-                            <tr>
-                                <th>Mã Đề </th>
-                                <th>Nội Dung </th>
-                                <th>Tên Môn Học</th>
-                                <th>Số Câu</th>
-                                <th>Thời Gian Thi</th>
-                                <th>Tình Trạng</th>
-                                <th>Người Tạo</th>
-                                <th></th>
-                            </tr>
-                        </tfoot>
-                        <tbody>
-                            @foreach (var item in Model)
+        <div class="card-body">
+            <div class="table-responsive">
+                <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
+                    <thead>
+                        <tr>
+                            <th>Mã Đề </th>
+                            <th>Nội Dung </th>
+                            <th>Tên Môn Học</th>
+                            <th>Số Câu</th>
+                            <th>Thời Gian Thi</th>
+                            <th>Người Tạo</th>
+                            <th>Tình Trạng</th>
+                            <th></th>
+                        </tr>
+                    </thead>
+                    <tfoot>
+                        <tr>
+                            <th>Mã Đề </th>
+                            <th>Nội Dung </th>
+                            <th>Tên Môn Học</th>
+                            <th>Số Câu</th>
+                            <th>Thời Gian Thi</th>
+                            <th>Tình Trạng</th>
+                            <th>Người Tạo</th>
+                            <th></th>
+                        </tr>
+                    </tfoot>
+                    <tbody id="bodeid">
+                        @foreach (var item in Model)
+                        {
+                        <tr>
+                            <td> @item.Ma_BoDe </td>
+                            <td>  @item.NoiDung </td>
+                            <td> @item.MonHoc.TenMon</td>
+                            <td> @item.SoCau</td>
+                            <td id="sad"> @item.ThoiGianThi</td>
+                            <td>  @item.GiaoVien.TenGV </td>
+                            @if (item.TrangThai == true)
                             {
-                            <tr>
-                                <td> @item.Ma_BoDe </td>
-                                <td>  @item.NoiDung </td>
-                                <td> @item.MonHoc.TenMon</td>
-                                <td> @item.SoCau</td>
-                                <td> @item.ThoiGianThi</td>
-                                <td>  @item.TrangThai</td>
-                                <td>  @item.GiaoVien.TenGV </td>
-                                <td>  <a href="#">  Xem   </a> | <a href="#"> Sữa</a> |  <a href="#"> Xóa  </a>  </td>
-                            </tr>
-
+                                <td id="false">  <button name="btnTrangThai" class="btn badge-success "> Đóng </button></td>
+                            }
+                            @if (item.TrangThai == false)
+                            {
+                                <td id="true"> <button name="btnTrangThai" class="btn badge-success "> Mở </button></td>
                             }
 
-                        </tbody>
-                    </table>
-                </div>
+
+                            <td>
+                                <a href="/Admin/Home/LoadDeThi/@item.Ma_BoDe">  Xem   </a> |
+                                <button name="btnSua" class="btn btn-xs btn-warning"><i class="fa fa-edit" aria-hidden="true" style="color:white"></i></button>&ensp;
+                                <button name="Delete" class="btn btn-xs btn-danger"><i class="fa fa-trash" aria-hidden="true"></i></button>
+                            </td>
+                        </tr>
+
+                        }
+
+                    </tbody>
+                </table>
             </div>
         </div>
     </div>
+</div>
+                       
 
+<div class="modal" tabindex="-1" role="dialog" id="modalSinhVien">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header bg-primary" style="color:white">
+                <h5 class="modal-title">THÔNG TIN Đề Thi</h5>
+            </div>
+            <div class="modal-body">
+                <p>
+                    <div class="form-group">
+                        <label>Mã Đề</label>
+                        <input type="text" class="form-control" id="MaDe">
+                        <label>Nôi Dung</label>
+                        <input type="text" class="form-control" id="NoiDung">
+                        <div class="form-group">
+                            <label>Thời Gian</label>
+                            <select class=" form-control col-12" id="txtTG">
+                                <option value=""> ==========Thời Gian ============= </option>
+                                @for (int i = 10; i <= 180; i += 10)
+                                {
+                                    <option value="@i"> @i  Phút </option>
+
+                                }
+                            </select>
+
+                        </div>
+
+
+
+                    </div>
+                </p>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-success" id="btnSubmit">Xác nhận</button>
+                <button type="button" class="btn btn-secondary" data-dismiss="modal" id="btnDong">Đóng</button>
+            </div>
+        </div>
+    </div>
+</div>

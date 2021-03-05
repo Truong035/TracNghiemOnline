@@ -12,6 +12,8 @@
     <meta name="description" content="" />
     <meta name="author" content="" />
     <title>Dashboard - SB Admin</title>
+    <link href="~/Content/css/StyleSheet1.css" rel="stylesheet" />
+    <link href="~/Content/css/Style1.css" rel="stylesheet" />
     <link href="~/Content/css/styles.css" rel="stylesheet" />
     <link href="https://cdn.datatables.net/1.10.20/css/dataTables.bootstrap4.min.css" rel="stylesheet" crossorigin="anonymous" />
     @Scripts.Render("~/bundles/jquery")
@@ -19,7 +21,7 @@
 </head>
 <body class="sb-nav-fixed">
     <nav class="sb-topnav navbar navbar-expand navbar-dark bg-dark">
-        <a class="navbar-brand" href="index.html">Start Bootstrap</a>
+        <a class="navbar-brand" href="#">Start Bootstrap</a>
         <button class="btn btn-link btn-sm order-1 order-lg-0" id="sidebarToggle" href="#"><i class="fas fa-bars"></i></button>
         <!-- Navbar Search-->
         <form class="d-none d-md-inline-block form-inline ml-auto mr-0 mr-md-3 my-2 my-md-0">
@@ -48,18 +50,20 @@
             <nav class="sb-sidenav accordion sb-sidenav-dark" id="sidenavAccordion">
                 <div class="sb-sidenav-menu">
                     <div class="nav">
-                        <div class="sb-sidenav-menu-heading">Core</div>
-
                         <div class="sb-sidenav-menu-heading">Interface</div>
+
                         <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapseLayouts" aria-expanded="false" aria-controls="collapseLayouts">
-                            <div class="sb-nav-link-icon"><i class="fas fa-columns"></i></div>
-                            Quản Lý  Hệ Thống
+                            <div class="sb-nav-link-icon"><i class="fa fa-cogs nav_icon" aria-hidden="true"></i></div>&ensp;
+                            Hệ Thống
                             <div class="sb-sidenav-collapse-arrow"><i class="fas fa-angle-down"></i></div>
                         </a>
                         <div class="collapse" id="collapseLayouts" aria-labelledby="headingOne" data-parent="#sidenavAccordion">
                             <nav class="sb-sidenav-menu-nested nav">
-                                <a class="nav-link" href="#">Static Navigation</a>
-                                <a class="nav-link" href="#">Light Sidenav</a>
+                                <a class="nav-link" style="height:30px" href="#">Người dùng</a>
+                                <a class="nav-link" style="height:30px" href="/Admin/HeThong/NganhHoc">Ngành học</a>
+                                <a class="nav-link" style="height:30px" href="/Admin/HeThong/GiaoVien">Giáo viên</a>
+                                <a class="nav-link" style="height:30px" href="/Admin/HeThong/SinhVien">Sinh viên</a>
+                                <a class="nav-link" style="height:30px" href="/Admin/HeThong/Lop">Lớp</a>
                             </nav>
                         </div>
                         <a class="nav-link" href="/Admin/Home/NgânHangCauHoi">
@@ -75,7 +79,7 @@
                         <div class="collapse" id="collapseLayouts2" aria-labelledby="headingOne" data-parent="#sidenavAccordion">
                             <nav class="sb-sidenav-menu-nested nav">
                                 <a class="nav-link" href="/Admin/Home/DSDETHI/1">Tạo Đề Thi</a>
-                                <a class="nav-link" href="#">Đề Thi Hoán Vị</a>
+
                             </nav>
                         </div>
                         <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapseLayouts3" aria-expanded="false" aria-controls="collapseLayouts">
@@ -87,59 +91,25 @@
                             <nav class="sb-sidenav-menu-nested nav">
                                 <a class="nav-link" href="/Admin/QuanLyThi/KiThi">Kì Thi</a>
                                 <a class="nav-link" href="/Admin/QuanLyThi/LopHocPhan">Lớp Học Phần </a>
-                                <a class="nav-link" href="/Admin/QuanLyThi/PhongThi">Phòng Thi</a>
-                                <a class="nav-link" href="/Admin/QuanLyThi/ToChucThi/">Tổ Chức Thi </a>
+                                <a class="nav-link" href="/Admin/QuanLyThi/PhongThi">Tổ Chức Thi</a>
                             </nav>
                         </div>
-                        <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapseLayouts4" aria-expanded="false" aria-controls="collapseLayouts">
-                            <div class="sb-nav-link-icon"><i class="fas fa-columns"></i></div>
-                            Xem Điểm
-                            <div class="sb-sidenav-collapse-arrow"><i class="fas fa-angle-down"></i></div>
+
+
+                        <a class="nav-link" href="/Admin/QuanLyThi/DanhGiaKetQuahocTap">
+                            <div class="sb-nav-link-icon"><i class="fas fa-tachometer-alt"></i></div>
+                            Đánh Gía Kết Qủa
                         </a>
-                        <div class="collapse" id="collapseLayouts4" aria-labelledby="headingOne" data-parent="#sidenavAccordion">
-                            <nav class="sb-sidenav-menu-nested nav">
-                                <a class="nav-link" href="#">Tạo Đề Thi</a>
-                                <a class="nav-link" href="#">Đề Thi Hoán Vị</a>
-                            </nav>
-                        </div>
                         <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapsePages" aria-expanded="false" aria-controls="collapsePages">
                             <div class="sb-nav-link-icon"><i class="fas fa-book-open"></i></div>
                             Pages
                             <div class="sb-sidenav-collapse-arrow"><i class="fas fa-angle-down"></i></div>
                         </a>
-                        <div class="collapse" id="collapsePages" aria-labelledby="headingTwo" data-parent="#sidenavAccordion">
-                            <nav class="sb-sidenav-menu-nested nav accordion" id="sidenavAccordionPages">
-                                <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#pagesCollapseAuth" aria-expanded="false" aria-controls="pagesCollapseAuth">
-                                    Authentication
-                                    <div class="sb-sidenav-collapse-arrow"><i class="fas fa-angle-down"></i></div>
-                                </a>
-                                <div class="collapse" id="pagesCollapseAuth" aria-labelledby="headingOne" data-parent="#sidenavAccordionPages">
-                                    <nav class="sb-sidenav-menu-nested nav">
-                                        <a class="nav-link" href="login.html">Login</a>
-                                        <a class="nav-link" href="register.html">Register</a>
-                                        <a class="nav-link" href="password.html">Forgot Password</a>
-                                    </nav>
-                                </div>
-                                <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#pagesCollapseError" aria-expanded="false" aria-controls="pagesCollapseError">
-                                    Error
-                                    <div class="sb-sidenav-collapse-arrow"><i class="fas fa-angle-down"></i></div>
-                                </a>
-                                <div class="collapse" id="pagesCollapseError" aria-labelledby="headingOne" data-parent="#sidenavAccordionPages">
-                                    <nav class="sb-sidenav-menu-nested nav">
-                                        <a class="nav-link" href="401.html">401 Page</a>
-                                        <a class="nav-link" href="404.html">404 Page</a>
-                                        <a class="nav-link" href="500.html">500 Page</a>
-                                    </nav>
-                                </div>
-                            </nav>
-                        </div>
+
 
                     </div>
                 </div>
-                <div class="sb-sidenav-footer">
-                    <div class="small">Logged in as:</div>
-                    Start Bootstrap
-                </div>
+
             </nav>
         </div>
         <div id="layoutSidenav_content">
@@ -160,15 +130,24 @@
             </footer>
         </div>
     </div>
+
+
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.5.3/dist/js/bootstrap.bundle.min.js" crossorigin="anonymous"></script>
     <script src="~/Scripts/js/JavaScript.js"></script>
+    <script src="~/Content/datepicker/js/jquery.min.js"></script>
+    <script src="~/Content/datepicker/js/bootstrap.min.js"></script>
+    <script src="~/Content/datepicker/js/bootstrap-datepicker.js"></script>
+    @Scripts.Render("~/bundles/jquery")
+     @Scripts.Render("~/bundles/bootstrap")
     <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.8.0/Chart.min.js" crossorigin="anonymous"></script>
     <script src="~/assets/demo/JavaScript.js"></script>
     <script src="https://cdn.datatables.net/1.10.20/js/dataTables.bootstrap4.min.js" crossorigin="anonymous"></script>
     <script src="/assets/demo/datatables-demo.js"></script>
+    @RenderSection("scripts", required: false)
     @RenderSection("Jsfooter", required: false)
 
 </body>
+
 </html>
 
 

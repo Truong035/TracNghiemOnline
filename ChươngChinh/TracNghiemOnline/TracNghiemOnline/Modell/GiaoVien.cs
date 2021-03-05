@@ -26,6 +26,8 @@ namespace TracNghiemOnline.Modell
 
         public long? Ma_Nganh { get; set; }
 
+        public bool? TrangThai { get; set; }
+
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<Bo_De> Bo_De { get; set; }
 

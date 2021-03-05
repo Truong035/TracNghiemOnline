@@ -19,6 +19,7 @@ namespace TracNghiemOnline.Modell.Dao
             bo_De.Ma_Mon = bo_De1.Ma_Mon;
             bo_De.Ma_NguoiTao = bo_De1.Ma_NguoiTao;
             bo_De.TrangThai = true;
+            bo_De.Xoa = true;
             foreach (var item in bo_De1.CauHois)
             {
                 item.Kho_CauHoi = null;
@@ -105,17 +106,18 @@ namespace TracNghiemOnline.Modell.Dao
 
         }
 
-        internal void UpdateDsThi(Phong_Thi phong, De_Thi deThi,long Masv)
+        internal void UpdateDsThi(Phong_Thi phong, De_Thi deThi,long Masv,string trangthai)
         {
           var dSSV= db.DS_SVThi.SingleOrDefault(x => x.MaPhong == phong.MaPhong && x.Ma_SV ==Masv);
             dSSV.MaDeThi = deThi.MaDeThi;
+            dSSV.TrangThai = trangthai;
             db.SaveChanges();
 
         }
 
-        public List<Bo_De> ListALLChapterStudy()
+        public List<Bo_De> ListALLChapterStudy(long mamom)
         {
-            var bode= db.Bo_De.Select(x => x).ToList();
+            var bode= db.Bo_De.Where(x => x.Ma_Mon==mamom &&x.Xoa==true ).ToList();
             foreach (var item in bode)
             {
               
@@ -123,12 +125,22 @@ namespace TracNghiemOnline.Modell.Dao
                 item.GiaoVien = new GiaoVien();
             }
 
-            return db.Bo_De.Select(x => x).ToList();
+            return bode;
+        }
+        public List<Bo_De> ListALLChapterStudy()
+        {
+            var bode = db.Bo_De.Where(x=>x.Xoa==true).ToList();
+            foreach (var item in bode)
+            {
+                item.MonHoc = new MonHocDao().Subject(long.Parse(item.Ma_Mon.ToString()));
+                item.GiaoVien = db.GiaoViens.SingleOrDefault(x=>x.MaGV==item.Ma_NguoiTao);
+            }
+
+            return bode;
         }
         public Bo_De ChapterStudy(long id)
         {
-            var bode = db.Bo_De.SingleOrDefault(x=>x.Ma_BoDe==id);
-           
+            var bode = db.Bo_De.Find(id);
             bode.MonHoc = new MonHocDao().Subject(long.Parse(bode.Ma_Mon.ToString()));
             ListChapterQuestion(bode);
             return bode;
@@ -136,7 +148,7 @@ namespace TracNghiemOnline.Modell.Dao
         
         public void ListChapterQuestion(Bo_De bo_De)
         {
-           bo_De.CauHois = db.CauHois.Where(x => x.Ma_BoDe == bo_De.Ma_BoDe).ToList();
+           bo_De.CauHois = db.CauHois.Where(x => x.Ma_BoDe==bo_De.Ma_BoDe).ToList();
             foreach (var item in bo_De.CauHois)
             {
                 item.Kho_CauHoi = new CauHoiDao().Question(item.Ma_CauHoi);

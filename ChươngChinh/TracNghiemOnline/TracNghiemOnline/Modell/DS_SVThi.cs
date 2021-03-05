@@ -19,6 +19,8 @@ namespace TracNghiemOnline.Modell
 
         public long? MaDeThi { get; set; }
 
+        public string TrangThai { get; set; }
+
         public virtual Phong_Thi Phong_Thi { get; set; }
 
         public virtual SinhVien SinhVien { get; set; }

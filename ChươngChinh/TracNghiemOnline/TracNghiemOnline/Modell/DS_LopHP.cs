@@ -15,6 +15,8 @@ namespace TracNghiemOnline.Modell
 
         public long ID { get; set; }
 
+        public bool? TrangThai { get; set; }
+
         public virtual LopHocPhan LopHocPhan { get; set; }
 
         public virtual SinhVien SinhVien { get; set; }

@@ -16,6 +16,8 @@ namespace TracNghiemOnline.Modell
         [Key]
         public long MaCT { get; set; }
 
+        public bool? trangThai { get; set; }
+
         public virtual Bo_De Bo_De { get; set; }
 
         public virtual Kho_CauHoi Kho_CauHoi { get; set; }

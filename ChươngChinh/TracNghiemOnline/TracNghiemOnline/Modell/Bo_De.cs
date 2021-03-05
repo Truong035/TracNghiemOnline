@@ -1,4 +1,4 @@
-﻿namespace TracNghiemOnline.Modell
+namespace TracNghiemOnline.Modell
 {
     using System;
     using System.Collections.Generic;
@@ -13,18 +13,18 @@
         {
             CauHois = new HashSet<CauHoi>();
             De_Thi = new HashSet<De_Thi>();
+            Phong_Thi = new HashSet<Phong_Thi>();
         }
 
         [Key]
         public long Ma_BoDe { get; set; }
 
         [Column(TypeName = "text")]
-        [Required(ErrorMessage = " Nôi Dung Không Được Bỏ Trống ")]
         public string NoiDung { get; set; }
 
         public long? Ma_NguoiTao { get; set; }
 
-        public bool? TrangThai { get; set; }
+        public bool TrangThai { get; set; }
 
         public long? Ma_Mon { get; set; }
 
@@ -32,6 +32,8 @@
 
         [StringLength(20)]
         public string ThoiGianThi { get; set; }
+
+        public bool Xoa { get; set; }
 
         public virtual GiaoVien GiaoVien { get; set; }
 
@@ -42,5 +44,8 @@
 
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<De_Thi> De_Thi { get; set; }
+
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<Phong_Thi> Phong_Thi { get; set; }
     }
 }

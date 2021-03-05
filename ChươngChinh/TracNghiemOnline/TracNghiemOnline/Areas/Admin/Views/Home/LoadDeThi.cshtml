@@ -2,6 +2,7 @@
 @{
     ViewBag.Title = "LoadDeThi";
     Layout = "~/Areas/Admin/Views/Shared/LaoutShare.cshtml";
+     string mess=(string)ViewBag.Mess;
 }
 
 <h2>LoadDeThi</h2>
@@ -76,7 +77,16 @@
                 }
                 if (Model.CauHois.Count > 0)
                 {
-                    <a id="txtThem" class="btn-danger  col-3" href="/Admin/Home/AddChapterStudy" > Tạo Đề </a>
+                    if (mess.Equals("Tao"))
+                    {
+                        <a id="txtThem" class="btn-danger  col-3" href="/Admin/Home/AddChapterStudy"> Tạo Đề </a>
+                    }
+                    else
+                    {
+                       <a id="txtTroVe" class="btn-danger  col-3" href="/Admin/Home/DSDETHI"> Quay Lại </a>
+                    }
+
+
                 }
 
             }
