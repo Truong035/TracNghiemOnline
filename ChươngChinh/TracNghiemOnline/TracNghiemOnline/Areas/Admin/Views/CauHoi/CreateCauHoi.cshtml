@@ -8,10 +8,12 @@
 
 @section Jsfooter{
     <script>
-        $(document).ready(function () {  
+        $(document).ready(function () {
             $('#btnNhan').click(function () {
                 if ($('#txtFile').val().length > 0) {
                     if (window.FormData !== undefined) {
+
+                        $('#modalConfirm').modal();
                         var fileupload = $('#txtFile').get(0);
                         var file = fileupload.files;
                         var formdata = new FormData();
@@ -24,12 +26,14 @@
                             processData: false,//Khong Xu Ly Du Lieu
                             data: formdata,
                             success: function (urlImage) {
-
+                              
                                 if (urlImage.status == true) {
+                                    $('#modalConfirm').modal('hide');
                                     window.location = "/Admin/CauHoi/CreateCauHoi/" + machuong;
-                                 
+
                                 }
                                 else {
+                                    $('#modalConfirm').modal('hide');
                                     alert("Sai Định Dạng Vui Lòng Kiểm Trả Lại");
                                 }
 
@@ -47,28 +51,35 @@
         });
         function XuKien(ID) {
             window.location = "/Admin/CauHoi/LoadQuestion/" + ID;
-         
+
         }
 
     </script>
 }
 
+<div class="modal" tabindex="-1" style="text-align:center" role="dialog" id="modalConfirm">
+    <div class="modal-dialog" style="margin-top:20%" role="document">
+      
+            <img src="~/Content/Img/5.gif"/>
+        
+    </div>
+</div>
 <div class="container card">
+  
     <div class="row" id="DsThethi">
         <input id="txtFile" class="form-control col-7" type="file" accept="application/vnd.openxmlformats-officedocument.spreadsheetml.sheet,.doc,.docx" />
         <div class="col-4">
-            <button id="btnNhan" class="btn btn-primary" title="@machuong"> Tải Lên</button>      
+
+            <button id="btnNhan" class="btn btn-primary" title="@machuong"> Tải Lên</button>
+            <a class="btn btn-primary" download="" href="~/Content/Img/TracnghiemOnline.rar">Download biểu mẩu</a>
             @if (Model.Count > 0)
             {
                 <input type="button" id="@machuong" onclick="XuKien(this.id)" class="btn btn-success col-3" value="Thêm" href="" />
-              
+
             }
-          
+
         </div>
     </div>
-   
-
-
     <div class="card-body">
 
         <div class=" mb-4">
@@ -151,7 +162,7 @@
                         </div>*@
 
 
-                    
+
                 }
 
             }

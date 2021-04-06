@@ -247,9 +247,7 @@
     <Content Include="Areas\Admin\Views\Admin\TaoPhong.cshtml" />
     <Content Include="Areas\Admin\Views\CauHoi\CreateCauHoi.cshtml" />
     <Content Include="Areas\Admin\Views\CauHoi\DapAn.cshtml" />
-    <Content Include="Areas\Admin\Views\CauHoi\docfileword.cshtml" />
     <Content Include="Areas\Admin\Views\CauHoi\Index.cshtml" />
-    <Content Include="Areas\Admin\Views\CauHoi\LoalFile.cshtml" />
     <Content Include="Areas\Admin\Views\HeThong\GiaoVien.cshtml" />
     <Content Include="Areas\Admin\Views\HeThong\Lop.cshtml" />
     <Content Include="Areas\Admin\Views\HeThong\NganhHoc.cshtml" />

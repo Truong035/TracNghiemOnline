@@ -46,8 +46,7 @@
 
 
 
-                        <div class="container-fluid">
-                           
+                        <div class="container">                         
                                 <div class="card-body ">
                                     @{
                                         int i = 0;
@@ -95,7 +94,7 @@
                                                         if (Model.ketQuaThi.De_Thi.Da_SVLuaChon.ToList().Exists(x => x.Ma_DAN == item1.MA_DAN && item1.TrangThai == true))
                                                         {
                                                             <div class="custom-control custom-radio" style="background-color:lightgreen">
-                                                                <input class="custom-control-inline" id="@item1.MA_DAN" name="@item1.Ma_CauHoi" type="radio" checked="checked" />
+                                                                <input class="custom-control-inline form-check" id="@item1.MA_DAN" name="@item1.Ma_CauHoi" type="radio" checked="checked" />
                                                                 <label class="custom-control-inline" style="width:820px " for="@item1.MA_DAN">
                                                                     @item1.NoiDung
                                                                 </label>
@@ -107,7 +106,7 @@
                                                         else if (Model.ketQuaThi.De_Thi.Da_SVLuaChon.ToList().Exists(x => x.Ma_DAN == item1.MA_DAN))
                                                         {
                                                             <div class="custom-control custom-radio" style="background-color:red">
-                                                                <input class="custom-control-inline"  id="@item1.MA_DAN" name="@item1.Ma_CauHoi" type="radio" checked="checked" />
+                                                                <input class="custom-control-inline form-check"  id="@item1.MA_DAN" name="@item1.Ma_CauHoi" type="radio" checked="checked" />
                                                                 <label class="custom-control-inline" style="width:820px" for="@item1.MA_DAN">
                                                                     @item1.NoiDung
                                                                 </label>
@@ -117,7 +116,7 @@
                                                         else if (item1.TrangThai == true)
                                                         {
                                                             <div class="custom-control custom-radio" style="background-color:lightgreen">
-                                                                <input class="custom-control-inline" disabled id="@item1.MA_DAN" name="@item1.Ma_CauHoi" type="radio" />
+                                                                <input class="custom-control-inline form-check" disabled id="@item1.MA_DAN" name="@item1.Ma_CauHoi" type="radio" />
                                                                 <label class="custom-control-inline" style="width:670px" for="@item1.MA_DAN">
                                                                     @item1.NoiDung
                                                                 </label>
@@ -127,7 +126,7 @@
                                                         else
                                                         {
                                                             <div class="custom-control custom-radio">
-                                                                <input class="custom-control-inline "disabled rel="tooltip" id="@item1.MA_DAN" name="@item1.Ma_CauHoi" type="radio" />
+                                                                <input class="custom-control-inline form-check"disabled rel="tooltip" id="@item1.MA_DAN" name="@item1.Ma_CauHoi" type="radio" />
                                                                 <label class="custom-control-inline" style="width:670px" for="@item1.MA_DAN">
                                                                     @item1.NoiDung
                                                                 </label>

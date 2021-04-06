@@ -104,20 +104,32 @@
                 }
                 if (Model.CauHois.Count > 0)
                 {
-                    if (mess.Length == 0)
+                    try
+                    {
+                        if (mess.Length == 0)
+                        {
+                            <div class="card-body">
+                                <a id="txtThem" class=" btn btn-danger" href="/Admin/Home/AddChapterStudy"> Tạo Đề </a>
+                            </div>
+
+                        }
+                        else
+                        {
+                            <div class="card-body">
+                                <a class=" btn btn-danger " href="/Admin/Home/DSDETHI"> Quay Lại </a>
+                                <button id="@mess" class=" btn btn-primary" onclick="GuiDe(id)"> Gửi Bộ Môn </button>
+                                <a class=" btn btn-success" href="@ViewBag.linkpdf" download=""> Xuất PDF </a>
+                            </div>
+
+                        }
+
+
+                    }
+                    catch
                     {
                         <div class="card-body">
                             <a id="txtThem" class=" btn btn-danger" href="/Admin/Home/AddChapterStudy"> Tạo Đề </a>
                         </div>
-
-                    }
-                    else
-                    {
-        <div class="card-body">
-            <a  class=" btn btn-danger " href="/Admin/Home/DSDETHI"> Quay Lại </a>
-            <button id="@mess" class=" btn btn-primary" onclick="GuiDe(id)"> Gửi Bộ Môn </button>
-            <a  class=" btn btn-success" href="@ViewBag.linkpdf" download=""> Xuất PDF </a>
-        </div>
 
                     }
 

@@ -195,15 +195,8 @@ namespace TracNghiemOnline.Areas.Admin.Controllers
 
             }
             page.Canvas.SetTransparency(0.2f);
-
             page.Canvas.DrawString("Hết", font1, new PdfSolidBrush(Color.Black), new RectangleF(20, page.GetClientSize().Height-30, page.GetClientSize().Width, page.GetClientSize().Height), centerAlignment);
-
             page.Canvas.SetTransparency(1f);
-
-
-
-
-
             pdf.SaveToFile(Server.MapPath("~/Content/" + "De_" + id + ".pdf"));
             pdf.Close();
 

@@ -3,18 +3,18 @@
     ViewBag.Title = "ToChucThi";
     Layout = "~/Areas/Admin/Views/Shared/LaoutShare.cshtml";
 }
-<div class="card-body card-header ">
-    <div class="mt-lg-5">
-        <h2 class="mt-4"> Phòng Thi </h2>
 
+<div class="container-fluid card">
+    <div class="card-body ">
+        <div class="mt-lg-2">
+            <h2 class="mt-4"> Phòng Thi </h2>
+
+        </div>
     </div>
-</div>
-<div class="container-fluid">
-
-    <div class="card-body card-header ">
+    <div class="container-sm">
         <div class="card-body">
-            <input id="Txtmaphong" hidden="hidden" value="@Model.MaPhong"/>
-            Mã Phòng :  @Model.MaPhong 
+            <input id="Txtmaphong" hidden="hidden" value="@Model.MaPhong" />
+            Mã Phòng :  @Model.MaPhong
             Lớp HP :@Model.LopHocPhan.TenLop
         </div>
         <div class="card-body">
@@ -37,11 +37,6 @@
         <div class="card-body">
             <p id="thoigian"></p>
         </div>
-
-
-
-
-
     </div>
 
     <div class="card mb-4">
@@ -53,8 +48,8 @@
             <div class="table-responsive">
                 <div id="dataTable_wrapper" class="dataTables_wrapper dt-bootstrap4">
                     <div class="row">
-                        <div class="col-sm-12">
-                            <table class="table table-bordered dataTable" id="dataTable" width="100%" cellspacing="0" role="grid" aria-describedby="dataTable_info" style="width: 100%;">
+                        <div class="col-sm-11">
+                            <table class="table table-bordered dataTable container" id="dataTable" width="100%" cellspacing="0" role="grid" aria-describedby="dataTable_info" style="width: 100%;">
                                 <thead>
                                     <tr role="row">
 
@@ -64,41 +59,41 @@
                                         <th tabindex="0" aria-controls="dataTable" rowspan="1" colspan="1" aria-label="Start date: activate to sort column ascending" style="width: 100px;">Lớp</th>
                                         <th tabindex="0" aria-controls="dataTable" rowspan="1" colspan="1" aria-label="Start date: activate to sort column ascending" style="width: 100px;">Tình Trạng</th>
                                         <th tabindex="0" aria-controls="dataTable" rowspan="1" colspan="1" aria-label="Start date: activate to sort column ascending" style="width: 100px;"></th>
-</thead>
+                                </thead>
                                 <tbody id="tblDeThi">
 
                                     @foreach (var item in Model.DS_SVThi)
                                     {
-                                    <tr id=" @item.MaDeThi">
-                                        <td>
-                                            @item.SinhVien.MaSV
-                                        </td>
-                                        <td>
-                                            @item.SinhVien.Ten
-                                        </td>
-                                        <td>
-                                            @item.SinhVien.Lop.TenLop
-                                        </td>
-                                        <td>
-                                            @item.TrangThai;
-                                            @item.SinhVien.De_Thi.ToList()[0].TrangThai;
-                                        </td>
-                                        @{
-                                         
-                                            if (item.SinhVien.De_Thi.ToList()[0].TrangThai == true)
-                                            {
+                                        <tr id=" @item.MaDeThi">
+                                            <td>
+                                                @item.SinhVien.MaSV
+                                            </td>
+                                            <td>
+                                                @item.SinhVien.Ten
+                                            </td>
+                                            <td>
+                                                @item.SinhVien.Lop.TenLop
+                                            </td>
+                                            <td>
+                                                @item.TrangThai;
+                                                @item.SinhVien.De_Thi.ToList()[0].TrangThai;
+                                            </td>
+                                            @{
 
-                                                <td id="true"><button name="TrangThai" class="btn btn-success"> Đóng </button> </td>
+                                                if (item.SinhVien.De_Thi.ToList()[0].TrangThai == true)
+                                                {
+
+                                                    <td id="true"><button name="TrangThai" class="btn btn-success"> Đóng </button> </td>
+                                                }
+                                                else
+                                                {
+                                                    <td><button id="false" name="TrangThai" class="btn btn-success"> Mở  </button> </td>
+                                                }
+
                                             }
-                                            else
-                                            {
-                                                <td><button id="false" name="TrangThai" class="btn btn-success"> Mở  </button> </td>
-                                            }
-
-                                        }
 
 
-                                    </tr>
+                                        </tr>
 
                                     }
                                 </tbody>

@@ -239,7 +239,6 @@ namespace TracNghiemOnline.Areas.Admin.Controllers
                 });
             }
         }
-
         public string xuatpdf(long id, string tenmon)
         {
             PdfDocument pdf = new PdfDocument();
@@ -266,6 +265,7 @@ namespace TracNghiemOnline.Areas.Admin.Controllers
 
             foreach (var item in khoch)
             {
+
                 slcau++;
                 vitridong += 13;
                 page.Canvas.DrawString("Câu " + slcau + ":", font2, new PdfSolidBrush(Color.Blue), new RectangleF(20, vitridong, page.GetClientSize().Width - 90, page.GetClientSize().Height), new PdfStringFormat() { LineLimit = true });
@@ -275,7 +275,7 @@ namespace TracNghiemOnline.Areas.Admin.Controllers
                 int z = 0;
                 int k = 0;
                 int[] vtdongdapan = new int[4];
-                if (item.HinhAnh.Length>0)
+                if (item.HinhAnh != null)
                 {
                     try
                     {
@@ -291,7 +291,7 @@ namespace TracNghiemOnline.Areas.Admin.Controllers
                         vitridong += 150;
                     }
                     catch { }
-                    
+
                 }
                 vitridong += 13;
                 foreach (var da in item.Dap_AN)
@@ -319,7 +319,7 @@ namespace TracNghiemOnline.Areas.Admin.Controllers
                     page.Canvas.DrawString(da.NoiDung, font2, new PdfSolidBrush(Color.Black), new RectangleF(z + 5, vitridong, page.GetClientSize().Width / 2 - 20, page.GetClientSize().Height - 80), new PdfStringFormat() { LineLimit = true });
 
 
-                    if (da.HinhAnh.Length>0)
+                    if (da.HinhAnh != null)
                     {
                         if (13 + vtdongdapan[slda] + vitridong + 150 > page.GetClientSize().Height - 20)
                         {
@@ -327,16 +327,23 @@ namespace TracNghiemOnline.Areas.Admin.Controllers
                             page = pdf.Pages.Add();
                             page.Canvas.DrawRectangle(pen1, new Rectangle(new Point(0, 0), new Size((int)page.GetClientSize().Width, (int)page.GetClientSize().Height)));
                         }
+                        try
+                        {
+                            Image image = Image.FromFile(Server.MapPath(item.HinhAnh));
+                            int width = image.Width;
+                            int height = image.Height;
+                            float schale = 1.5f;
+                            Size size = new Size((int)(width * schale), (int)(height * schale));
+                            Bitmap schaleImage = new Bitmap(image, size);
+                            PdfImage pdfImage = PdfImage.FromImage(schaleImage);
+                            page.Canvas.DrawImage(pdfImage, new RectangleF(z + 10, 30 + vtdongdapan[slda] + vitridong, 150, 150));
+                            k = 163;
+                        }
+                        catch
+                        {
 
-                        Image image = Image.FromFile(Server.MapPath(item.HinhAnh));
-                        int width = image.Width;
-                        int height = image.Height;
-                        float schale = 1.5f;
-                        Size size = new Size((int)(width * schale), (int)(height * schale));
-                        Bitmap schaleImage = new Bitmap(image, size);
-                        PdfImage pdfImage = PdfImage.FromImage(schaleImage);
-                        page.Canvas.DrawImage(pdfImage, new RectangleF(z + 10, 30 + vtdongdapan[slda] + vitridong, 150, 150));
-                        k = 163;
+                        }
+
                     }
                     if (slda == 1)
                     {
@@ -369,11 +376,8 @@ namespace TracNghiemOnline.Areas.Admin.Controllers
 
             }
             page.Canvas.SetTransparency(0.2f);
-
             page.Canvas.DrawString("Hết", font1, new PdfSolidBrush(Color.Black), new RectangleF(20, page.GetClientSize().Height - 30, page.GetClientSize().Width, page.GetClientSize().Height), centerAlignment);
-
             page.Canvas.SetTransparency(1f);
-
             pdf.SaveToFile(Server.MapPath("~/Content/" + "De_" + id + ".pdf"));
             pdf.Close();
 
@@ -382,7 +386,6 @@ namespace TracNghiemOnline.Areas.Admin.Controllers
 
 
         }
-
 
 
 
@@ -756,7 +759,7 @@ namespace TracNghiemOnline.Areas.Admin.Controllers
 
         public ActionResult LoadDeThi(string id)
         {
-            MessageBox.Show(id);
+        
             try
             {
                 if (id.Length > 0)

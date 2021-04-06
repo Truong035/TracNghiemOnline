@@ -115,7 +115,7 @@
 
             });
             function LoadDe(E) {
-                var mabode = $(E).closest('tr').find("td:eq(4)").attr('id');
+                var mabode = $(E).closest('tr').find("td:eq(5)").attr('id');
                 var maPhong = $(E).closest('tr').attr('id');
                 if (mabode == null) {
 
@@ -161,17 +161,15 @@
 }
 
 <div class="container-fluid" id="DsPhong">
-    <div class="card-body card-header ">
-        <div class="mt-lg-5">
+    <div class="card-body">
+        <div class="mt-lg-3">
             <h2 class="mt-4"> Phòng Thi </h2>
 
         </div>
     </div>
-
     <div class="card-body">
-
         <div class="table-responsive">
-            <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
+            <table class="table table-bordered container" id="dataTable" width="100%" cellspacing="0">
                 <thead>
                     <tr>
                         <th>Mã Phòng </th>
@@ -203,14 +201,14 @@
                             <td> @item.LopHocPhan.TenLop </td>
                             <td> @item.DS_SVThi.Count </td>
                             <td>  @item.TrangThai </td>
-                            <td id="@item.MaBoDe">
-                                <div class="row">
+                            <td  id="@item.MaBoDe">
+                             
                                     <a class="btn badge-success" href="/Admin/Home/DSSVThi/@item.MaPhong"> Xem Danh Sách  </a>
                                     <button class="btn badge-warning " name="btnVaoThi" href="/Admin/QuanLyThi/VaoThi/@item.MaPhong"> Vào </button>
 
                                     <button class="btn badge-warning " name="btnHuyPhong" href="/Admin/QuanLyThi/VaoThi/@item.MaPhong"> Hủy Phòng </button>
 
-                                </div>
+                                
                             </td>
                         </tr>
                     }
