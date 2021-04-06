@@ -1,0 +1,215 @@
+﻿@model  List<TracNghiemOnline.Modell.Kho_CauHoi>
+@{
+    ViewBag.Title = "Index";
+    Layout = "~/Areas/Admin/Views/Shared/LaoutShare.cshtml";
+
+
+}
+
+@section Jsfooter{
+
+    <script src="~/Scripts/jquery-3.4.1.min.js"></script>
+    <script src="~/Scripts/jquery.unobtrusive-ajax.js"></script>
+    
+
+}
+
+<div class="container-fluid">
+
+    <div class="card mb-4">
+        <div class="row" style="padding:10px; ">
+            <div class="col-sm-12 col-md-6">
+                <svg class="svg-inline--fa fa-table fa-w-16 mr-1" aria-hidden="true" focusable="false" data-prefix="fas" data-icon="table" role="img" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" data-fa-i2svg=""><path fill="currentColor" d="M464 32H48C21.49 32 0 53.49 0 80v352c0 26.51 21.49 48 48 48h416c26.51 0 48-21.49 48-48V80c0-26.51-21.49-48-48-48zM224 416H64v-96h160v96zm0-160H64v-96h160v96zm224 160H288v-96h160v96zm0-160H288v-96h160v96z"></path></svg><!-- <i class="fas fa-table mr-1"></i> Font Awesome fontawesome.com -->
+                Danh sách câu hỏi
+            </div>
+            <div class="col-sm-12 col-md-6">
+                <button class="btn btn-primary" id="bangword" style="float:right">  <span>Thêm câu hỏi bằng word</span></button>
+
+
+                <a href="/Admin/CauHoi/CreateCauHoi/@ViewBag.MaChuong" class="btn btn-primary" style="float:right">
+                    <span>Thêm câu hỏi</span>
+                </a>
+            </div>
+        </div>
+        <div style="width:auto; height:3px; background-color:rgb(248,249,250);"></div>
+        <div class="card-body">
+            <div class="">
+                <div id="dataTable_wrapper" class="dataTables_wrapper dt-bootstrap4">
+                    <div class="row">
+                        <div class="col-sm-12">
+                            <table class="table table-bordered dataTable" id="dataTable" width="100%" cellspacing="0" role="grid" aria-describedby="dataTable_info" style="width: 100%;">
+
+                                <thead>
+                                    <tr>
+                                        <th width="100px">Mã Câu Hỏi  </th>
+                                        <th>Nôi Dung</th>
+                                        <th width="70px"> Mức Độ </th>
+                                        <th width="150px"></th>
+
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    @foreach (var item in Model)
+                                    {
+                                        <tr>
+                                            <td> @item.Ma_CauHoi </td>
+
+                                            <td> @item.NoiDung</td>
+                                            <td>  @item.MucDo </td>
+                                            <td>
+                                                <a href="/Admin/CauHoi/DapAn/@item.Ma_CauHoi" class="btn btn-primary">
+                                                    <span><i class="far fa-eye"></i></span>
+                                                </a>&ensp;
+                                                <a href="#" class="btn btn-success">
+                                                    <span><i class="far fa-edit"></i></span>
+                                                </a>&ensp;
+                                                <a href="#" class="btn btn-danger">
+                                                    <span><i class="far fa-trash-alt"></i></span>
+                                                </a>
+                                            </td>
+                                        </tr>
+
+                                    }
+
+                                </tbody>
+
+                            </table>
+                        </div>
+
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+@* moi them*@
+<div class="popupword">
+
+    <div class="theoword">
+        <div class="uploadwword">
+            <b>Thêm câu hỏi bằng word </b> <br />
+
+            @using (Html.BeginForm("docfileword", "/CauHoi", FormMethod.Post, new { enctype = "multipart/form-data" }))
+            {
+                @Html.Hidden("id", (string)ViewBag.MaChuong)
+                <input type="file" accept=".doc,.docx" name="file" id="txtFile" multiple />
+                <button id="uploadfileword">tải lên</button>
+            }
+
+
+            <img id="anhviduword" src="/Content/Img/viduword.png" />
+            <button class="huyword">Hủy</button>
+        </div>
+
+    </div>
+
+</div>
+@*moithem*@
+<script>
+
+
+
+    $("#bangword").click(function () {
+        $(".popupword").css("display", "block");
+    });
+    $(".huyword").click(function () {
+        $(".popupword").css("display", "none");
+    });
+   
+    $('#txtFile').change(function () {
+        var file = $('#txtFile').val();
+        if (file.length > 0) {
+            $("#uploadfileword").css("pointer-events", "auto");
+        }
+     
+
+
+    });
+
+
+</script>
+<style>
+
+    .theoword {
+        background-color: aliceblue;
+        position: fixed;
+        width: 60%;
+        margin-left: 20%;
+        margin-right: 20%;
+        margin-top: 5%;
+        margin-bottom: 20%;
+        padding: 15px 32px;
+        z-index: 99;
+        overflow-y: scroll;
+        height: 80%;
+        border-radius: 12px;
+        
+    }
+    ::-webkit-scrollbar {
+        width: 10px;
+    }
+    /* Handle */
+    ::-webkit-scrollbar-thumb {
+        background: #888;
+    }
+
+    .popupword {
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        display: none;
+        z-index: 99;
+        background-color: rgba(0,0,0,.5);
+    }
+
+ 
+    .huyword {
+        border: 0px;
+        font-size: 16px;
+        border-radius: 12px;
+        padding: 15px 32px;
+        margin: 10px;
+        float:right;
+       
+    }
+    #uploadfileword {
+        border: 0px;
+        font-size: 16px;
+        border-radius: 12px;
+        padding: 15px 32px;
+        margin: 10px;
+        pointer-events: none;
+    }
+   
+    #txtFile {
+        border: 0px;
+        font-size: 16px;
+        border-radius: 12px;
+        padding: 15px 32px;
+        margin: 10px;
+    }
+
+    .uploadwword {
+        height: 100%;
+        width: 100%;
+       
+    }
+ 
+   
+</style>
+
+
+
+
+
+
+
+
+
+
+
+
+
+

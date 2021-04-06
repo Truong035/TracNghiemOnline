@@ -1,0 +1,147 @@
+﻿@model List<TracNghiemOnline.Modell.SinhVien>
+@{
+    ViewBag.Title = "ThemSinhVien";
+    Layout = "~/Areas/Admin/Views/Shared/LaoutShare.cshtml";
+    var Maphong = (string)ViewBag.MaPhong;
+}
+@section Jsfooter{
+    
+    <script>
+        $(document).ready(function () {
+            var dem = 0;
+            $('#txtChon').click(function () {
+                var checked = $('.txtCheckBox');
+
+                if ($(this).prop("checked") == true) {
+                
+                    $.each(checked, function (i,item) {
+
+                        $(item).prop("checked", true);
+
+                    });
+
+
+                }
+                else {
+                    $.each(checked, function (i, item) {
+
+                        $(item).prop("checked", false);
+
+                    });
+                }
+            });
+            var maphong = document.getElementById('txtChon').value;
+            $('#btnTao').click(function () {
+
+             
+              
+                var Checked = document.getElementsByClassName('txtCheckBox');
+                var DS = [];
+                for (var i = 0; i < Checked.length; i++) {
+                 
+                    if (Checked[i].checked == true) {     
+                        DS.push({
+                       
+                                Ma_LOP: maphong,
+                                Ma_SV: Checked[i].id      
+                        });
+
+                        
+
+                    }
+                }
+                if (DS.length > 0) {
+                    $.ajax({
+                        type: 'POST',
+                        data: { DSlop: JSON.stringify(DS) },
+                        url: '/Admin/QuanLyThi/LuuSinhVien',
+                        success: function (res) {
+                            window.location = '/Admin/QuanLyThi/DSSinhVen/' + maphong;
+
+                        }
+
+
+
+
+                    });
+                }
+                else {
+                    alert("Vui Lòng Chọn Sinh Viên");
+                }        
+
+            });
+
+
+
+        });
+    </script>
+    
+    
+    }
+
+    <div class="card-body bg-danger ">
+        <div class="mt-lg-5">
+            <h2 class="mt-4"> Danh Sach Sinh Viên </h2>
+
+        </div>
+    </div>
+
+    <div class="card-header ">
+        <div class="container-fluid">
+            <div class="card-body">
+                <div class="table-responsive">
+                    <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
+                        <thead>
+                            <tr>
+                                <th>Mã Sinh Viên  </th>
+                                <th>Tên </th>
+                                <th> Lớp  </th>
+                                <th>  <div class="col"> <input type="checkbox" value="@ViewBag.MaPhong" id="txtChon"/> Chọn Tất </div>  </th>
+
+                            </tr>
+                        </thead>
+                        <tfoot>
+                            <tr>
+                                <th>Mã Sinh Viên  </th>
+                                <th>Tên </th>
+                                <th> Lớp  </th>
+                                <th>  </th>
+
+                            </tr>
+                        </tfoot>
+                        <tbody>
+                            @foreach (var item in Model)
+                            {
+                                <tr>
+                                    <td> @item.MaSV </td>
+
+                                    <td> @item.Ten</td>
+                                    <td>  @item.Lop.TenLop </td>
+                                    <td style="text-align:center">
+                                        <div class="col-1">
+
+                                            <div> <input type="checkbox" id="@item.MaSV" data-id="@ViewBag.MaPhong" value="@item.MaSV" class="txtCheckBox" /></div>
+
+                                        </div>
+                                    </td>
+                                </tr>
+
+                            }
+
+                        </tbody>
+
+                    </table>
+
+                </div>
+                <div class="row">
+                    <div class="col-3 " style="text-align:center">
+                        <button class="badge-dark" id="btnTao" type="button"> Hoàn Thành</button>
+                    </div>
+                    <div class="col-3 " style="text-align:center">
+                        <a class="btn-dark nav-link" href="/Admin/QuanLyThi/DSSinhVen/@ViewBag.MaPhong" style="text-align:center">QuayLai</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+

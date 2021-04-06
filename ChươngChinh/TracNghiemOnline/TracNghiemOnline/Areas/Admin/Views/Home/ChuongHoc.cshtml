@@ -1,0 +1,264 @@
+﻿@model List<TracNghiemOnline.Modell.Chuong_Hoc>
+@{
+    ViewBag.Title = "ChuongHoc";
+    Layout = "~/Areas/Admin/Views/Shared/LaoutShare.cshtml";
+    bool check = (bool)ViewBag.check;
+}
+
+
+<div class="container-fluid">
+    <input hidden="hidden" id="txtmon" value="@ViewBag.id" />
+    <div class="card mb-4">
+        <div class="row" style="padding:10px; ">
+            <div class="col-sm-12 col-md-6">
+                <svg class="svg-inline--fa fa-table fa-w-16 mr-1" aria-hidden="true" focusable="false" data-prefix="fas" data-icon="table" role="img" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" data-fa-i2svg=""><path fill="currentColor" d="M464 32H48C21.49 32 0 53.49 0 80v352c0 26.51 21.49 48 48 48h416c26.51 0 48-21.49 48-48V80c0-26.51-21.49-48-48-48zM224 416H64v-96h160v96zm0-160H64v-96h160v96zm224 160H288v-96h160v96zm0-160H288v-96h160v96z"></path></svg><!-- <i class="fas fa-table mr-1"></i> Font Awesome fontawesome.com -->
+                Danh sách chương học
+            </div>
+            <div class="col-sm-12 col-md-6">
+
+                @if (check == false)
+                {
+                    <button class="btn btn-primary" id="btnAdd" style="float:right">Thêm chương học</button>
+
+                }
+
+
+            </div>
+        </div>
+        <div style="width:auto; height:3px; background-color:rgb(248,249,250);"></div>
+        <div class="card-body">
+            <div class="">
+                <div id="dataTable_wrapper" class="dataTables_wrapper dt-bootstrap4">
+                    <div class="row">
+                        <div class="col-sm-12">
+                            <table class="table table-bordered dataTable" id="dataTable" width="100%" cellspacing="0" role="grid" aria-describedby="dataTable_info" style="width: 100%;">
+                                <thead>
+                                    <tr>
+                                        <th>Mã Chương</th>
+                                        <th>Tên Chương</th>
+                                        <th> Số Câu Hỏi </th>
+                                        <th></th>
+
+                                    </tr>
+                                </thead>
+                                <tbody id="tblchuong">
+                                    @foreach (var item in Model)
+                                    {
+                                        <tr>
+                                            <td>   @item.Ma_Chuong </td>
+
+                                            <td> Chương  @item.TenChuong</td>
+                                            <td>  @item.Kho_CauHoi.Count </td>
+                                            <td>
+                                                <a href="/Admin/CauHoi/Index/@item.Ma_Chuong" class="btn btn-primary">
+                                                    <span><i class="far fa-eye"></i></span>
+                                                </a>&ensp;
+                                                <a href="#" class="btn btn-success">
+                                                    <span><i class="far fa-edit"></i></span>
+                                                </a>&ensp;
+                                                <a href="#" class="btn btn-danger">
+                                                    <span><i class="far fa-trash-alt"></i></span>
+                                                </a>
+                                            </td>
+                                        </tr>
+
+                                    }
+
+                                </tbody>
+
+
+                            </table>
+                        </div>
+
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+<div class="modal" tabindex="-1" role="dialog" id="modalBoMon">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header bg-dark" style="color:white">
+                <h5 class="modal-title">THÔNG TIN MÔN HỌC</h5>
+
+            </div>
+            <div class="modal-body">
+                <input type="text" hidden id="idNganh" value="" />
+                <p>
+                    <div class="form-group">
+                        <label for="exampleFormControlInput1">Tên Môn</label>
+                        <input type="text" class="form-control" id="tenNganh" placeholder="Tên Môn">
+                    </div>
+                </p>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-success" id="btnSubmit">Xác nhận</button>
+                <button type="button" class="btn btn-secondary" data-dismiss="modal" id="btnDong">Đóng</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="modal" tabindex="-1" role="dialog" id="modalConfirm">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header bg-dark">
+                <h5 class="modal-title">CẢNH BÁO</h5>
+
+            </div>
+            <div class="modal-body">
+                <input type="text" hidden id="ma" value="" />
+                Bạn có chắc chắn muốn xóa?
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-success" id="btnYes">Xác nhận</button>
+                <button type="button" class="btn btn-secondary" data-dismiss="modal" id="btnDong">Đóng</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+@section scripts{
+    <script>
+
+        $(document).ready(function () {
+            loadDSGV();
+        });
+        //load du lieu
+        function loadDSGV() {
+            $('#modalBoMon').modal('hide');
+            $('#idNganh').val("");
+
+            $('#tenNganh').val("");
+            $.ajax({
+                url: '/Admin/Monhoc/dschuong', type: 'get',
+                data: { ma: $('#txtmon').val()},
+                success: function (data) {
+                    if (data.code == 200) {
+                        $('#tblchuong').empty();
+                        $.each(data.dsNganh, function (k, v) {
+                            let tr = '<tr id = "' + v.Ma + '">';
+                            tr += '<td>' + v.Ma + '</td>';
+                            tr += '<td>' + v.Ten + '</td>';
+                            tr += '<td>' + v.SoCau + '</td>';
+                            tr += '<td>';
+                            tr += ' <a href="/Admin/CauHoi/Index/' + v.Ma + '" class="btn btn-primary">';
+                            tr += '<span><i class="far fa-eye"></i></span></a>&ensp;';
+
+                            tr += '<button name="Update" class="btn  btn-success"><i class="far fa-edit" aria-hidden="true"></i></button>&ensp;';
+                            tr += '<button name="Delete" class="btn  btn-danger"><i class="far fa-trash-alt" aria-hidden="true" style="color:white"></i></button>';
+                            tr += '</td > ';
+                            tr += '</tr > ';
+                            $('#tblchuong').append(tr);
+
+                        });
+
+                    }
+                }
+            });
+        };
+
+        //show form
+        $('#btnAdd').click(function () {
+            $('#modalBoMon').modal();
+            $('#idNganh').val('');
+        })
+        //them nganh
+        $('#btnSubmit').click(function () {
+
+            let tenNganh = $('#tenNganh').val().trim();
+
+            if (tenNganh.length == 0) {
+                alert("Vui lòng nhập đầy đủ thông tin");
+                return;
+            }
+            let idNganh = $('#idNganh').val().trim()
+            if (idNganh.length == 0) {
+                //Add
+                $.ajax({
+                    url: '/Admin/Monhoc/addChuong', type: 'post',
+                    data: {
+                        ma: $('#txtmon').val(),
+                        ten: tenNganh
+                    },
+                    success: function (data) {
+                        if (data.code == 200) {
+                            alert(data.msg);
+                            loadDSGV();
+                        } else {
+                            alert.data(msg);
+                        }
+                    }
+                });
+            } else {
+                //Update
+
+                alert(idNganh);
+                $.ajax({
+                    url: '/Admin/Monhoc/UpdateChuong', type: 'post',
+                    data: {
+                        ma: idNganh,
+                        ten: tenNganh
+                    },
+                    success: function (data) {
+                        if (data.code == 200) {
+                            alert(data.msg);
+                            loadDSGV();
+                            $('#modalBoMon').modal('hide');
+                        } else {
+                            alert(data.msg);
+                        }
+                    }
+                });
+            }
+
+
+        });
+        //click button Sua
+        $(document).on('click', "button[name = 'Update']", function () {
+            let ma = $(this).closest('tr').attr('id');
+            let ten = $(this).closest('tr').find("td:eq(1)").text();
+            $('#idNganh').val(ma);
+
+            $('#tenNganh').val(ten);
+            $('#modalBoMon').modal();
+           
+        });
+        //xoa nganh
+        $(document).on('click', "button[name = 'Delete']", function () {
+            let ma = $(this).closest('tr').attr('id');
+            $('#ma').val(ma);
+            alert(ma);
+
+            $('#modalConfirm').modal();
+        });
+
+        $('#btnYes').click(function () {
+            let maNganh = $('#ma').val().trim();
+          
+            $.ajax({
+ 
+                url: '/Admin/Monhoc/DeleteChuong', type: 'post',
+                data: {
+                    ma: maNganh,
+                },
+                success: function (data) {
+                    if (data.code == 200) {
+                        alert(data.msg);
+                        loadDSGV();
+                        $('#modalConfirm').modal('hide');
+                    } else {
+                        alert.data(msg);
+                    }
+                }
+            });
+
+
+
+        });
+    </script>
+
+}

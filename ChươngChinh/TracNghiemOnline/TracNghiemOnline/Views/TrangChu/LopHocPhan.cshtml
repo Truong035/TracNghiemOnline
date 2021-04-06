@@ -1,0 +1,42 @@
+﻿@model  List<TracNghiemOnline.Modell.LopHocPhan>
+@{
+    ViewBag.Title = "LopHocPhan";
+    Layout = "~/Views/Share/LayOutHome.cshtml";
+}
+
+@section scripts {
+ 
+    <script>
+
+        function BoDe(ID) {
+            alert(ID);
+            document.location = '/Bode/' + ID;
+
+        }
+        
+
+    </script>
+    
+    }
+
+<div class="container-fluid">
+    <h1 class="mt-4"> Lớp Học Phần</h1>
+    <div class="row">
+        @foreach (var item in Model)
+        {
+            <div class="col-md-3"  onclick="BoDe(id)"  id="@item.MaLop.Trim()">
+                <div class="card bg-primary  mb-3">
+                    <div class="card-footer d-flex align-items-center justify-content-between">
+                        <h3 class="small text-white">@item.TenLop</h3>
+                    </div>
+                    <div class="card-body"> Giáo Viên @item.GiaoVien.TenGV </div>
+                    <div class="card-body"> Kỳ Học : @item.KiThi.TenKi </div>
+                    <div class="card-body"> Môn :  @item.MonHoc.TenMon </div>
+
+                </div>
+            </div>
+
+        }
+    </div>
+</div>
+

@@ -1,0 +1,141 @@
+﻿
+@{
+    ViewBag.Title = "ChonCauhoi";
+    Layout = "~/Areas/Admin/Views/Shared/LaoutShare.cshtml";
+    List<TracNghiemOnline.Modell.Kho_CauHoi> cauhoi = (List<TracNghiemOnline.Modell.Kho_CauHoi>)ViewBag.Question;
+}
+
+@section Jsfooter{
+    <script>
+
+        $(document).ready(function () {
+
+            $('#btnTao').click(function () {
+
+                var arr = [];
+
+                var Check = document.getElementsByClassName('txtcheck');
+
+                for (var i = 0; i < Check.length; i++) {
+                    arr.push({
+                        Ma_CauHoi: Check[i].value,
+
+                    });
+                }
+
+
+                if (arr.length > 0) {
+                    $.ajax({   
+                        url: "/Home/ChonCauHoi",
+                        data: { CauHoi: JSON.stringify(arr) },
+                        type:'GET',
+                        success: function (res) {
+                          
+                                window.location = "/Admin/Home/LoadDeThi"
+                            
+                        }
+                    });
+                } else {
+                    alert("Mời Chọn Câu Hỏi");
+                }
+
+             
+            });
+
+
+           
+            $('#txtChon').click(function () {
+
+                if ($(this).prop('checked') == true) {
+                    $.each($('.txtcheck'), function () {
+                        $(this).prop('checked', true);
+                    });
+                }
+                else {
+
+                    $.each($('.txtcheck'), function () {
+                        $(this).prop('checked', false);
+                    });
+                }
+
+               
+            })
+           
+
+
+
+
+        });
+
+
+
+
+
+    </script>
+    
+    }
+
+    <div class="card-body bg-danger ">
+        <div class="mt-lg-5">
+            <h2 class="mt-4"> Danh Sách Câu Hỏi </h2>
+
+        </div>
+    </div>
+
+    <div class="card-header ">
+        <div class="container-fluid">
+            <div class="card-body">
+                <div class="table-responsive">
+                    <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
+                        <thead>
+                            <tr>
+                                <th><input type="checkbox" id="txtChon" /> </th>
+                                <th>Nôi Dung</th>
+                                <th> Mức Độ </th>
+                                <th></th>
+
+                            </tr>
+                        </thead>
+                        <tfoot>
+                            <tr>
+                                <th>Mã Câu Hỏi  </th>
+                                <th>Nôi Dung</th>
+                                <th> Mức Độ </th>
+                                <th></th>
+                            </tr>
+                        </tfoot>
+                        <tbody>
+                            @foreach (var item in cauhoi)
+                            {
+                                <tr>
+                                    <td> <input class="txtcheck" type="checkbox" value="@item.Ma_CauHoi" /> </td>
+
+                                    <td> @item.NoiDung</td>
+                                    <td>  @item.MucDo </td>
+                                    <td style="text-align:center">
+                                        <div class="row-cols-1">
+                                            <div class="col-4"><a href="#">  Xem   </a></div>
+                                        </div>
+                                    </td>
+                                </tr>
+
+                            }
+
+                        </tbody>
+
+                    </table>
+
+                </div>
+
+                <div class="card-body" style="text-align:center">
+                    <button class="badge-dark" id="btnTao" type="button"> Hoàn Thành  </button>
+                    <button class="badge-dark" type="reset"> Quay Lại </button>
+                </div>
+           
+            </div>
+        </div>
+    </div>
+
+
+
+

@@ -1,0 +1,54 @@
+﻿@model List<TracNghiemOnline.Modell.Phong_Thi>
+@{
+    ViewBag.Title = "Phong";
+    Layout = "~/Views/Share/LayOutHome.cshtml";
+}
+
+<script>
+
+    function Phongthi(ID) {
+
+        var MaPhong = ID;
+        $.ajax({
+            type: 'POST',
+            url: '/TrangChu/PhongThi',
+            data: { MaPhong },
+            success: function (res) {
+                if (res.status == true) {
+
+                    window.location = '/VaoThi/' + MaPhong;
+                }
+                else {
+                    alert(res.status);
+                }
+
+            }
+
+
+        });
+    }
+
+</script>
+
+<div class="container-fluid">
+    <h1 class="mt-4"> Phong Thi</h1>
+    <div class="row">
+        @foreach (var item in Model)
+        {
+            <div class="col-md-6">
+                <div class="card bg-primary  mb-4">
+                    <div class="card-footer d-flex align-items-center justify-content-between">
+                        <h3 class="small text-white">@item.MaPhong.Trim()
+                    </div>
+                    <div class="card-body"> Tên Phòng : @item.TenPhong </div>
+                    <div class="card-body">Lớp HP : @item.LopHocPhan.TenLop </div>
+                    <div class="card-body">Lớp HP : @item.LopHocPhan.MonHoc.Ma_Mon </div>
+                    <div class="card-body">Mon Thi : @item.LopHocPhan.MonHoc.TenMon </div>
+                    <div class="card-body">Thời Gian Bắt Đầu : @item.ThoiGianMo </div>
+
+                    <button class="btn btn-secondary " id="@item.MaPhong.Trim()" onclick="Phongthi(id)"> Vào Thi </button>
+                </div>
+            </div>
+        }
+    </div>
+</div>

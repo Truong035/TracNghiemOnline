@@ -1,0 +1,103 @@
+﻿@model List<TracNghiemOnline.Modell.Kho_CauHoi>
+@{
+    ViewBag.Title = "LoadDeThi";
+    Layout = "~/Areas/Admin/Views/Shared/LaoutShare.cshtml";
+
+}
+
+
+
+<div class="card">
+
+    <div class="card mb-4">
+        @{
+            int i = 0;
+            foreach (var item in Model)
+            {
+
+
+
+                <div class="card-body">
+                    <form>
+                        <div class="form-group">
+
+                            <h5 style="width:710px;"><label style="color:dodgerblue"> Câu @(i = i + 1) :</label>  @item.NoiDung </h5>
+
+                            @if (item.HinhAnh != null)
+                            {
+                                <div class="card-body ">
+                                    <img class="img-circle center-block" style="margin-left:140px" src="@item.HinhAnh"
+                                         alt="anh viet nam anh 1 " width="250px" height="200px" />
+                                </div>
+
+                            }
+
+                        </div>
+                        @{int j = -1;
+                            String[] da = { "A", "B", "C", "D" };
+
+                            foreach (var item1 in item.Dap_AN)
+                            {
+                                <div class="form-group_@j">
+
+
+                                    <div class="custom-control custom-radio">
+
+                                        @if (item1.TrangThai == true)
+                                        {
+                                            <label class="custom-control-inline" style="width:700px;color:orangered " for="@item1.MA_DAN">
+                                                @da[j = j + 1] : @item1.NoiDung
+                                            </label>
+                                        }
+                                        else
+                                        {
+                                            <label class="custom-control-inline" style="width:700px" for="@item1.MA_DAN">
+                                                <label style="color:dodgerblue">@da[j = j + 1] :   <label> </label></label>  @item1.NoiDung
+                                            </label>
+                                        }
+
+
+
+                                    </div>
+
+                                    @{ try
+                                        {
+                                            if (item1.HinhAnh != null)
+                                            {
+                                                <img class="img-circle center-block" style="margin-left:80px" src="@item1.HinhAnh"
+                                                     alt="anh viet nam anh 1 " width="200px" />
+
+                                            }
+                                        }
+                                        catch { }
+                                    }
+
+                                </div>
+                            }
+
+                        }
+                        <label style="color:burlywood"> Mức độ @item.MucDo</label>
+                    </form>
+                </div>
+
+
+            }
+
+
+            <a id="txtTroVe" class="btn-danger  col-3" href="/Admin/Bomon/DSDethitheobm"> Quay Lại </a>
+            <a id="txtTroVe" class="btn-danger  col-3" href="@ViewBag.linkpdf" download=""> Xuất PDF </a>
+
+
+
+
+
+        }
+    </div>
+
+
+</div>
+
+
+
+
+

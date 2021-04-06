@@ -1,0 +1,185 @@
+﻿@model List<TracNghiemOnline.Model.DanhGia>
+@{
+    ViewBag.Title = "KetQuaphongthi";
+    Layout = "~/Areas/Admin/Views/Shared/LaoutShare.cshtml";
+    var danhgia = (List<TracNghiemOnline.Modell.Danh_Gia>)ViewBag.DanhGia;
+}
+
+@section scripts{
+    <script>
+        $(document).ready(function () {
+
+           
+
+                var ctx = document.getElementById('myChart').getContext('2d');
+            var c = [];
+            var ten = [];
+
+            var maphong = $('#txtmaphong').val();
+                $.ajax({
+                    type: 'Post',
+                    url: "/Admin/Home/DanhGia/"+maphong,
+                    dataType: 'json',
+                    success: function (res) {
+
+                        $.each(res.mang, function (k, v) {
+
+                            c.push(v.gt)
+                            ten.push(v.ten);
+
+                        })
+
+                        var chart = new Chart(ctx, {
+                            // The type of chart we want to create
+                            type: 'bar',
+
+                            // The data for our dataset
+                            data: {
+                                labels: ten,
+                                datasets: [{
+                                    label: 'Biểu Đồ Thống Kê',
+                                    backgroundColor: [
+                                        'rgba(255, 99, 132, 0.2)',
+                                        'rgba(54, 162, 235, 0.2)',
+                                        'rgba(255, 206, 86, 0.2)',
+                                        'rgba(75, 192, 192, 0.2)',
+                                        'rgba(153, 102, 255, 0.2)',
+                                        'rgba(255, 159, 64, 0.2)'
+                                    ],
+                                    borderColor: [
+                                        'rgba(255, 99, 132, 1)',
+                                        'rgba(54, 162, 235, 1)',
+                                        'rgba(255, 206, 86, 1)',
+                                        'rgba(75, 192, 192, 1)',
+                                        'rgba(153, 102, 255, 1)',
+                                        'rgba(255, 159, 64, 1)'
+                                    ],
+                                 //   borderWidth: 1,
+                                    data: c
+                                }]
+                            },
+
+                            // Configuration options go here
+                            options: {}
+                        });
+                    }
+
+
+
+                });
+
+            $('#example').DataTable({
+                dom: 'Bfrtip',
+                buttons: [
+                    'copy', 'csv', 'excel', 'pdf', 'print'
+                ]
+            });
+        });
+
+    </script>
+
+}
+
+
+
+<div class="container-fluid">
+    
+    
+
+    <div class="card mb-4">
+        <div class="card-body card-header ">
+            <div class="mt-lg-2">
+                <h2 class="mt-4">  Kết quả thi phòng @ViewBag.Maphong </h2>
+                <input id="txtmaphong" value="@ViewBag.Maphong" hidden />
+            </div>
+        </div>
+        <div class="card-body">
+            <div class="container-fluid">
+
+                <div class="card-body">
+
+                    <button type="button" id="bntnhanxet" class=" btn badge-primary navbar-toggle" data-toggle="collapse" data-target="#XemDanhgia">
+                        Xem Bảng Điểm
+
+                    </button>
+
+
+                    <div class="collapse navbar-collapse" id="XemDanhgia">
+                        <div class="card-body ">
+                            <ul class="nav navbar-nav navbar-right">
+                                <div class="card-body ">
+                                    <ul class="navbar-nav navbar-right">
+
+                                        <table class="table table-bordered" id="example" width="100%" cellspacing="0">
+                                            <thead>
+                                                <tr>
+                                                    <th>Mã Đề</th>
+                                                    <th>Mã SV  </th>
+                                                    <th> Họ Tên </th>
+                                                    <th> Số Câu Sai  </th>
+                                                    <th> Số Câu đúng  </th>
+                                                    <th> Điểm </th>
+                                                    <th>  </th>
+
+                                                </tr>
+                                            </thead>
+                                            <tfoot>
+                                                <tr>
+                                                    <th>Mã Đề</th>
+                                                    <th>Mã SV  </th>
+                                                    <th> Họ Tên </th>
+                                                    <th> Số Câu sai  </th>
+                                                    <th> Số Câu đúng  </th>
+                                                    <th>  </th>
+                                                </tr>
+                                            </tfoot>
+                                            <tbody>
+                                                @foreach (var item in Model)
+                                                {
+                                                    <tr>
+                                                        <td> @item.ketQuaThi.Ma_DeThi </td>
+                                                        <td> @item.ketQuaThi.De_Thi.SinhVien.MaSV </td>
+                                                        <td>  @item.ketQuaThi.De_Thi.SinhVien.Ten  </td>
+                                                        <td> @item.ketQuaThi.SoCauSai </td>
+                                                        <td>  @item.ketQuaThi.SoCauDung </td>
+                                                        <td>  @item.ketQuaThi.DiemSo </td>
+                                                        <td>
+                                                            <a href="/Admin/QuanLyThi/DiemSo/@item.ketQuaThi.Ma_DeThi" class="btn btn-success"><span>Xem kết quả</span></a>
+                                                        </td>
+                                                    </tr>
+                                                }
+                                            </tbody>
+
+                                        </table>
+                                    </ul>
+                                </div>
+
+
+
+                            </ul>
+                        </div>
+                    </div>
+
+
+
+
+
+                </div>
+            </div>
+
+
+
+        </div>
+
+        <div class="container-fluid">
+            <div class="card mb-4">
+                <canvas id="myChart" width="100" height="50">
+                </canvas>
+            </div>
+
+        </div>
+
+
+    </div>
+
+</div>
