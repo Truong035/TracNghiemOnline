@@ -9,72 +9,16 @@
 
 @section Jsfooter{
     <script>
-        $(document).ready(function () {
-            $('#txtFile').change(function () {
-                if (window.FormData !== undefined) {
-                    var fileupload = $('#txtFile').get(0);
-                    var file = fileupload.files;
-                    var formdata = new FormData();
-                    formdata.append('file', file[0]);
-                    var machuong = this.title;
-                    $.ajax({
-                        type: 'POST',
-                        url: '/Cauhoi/XuLyFile',
-                        contentType: false, //Khong co hear
-                        processData: false,//Khong Xu Ly Du Lieu
-                        data: formdata,
-                        success: function (urlImage) {
-
-                            if (urlImage.status == true) {
-
-                                window.location = "/Admin/CauHoi/CreateCauHoi/" + machuong;
-                            }
-                            else {
-                                alert("Sai Định Dạng Vui Lòng Kiểm Trả Lại");
-                            }
-
-                        }
-                    });
-                }
-
-            });
-
-
-            $('#txtMucDo').change(function () {
-                var MucDo = $('#txtMucDo').val();
-                $.ajax({
-                    type: 'POST',
-                    url: '/Cauhoi/ChonMucDo/' + MucDo,
-                    data: { MucDo },
-                    success: function (kiemtra) {
-                    }
-
-                });
-
-
-            });
-
-
-
-        });
+       
         function XuKien(ID) {
-            //var MucDo = $('#txtMucDo').val();
-           // if (MucDo.length > 0) {
-                window.location = "/Admin/CauHoi/LoadQuestion/" + ID;
-           // }
-          //  else {
-             //   alert("Bạn Vui Lòng Chọn Mức Độ Câu Hỏi");
-         //   }
+         
+            window.location = "/Admin/CauHoi/LoadQuestion/" + ID;
+         
         }
 
     </script>
 }
-
-<h2>CreateCauHoi</h2>
 <div class="card">
-
-
-
     <div class="card">
 
         <div class="card mb-4">

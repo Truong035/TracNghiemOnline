@@ -8,80 +8,74 @@
 
 @section Jsfooter{
     <script>
-        $(document).ready(function () {
-            $('#txtFile').change(function () {
-                if (window.FormData !== undefined) {
-                    var fileupload = $('#txtFile').get(0);
-                    var file = fileupload.files;
-                    var formdata = new FormData();
-                    formdata.append('file', file[0]);
-                    var machuong = this.title;
-                    $.ajax({
-                        type: 'POST',
-                        url: '/Cauhoi/XuLyFile',
-                        contentType: false, //Khong co hear
-                        processData: false,//Khong Xu Ly Du Lieu
-                        data: formdata,
-                        success: function (urlImage) {
+        $(document).ready(function () {  
+            $('#btnNhan').click(function () {
+                if ($('#txtFile').val().length > 0) {
+                    if (window.FormData !== undefined) {
+                        var fileupload = $('#txtFile').get(0);
+                        var file = fileupload.files;
+                        var formdata = new FormData();
+                        formdata.append('file', file[0]);
+                        var machuong = this.title;
+                        $.ajax({
+                            type: 'POST',
+                            url: '/CauHoi/XuLyFile',
+                            contentType: false, //Khong co hear
+                            processData: false,//Khong Xu Ly Du Lieu
+                            data: formdata,
+                            success: function (urlImage) {
 
-                            if (urlImage.status == true) {
+                                if (urlImage.status == true) {
+                                    window.location = "/Admin/CauHoi/CreateCauHoi/" + machuong;
+                                 
+                                }
+                                else {
+                                    alert("Sai Định Dạng Vui Lòng Kiểm Trả Lại");
+                                }
 
-                                window.location = "/Admin/CauHoi/CreateCauHoi/" + machuong;
                             }
-                            else {
-                                alert("Sai Định Dạng Vui Lòng Kiểm Trả Lại");
-                            }
-
-                        }
-                    });
+                        });
+                    }
+                } else {
+                    alert("Vui lòng chọn file");
                 }
 
-            });
-
-
-            $('#txtMucDo').change(function () {
-                var MucDo = $('#txtMucDo').val();
-                $.ajax({
-                    type: 'POST',
-                    url: '/Cauhoi/ChonMucDo/' + MucDo,
-                    data: { MucDo },
-                    success: function (kiemtra) {
-                    }
-
-                });
-
 
             });
-
 
 
         });
         function XuKien(ID) {
-            //var MucDo = $('#txtMucDo').val();
-            // if (MucDo.length > 0) {
             window.location = "/Admin/CauHoi/LoadQuestion/" + ID;
-            // }
-            //  else {
-            //   alert("Bạn Vui Lòng Chọn Mức Độ Câu Hỏi");
-            //   }
+         
         }
 
     </script>
 }
 
-<h2>CreateCauHoi</h2>
-<div class="card">
-    <input id="txtFile" type="file" title="@machuong" accept="application/vnd.openxmlformats-officedocument.spreadsheetml.sheet" />
+<div class="container card">
+    <div class="row" id="DsThethi">
+        <input id="txtFile" class="form-control col-7" type="file" accept="application/vnd.openxmlformats-officedocument.spreadsheetml.sheet,.doc,.docx" />
+        <div class="col-4">
+            <button id="btnNhan" class="btn btn-primary" title="@machuong"> Tải Lên</button>      
+            @if (Model.Count > 0)
+            {
+                <input type="button" id="@machuong" onclick="XuKien(this.id)" class="btn btn-success col-3" value="Thêm" href="" />
+              
+            }
+          
+        </div>
+    </div>
+   
 
 
-    <div class="card">
+    <div class="card-body">
 
-        <div class="card mb-4">
+        <div class=" mb-4">
             @{
                 int i = 0;
                 foreach (var item in Model)
                 {
-
 
 
                     <div class="card-body">
@@ -135,7 +129,7 @@
                                     </div>
                                 </div>
                             }
-                            <label> Muc do @item.MucDo</label>
+                            <label> Mức @item.MucDo</label>
                         </form>
                     </div>
 
@@ -144,20 +138,20 @@
                 if (Model.Count > 0)
                 {
                     @*<div class="row">
-                        <div class="col-10" style="text-align:center">
-                            <select id="txtMucDo" class="form-control col-12">
-                                <option value="">Mức Độ Câu Hỏi</option>
-                                <option value="Nhận Biết">Nhận Biết</option>
-                                <option value="Thông Hiểu">Thông Hiểu</option>
-                                <option value="Vận Dụng">Vận Dụng</option>
-                                <option value="Vận Dụng Cao">Vận Dụng Cao</option>
+                            <div class="col-10" style="text-align:center">
+                                <select id="txtMucDo" class="form-control col-12">
+                                    <option value="">Mức Độ Câu Hỏi</option>
+                                    <option value="Nhận Biết">Nhận Biết</option>
+                                    <option value="Thông Hiểu">Thông Hiểu</option>
+                                    <option value="Vận Dụng">Vận Dụng</option>
+                                    <option value="Vận Dụng Cao">Vận Dụng Cao</option>
 
-                            </select>
-                        </div>
-                    </div>*@
+                                </select>
+                            </div>
+                        </div>*@
 
 
-                    <input type="button" id="@machuong" onclick="XuKien(this.id)" class="btn-danger col-3" value="Thêm" href="" />
+                    
                 }
 
             }
@@ -165,7 +159,7 @@
 
 
     </div>
-    </div>
+</div>
 
 
 

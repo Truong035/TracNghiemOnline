@@ -6,8 +6,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <meta charset="UTF-8">
     <meta name="keywords" content="Report Login Form Responsive web template, Bootstrap Web Templates, Flat Web Templates, Android Compatible web template, Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, SonyEricsson, Motorola web design">
-    <!-- //Meta tag Keywords -->
-    <link href="//fonts.googleapis.com/css2?family=Noto+Sans+JP:wght@400;500;700;900&amp;display=swap" rel="stylesheet">
+    <!-- //Meta tag Keywords -->    <link href="//fonts.googleapis.com/css2?family=Noto+Sans+JP:wght@400;500;700;900&amp;display=swap" rel="stylesheet">
     <!--/Style-CSS -->
     <link rel="stylesheet" href="~/assets/css/style.css" type="text/css" media="all">
     <!--//Style-CSS -->
@@ -28,9 +27,7 @@
                         @using (Html.BeginForm("DangNhap", "Login", FormMethod.Post))
                         {
                             @Html.AntiForgeryToken()
-
                             <h2>Đăng nhập</h2>
-
                             @Html.TextBoxFor(model => model.TenDangNhap, new { @class = "text", @autofocus = "autofocus", placeholder = "Enter Username" })
                             @Html.ValidationMessageFor(model => model.TenDangNhap, "", new { @class = "text-danger" })
 
@@ -50,9 +47,8 @@
             <!-- //form -->
         </div>      
     </section>
-    <script>
+   
 
-    </script>
     <!-- //form section start -->
 </body>
 </html>

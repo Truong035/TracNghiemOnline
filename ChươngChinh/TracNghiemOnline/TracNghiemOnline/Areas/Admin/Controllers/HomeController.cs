@@ -1,23 +1,20 @@
-﻿using Microsoft.Ajax.Utilities;
-using Spire.Pdf;
-using Spire.Pdf.Graphics;
-using System;
+﻿using System;
 using System.Collections.Generic;
-using System.Drawing;
-using System.IO;
 using System.Linq;
-using System.Net;
 using System.Web;
 using System.Web.Mvc;
-using System.Web.Script.Serialization;
-using System.Web.WebPages;
-using System.Windows.Forms;
-using TracNghiemOnline.Controllers;
 using TracNghiemOnline.Model;
 using TracNghiemOnline.Modell;
 using TracNghiemOnline.Modell.Dao;
+using Spire.Pdf;
+using Spire.Pdf.Graphics;
+using System.Drawing;
+using System.Net;
+using System.Web.Script.Serialization;
 using EXCELL = Microsoft.Office.Interop.Excel;
-using FormCollection = System.Web.Mvc.FormCollection;
+using TracNghiemOnline.Controllers;
+using System.IO;
+using System.Windows.Forms;
 
 namespace TracNghiemOnline.Areas.Admin.Controllers
 {
@@ -89,6 +86,8 @@ namespace TracNghiemOnline.Areas.Admin.Controllers
         }
         public JsonResult XuLyFile(HttpPostedFileBase file)
         {
+            string strExtexsion = Path.GetExtension(file.FileName).Trim();
+            MessageBox.Show(file.FileName);
             List<Kho_CauHoi> cauHois = new List<Kho_CauHoi>(); 
             try
             {
@@ -276,7 +275,7 @@ namespace TracNghiemOnline.Areas.Admin.Controllers
                 int z = 0;
                 int k = 0;
                 int[] vtdongdapan = new int[4];
-                if (item.HinhAnh != null)
+                if (item.HinhAnh.Length>0)
                 {
                     try
                     {
@@ -320,7 +319,7 @@ namespace TracNghiemOnline.Areas.Admin.Controllers
                     page.Canvas.DrawString(da.NoiDung, font2, new PdfSolidBrush(Color.Black), new RectangleF(z + 5, vitridong, page.GetClientSize().Width / 2 - 20, page.GetClientSize().Height - 80), new PdfStringFormat() { LineLimit = true });
 
 
-                    if (da.HinhAnh != null)
+                    if (da.HinhAnh.Length>0)
                     {
                         if (13 + vtdongdapan[slda] + vitridong + 150 > page.GetClientSize().Height - 20)
                         {
@@ -757,6 +756,7 @@ namespace TracNghiemOnline.Areas.Admin.Controllers
 
         public ActionResult LoadDeThi(string id)
         {
+            MessageBox.Show(id);
             try
             {
                 if (id.Length > 0)
@@ -764,9 +764,10 @@ namespace TracNghiemOnline.Areas.Admin.Controllers
                     var BODETHI = (Model.BoDeThi)Session[ComMon.ComMonStants.ChapterStudy];
                     BODETHI.BoDeThi1 = new BoDeDao().ChapterStudy(long.Parse(id));
                     Session[ComMon.ComMonStants.ChapterStudy] = BODETHI;
-                    ViewBag.linkpdf = xuatpdf(long.Parse(id), Request["tenmon"]);
+                  
                     ViewBag.Mess = id;
-                   
+                    ViewBag.linkpdf = xuatpdf(long.Parse(id), Request["tenmon"]);
+
                 }
                 else
                 {
@@ -778,8 +779,8 @@ namespace TracNghiemOnline.Areas.Admin.Controllers
             {
                 ViewBag.Mess = "";
             }
-        
-            var dethi = (Model.BoDeThi)Session[ComMon.ComMonStants.ChapterStudy];
+            ViewBag.Mess = id;
+               var dethi = (Model.BoDeThi)Session[ComMon.ComMonStants.ChapterStudy];
 
             return View(dethi.BoDeThi1);
         }

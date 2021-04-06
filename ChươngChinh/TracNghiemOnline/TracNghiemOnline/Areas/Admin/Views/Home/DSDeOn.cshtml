@@ -30,38 +30,7 @@
             $('#ChonDe').show();
             $('#DSSV').hide();
             check = false;
-            TaoNut();
-            @*$.ajax({
-                type: 'Post',
-                url: '/Admin/QuanLyThi/LoadBode/' + id,
-                success: function (data) {
-                    if (data.Bode.length > 0) {
-                        $('#DsThethi').empty();
-                        $.each(data.Bode, function (K, V) {
-                            let de = '<div class="col-md-3">'
-                            de += '<div class="card bg-primary  mb-4">'
-                            de += '<div class="card-footer d-flex align-items-center justify-content-between">'
-                            de += ' <h3 class="small text-white">' + V.Ten + '</h3 >'
-                            de += '</div> '
-                            de += '<div class="card-body" > Thời Gian:' + V.ThoiGian + 'Phút </div >'
-                            de += '<div class="card-body" > Số Câu:' + V.SoCau + 'Câu </div >'
-                            de += ' <a class="btn  bg-danger "href = "/Admin/Home/DeOnTap/' + V.MaDe + '" > Chọn </a >'
-                            de += '  </div >'
-                            de += '   </div >'
-                            $('#DsThethi').append(de);
-
-                        });
-
-                        $('#ChonDe').show();
-
-                        $('#DSSV').hide();
-                    } else {
-                        alert("Bạn vui lòng tạo thêm đề")
-                    }
-
-                }
-
-            });*@
+            TaoNut();          
         }
         $('#btnNhan').click(function () {
             if ($('#txtFile').val().length > 0) {
@@ -70,11 +39,10 @@
                     var file = fileupload.files;
                     var formdata = new FormData();
                     formdata.append('file', file[0]);
-                    var machuong = this.title;
-                    
+                    var machuong = this.title;  
                      $.ajax({
                         type: 'POST',
-                        url: '/Home/XuLyFile',
+                        url: '/CauHoi/XuLyFile',
                         contentType: false, //Khong co hear
                         processData: false,//Khong Xu Ly Du Lieu
                         data: formdata,
@@ -175,7 +143,7 @@
 <div class="container card" id="ChonDe">
     <div class="card-body">
         <div class="row" id="DsThethi">
-            <input id="txtFile" class="form-control col-7" type="file"  accept="application/vnd.openxmlformats-officedocument.spreadsheetml.sheet" />
+            <input id="txtFile" class="form-control col-7" type="file"  accept="application/vnd.openxmlformats-officedocument.spreadsheetml.sheet,.doc,.docx" />
             <div class="col-4">
                 <button id="btnNhan" class="btn btn-primary" title="@ViewBag.Malop"> Tải Lên</button>
                 <button id="btnDong" class="btn badge-danger">Quay Lai</button>

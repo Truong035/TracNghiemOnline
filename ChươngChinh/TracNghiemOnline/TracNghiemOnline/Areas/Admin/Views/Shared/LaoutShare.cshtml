@@ -41,7 +41,7 @@
  
 
 </head>
-<body class="sb-nav-fixed bg-light">
+<body class="sb-nav-fixed">
     <nav class="sb-topnav navbar navbar-expand navbar-dark bg-dark" style="border-bottom:5px solid rgb(248,249,250)">
         <a class="navbar-brand bg-white text-primary"><i class="fa fa-graduation-cap" aria-hidden="true"></i>UTC2</a>
         <button class="btn btn-link btn-sm order-1 order-lg-0" id="sidebarToggle" href="#"><i class="fas fa-bars"></i></button>
@@ -70,19 +70,14 @@
     @{Html.RenderAction("Menull", "Home");}
 
     <div id="layoutSidenav_content">
-        <div style="width:auto; height:30px;"></div>
+        
         <main>
             @RenderBody()
         </main>
         <footer class="py-4 bg-light mt-auto">
             <div class="container-fluid">
                 <div class="d-flex align-items-center justify-content-between small">
-                    <div class="text-muted">Copyright &copy; Your Website 2020</div>
-                    <div>
-                        <a href="#">Privacy Policy</a>
-                        &middot;
-                        <a href="#">Terms &amp; Conditions</a>
-                    </div>
+                    
                 </div>
             </div>
         </footer>

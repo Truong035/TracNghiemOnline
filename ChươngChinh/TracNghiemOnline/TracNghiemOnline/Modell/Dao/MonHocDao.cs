@@ -19,7 +19,6 @@ namespace TracNghiemOnline.Modell.Dao
         }
         public List<Modell.MonHoc> lisALL(string mabomon)
         {
-       
             return db.MonHocs.Where(x => x.MaBoMon.Equals(mabomon)).ToList();
         }
         public bool UpdateSubject(Modell.MonHoc monHoc)

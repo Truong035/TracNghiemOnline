@@ -45,142 +45,9 @@
                         <div class="card-body"> Điểm Số  :     @Model.ketQuaThi.DiemSo  Điểm </div>
 
 
-                        <div class="container-fluid">
-                            <div class="card-body">
-                                <button type="button" id="btnthongke" class=" btn badge-primary navbar-toggle" data-toggle="collapse" data-target="#myNavbar">
-                                    Xem Thông Kê
-                                </button>
-
-
-                                <button type="button" id="bntnhanxet" class=" btn badge-primary navbar-toggle" data-toggle="collapse" data-target="#XemDanhgia">
-                                    Nhận Xét
-                                </button>
-
-                                <button type="button" id="bntbaithi" class=" btn badge-primary navbar-toggle" data-toggle="collapse" data-target="#Xembaithi">
-                                    Xem Bài Thi
-                                </button>
-                            </div>
-
-                            <div class="collapse navbar-collapse" id="myNavbar">
-                                <div class="card-body ">
-                                    <ul class="nav navbar-nav navbar-right">
-                                        <div class="navbar-header">
-                                            <span class=" navbar-toggle" id="bntmucdo" data-toggle="collapse" data-target="#myNavbar1">
-                                                Theo mức độ
-                                            </span>
-                                        </div>
-                                        <div class="container-fluid">
-                                            <div class="collapse navbar-collapse" id="myNavbar1">
-                                                <div class="card-body ">
-                                                    <ul class="navbar-nav navbar-right">
-
-                                                        <table border="1" style="text-align:center">
-                                                            <tr class="badge-primary">
-                                                                <th rowspan="2">Tên Chương</th>
-                                                                <th colspan="4">Sô Câu Đúng</th>
-                                                                <th rowspan="2">Tổng Sô Câu</th>
-                                                            </tr>
-                                                            <tr class="badge-primary">
-                                                                <th>Nhận Biết</th>
-                                                                <th>Thông Hiệu</th>
-                                                                <th>Vận Dụng</th>
-                                                                <th>Vận Dụng Cao</th>
-                                                            </tr>
-                                                            @foreach (var item in Model.DanhGiaMucDo)
-                                                            {
-                                                                <tr>
-                                                                    <td> @item.Chuong.TenChuong </td>
-                                                                    <td>@item.nhanBiet</td>
-                                                                    <td>@item.thongHieu</td>
-                                                                    <td>@item.vandung</td>
-                                                                    <td>@item.vandungcao</td>
-                                                                    <td>
-
-                                                                        @item.TongSoCau
-                                                                    </td>
-
-
-                                                                </tr>
-                                                            }
-
-
-                                                        </table>
-                                                    </ul>
-                                                </div>
-                                            </div>
-                                        </div>
-                                        <div class="navbar-header">
-                                            <span class=" navbar-toggle" id="bntnoidung" data-toggle="collapse" data-target="#myNavbar2">
-                                                Theo nôi dung
-                                            </span>
-                                        </div>
-                                        <div class="container-fluid">
-                                            <div class="collapse navbar-collapse" id="myNavbar2">
-                                                <div class="card-body ">
-                                                    <ul class="navbar-nav navbar-right">
-                                                        @foreach (var item in Model.DanhGiaMucDo)
-                                                        {
-                                                            <ul> @item.TongSoCau  @item.Chuong.TenChuong </ul>
-                                                        }
-
-
-                                                    </ul>
-                                                </div>
-                                            </div>
-                                        </div>
-
-                                    </ul>
-                                </div>
-                            </div>
-
-                            @*.................. ...............*@
-                            <div class="collapse navbar-collapse" id="XemDanhgia">
-                                <div class="card-body ">
-                                    <ul class="nav navbar-nav navbar-right">
-                                        <div class="card-body ">
-                                            <ul class="navbar-nav navbar-right">
-                                                <table border="1" style="text-align:center">
-                                                    <tr class="badge-primary">
-                                                        <th>Tên Chương</th>
-                                                        <th rowspan="1"> Đánh Gía</th>
-                                                        <th>Nhận Xét</th>
-                                                    </tr>
-
-                                                    @{ foreach (var item in Model.ketQuaThi.De_Thi.Danh_Gia)
-                                                        {
-                                                            <tr>
-                                                                <td>@item.Chuong_Hoc.TenChuong</td>
-                                                                <td>@item.DanhGia</td>
-                                                                <td>
-
-                                                                    - @item.NhanXet;
-
-
-                                                                </td>
-                                                            </tr>
-
-                                                        } }
-
-
-
-                                                </table>
-                                            </ul>
-                                        </div>
-
-
-
-                                    </ul>
-                                </div>
-                            </div>
-
-
-
-
-
-                        </div>
 
                         <div class="container-fluid">
-                            <div class="collapse navbar-collapse" id="Xembaithi">
+                           
                                 <div class="card-body ">
                                     @{
                                         int i = 0;
@@ -282,9 +149,6 @@
                     </div>
 
 
-
-
-
                 </div>
             </div>
 
@@ -319,47 +183,7 @@
         <script src="~/Content/datepicker/js/bootstrap.min.js"></script>
         <script src="https://cdn.datatables.net/1.10.20/js/dataTables.bootstrap4.min.js" crossorigin="anonymous"></script>
         <script src="/assets/demo/datatables-demo.js"></script>
-        <script>
-            $('#Xembaithi').show();
-
-            $('#bntmucdo').click(function () {
-                $('#myNavbar1').show();
-                $('#XemDanhgia').hide();
-                $('#myNavbar2').hide();
-                $('#Xembaithi').show();
-
-
-            });
-            $('#bntnoidung').click(function () {
-                $('#myNavbar1').hide();
-                $('#XemDanhgia').hide();
-                $('#myNavbar2').show();
-                $('#Xembaithi').hide();
-
-
-            });
-
-            $('#bntbaithi').click(function () {
-                $('#myNavbar1').hide();
-                $('#myNavbar2').hide();
-                $('#XemDanhgia').hide();
-                $('#Xembaithi').show();
-
-
-            });
-
-            $('#bntnhanxet').click(function () {
-                $('#myNavbar1').hide();
-
-                $('#myNavbar2').hide();
-                $('#XemDanhgia').show();
-                $('#Xembaithi').hide();
-
-
-            });
-
-  
-        </script>
+       
 
 
 </body>

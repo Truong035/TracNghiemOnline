@@ -213,8 +213,6 @@ namespace TracNghiemOnline.Areas.Admin.Controllers
                 }
             }
             catch { }
-           
-        
             var exam = new QuanLyThiDAO().SearDethi(id);
             var mark = new QuanLyThiDAO().Mark(exam);
             return View(mark);
@@ -460,8 +458,7 @@ namespace TracNghiemOnline.Areas.Admin.Controllers
             var session = (TaiKhoan)Session[ComMon.ComMonStants.UserLogin];
             var lophoc = new TracNghiemOnlineDB().LopHocPhans.Find(id);
             var bode = new TracNghiemOnlineDB().Bo_De.Where(x => x.Ma_Mon == lophoc.MaMon && x.Ma_NguoiTao ==session.TaiKhoan1 && x.Xoa==true).ToList();
-           
-
+          
             var bode1 = (from n in bode
                          select new
                          {

@@ -25,9 +25,14 @@ namespace TracNghiemOnline.Controllers
                 if (TK != null)
                 {
                     Session.Add(ComMon.ComMonStants.UserLogin, TK);
-                    if (TK.ChưcVu.Equals("Cán Bộ") || TK.ChưcVu.Equals("Admin"))
+                    if (TK.ChưcVu.Equals("Cán Bộ"))
                     {
                         return RedirectToAction("DSDETHI", "Admin/Home");
+
+                    }
+                    else if (TK.ChưcVu.Equals("Admin"))
+                    {
+                        return RedirectToAction("DSDETHI", "Admin/Admin");
 
                     }
                     else if (TK.ChưcVu.Equals("BoMon")) return RedirectToAction("DSDethitheobm", "Admin/Bomon");

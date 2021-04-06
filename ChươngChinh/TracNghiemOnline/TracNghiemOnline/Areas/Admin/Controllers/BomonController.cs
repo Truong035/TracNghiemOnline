@@ -11,10 +11,11 @@ using Spire.Pdf.Graphics;
 using System.Drawing;
 using System.Net;
 using System.Web.Script.Serialization;
+using TracNghiemOnline.Controllers;
 
 namespace TracNghiemOnline.Areas.Admin.Controllers
 {
-    public class BomonController : Controller
+    public class BomonController : BaseController
     {
         // GET: Admin/Bomon
         

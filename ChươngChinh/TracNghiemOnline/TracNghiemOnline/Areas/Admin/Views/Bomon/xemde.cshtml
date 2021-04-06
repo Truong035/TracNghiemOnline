@@ -23,7 +23,7 @@
 
                             <h5 style="width:710px;"><label style="color:dodgerblue"> Câu @(i = i + 1) :</label>  @item.NoiDung </h5>
 
-                            @if (item.HinhAnh != null)
+                            @if (item.HinhAnh.Length>0)
                             {
                                 <div class="card-body ">
                                     <img class="img-circle center-block" style="margin-left:140px" src="@item.HinhAnh"
@@ -62,7 +62,7 @@
 
                                     @{ try
                                         {
-                                            if (item1.HinhAnh != null)
+                                            if (item1.HinhAnh.Length>0)
                                             {
                                                 <img class="img-circle center-block" style="margin-left:80px" src="@item1.HinhAnh"
                                                      alt="anh viet nam anh 1 " width="200px" />
@@ -83,9 +83,12 @@
 
             }
 
+    <div class="card-body">
+        <a id="txtTroVe" class=" btn btn-danger" href="/Admin/BoMon/DSDethi"> Quay Lại </a>
+        <a id="txtTroVe" class=" btn btn-danger" href="@ViewBag.linkpdf" download=""> Xuất PDF </a>
 
-            <a id="txtTroVe" class="btn-danger  col-3" href="/Admin/Bomon/DSDethitheobm"> Quay Lại </a>
-            <a id="txtTroVe" class="btn-danger  col-3" href="@ViewBag.linkpdf" download=""> Xuất PDF </a>
+    </div>
+           
 
 
 
