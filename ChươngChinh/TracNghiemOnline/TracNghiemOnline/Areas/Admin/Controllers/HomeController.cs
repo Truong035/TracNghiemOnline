@@ -582,7 +582,7 @@ namespace TracNghiemOnline.Areas.Admin.Controllers
            List<Bo_De> bo_Des = new BoDeDao().ListALLChapterStudy();
           //  if (session.ChưcVu.Equals("Cán Bộ"))
            // {
-                bo_Des = new TracNghiemOnlineDB().Bo_De.Where(x => x.Ma_NguoiTao == session.TaiKhoan1 && x.Xoa==true).ToList();
+                bo_Des = new TracNghiemOnlineDB().Bo_De.Where(x =>( x.PheDuyet==null || x.PheDuyet.Contains("Từ"))&& x.Ma_NguoiTao  == session.TaiKhoan1 && x.Xoa==true).ToList();
            // }
           
         
@@ -724,13 +724,13 @@ namespace TracNghiemOnline.Areas.Admin.Controllers
                 }
                 ViewBag.A = mess;
                 ViewBag.B = mess1;
+            var dao = new TracNghiemOnline.Modell.TracNghiemOnlineDB().MonHocs.Select(x => x).ToList();
+            ViewBag.MonHoc = dao;
                 ViewBag.C = mess2;
 
             }
             reseach();
 
-            var dao = new TracNghiemOnline.Modell.TracNghiemOnlineDB().MonHocs.Select(x => x).ToList();
-            ViewBag.MonHoc = dao;
             return View("TaoDeThi");
       
         }
@@ -759,7 +759,7 @@ namespace TracNghiemOnline.Areas.Admin.Controllers
 
         public ActionResult LoadDeThi(string id)
         {
-        
+
             try
             {
                 if (id.Length > 0)
