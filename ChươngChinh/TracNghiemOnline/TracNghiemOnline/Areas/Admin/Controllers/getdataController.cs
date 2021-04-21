@@ -127,14 +127,19 @@ namespace TracNghiemOnline.Areas.Admin.Controllers
 
                 for (int k = 9; k < 10000; k++)
                 {
-                    if (sheet.Range["D" + k].Text == null)
+                    if (sheet.Range["D" + k].Text != null&& sheet.Range["B" + k].Text != null&& sheet.Range["D" + k].Text != null)
                     {
-                        break;
+                        LopHocPhan lhp = new LopHocPhan();
+                        lhp.TenLop = sheet.Range["D" + k].Text;
+                        lhp.SiSo = sheet.Range["D" + k].Text;
+                        TracNghiemOnlineDB db = new TracNghiemOnlineDB();
+                        db.LopHocPhans.Add(lhp);
+                        db.SaveChanges();
 
                     }
 
 
-                    Console.WriteLine((string)sheet.Range["D" + k].Text.ToString());
+                   
                 }
             }
 
