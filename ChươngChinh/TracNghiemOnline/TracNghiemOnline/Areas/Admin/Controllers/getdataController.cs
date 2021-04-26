@@ -2,7 +2,7 @@
 using OpenQA.Selenium;
 using OpenQA.Selenium.Chrome;
 using OpenQA.Selenium.Support.UI;
-using Spire.Xls;
+
 using System;
 using System.Collections.Generic;
 using System.Globalization;
@@ -116,7 +116,7 @@ namespace TracNghiemOnline.Areas.Admin.Controllers
         public ActionResult getclass()
         {
 
-            List<string> linkfile = getfiletkb();
+           /* List<string> linkfile = getfiletkb();
             foreach (var item in linkfile)
             {
                 Workbook workbook = new Workbook();
@@ -141,7 +141,7 @@ namespace TracNghiemOnline.Areas.Admin.Controllers
 
                    
                 }
-            }
+            }*/
 
 
             return Content("lay  thanh cong");
