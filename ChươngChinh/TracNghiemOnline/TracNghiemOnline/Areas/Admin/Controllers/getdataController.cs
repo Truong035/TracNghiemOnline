@@ -147,8 +147,20 @@ namespace TracNghiemOnline.Areas.Admin.Controllers
             return Content("lay  thanh cong");
 
         }
-        
-       
+        public ActionResult getnganh()
+        {
+
+            var options = new ChromeOptions();
+            options.AddArgument("no-sandbox");
+            // Chạy ngầm không pop up trình duyệt ra ngoài 
+            options.AddArgument("headless");
+            IWebDriver webDriver = new ChromeDriver(Server.MapPath("~/Content/chromdriver"), options);
+            webDriver.Url = "http://xemdiem.utc2.edu.vn/xemdiem.aspx";
+
+            return Content("lay  thanh cong");
+        }
+
+
         public ActionResult getstudent()
         {
             
@@ -185,8 +197,8 @@ namespace TracNghiemOnline.Areas.Admin.Controllers
 
                     if (db.Lops.Where(x => x.TenLop.Equals(i.Text)).ToList().Count <= 0)
                     {
-                                try
-                                {
+                               /* try
+                                {*/
 
 
                                     Lop lop1 = new Lop();
@@ -223,14 +235,19 @@ namespace TracNghiemOnline.Areas.Admin.Controllers
                                     lop1.Ma_Lop = ( malop.Substring(0,malop.Length-1) + i.Text.ToString().Substring( vtt, i.Text.Length-vtt)).ToUpper();
                                     
                             lop1.TenLop = i.Text.ToString();
-                            lop1.Ma_Nganh = 1;
+                                    if (db.Nganhs.Where(x => s.ToUpper().Contains(x.TenNganh.ToUpper())).ToList().Count <=0 )
+                                    {
+                                        lop1.Ma_Nganh = null;
+                                        
+                                    }
+                                    else lop1.Ma_Nganh = db.Nganhs.SingleOrDefault(x => s.ToUpper().Contains(x.TenNganh.ToUpper())).Ma_Nganh;
                             db.Lops.Add(lop1);
                             db.SaveChanges();
-                            }
+                         /*   }
                         catch (Exception e)
                             {
 
-                            }
+                            }*/
 
 
 
@@ -256,51 +273,57 @@ namespace TracNghiemOnline.Areas.Admin.Controllers
                             }
                             else
                             {
-                                var tablesv = item.FindElements(By.TagName("td"));
+                                        var tablesv = item.FindElements(By.TagName("td"));
 
 
-                                SinhVien sv = new SinhVien();
-                                sv.MaSV = tablesv[2].Text;
-                                sv.Ten = tablesv[3].Text;
+                                        SinhVien sv = new SinhVien();
+                                        sv.MaSV = tablesv[2].Text;
+                                        sv.Ten = tablesv[3].Text;
 
-                                sv.NgaySinh = DateTime.ParseExact(tablesv[4].Text, "d/M/yyyy", CultureInfo.InvariantCulture);
-                                sv.DiaChi = tablesv[5].Text;
+                                        sv.NgaySinh = DateTime.ParseExact(tablesv[4].Text, "d/M/yyyy", CultureInfo.InvariantCulture);
+                                        sv.DiaChi = tablesv[5].Text;
 
-                                var tenlop = item.FindElement(By.XPath("//*[@id='lbADMINCLASSID']")).GetAttribute("value");
-                                var malop = db.Lops.Where(x => x.TenLop.Equals(tenlop) && x.DaXoa == null).ToList();
-                                if (malop.Count > 0)
-                                {
-                                    sv.Ma_Lop = malop[0].Ma_Lop.ToString();
-                                }
+                                        var tenlop = item.FindElement(By.XPath("//*[@id='lbADMINCLASSID']")).GetAttribute("value");
+                                        var malop = db.Lops.Where(x => x.TenLop.ToUpper().Equals(tenlop.ToUpper()) && x.DaXoa == null).ToList();
+                                        if (malop.Count > 0)
+                                        {
+                                            sv.Ma_Lop = malop[0].Ma_Lop.ToString();
+                                            if (db.SinhViens.Where(x => x.MaSV.Equals(sv.MaSV)).ToList().Count <= 0 && tenlop.Length > 0)
+                                            {
+                                                try
+                                                {
+                                                    db.SinhViens.Add(sv);
+                                                    db.SaveChanges();
+                                                }
+                                                catch
+                                                (Exception e)
+                                                {
 
-                                if (db.SinhViens.Where(x => x.MaSV.Equals(sv.MaSV)).ToList().Count <= 0 && tenlop.Length > 0)
-                                {
+                                                }
+                                                if (db.TaiKhoans.Where(x => x.TaiKhoan1.Equals(sv.MaSV) && x.TenDangNhap.Equals(sv.MaSV)).ToList().Count <= 0)
+                                                {
+                                                    TaiKhoan tk = new TaiKhoan();
+                                                    tk.TenDangNhap = sv.MaSV;
+                                                    tk.TaiKhoan1 = sv.MaSV;
+                                                    tk.MatKhau = "1";
+                                                    tk.TrangThai = true;
+                                                    tk.ChưcVu = "SinhViên";
+                                                    db.TaiKhoans.Add(tk);
+                                                    db.SaveChanges();
+                                                }
+                                            }
+                                        }
 
-                                    db.SinhViens.Add(sv);
-                                    db.SaveChanges();
-                                    if (db.TaiKhoans.Where(x => x.TenDangNhap.Equals(sv.MaSV) && x.TenDangNhap.Equals(sv.MaSV)).ToList().Count <= 0)
-                                    {
-                                        TaiKhoan tk = new TaiKhoan();
-                                        tk.TenDangNhap = sv.MaSV;
-                                        tk.TaiKhoan1 = sv.MaSV;
-                                        tk.MatKhau = "1";
-                                        tk.TrangThai = true;
-                                        tk.ChưcVu = "SinhViên";
-                                        db.TaiKhoans.Add(tk);
-                                        db.SaveChanges();
+
+
+
                                     }
-                                }
-
-
-
-
-                            }
                             z++;
                         }
 
                         var sltrang = webDriver.FindElement(By.XPath("//*[@id='listsinhvien']/table[2]/tbody/tr/td/font[4]")).Text;
 
-
+                                
                         for (int slpage = 1; slpage <= Convert.ToInt32(sltrang)-1; slpage++)
                         {
                             var page = webDriver.FindElement(By.XPath("//*[@id='listsinhvien']/table[1]/tbody/tr/td/font/font/b/a[" + slpage + "]"));
@@ -336,25 +359,26 @@ namespace TracNghiemOnline.Areas.Admin.Controllers
                                     if (malop.Count > 0)
                                     {
                                         sv.Ma_Lop = malop[0].Ma_Lop.ToString();
-                                    }
+                                                if (db.SinhViens.Where(x => x.MaSV.Equals(sv.MaSV)).ToList().Count <= 0 && tenlop.Length > 0)
+                                                {
 
-                                    if (db.SinhViens.Where(x => x.MaSV.Equals(sv.MaSV)).ToList().Count <= 0 && tenlop.Length > 0)
-                                    {
+                                                    db.SinhViens.Add(sv);
+                                                    db.SaveChanges();
+                                                    if (db.TaiKhoans.Where(x => x.TaiKhoan1.Equals(sv.MaSV) && x.TenDangNhap.Equals(sv.MaSV)).ToList().Count <= 0)
+                                                    {
+                                                        TaiKhoan tk = new TaiKhoan();
+                                                        tk.TenDangNhap = sv.MaSV;
+                                                        tk.TaiKhoan1 = sv.MaSV;
+                                                        tk.MatKhau = "1";
+                                                        tk.TrangThai = true;
+                                                        tk.ChưcVu = "SinhViên";
+                                                        db.TaiKhoans.Add(tk);
+                                                        db.SaveChanges();
+                                                    }
+                                                }
+                                            }
 
-                                        db.SinhViens.Add(sv);
-                                        db.SaveChanges();
-                                        if (db.TaiKhoans.Where(x => x.TenDangNhap.Equals(sv.MaSV) && x.TenDangNhap.Equals(sv.MaSV)).ToList().Count <= 0)
-                                        {
-                                            TaiKhoan tk = new TaiKhoan();
-                                            tk.TenDangNhap = sv.MaSV;
-                                            tk.TaiKhoan1 = sv.MaSV;
-                                            tk.MatKhau = "1";
-                                            tk.TrangThai = true;
-                                            tk.ChưcVu = "SinhViên";
-                                            db.TaiKhoans.Add(tk);
-                                            db.SaveChanges();
-                                        }
-                                    }
+                                    
 
 
 
