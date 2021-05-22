@@ -3,19 +3,26 @@
     Layout = "~/Areas/Admin/Views/Shared/LaoutShare.cshtml";
 }
 
-<!DOCTYPE html>
 
-<html>
-<head>
-    <meta name="viewport" content="width=device-width" />
-    <title></title>
-</head>
-<body>
-    <div>
-        <a class="btn-danger  col-3" href="/Admin/getdata/getnganh">GET NGANH VA CHUYEN NGÀNH DAO TẠO</a>
-        <a class="btn-danger  col-3" href="/Admin/getdata/getclass">GET LOP HOC PHAN</a>
-        <a class="btn-danger  col-3" href="/Admin/getdata/getstudent">GET SINH VIEN</a>
 
+
+<div class="row" style="height:20px;">
+
+</div>
+<div class="col-md-12">
+    <div class="card">
+        <div class="card-header">
+            <div class="d-flex align-items-center">
+                <h4 class="card-title">CẬP NHẬT DỮ LIỆU</h4>
+
+            </div>
+        </div>
+        <div class="card-body">
+            <div>
+                    <button class=" btn btn-danger" href="/Admin/getdata/getnganh" style="width:350px">Cập nhật ngành và chuyên ngành đào tạo</button>
+                    <button class=" btn btn-danger" href="/Admin/getdata/getclass" style="width:350px">Cập nhật lớp học phần</button>
+                    <button class="btn btn-danger" href="/Admin/getdata/getstudent" style="width:350px">Cập nhật sinh viên</button>
+            </div>
+        </div>
     </div>
-</body>
-</html>
+</div>

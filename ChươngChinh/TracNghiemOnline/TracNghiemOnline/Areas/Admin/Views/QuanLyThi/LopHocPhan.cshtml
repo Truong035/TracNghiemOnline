@@ -135,7 +135,7 @@
                     alert("Bạn vui lòng chọn giảng viên dạy");
                 }
 
-                if (Lop.length > 0 & MaMon.length > 0 & kihoc.length > 0 & GV.length>0) {
+                if (Lop.length > 0 & MaMon.length > 0 & kihoc.length > 0 & GV.length > 0) {
                     var ma = $('#ma').val();
                     if (ma.length == 0) {
                         $.ajax({
@@ -152,7 +152,7 @@
                         $.ajax({
                             type: 'GET',
                             url: 'UpdateLopHoc',
-                            data: { malop: Lop, mamon: MaMon, GV: GV},
+                            data: { malop: Lop, mamon: MaMon, GV: GV },
                             success: function (res) {
                                 LoadData();
                             }
@@ -203,14 +203,14 @@
                             let += '<td>' + v.MaLop + '</td >';
                             let += '<td>' + v.TenLop + '</td >';
                             let += '<td id="' + v.MaMon + '"> ' + v.TenMon + '</td > ';
-                            let += '<td  id="' + v.MaGV +'">' + v.TenGV + '</td > ';
+                            let += '<td  id="' + v.MaGV + '">' + v.TenGV + '</td > ';
                             let += '<td id="' + v.MaKi + '"> ' + v.TenKi + '</td > ';
 
                             let += '<td>'
-                            let += '<a href="/Admin/QuanLyThi/DSSinhVen/' + v.MaLop + '"> Danh Sách Sinh Viên  </a>';
+                            let += '<a class="btn btn-xs btn-primary" href="/Admin/QuanLyThi/DSSinhVen/' + v.MaLop + '"> <i class="far fa-eye"></i> </a>&ensp;';
 
-                                let += '<button name="Update" class="btn btn-xs btn-warning"><i class="fa fa-edit" aria-hidden="true" style="color:white"></i></button>&ensp;'
-                                let += '<button name="Delete" class="btn btn-xs btn-danger"><i class="fa fa-trash" aria-hidden="true"></i></button>';
+                            let += '<button name="Update" class="btn btn-xs btn-success"><i class="far fa-edit" aria-hidden="true" style="color:white"></i></button>&ensp;'
+                            let += '<button name="Delete" class="btn btn-xs btn-danger"><i class="far fa-trash-alt" aria-hidden="true"></i></button>';
 
                             let += '</td>';
                             let += '<tr>';
@@ -233,23 +233,23 @@
             var cmd = document.getElementById("lop");
             var id = cmd.value;
 
-                $.ajax({
-                    type: 'post',
-                    url: '/Admin/QuanLyThi/GiaoVienDay',
-                    data: { MaMon: id },
-                    success: function (data) {
-                        var Let = '<option value="">Chọn Giáo Viên </option>';
-                        $('#GV').empty();
+            $.ajax({
+                type: 'post',
+                url: '/Admin/QuanLyThi/GiaoVienDay',
+                data: { MaMon: id },
+                success: function (data) {
+                    var Let = '<option value="">Chọn Giáo Viên </option>';
+                    $('#GV').empty();
+                    $('#GV').append(Let);
+                    $.each(data.data, function (k, v) {
+                        Let = '<option value="' + v.MaGV + '">' + v.TenGV + '</option>';
                         $('#GV').append(Let);
-                        $.each(data.data, function (k, v) {
-                            Let = '<option value="' + v.MaGV + '">' + v.TenGV + '</option>';
-                            $('#GV').append(Let);
-                        });
+                    });
 
 
-                    }
-                });
-         
+                }
+            });
+
 
         }
         function Lophocphan(ID) {
@@ -270,7 +270,7 @@
 <div class="modal" tabindex="-1" role="dialog" id="modalConfirm">
     <div class="modal-dialog" role="document">
         <div class="modal-content">
-            <div class="modal-header bg-primary" style="color:white">
+            <div class="modal-header">
                 <h5 class="modal-title">CẢNH BÁO</h5>
 
             </div>
@@ -279,8 +279,8 @@
                 Bạn có chắc chắn muốn xóa?
             </div>
             <div class="modal-footer">
-                <button type="button" class="btn btn-success" id="btnYes">Xác nhận</button>
-                <button type="button" class="btn btn-secondary" data-dismiss="modal" id="btnDong">Đóng</button>
+                <button type="button" class="btn btn-primary" id="btnYes">Xác nhận</button>
+                <button type="button" class="btn btn-danger" data-dismiss="modal" id="btnDong">Đóng</button>
             </div>
         </div>
     </div>
@@ -290,17 +290,17 @@
 <div class="modal" tabindex="-1" role="dialog" id="modalLop">
     <div class="modal-dialog" role="document">
         <div class="modal-content">
-            <div class="modal-header bg-primary" style="color:white">
+            <div class="modal-header">
                 <h5 class="modal-title">Thông Tin Lớp Học</h5>
 
             </div>
-           
+
             <div class="modal-body">
                 <input type="text" hidden id="idLop" value="" />
 
                 <div class="form-group">
                     <label for="exampleFormControlInput1">Tên lớp</label>
-                    <input type="text" class="form-control" id="txtKi" placeholder="Nhập Tên Lớp ....................">
+                    <input type="text" class="form-control" id="txtKi" placeholder="Nhập Tên Lớp">
                     <p id="thongbao" style="color:red"></p>
                 </div>
                 <div class="form-group">
@@ -318,8 +318,7 @@
 
                     <div class="form-group" id="GiaoVien">
                         <label for="exampleFormControlInput1">Giáo Viên</label>
-                        <select id="GV"  class="form-control">
-                             
+                        <select id="GV" class="form-control">
                         </select>
                     </div>
 
@@ -327,115 +326,106 @@
 
             </div>
             <div class="modal-footer">
-                <button type="button" class="btn btn-success" id="btnSubmit">Xác nhận</button>
-                <button type="button" class="btn btn-secondary" data-dismiss="modal" id="btnDong">Đóng</button>
+                <button type="button" class="btn btn-primary" id="btnSubmit">Xác nhận</button>
+                <button type="button" class="btn btn-danger" data-dismiss="modal" id="btnDong">Đóng</button>
             </div>
         </div>
     </div>
 </div>
- <div class="card mb-2 mt-2">
-        <div class="card-header">
-            <div class="mt-2 m-2">
-                <i class="fas fa-table mr-1"> </i>
-                Danh Sách Lớp Học Phần
-            </div>
-        </div>
-    </div>
 
-<div class="container-fluid">
-    @{
-        if (quyen == true)
-        {
+<div class="row" style="height:20px;">
+
+</div>
+<div class="col-md-12">
+    @if (quyen == true)
+    {
+
+        <div class="card">
+            <div class="card-header">
+                <div class="d-flex align-items-center">
+                    <h4 class="card-title">DANH SÁCH LỚP HỌC PHẦN</h4>
+                    <button class="btn btn-primary btn-round ml-auto" id="btnAdd" href="/Admin/QuanLyThi/CreateClassRoom" style="text-align:center"><i class="fa fa-plus"></i>Thêm Lớp</button>
+                </div>
+            </div>
             <div class="card-body">
                 <div class="table-responsive">
-                    <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
-                        <thead>
-                            <tr>
-                                <th>Mã Lớp </th>
-                                <th>Tên Lớp Học Phần</th>
-                                <th> Môn Học </th>
-                                <th> Giáo Viên</th>
-                                <th> Kì Thi</th>
-                                <th></th>
-                            </tr>
-                        </thead>
-                        <tfoot>
-                            <tr>
-                                <th>Mã Lớp </th>
-                                <th>Tên Lớp Học Phần</th>
-                                <th> Môn Học </th>
-                                <th> Giáo Viên</th>
-                                <th> Kì Thi</th>
-                                <th></th>
-                            </tr>
-                        </tfoot>
-                        <tbody id="lophoc">
-                            @foreach (var item in Model)
-                            {
-                                <tr>
-                                    <td> @item.MaLop </td>
-                                    <td>  @item.TenLop </td>
-                                    <td @item.MaMon>  @item.MonHoc.TenMon  </td>
-                                    <td id="@item.MaGV"> @item.GiaoVien.TenGV</td>
-                                    <td @item.MaKi>  @item.KiThi.TenKi  </td>
+                    <div id="add-row_wrapper" class="dataTables_wrapper container-fluid dt-bootstrap4">
+                        <div class="row"><div class="col-sm-12 col-md-6"><div class="dataTables_length" id="add-row_length"><label>Show <select name="add-row_length" aria-controls="add-row" class="form-control form-control-sm"><option value="10">10</option><option value="25">25</option><option value="50">50</option><option value="100">100</option></select> entries</label></div></div><div class="col-sm-12 col-md-6"><div id="add-row_filter" class="dataTables_filter"><label>Search:<input type="search" class="form-control form-control-sm" placeholder="" aria-controls="add-row"></label></div></div></div><div class="row">
+                            <div class="col-sm-12">
+                                <table id="add-row" class="display table table-striped table-hover dataTable" role="grid" aria-describedby="add-row_info">
+                                    <thead>
+                                        <tr role="row">
+                                            <th class="sorting_asc" tabindex="0" aria-controls="add-row" rowspan="1" colspan="1" aria-sort="ascending" aria-label="Name: activate to sort column descending">Mã lớp</th>
+                                            <th class="sorting" tabindex="0" aria-controls="add-row" rowspan="1" colspan="1" aria-label="Position: activate to sort column ascending">Tên lớp học phần</th>
+                                            <th class="sorting" tabindex="0" aria-controls="add-row" rowspan="1" colspan="1" aria-label="Position: activate to sort column ascending">Môn học</th>
+                                            <th class="sorting" tabindex="0" aria-controls="add-row" rowspan="1" colspan="1" aria-label="Position: activate to sort column ascending">Giáo viên</th>
+                                            <th class="sorting" tabindex="0" aria-controls="add-row" rowspan="1" colspan="1" aria-label="Position: activate to sort column ascending">Kỳ thi</th>
+                                            <th style="width: 20%;" class="sorting" tabindex="0" aria-controls="add-row" rowspan="1" colspan="1" aria-label="Action: activate to sort column ascending"></th>
+                                        </tr>
+                                    </thead>
 
-                                    <td>
+                                    <tbody id="lophoc">
+                                        @foreach (var item in Model)
+                                        {
+                                            <tr>
+                                                <td> @item.MaLop </td>
+                                                <td>  @item.TenLop </td>
+                                                <td @item.MaMon>  @item.MonHoc.TenMon  </td>
+                                                <td id="@item.MaGV"> @item.GiaoVien.TenGV</td>
+                                                <td @item.MaKi>  @item.KiThi.TenKi  </td>
+
+                                                <td>
 
 
-                                        <a href="/Admin/QuanLyThi/DSSinhVen/@item.MaLop"> Danh Sách Sinh Viên  </a>
+                                                    <a href="/Admin/QuanLyThi/DSSinhVen/@item.MaLop" class="btn btn-xs btn-primary"> <i class="far fa-eye"></i>  </a>
 
 
-                                        <button name="Update" class="btn btn-xs btn-warning"><i class="fa fa-edit" aria-hidden="true" style="color:white"></i></button>
-                                        <button name="Delete" class="btn btn-xs btn-danger"><i class="fa fa-trash" aria-hidden="true"></i></button>
+                                                    <button name="Update" class="btn btn-xs btn-success"><i class="far fa-edit" aria-hidden="true" style="color:white"></i></button>
+                                                    <button name="Delete" class="btn btn-xs btn-danger"><i class="far fa-trash-alt" aria-hidden="true"></i></button>
 
 
 
 
 
-                                    </td>
-                                </tr>
+                                                </td>
+                                            </tr>
 
-                            }
+                                        }
 
-                        </tbody>
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div><div class="row"><div class="col-sm-12 col-md-5"><div class="dataTables_info" id="add-row_info" role="status" aria-live="polite"></div></div><div class="col-sm-12 col-md-7"><div class="dataTables_paginate paging_simple_numbers" id="add-row_paginate"><ul class="pagination"><li class="paginate_button page-item previous disabled" id="add-row_previous"><a href="#" aria-controls="add-row" data-dt-idx="0" tabindex="0" class="page-link">Previous</a></li><li class="paginate_button page-item active"><a href="#" aria-controls="add-row" data-dt-idx="1" tabindex="0" class="page-link">1</a></li><li class="paginate_button page-item next disabled" id="add-row_next"><a href="#" aria-controls="add-row" data-dt-idx="2" tabindex="0" class="page-link">Next</a></li></ul></div></div></div>
+                    </div>
+                </div>
+            </div>
+        </div>
 
-                    </table>
+    }
+    else
+    {
 
+        <div class="row">
+            @foreach (var item in Model)
+            {
+                <div class="col-md-3" id="@item.MaLop.Trim()">
+                    <div class="card bg-primary  mb-3">
+                        <div class="card-footer d-flex align-items-center justify-content-between">
+                            <h2 class="small text-white">@item.TenLop</h2>
+                        </div>
+                        <div class="card-body small"> Giáo Viên @item.GiaoVien.TenGV </div>
+                        <div class="card-body small"> Kỳ Học : @item.KiThi.TenKi </div>
+                        <div class="card-body small"> Môn :  @item.MonHoc.TenMon </div>
+                        <div class="card-body small">
+                            <button id="@item.MaLop.Trim()" class="btn-success" onclick="Lophocphan(id)"> Xem Danh Sách </button>
+                            <button id="@item.MaLop.Trim()" onclick="OnTap(id)" class="btn-danger"> Ôn Tập</button>
+                        </div>
+                    </div>
                 </div>
 
-                <button class="btn badge-success" id="btnAdd" href="/Admin/QuanLyThi/CreateClassRoom" style="text-align:center">Thêm Lớp</button>
+            }
 
+        </div>
 
-
-            </div>
-
-        }
-        else
-        {
-          
-                <div class="row">
-                    @foreach (var item in Model)
-                    {
-                        <div class="col-md-3" id="@item.MaLop.Trim()">
-                            <div class="card bg-primary  mb-3">
-                                <div class="card-footer d-flex align-items-center justify-content-between">
-                                  <h2 class="small text-white">@item.TenLop</h2>
-                                </div>
-                                <div class="card-body small"> Giáo Viên @item.GiaoVien.TenGV </div>
-                                <div class="card-body small"> Kỳ Học : @item.KiThi.TenKi </div>
-                                <div class="card-body small"> Môn :  @item.MonHoc.TenMon </div>
-                                <div class="card-body small">
-                                    <button id="@item.MaLop.Trim()" class="btn-success" onclick="Lophocphan(id)"> Xem Danh Sách </button>
-                                    <button id="@item.MaLop.Trim()" onclick="OnTap(id)" class="btn-danger"> Ôn Tập</button>
-                                </div>
-                            </div>
-                        </div>
-
-                    }
-                
-            </div>
-
-        }
     }
 </div>
-
