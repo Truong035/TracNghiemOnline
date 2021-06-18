@@ -9,7 +9,7 @@ using TracNghiemOnline.Modell.Dao;
 
 namespace TracNghiemOnline.Areas.Admin.Controllers
 {
-    public class AdminController : Controller
+    public class AdminController : BaseController
     {
         // GET: Admin/Admin
         public ActionResult Index()

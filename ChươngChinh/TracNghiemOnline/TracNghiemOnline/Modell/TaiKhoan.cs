@@ -17,7 +17,7 @@ namespace TracNghiemOnline.Modell
 
         [Key]
         [Column("TaiKhoan")]
-        [DatabaseGenerated(DatabaseGeneratedOption.None)]
+        [StringLength(10)]
         public string TaiKhoan1 { get; set; }
 
         [StringLength(10)]

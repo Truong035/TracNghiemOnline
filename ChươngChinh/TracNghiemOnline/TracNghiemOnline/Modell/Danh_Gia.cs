@@ -28,5 +28,7 @@ namespace TracNghiemOnline.Modell
         public virtual Chuong_Hoc Chuong_Hoc { get; set; }
 
         public virtual De_Thi De_Thi { get; set; }
+
+        public virtual De_Thi De_Thi1 { get; set; }
     }
 }

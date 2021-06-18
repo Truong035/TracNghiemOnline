@@ -18,9 +18,10 @@ namespace TracNghiemOnline.Modell
         }
 
         [Key]
-        [DatabaseGenerated(DatabaseGeneratedOption.None)]
+        [StringLength(10)]
         public string MaSV { get; set; }
 
+        [Required]
         [StringLength(50)]
         public string Ten { get; set; }
 

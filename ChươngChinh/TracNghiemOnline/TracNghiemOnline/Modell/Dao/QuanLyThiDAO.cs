@@ -6,7 +6,7 @@ using System.IO;
 using System.Linq;
 using System.Text;
 using System.Web;
-using System.Windows.Forms;
+
 using TracNghiemOnline.Model;
 
 namespace TracNghiemOnline.Modell.Dao
@@ -231,7 +231,7 @@ namespace TracNghiemOnline.Modell.Dao
             }
             catch (Exception e)
             {
-                MessageBox.Show(e.Message);
+                
             }
 
         }
@@ -262,7 +262,7 @@ namespace TracNghiemOnline.Modell.Dao
             }
             catch (Exception e)
             {
-                MessageBox.Show(e.Message);
+                
             }
 
         }
@@ -307,12 +307,13 @@ namespace TracNghiemOnline.Modell.Dao
         //sua phong tho
         internal void UpDatePhongThi(Phong_Thi classRoom)
         {
-            classRoom.ThoiGianDong = DateTime.Now.AddMinutes(double.Parse(classRoom.Bo_De.ThoiGianThi));
+            
+         //   classRoom.ThoiGianDong = classRoom.ThoiGianMo.AddMinutes(double.Parse(classRoom.Bo_De.ThoiGianThi));
             var Room = db.Phong_Thi.Find(classRoom.MaPhong);
             Room.MaBoDe = classRoom.MaBoDe;
             Room.TrangThai = classRoom.TrangThai;
             Room.Xoa = classRoom.Xoa;
-            Room.ThoiGianMo = DateTime.Now;
+            Room.ThoiGianMo = classRoom.ThoiGianMo;
             Room.ThoiGianDong = classRoom.ThoiGianDong;
             db.SaveChanges();
             db = new TracNghiemOnlineDB();
@@ -400,7 +401,6 @@ namespace TracNghiemOnline.Modell.Dao
             }
             catch (Exception e)
             {
-                MessageBox.Show(e.Message);
             }
 
         }

@@ -4,7 +4,7 @@ using System.Linq;
 using System.Web;
 using System.Web.Mvc;
 using System.Web.Services.Description;
-using System.Windows.Forms;
+
 using TracNghiemOnline.Model;
 //using System.Windows.Forms;
 using TracNghiemOnline.Modell;
@@ -38,6 +38,19 @@ namespace TracNghiemOnline.Controllers
             }
             return View(phong_This);
 
+        }
+      public  void HuyDe(long madethi)
+        {
+            TracNghiemOnlineDB db = new TracNghiemOnlineDB();
+            var dethi = db.De_Thi.Find(madethi);
+
+            dethi.TrangThai = false;
+           
+            db.SaveChanges();
+        //    TracNghiemOnlineDB = new TracNghiemOnlineDB();
+            var ds = db.DS_SVThi.SingleOrDefault(x=>x.MaDeThi==madethi);
+            ds.TrangThai = "Đã chuyển tab";
+            db.SaveChanges();
         }
         public ActionResult DSDETHI(string id) {
 
@@ -233,6 +246,22 @@ namespace TracNghiemOnline.Controllers
         {
            var dethi = new TracNghiemOnlineDB().De_Thi.Find(madethi);
 
+            try
+            {
+                var ds = new TracNghiemOnlineDB().DS_SVThi.SingleOrDefault(x => x.MaDeThi == madethi);
+                if (ds.TrangThai.Equals("Đã Nộp"))
+                {
+                    return Json(new
+                    {
+
+                        status = false
+
+                    });
+                }
+            }
+            catch { }
+         
+
             if (dethi.TrangThai == false)
             {
                 return Json(new
@@ -251,10 +280,7 @@ namespace TracNghiemOnline.Controllers
 
                 }) ;
             }
-            
-
-
-        }
+         }
 
         public JsonResult KiemTra(string MaPhong)
         {
@@ -423,6 +449,46 @@ namespace TracNghiemOnline.Controllers
         {
             return View();
         }
+        public ActionResult Menu()
+        {
+            var taikhoan = (TaiKhoan)Session[ComMon.ComMonStants.UserLogin];
+            var tendangnhap = new TracNghiemOnlineDB().TaiKhoans.Where(x => x.TenDangNhap == taikhoan.TenDangNhap).FirstOrDefault().TaiKhoan1;
+            ViewBag.HoTen = new TracNghiemOnlineDB().SinhViens.Where(x => x.MaSV == tendangnhap).FirstOrDefault().Ten;
+            return PartialView();
+        }
+        public ActionResult Diemthi(long id)
+        {
+            TracNghiemOnlineDB db = new TracNghiemOnlineDB();
+            var de = db.De_Thi.Find(id);
+            de.TrangThai = true;
+            db.SaveChanges();
+            
+            var SV = db.DS_SVThi.SingleOrDefault(x => x.MaDeThi == de.MaDeThi);
+            try
+            {
+                if (SV != null)
+                {
+                    SV.TrangThai = "Đã Nộp";
+                    db.SaveChanges();
+                }
+            }
+            catch { }
+            var exam = new QuanLyThiDAO().SearDethi(id);
+            var mark = new QuanLyThiDAO().Mark(exam);
+            return View(mark);
+        }
 
+        public ActionResult DiemSo(long? id)
+        {
+            TracNghiemOnlineDB db = new TracNghiemOnlineDB();
+            var de = db.De_Thi.Find(id);
+            de.TrangThai = false;
+          
+            db.SaveChanges();
+        
+            var exam = new QuanLyThiDAO().SearDethi(id);
+            var mark = new QuanLyThiDAO().Mark(exam);
+            return View(mark);
+        }
     }
 }

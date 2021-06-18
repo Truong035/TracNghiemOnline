@@ -26,7 +26,7 @@ namespace TracNghiemOnline.Areas.Admin.Controllers
         {
             return View();
         }
-        public  bool ktlink(string s)
+        public bool ktlink(string s)
         {
 
             FileStream fs = new FileStream(Server.MapPath("~/Content/excel/textfile.txt"), FileMode.OpenOrCreate, FileAccess.Read);
@@ -55,7 +55,7 @@ namespace TracNghiemOnline.Areas.Admin.Controllers
             return false;
         }
 
-        public  List<string> getfiletkb()
+        public List<string> getfiletkb()
         {
             List<string> trangtt = new List<string>();
             HtmlWeb htmlWeb = new HtmlWeb();
@@ -116,32 +116,32 @@ namespace TracNghiemOnline.Areas.Admin.Controllers
         public ActionResult getclass()
         {
 
-           /* List<string> linkfile = getfiletkb();
-            foreach (var item in linkfile)
-            {
-                Workbook workbook = new Workbook();
+            /* List<string> linkfile = getfiletkb();
+             foreach (var item in linkfile)
+             {
+                 Workbook workbook = new Workbook();
 
-                workbook.LoadFromFile("" + item);
+                 workbook.LoadFromFile("" + item);
 
-                Worksheet sheet = workbook.Worksheets[0];
+                 Worksheet sheet = workbook.Worksheets[0];
 
-                for (int k = 9; k < 10000; k++)
-                {
-                    if (sheet.Range["D" + k].Text != null&& sheet.Range["B" + k].Text != null&& sheet.Range["D" + k].Text != null)
-                    {
-                        LopHocPhan lhp = new LopHocPhan();
-                        lhp.TenLop = sheet.Range["D" + k].Text;
-                        lhp.SiSo = sheet.Range["D" + k].Text;
-                        TracNghiemOnlineDB db = new TracNghiemOnlineDB();
-                        db.LopHocPhans.Add(lhp);
-                        db.SaveChanges();
+                 for (int k = 9; k < 10000; k++)
+                 {
+                     if (sheet.Range["D" + k].Text != null&& sheet.Range["B" + k].Text != null&& sheet.Range["D" + k].Text != null)
+                     {
+                         LopHocPhan lhp = new LopHocPhan();
+                         lhp.TenLop = sheet.Range["D" + k].Text;
+                         lhp.SiSo = sheet.Range["D" + k].Text;
+                         TracNghiemOnlineDB db = new TracNghiemOnlineDB();
+                         db.LopHocPhans.Add(lhp);
+                         db.SaveChanges();
 
-                    }
+                     }
 
 
-                   
-                }
-            }*/
+
+                 }
+             }*/
 
 
             return Content("lay  thanh cong");
@@ -163,25 +163,26 @@ namespace TracNghiemOnline.Areas.Admin.Controllers
 
         public ActionResult getstudent()
         {
-            
+
             var options = new ChromeOptions();
             options.AddArgument("no-sandbox");
             // Chạy ngầm không pop up trình duyệt ra ngoài 
             options.AddArgument("headless");
-            IWebDriver webDriver = new ChromeDriver(Server.MapPath("~/Content/chromdriver"),options);
+            IWebDriver webDriver = new ChromeDriver(Server.MapPath("~/Content/chromdriver"),options );
             webDriver.Url = "http://xemdiem.utc2.edu.vn/xemdiem.aspx";
-            
+
             var radiobutton = webDriver.FindElement(By.XPath("//*[@id='sfsdfdslf']/table/tbody/tr[1]/td[2]/input[2]"));
             radiobutton.Click();
 
             var khoa = webDriver.FindElement(By.Name("DropDownList2"));
             var selectkhoa = new SelectElement(khoa);
-           
+
             var yy = webDriver.FindElements(By.XPath("//*[@id='DropDownList2']/option"));
-            foreach (var j in yy) { 
-                if( j.Text.Equals("Tất cả") ) continue;
+            foreach (var j in yy)
+            {
+                if (j.Text.Equals("Tất cả")) continue;
                 else if (j.Text.Equals("All")) continue;
-                else if(j.Text.Equals("Khóa 59"))
+                else if (j.Text.Equals("Khóa 59"))
                 {
                     selectkhoa.SelectByText(j.Text);
                     var lop = webDriver.FindElement(By.Name("DropDownList3"));
@@ -189,90 +190,90 @@ namespace TracNghiemOnline.Areas.Admin.Controllers
                     var xx = webDriver.FindElements(By.XPath("//*[@id='DropDownList3']/option"));
 
                     foreach (var i in xx)
-            {
-                TracNghiemOnlineDB db = new TracNghiemOnlineDB();
-                if (i.Text.Equals("Tất cả")) continue;
-                else
-                {
-
-                    if (db.Lops.Where(x => x.TenLop.Equals(i.Text)).ToList().Count <= 0)
                     {
-                               /* try
-                                {*/
-
-
-                                    Lop lop1 = new Lop();
-
-                                    var malop="";
-                                    int z = 0;
-                                    int vtt = 0;
-                                    var s  = i.Text.ToString().Substring(0, i.Text.ToString().Length);
-                                    if (i.Text.ToString().Contains("Quận"))
-                                    {
-                                        s= i.Text.ToString().Substring(0, i.Text.IndexOf("Quận")-1 );
-                                    }
-                                   
-                                    foreach (var c in s)
-                                    {
-                                        if (z == 0)
-                                        {
-                                            malop = malop + c.ToString();
-                                            
-
-                                        }
-                                        else if( c.ToString() == " " )
-                                        {
-                                            vtt = z;
-                                            malop = malop + s[z+1].ToString();
-                                        }
-                                       z++;
-                                    }
-                                    if (i.Text.ToString().Contains("Quận"))
-                                    {
-                                        lop1.Ma_Lop = (malop.Substring(0, malop.Length - 1) + i.Text.ToString().Substring(vtt + 4, i.Text.Length - vtt - 4)).ToUpper();
-                                    }
-                                    else 
-                                    lop1.Ma_Lop = ( malop.Substring(0,malop.Length-1) + i.Text.ToString().Substring( vtt, i.Text.Length-vtt)).ToUpper();
-                                    
-                            lop1.TenLop = i.Text.ToString();
-                                    if (db.Nganhs.Where(x => s.ToUpper().Contains(x.TenNganh.ToUpper())).ToList().Count <=0 )
-                                    {
-                                        lop1.Ma_Nganh = null;
-                                        
-                                    }
-                                    else lop1.Ma_Nganh = db.Nganhs.SingleOrDefault(x => s.ToUpper().Contains(x.TenNganh.ToUpper())).Ma_Nganh;
-                            db.Lops.Add(lop1);
-                            db.SaveChanges();
-                         /*   }
-                        catch (Exception e)
-                            {
-
-                            }*/
-
-
-
-                        }
-
-                    if (i.Text.Equals("Công nghệ thông tin K59"))
-                    {
-
-                        
-                        selectlop.SelectByText(i.Text);
-
-                        var button = webDriver.FindElement(By.XPath("//*[@id='Tim']"));
-                        button.Click();
-                        var table = webDriver.FindElement(By.XPath("//*[@id='listsinhvien']/div/table/tbody"));
-                        var rows_table = table.FindElements(By.TagName("tr"));
-                        int rows_count = rows_table.Count;
-                        int z = 1;
-                        foreach (var item in rows_table)
+                        TracNghiemOnlineDB db = new TracNghiemOnlineDB();
+                        if (i.Text.Equals("Tất cả")) continue;
+                        else
                         {
-                            if (z == 1 || z == rows_count)
+
+                            if (db.Lops.Where(x => x.TenLop.Equals(i.Text)).ToList().Count <= 0)
                             {
+                                /* try
+                                 {*/
+
+
+                                Lop lop1 = new Lop();
+
+                                var malop = "";
+                                int z = 0;
+                                int vtt = 0;
+                                var s = i.Text.ToString().Substring(0, i.Text.ToString().Length);
+                                if (i.Text.ToString().Contains("Quận"))
+                                {
+                                    s = i.Text.ToString().Substring(0, i.Text.IndexOf("Quận") - 1);
+                                }
+
+                                foreach (var c in s)
+                                {
+                                    if (z == 0)
+                                    {
+                                        malop = malop + c.ToString();
+
+
+                                    }
+                                    else if (c.ToString() == " ")
+                                    {
+                                        vtt = z;
+                                        malop = malop + s[z + 1].ToString();
+                                    }
+                                    z++;
+                                }
+                                if (i.Text.ToString().Contains("Quận"))
+                                {
+                                    lop1.Ma_Lop = (malop.Substring(0, malop.Length - 1) + i.Text.ToString().Substring(vtt + 4, i.Text.Length - vtt - 4)).ToUpper();
+                                }
+                                else
+                                    lop1.Ma_Lop = (malop.Substring(0, malop.Length - 1) + i.Text.ToString().Substring(vtt, i.Text.Length - vtt)).ToUpper();
+
+                                lop1.TenLop = i.Text.ToString();
+                                if (db.Nganhs.Where(x => s.ToUpper().Contains(x.TenNganh.ToUpper())).ToList().Count <= 0)
+                                {
+                                    lop1.Ma_Nganh = null;
+
+                                }
+                                else lop1.Ma_Nganh = db.Nganhs.SingleOrDefault(x => s.ToUpper().Contains(x.TenNganh.ToUpper())).Ma_Nganh;
+                                db.Lops.Add(lop1);
+                                db.SaveChanges();
+                                /*   }
+                               catch (Exception e)
+                                   {
+
+                                   }*/
+
+
 
                             }
-                            else
+
+                            if (i.Text.Equals("Công nghệ thông tin K59"))
                             {
+
+
+                                selectlop.SelectByText(i.Text);
+
+                                var button = webDriver.FindElement(By.XPath("//*[@id='Tim']"));
+                                button.Click();
+                                var table = webDriver.FindElement(By.XPath("//*[@id='listsinhvien']/div/table/tbody"));
+                                var rows_table = table.FindElements(By.TagName("tr"));
+                                int rows_count = rows_table.Count;
+                                int z = 1;
+                                foreach (var item in rows_table)
+                                {
+                                    if (z == 1 || z == rows_count)
+                                    {
+
+                                    }
+                                    else
+                                    {
                                         var tablesv = item.FindElements(By.TagName("td"));
 
 
@@ -318,47 +319,47 @@ namespace TracNghiemOnline.Areas.Admin.Controllers
 
 
                                     }
-                            z++;
-                        }
-
-                        var sltrang = webDriver.FindElement(By.XPath("//*[@id='listsinhvien']/table[2]/tbody/tr/td/font[4]")).Text;
-
-                                
-                        for (int slpage = 1; slpage <= Convert.ToInt32(sltrang)-1; slpage++)
-                        {
-                            var page = webDriver.FindElement(By.XPath("//*[@id='listsinhvien']/table[1]/tbody/tr/td/font/font/b/a[" + slpage + "]"));
-                            page.Click();
-
-                            var table1 = webDriver.FindElement(By.XPath("//*[@id='listsinhvien']/div/table/tbody"));
-                            var rows_table1 = table1.FindElements(By.TagName("tr"));
-                            int rows_count1 = rows_table1.Count;
-                            int z1 = 1;
-                            foreach (var item in rows_table1)
-                            {
-                                if (z1 == 1 || z1 == rows_count1)
-                                {
-
+                                    z++;
                                 }
-                                else
+
+                                var sltrang = webDriver.FindElement(By.XPath("//*[@id='listsinhvien']/table[2]/tbody/tr/td/font[4]")).Text;
+
+
+                                for (int slpage = 1; slpage <= Convert.ToInt32(sltrang) - 1; slpage++)
                                 {
+                                    var page = webDriver.FindElement(By.XPath("//*[@id='listsinhvien']/table[1]/tbody/tr/td/font/font/b/a[" + slpage + "]"));
+                                    page.Click();
 
-
-
-                                    var tablesv = item.FindElements(By.TagName("td"));
-
-
-                                    SinhVien sv = new SinhVien();
-                                    sv.MaSV = tablesv[2].Text;
-                                    sv.Ten = tablesv[3].Text;
-
-                                    sv.NgaySinh = DateTime.ParseExact(tablesv[4].Text, "d/M/yyyy", CultureInfo.InvariantCulture);
-                                    sv.DiaChi = tablesv[5].Text;
-
-                                    var tenlop = item.FindElement(By.XPath("//*[@id='lbADMINCLASSID']")).GetAttribute("value");
-                                    var malop = db.Lops.Where(x => x.TenLop.Equals(tenlop) && x.DaXoa == null).ToList();
-                                    if (malop.Count > 0)
+                                    var table1 = webDriver.FindElement(By.XPath("//*[@id='listsinhvien']/div/table/tbody"));
+                                    var rows_table1 = table1.FindElements(By.TagName("tr"));
+                                    int rows_count1 = rows_table1.Count;
+                                    int z1 = 1;
+                                    foreach (var item in rows_table1)
                                     {
-                                        sv.Ma_Lop = malop[0].Ma_Lop.ToString();
+                                        if (z1 == 1 || z1 == rows_count1)
+                                        {
+
+                                        }
+                                        else
+                                        {
+
+
+
+                                            var tablesv = item.FindElements(By.TagName("td"));
+
+
+                                            SinhVien sv = new SinhVien();
+                                            sv.MaSV = tablesv[2].Text;
+                                            sv.Ten = tablesv[3].Text;
+
+                                            sv.NgaySinh = DateTime.ParseExact(tablesv[4].Text, "d/M/yyyy", CultureInfo.InvariantCulture);
+                                            sv.DiaChi = tablesv[5].Text;
+
+                                            var tenlop = item.FindElement(By.XPath("//*[@id='lbADMINCLASSID']")).GetAttribute("value");
+                                            var malop = db.Lops.Where(x => x.TenLop.Equals(tenlop) && x.DaXoa == null).ToList();
+                                            if (malop.Count > 0)
+                                            {
+                                                sv.Ma_Lop = malop[0].Ma_Lop.ToString();
                                                 if (db.SinhViens.Where(x => x.MaSV.Equals(sv.MaSV)).ToList().Count <= 0 && tenlop.Length > 0)
                                                 {
 
@@ -378,24 +379,24 @@ namespace TracNghiemOnline.Areas.Admin.Controllers
                                                 }
                                             }
 
-                                    
 
 
 
+
+                                        }
+                                        z1++;
+                                    }
                                 }
-                                z1++;
+
                             }
                         }
 
+
+
                     }
-                }
-               
-
-
-            }
 
                 }
-                
+
             }
             return Content("lay  thanh cong");
         }

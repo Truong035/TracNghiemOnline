@@ -35,13 +35,24 @@ namespace TracNghiemOnline
        );
 
             routes.MapRoute(
+          name: "DiemSo",
+          url: "DiemSo/{id}",
+          defaults: new { controller = "TrangChu", action = "DiemSo", id = UrlParameter.Optional }
+      );
+
+
+            routes.MapRoute(
             name: "DSDETHI",
             url: "DSDeThi/{id}",
             defaults: new { controller = "TrangChu", action = "DSDETHI", id = UrlParameter.Optional }
         );
 
+            routes.MapRoute(
+     name: "Diemthi",
+     url: "Diemthi/{id}",
+     defaults: new { controller = "TrangChu", action = "Diemthi", id = UrlParameter.Optional }
+ );
 
-      
 
             routes.MapRoute(
              name: "VaoThi",

@@ -8,6 +8,8 @@ namespace TracNghiemOnline.Modell
 
     public partial class DS_SVThi
     {
+        [Required]
+        [StringLength(10)]
         public string Ma_SV { get; set; }
 
         [Required]

@@ -5,39 +5,44 @@ using System.Data.OleDb;
 using System.Linq;
 using System.Web;
 using System.Web.Mvc;
-using System.Windows.Forms;
+
 using TracNghiemOnline.Controllers;
 using TracNghiemOnline.Model;
 using TracNghiemOnline.Modell;
 using TracNghiemOnline.Modell.Dao;
 using EXCELL = Microsoft.Office.Interop.Excel;
-using Spire.Doc;
-using Spire.Doc.Documents;
-using Spire.Doc.Fields;
+
 using System.Drawing;
 using System.IO;
 using System.Net;
+using Spire.Doc;
+using Spire.Doc.Fields;
+using Spire.Doc.Documents;
+using System.Web.Script.Serialization;
 
+
+// GUI ROI CHAY LUON NHÉ //DAU ROI nang qua gui chua chay qua xong // okey
 namespace TracNghiemOnline.Areas.Admin.Controllers
 {
     public class CauHoiController : BaseController
     {
         // GET: Admin/CauHoi
-       // static List<Kho_CauHoi> cauHois=new List<Kho_CauHoi>();
+        // static List<Kho_CauHoi> cauHois=new List<Kho_CauHoi>();
         public ActionResult Index(string id)
         {
             ViewBag.MaChuong = id;
             List<Kho_CauHoi> kho_CauHois = new CauHoiDao().ListQuestion(long.Parse(id));
-           
+
             return View(kho_CauHois);
+
+        }
+        public ActionResult DapAn(long? id)
+        {
            
+            return View(new TracNghiemOnlineDB().Kho_CauHoi.Where(x=>x.Ma_CauHoi==id).ToList());
         }
-        public ActionResult DapAn(string Ma_CauHoi)
-        {   
-            return View();
-        }
-       
-        public ActionResult CreateCauHoi(string id)
+
+        public ActionResult CreateCauHoi(long id)
         {
             ViewBag.MaChuong = id;
             List<Kho_CauHoi> cauHois = (List<Kho_CauHoi>)Session[ComMon.ComMonStants.Cauhoi];
@@ -47,6 +52,7 @@ namespace TracNghiemOnline.Areas.Admin.Controllers
                 {
                     cauHois = new List<Kho_CauHoi>();
                 }
+               
 
             }
             catch
@@ -55,26 +61,25 @@ namespace TracNghiemOnline.Areas.Admin.Controllers
             }
             return View(cauHois);
         }
-    
-        public ActionResult LoadQuestion(string id)
+
+        public ActionResult LoadQuestion( )
         {
             List<Kho_CauHoi> cauHois = (List<Kho_CauHoi>)Session[ComMon.ComMonStants.Cauhoi];
             foreach (var item in cauHois)
-                {
-                
-                    item.Ma_Chuong = long.Parse(id);    
-                    new CauHoiDao().CreatrQuestion(item);
-                }
-                cauHois = new List<Kho_CauHoi>();
-            Session[ComMon.ComMonStants.Cauhoi]=cauHois;
-            return RedirectToAction("Index/" + id, "CauHoi");   
+            {
+              
+                new CauHoiDao().CreatrQuestion(item);
+            }
+            //cauHois = new List<Kho_CauHoi>();
+            Session[ComMon.ComMonStants.Cauhoi] = null; 
+            return RedirectToAction("Index/" + cauHois[0].Ma_Chuong, "CauHoi");
         }
         public void save_file_from_url(string file_name, string url)
         {
             byte[] content;
             HttpWebRequest request = (HttpWebRequest)WebRequest.Create(url);
             WebResponse response = request.GetResponse();
-           
+
 
             Stream stream = response.GetResponseStream();
 
@@ -100,43 +105,174 @@ namespace TracNghiemOnline.Areas.Admin.Controllers
 
         public string copyanh(string path)
         {
-           
             DateTime aDateTime = DateTime.Now;
             int sas = Convert.ToInt32(aDateTime.Year * 12 * 30 * 24 * 60 * 60 + aDateTime.Month * 30 * 24 * 60 * 60 + aDateTime.Day * 24 * 60 * 60 + aDateTime.Hour * 60 * 60 + aDateTime.Minute * 60 + aDateTime.Second);
-            string Filename = "Anh" + sas+".jpg";
+            string Filename = "Anh" + sas + ".jpg";
             string saveLocation = "~/Content/Img/" + Filename;
             string file_name = Server.MapPath(saveLocation);
             if (path.Contains("https"))
             {
-                save_file_from_url(file_name, path);              
+                save_file_from_url(file_name, path);
             }
             else
             {
                 // path = Server.MapPath(path);
                 string path1 = System.IO.Path.GetFullPath(path);
                 Image png = Image.FromFile(path1);
-                    png.Save(file_name, System.Drawing.Imaging.ImageFormat.Jpeg);
-                    png.Dispose();
-                
+                png.Save(file_name, System.Drawing.Imaging.ImageFormat.Jpeg);
+                png.Dispose();
+
             }
 
-            return "/Content/Img/" + Filename; 
+            return "/Content/Img/" + Filename;
         }
-       
+        public void LuuCauHoi(string listCH)
+        {
+            var lisch = new JavaScriptSerializer().Deserialize<List<Kho_CauHoi>>(listCH);
+            foreach (Kho_CauHoi item in lisch)
+            {
+                if (item.NoiDung.Contains("$c$4"))
+                {
+                    item.NoiDung = item.NoiDung.Substring(4);
+                    item.MucDo = "Vận Dụng Cao";
+                }
+                else if (item.NoiDung.Contains("$c$3"))
+                {
+                    item.NoiDung = item.NoiDung.Substring(4);
+                    item.MucDo = "Vận Dụng";
+                }
+                else if (item.NoiDung.Contains("$c$2"))
+                {
+                    item.NoiDung = item.NoiDung.Substring(4);
+                    item.MucDo = "Thông Hiểu";
+                }
+                else
+                {
+                    item.NoiDung = item.NoiDung.Substring(4);
+                    item.MucDo = "Nhận Biết";
+                }
+                foreach (var item1 in item.Dap_AN)
+                {
+                    if (item1.NoiDung.Contains("$*$"))
+                    {
+                        item1.NoiDung = item1.NoiDung.Substring(3);
+                        item1.TrangThai = true;
+                    }
+                    else
+                    {
+                        item1.TrangThai = false;
+                    }
+
+                }
+            }
+            if (lisch[lisch.Count - 1].NoiDung == null)
+            {
+                lisch.RemoveAt(lisch.Count - 1);
+            }
+            Session[ComMon.ComMonStants.Cauhoi] = lisch;
+
+        }
+
+        public void UpdateCauHoi(string listCH)
+        {
+           
+            var lisch = new JavaScriptSerializer().Deserialize<List<Kho_CauHoi>>(listCH);
+            foreach (Kho_CauHoi item in lisch)
+            {
+                TracNghiemOnlineDB db = new TracNghiemOnlineDB();
+                var ch = db.Kho_CauHoi.Find(item.Ma_CauHoi);
+                if (item.NoiDung.Contains("$c$4"))
+                {
+                    item.NoiDung = item.NoiDung.Substring(4);
+                    item.MucDo = "Vận Dụng Cao";
+                }
+                else if (item.NoiDung.Contains("$c$3"))
+                {
+                    item.NoiDung = item.NoiDung.Substring(4);
+                    item.MucDo = "Vận Dụng";
+                }
+                else if (item.NoiDung.Contains("$c$2"))
+                {
+                    item.NoiDung = item.NoiDung.Substring(4);
+                    item.MucDo = "Thông Hiểu";
+                }
+                else
+                {
+                    item.NoiDung = item.NoiDung.Substring(4);
+                    item.MucDo = "Nhận Biết";
+                }
+                ch.NoiDung = item.NoiDung;
+                ch.HinhAnh = item.HinhAnh;
+                ch.MucDo = item.MucDo;
+                db.SaveChanges();
+                foreach (var item1 in item.Dap_AN)
+                {
+                    var dap = db.Dap_AN.Find(item1.MA_DAN);
+                    if (item1.NoiDung.Contains("$*$"))
+                    {
+                        item1.NoiDung = item1.NoiDung.Substring(3);
+                        item1.TrangThai = true;
+                    }
+                    else
+                    {
+                        item1.TrangThai = false;
+                    }
+                    dap.NoiDung = item1.NoiDung;
+                    dap.HinhAnh = item1.HinhAnh;
+                    dap.TrangThai = item1.TrangThai;
+                    db.SaveChanges();
+                }
+            }
+            if (lisch[lisch.Count - 1].NoiDung == null)
+            {
+                lisch.RemoveAt(lisch.Count - 1);
+            }
+            Session[ComMon.ComMonStants.Cauhoi] = lisch;
+
+        }
+
+        public ActionResult LoadCauHoi(long? id)
+        {
+            List<Kho_CauHoi> cauHois = (List<Kho_CauHoi>)Session[ComMon.ComMonStants.Cauhoi];
+            foreach (var item in cauHois)
+            {
+                item.Ma_Chuong = id;
+            }
+            Session[ComMon.ComMonStants.Cauhoi]= cauHois;
+            ViewBag.cauhoi = cauHois;
+            return View();
+        }
         public ActionResult ChonMucDo(string MucDo)
         {
             List<Kho_CauHoi> cauHois = (List<Kho_CauHoi>)Session[ComMon.ComMonStants.Cauhoi];
             foreach (var item in cauHois)
             {
                 item.MucDo = MucDo;
-            } 
+            }
 
 
             return Content("");
         }
+        public JsonResult Saveanh(HttpPostedFileBase file)
+        {
+            string path = "";
+            string strExtexsion = Path.GetFileName(file.FileName).Trim();
+            path = Server.MapPath("~/Content/" + file.FileName);
+            try
+            {
+                if (System.IO.File.Exists(path))
+                {
+                    System.IO.File.Delete(path);
+                }
+                file.SaveAs(path);
+            }
+            catch { }
+            path = "/Content/" + file.FileName;
+            return Json(new { path }, JsonRequestBehavior.AllowGet);
+        }
         public JsonResult XuLyFile(HttpPostedFileBase file)
         {
-            List<Kho_CauHoi> cauHois =new  List<Kho_CauHoi>();
+            List<Kho_CauHoi> cauHois = new List<Kho_CauHoi>();
             string strExtexsion = Path.GetFileName(file.FileName).Trim();
 
             if (strExtexsion.Contains(".xls"))
@@ -178,27 +314,24 @@ namespace TracNghiemOnline.Areas.Admin.Controllers
 
                             if (((EXCELL.Range)range.Cells[i, 7]).Text.Equals("1"))
                             {
-                                cauHoi.MucDo = "Nhận Biết";
+                                cauHoi.MucDo = "1";
                             }
                             else if (((EXCELL.Range)range.Cells[i, 7]).Text.Equals("2"))
                             {
-                                cauHoi.MucDo = "Thông Hiểu";
+                                cauHoi.MucDo = "2";
                             }
                             else if (((EXCELL.Range)range.Cells[i, 7]).Text.Equals("3"))
                             {
-                                cauHoi.MucDo = "Vận Dụng";
+                                cauHoi.MucDo = "3";
                             }
                             else
                             {
-                                cauHoi.MucDo = "Vận Dụng Cao";
+                                cauHoi.MucDo = "4";
                             }
-
-
-
 
                             cauHoi.Dap_AN = new List<Dap_AN>();
                             Dap_AN dapAn = new Dap_AN();
-                            dapAn.NoiDung = "A) "+ ((EXCELL.Range)range.Cells[i, 2]).Text;
+                            dapAn.NoiDung = "A) " + ((EXCELL.Range)range.Cells[i, 2]).Text;
                             dapAn.HinhAnh = ((EXCELL.Range)range.Cells[i, 9]).Text;
 
                             if (((EXCELL.Range)range.Cells[i, 6]).Text.Equals("A"))
@@ -210,7 +343,7 @@ namespace TracNghiemOnline.Areas.Admin.Controllers
                             else { dapAn.TrangThai = false; }
                             cauHoi.Dap_AN.Add(dapAn);
                             dapAn = new Dap_AN();
-                            dapAn.NoiDung = "B) "+((EXCELL.Range)range.Cells[i, 3]).Text;
+                            dapAn.NoiDung = "B) " + ((EXCELL.Range)range.Cells[i, 3]).Text;
                             dapAn.HinhAnh = ((EXCELL.Range)range.Cells[i, 10]).Text;
 
                             if (((EXCELL.Range)range.Cells[i, 6]).Text.Equals("B"))
@@ -220,7 +353,7 @@ namespace TracNghiemOnline.Areas.Admin.Controllers
                             else { dapAn.TrangThai = false; }
                             cauHoi.Dap_AN.Add(dapAn);
                             dapAn = new Dap_AN();
-                            dapAn.NoiDung = "C) "+((EXCELL.Range)range.Cells[i, 4]).Text;
+                            dapAn.NoiDung = "C) " + ((EXCELL.Range)range.Cells[i, 4]).Text;
                             dapAn.HinhAnh = ((EXCELL.Range)range.Cells[i, 11]).Text;
 
                             if (((EXCELL.Range)range.Cells[i, 6]).Text.Equals("C"))
@@ -231,7 +364,7 @@ namespace TracNghiemOnline.Areas.Admin.Controllers
                             cauHoi.Dap_AN.Add(dapAn);
 
                             dapAn = new Dap_AN();
-                            dapAn.NoiDung = "D) " +((EXCELL.Range)range.Cells[i, 5]).Text;
+                            dapAn.NoiDung = "D) " + ((EXCELL.Range)range.Cells[i, 5]).Text;
                             dapAn.HinhAnh = ((EXCELL.Range)range.Cells[i, 12]).Text;
 
                             if (((EXCELL.Range)range.Cells[i, 6]).Text.Equals("D"))
@@ -281,7 +414,7 @@ namespace TracNghiemOnline.Areas.Admin.Controllers
                         }
                         catch (Exception e)
                         {
-                            MessageBox.Show(e.Message);
+                          
                         }
 
                     }
@@ -337,7 +470,6 @@ namespace TracNghiemOnline.Areas.Admin.Controllers
                                 pic.Image.Save(imgName, System.Drawing.Imaging.ImageFormat.Png);
 
                             }
-
                         }
                         totalText += paragraph.Text.ToString();
 
@@ -367,23 +499,22 @@ namespace TracNghiemOnline.Areas.Admin.Controllers
                                 Dap_AN da = new Dap_AN();
                                 if (slcau == 1)
                                 {
-
                                     ch.NoiDung = totalText.Substring(i + 3, j - i - 3);
                                     if (ch.NoiDung[0] == '1')
                                     {
-                                        ch.MucDo = "Nhận Biết";
+                                        ch.MucDo = "1";
                                     }
-                                    else if (ch.NoiDung[0] == '1')
+                                    else if (ch.NoiDung[0] == '2')
                                     {
-                                        ch.MucDo = "Thông Hiểu";
+                                        ch.MucDo = "2";
                                     }
-                                    else if (ch.NoiDung[0] == '1')
+                                    else if (ch.NoiDung[0] == '3')
                                     {
-                                        ch.MucDo = "Vận Dụng";
+                                        ch.MucDo = "3";
                                     }
-                                    else if (ch.NoiDung[0] == '1')
+                                    else if (ch.NoiDung[0] == '4')
                                     {
-                                        ch.MucDo = "Vận Dụng Cao";
+                                        ch.MucDo = "4";
                                     }
                                     else ch.MucDo = "Chua có mức độ";
                                     ch.NoiDung = ch.NoiDung.Substring(1, ch.NoiDung.Length - 1);
@@ -588,6 +719,7 @@ namespace TracNghiemOnline.Areas.Admin.Controllers
 
         }
 
-        
+
     }
+
 }

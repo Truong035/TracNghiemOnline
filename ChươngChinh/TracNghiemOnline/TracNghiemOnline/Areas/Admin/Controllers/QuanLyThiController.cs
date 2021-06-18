@@ -7,7 +7,6 @@ using System.Web;
 using System.Web.Helpers;
 using System.Web.Mvc;
 using System.Web.Script.Serialization;
-using System.Windows.Forms;
 using TracNghiemOnline.Controllers;
 using TracNghiemOnline.Model;
 using TracNghiemOnline.Modell;
@@ -25,7 +24,7 @@ namespace TracNghiemOnline.Areas.Admin.Controllers
         }
         public void AddKiThi(string nd)
         {
-            MessageBox.Show(nd);
+   
             TracNghiemOnlineDB db = new TracNghiemOnlineDB();
             KiThi kiThi = new KiThi();
             kiThi.TenKi = nd;
@@ -362,7 +361,7 @@ namespace TracNghiemOnline.Areas.Admin.Controllers
             var Mon = new TracNghiemOnlineDB().MonHocs.Find(MaMon);
             var bomon = new TracNghiemOnlineDB().BoMons.Find(Mon.MaBoMon);
 
-            var DSGV = new TracNghiemOnlineDB().GiaoViens.Where(x => x.MaBoMon.Equals(bomon.Ma_BoMon));
+            var DSGV = new TracNghiemOnlineDB().GiaoViens.Where(x => x.MaBoMon.Equals(bomon.Ma_BoMon)&&x.TrangThai==true);
 
             var data= from c in DSGV.ToList()
                       select (new{
@@ -376,8 +375,8 @@ namespace TracNghiemOnline.Areas.Admin.Controllers
         public JsonResult CreateClassRoom()
         {
             var session = (TaiKhoan)Session[ComMon.ComMonStants.UserLogin];
-            var gv = new TracNghiemOnlineDB().GiaoViens.Find(session.TaiKhoan1);
-            var monhoc = (from c in new MonHocDao().lisALL(gv.MaBoMon)
+            //  var gv = new TracNghiemOnlineDB().GiaoViens.Find(session.TaiKhoan1);
+            var monhoc = (from c in new TracNghiemOnlineDB().MonHocs.Where(x => x.TrangThai == true).ToList()
                           select (new
                           {
 
@@ -484,6 +483,7 @@ namespace TracNghiemOnline.Areas.Admin.Controllers
         public JsonResult VaoThi(string id)
         {
             var classRom = new QuanLyThiDAO().ExamitionRoom(id);
+           
             Session[ComMon.ComMonStants.ExamRoom] = classRom;
             var session = (TaiKhoan)Session[ComMon.ComMonStants.UserLogin];
             bool quyen = true;
@@ -492,6 +492,15 @@ namespace TracNghiemOnline.Areas.Admin.Controllers
             {
                bode = new TracNghiemOnlineDB().Bo_De.Where(x => x.Ma_Mon == classRom.LopHocPhan.MaMon && x.Ma_NguoiTao == session.TaiKhoan1 && x.Xoa == true).ToList();
                
+            }
+            long made = 0;
+            string trangthai = classRom.TrangThai;
+            try
+            {
+                made = long.Parse(classRom.MaBoDe.ToString());
+            }
+            catch {
+                made = 0;
             }
 
             var bode1 = (from n in bode
@@ -508,7 +517,7 @@ namespace TracNghiemOnline.Areas.Admin.Controllers
 
             return Json(new
             {
-                Bode = bode1
+                Bode = bode1,trangthai,made,
 
             }, JsonRequestBehavior.AllowGet); ;
 
@@ -630,6 +639,36 @@ namespace TracNghiemOnline.Areas.Admin.Controllers
                 });
             }
           
+        }
+
+        public JsonResult UpdateRoom(string tgbd)
+        {
+            string[] ngay = tgbd.Split('/');
+
+            var classRoom = (Phong_Thi)Session[ComMon.ComMonStants.ExamRoom];
+
+            var session = (TaiKhoan)Session[ComMon.ComMonStants.UserLogin];
+            if (session.ChưcVu.Equals("Cán Bộ"))
+            {
+                classRoom.TrangThai = "Đang Thi";
+                classRoom.ThoiGianMo = new DateTime(int.Parse(ngay[0]), int.Parse(ngay[1]), int.Parse(ngay[2]), int.Parse(ngay[3]), int.Parse(ngay[4]), int.Parse(ngay[5]));
+               classRoom.ThoiGianDong = new DateTime(int.Parse(ngay[0]), int.Parse(ngay[1]), int.Parse(ngay[2]), int.Parse(ngay[3]), int.Parse(ngay[4]), int.Parse(ngay[5])).AddMinutes(double.Parse(classRoom.Bo_De.ThoiGianThi));
+                new QuanLyThiDAO().UpDatePhongThi(classRoom);
+                return Json(new
+                {
+                    status = classRoom.MaPhong
+                });
+
+            }
+            else
+            {
+                new QuanLyThiDAO().UpDatePhongThi1(classRoom);
+                return Json(new
+                {
+                    status = classRoom.MaPhong
+                });
+            }
+
         }
         public ActionResult DSSinhVen(string id)
         {

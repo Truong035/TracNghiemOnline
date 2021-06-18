@@ -6,7 +6,7 @@ using System.Web.Mvc;
 using TracNghiemOnline.Modell;
 namespace TracNghiemOnline.Areas.Admin.Controllers
 {
-    public class HeThongController : Controller
+    public class HeThongController : BaseController
     {
         TracNghiemOnlineDB db = new TracNghiemOnlineDB();
         // GET: Admin/HeThong
@@ -115,6 +115,8 @@ namespace TracNghiemOnline.Areas.Admin.Controllers
                     taiKhoan.MatKhau = ""+1;
                     taiKhoan.TaiKhoan1 = n.Ma_BoMon;
                    taiKhoan.ChưcVu = "BoMon";
+                taiKhoan.TrangThai = true;
+                db.TaiKhoans.Add(taiKhoan);
                      db.SaveChanges();               
                 return Json(new { code = 200, msg = "Thêm mới thành công" }, JsonRequestBehavior.AllowGet);
             }
@@ -176,6 +178,9 @@ namespace TracNghiemOnline.Areas.Admin.Controllers
             {
                 var n = (from d in db.BoMons where d.Ma_BoMon == maNganh select d).Single();
                 n.TrangThai = false;
+                db.SaveChanges();
+                var b = (from d in db.TaiKhoans where d.MatKhau == maNganh select d).Single();
+                b.TrangThai = false;
                 db.SaveChanges();
                 return Json(new { code = 200, msg = "Xóa thành công" }, JsonRequestBehavior.AllowGet);
             }
@@ -391,8 +396,8 @@ namespace TracNghiemOnline.Areas.Admin.Controllers
                             {
                                 MaLop = n.Ma_Lop,
                                 TenLop = n.TenLop,
-                                TenNganh = n.Nganh.TenNganh,
-                                MaNganh = n.Nganh.Ma_Nganh
+                                //TenNganh = n.Nganh.TenNganh,
+                              //  MaNganh = n.Nganh.Ma_Nganh
 
                             }).ToList();
 
@@ -404,14 +409,14 @@ namespace TracNghiemOnline.Areas.Admin.Controllers
             }
         }
         [HttpPost]
-        public JsonResult AddLop(string maLop, string tenLop, long maNganh)
+        public JsonResult AddLop(string maLop, string tenLop)
         {
             try
             {
                 var n = new Lop();
                 n.Ma_Lop = maLop;
                 n.TenLop = tenLop;
-                n.Ma_Nganh = maNganh;
+               // n.Ma_Nganh = maNganh;
                 
                 db.Lops.Add(n);
                 db.SaveChanges();
@@ -424,13 +429,13 @@ namespace TracNghiemOnline.Areas.Admin.Controllers
         }
 
         [HttpPost]
-        public JsonResult UpdateLop(string maLop, string tenLop, long maNganh)
+        public JsonResult UpdateLop(string maLop, string tenLop)
         {
             try
             {
                 var n = db.Lops.SingleOrDefault(x => x.Ma_Lop == maLop);
                 n.TenLop = tenLop;
-                n.Ma_Nganh = maNganh;
+              //  n.Ma_Nganh = maNganh;
                 db.SaveChanges();
                 return Json(new { code = 200, msg = "Cập nhật thành công" }, JsonRequestBehavior.AllowGet);
             }

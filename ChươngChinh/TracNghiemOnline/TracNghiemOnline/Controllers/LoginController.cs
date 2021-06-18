@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Web;
 using System.Web.Mvc;
-using System.Windows.Forms;
+
 using TracNghiemOnline.Modell;
 
 namespace TracNghiemOnline.Controllers
@@ -35,7 +35,7 @@ namespace TracNghiemOnline.Controllers
                         return RedirectToAction("DSDETHI", "Admin/Admin");
 
                     }
-                    else if (TK.ChưcVu.Equals("BoMon")) return RedirectToAction("DSDethitheobm", "Admin/Bomon");
+                    else if (TK.ChưcVu.Equals("BoMon")) return RedirectToAction("DSDethi", "Admin/Bomon");
 
                     return RedirectToAction("LopHocPhan", "TrangChu");
                 }

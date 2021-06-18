@@ -11,6 +11,7 @@ namespace TracNghiemOnline.Modell
         [StringLength(10)]
         public string Ma_LOP { get; set; }
 
+        [StringLength(10)]
         public string MA_SV { get; set; }
 
         public long ID { get; set; }

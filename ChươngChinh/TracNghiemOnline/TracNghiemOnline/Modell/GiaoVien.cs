@@ -28,6 +28,7 @@ namespace TracNghiemOnline.Modell
 
         public bool? TrangThai { get; set; }
 
+        [StringLength(10)]
         public string MaBoMon { get; set; }
 
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]

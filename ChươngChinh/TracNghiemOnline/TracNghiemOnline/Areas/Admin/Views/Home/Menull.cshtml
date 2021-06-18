@@ -1,63 +1,121 @@
-﻿<div id="layoutSidenav">
-    <div id="layoutSidenav_nav">
-        <nav class="sb-sidenav accordion sb-sidenav-dark" id="sidenavAccordion">
-            <div class="sb-sidenav-menu" style="font-size:14px;font-family:sans-serif; font-style:normal; line-height:1.4">
-                <div class="nav">
+﻿
+<div class="scroll-wrapper sidebar-wrapper scrollbar scrollbar-inner" style="position: relative;">
+    <div class="sidebar-wrapper scrollbar scrollbar-inner scroll-content scroll-scrolly_visible" style="height: auto; margin-bottom: 0px; margin-right: 0px; max-height: 599.6px;">
+            <div class="sidebar-content">
+                <ul class="nav nav-primary">
+                    <li class="nav-section">
+                        <span class="sidebar-mini-icon">
+                            <i class="fa fa-ellipsis-h"></i>
+                        </span>
+                        <h4 class="text-section">HỆ THỐNG</h4>
+                    </li>
+                    <li class="nav-item active">
+                        <a data-toggle="collapse" href="#dashboard" class="collapsed" aria-expanded="false">
+                            <i class="fas fa-cogs"></i>
+                            <p>Hệ thống</p>
+                            <span class="caret"></span>
+                        </a>
+                        <div class="collapse" id="dashboard">
+                            <ul class="nav nav-collapse">
+                                <li>
+                                    <a href="/Admin/HeThong/BoMon">
+                                        <span class="sub-item">Bộ môn</span>
+                                    </a>
+                                </li>
+                                @*<li>
+                                    <a href="/Admin/HeThong/NganhHoc">
+                                        <span class="sub-item">Ngành học</span>
+                                    </a>
+                                </li>*@
+                                <li>
+                                    <a href="/Admin/HeThong/GiaoVien">
+                                        <span class="sub-item">Giáo viên</span>
+                                    </a>
+                                </li>
+                                <li>
+                                    <a href="/Admin/HeThong/SinhVien">
+                                        <span class="sub-item">Sinh viên</span>
+                                    </a>
+                                </li>
+                                <li>
+                                    <a href="/Admin/HeThong/Lop">
+                                        <span class="sub-item">Lớp học</span>
+                                    </a>
+                                </li>
+                                @*<li>
+                                    <a href="/Admin/getdata/getdata">
+                                        <span class="sub-item">Cập nhật lại dữ liệu</span>
+                                    </a>
+                                </li>*@
 
-                    <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapseLayouts" aria-expanded="false" aria-controls="collapseLayouts">
-                        <div class="sb-nav-link-icon"><i class="fa fa-cogs nav_icon" aria-hidden="true"></i></div>&ensp;
-                        Hệ Thống
-                        <div class="sb-sidenav-collapse-arrow"><i class="fas fa-angle-down"></i></div>
-                    </a>
-
-                    <div class="collapse" id="collapseLayouts" aria-labelledby="headingOne" data-parent="#sidenavAccordion">
-                        <nav class="sb-sidenav-menu-nested nav">
-                            <a class="nav-link" href="/Admin/HeThong/BoMon">Bộ Môn</a>
-                            <a class="nav-link" href="/Admin/HeThong/NganhHoc">Ngành học</a>
-                            <a class="nav-link" href="/Admin/HeThong/GiaoVien">Giáo viên</a>
-                            <a class="nav-link" href="/Admin/HeThong/SinhVien">Sinh viên</a>
-                            <a class="nav-link" href="/Admin/HeThong/Lop">Lớp Học</a>
-                            <a class="nav-link" href="/Admin/getdata/getdata">Cập nhật lại dữ liệu</a>
-                        </nav>
-                    </div>
-                    <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapseLayouts1" aria-expanded="false" aria-controls="collapseLayouts">
-                        <div class="sb-nav-link-icon"><i class="fa fa-cogs nav_icon" aria-hidden="true"></i></div>&ensp;
-                        Đề thi
-                        <div class="sb-sidenav-collapse-arrow"><i class="fas fa-angle-down"></i></div>
-                    </a>
-                    <div class="collapse" id="collapseLayouts1" aria-labelledby="headingOne" data-parent="#sidenavAccordion">
-                        <nav class="sb-sidenav-menu-nested nav">
-                            <a class="nav-link" href="/Admin/Admin/DSDETHI">
-                                <div class="sb-nav-link-icon"><i class="fas fa-book"></i></div>&ensp;
-                                Danh sách đề
-                            </a>
-                            <a class="nav-link" href="/Admin/BoMon/DSDethitheobm">
-                                <div class="sb-nav-link-icon"><i class="fas fa-book"></i></div>&ensp;
-                                Duyệt đề
-                            </a>
-                        </nav>
-                    </div>
+                            </ul>
+                        </div>
+                    </li>
+                    <li class="nav-section">
+                        <span class="sidebar-mini-icon">
+                            <i class="fa fa-ellipsis-h"></i>
+                        </span>
+                        <h4 class="text-section">ĐỀ THI</h4>
+                    </li>
+                    <li class="nav-item ">
+                        <a data-toggle="collapse" href="#base" class="collapsed" aria-expanded="false">
+                            <i class="fas fa-file-alt"></i>
+                            <p>Đề thi</p>
+                            <span class="caret"></span>
+                        </a>
+                        <div class="collapse" id="base">
+                            <ul class="nav nav-collapse">
+                                <li>
+                                    <a href="/Admin/Admin/DSDETHI">
+                                        <span class="sub-item">Danh sách đề</span>
+                                    </a>
+                                </li>
+                                <li>
+                                    <a href="/Admin/BoMon/DSDethitheobm">
+                                        <span class="sub-item">Duyệt đề</span>
+                                    </a>
+                                </li>
 
 
-
-                    <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapseLayouts3" aria-expanded="false" aria-controls="collapseLayouts">
-                        <div class="sb-nav-link-icon"><i class="fas fa-users-cog"></i></div>&ensp;
-                        Quản Lý Thi
-                        <div class="sb-sidenav-collapse-arrow"><i class="fas fa-angle-down"></i></div>
-                    </a>
-                    <div class="collapse" id="collapseLayouts3" aria-labelledby="headingOne" data-parent="#sidenavAccordion">
-                        <nav class="sb-sidenav-menu-nested nav">
-                            <a class="nav-link" href="/Admin/QuanLyThi/KiThi">Kỳ thi</a>
-                            <a class="nav-link" href="/Admin/QuanLyThi/LopHocPhan">Lớp học phần </a>
-                            <a class="nav-link" href="/Admin/Admin/TaoPhong">Tổ chức thi</a>
-
-                        </nav>
-                    </div>
-                </div>
+                            </ul>
+                        </div>
+                    </li>
+                    <li class="nav-section">
+                        <span class="sidebar-mini-icon">
+                            <i class="fa fa-ellipsis-h"></i>
+                        </span>
+                        <h4 class="text-section">QUẢN LÍ THI</h4>
+                    </li>
+                    <li class="nav-item ">
+                        <a data-toggle="collapse" href="#base1" class="collapsed" aria-expanded="false">
+                            <i class="fas fa-atom"></i>
+                            <p>Quản lí thi</p>
+                            <span class="caret"></span>
+                        </a>
+                        <div class="collapse" id="base1">
+                            <ul class="nav nav-collapse">
+                                <li>
+                                    <a href="/Admin/QuanLyThi/KiThi">
+                                        <span class="sub-item">Kỳ thi</span>
+                                    </a>
+                                </li>
+                                <li>
+                                    <a href="/Admin/QuanLyThi/LopHocPhan">
+                                        <span class="sub-item">Lớp học phần</span>
+                                    </a>
+                                </li>
+                                <li>
+                                    <a href="/Admin/Admin/TaoPhong">
+                                        <span class="sub-item">Tổ chức thi</span>
+                                    </a>
+                                </li>
+                              
+                            </ul>
+                        </div>
+                    </li>
+                </ul>
             </div>
+        </div>
+</div>
 
-        </nav>
-    </div>
-
-
-
+    

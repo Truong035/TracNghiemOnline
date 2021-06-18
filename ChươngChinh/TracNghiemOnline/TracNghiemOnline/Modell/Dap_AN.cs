@@ -17,7 +17,7 @@ namespace TracNghiemOnline.Modell
         [Key]
         public long MA_DAN { get; set; }
 
-        [Column(TypeName = "ntext")]
+        [StringLength(500)]
         public string NoiDung { get; set; }
 
         [Column(TypeName = "ntext")]

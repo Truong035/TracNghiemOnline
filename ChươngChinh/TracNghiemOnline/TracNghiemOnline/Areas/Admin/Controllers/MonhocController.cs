@@ -10,7 +10,7 @@ using TracNghiemOnline.Modell.Dao;
 
 namespace TracNghiemOnline.Areas.Admin.Controllers
 {
-    public class MonhocController : Controller
+    public class MonhocController : BaseController
     {
         // GET: Admin/Monhoc
         TracNghiemOnlineDB db = new TracNghiemOnlineDB();

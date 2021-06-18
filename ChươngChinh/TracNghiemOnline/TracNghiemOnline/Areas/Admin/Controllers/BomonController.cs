@@ -19,14 +19,15 @@ namespace TracNghiemOnline.Areas.Admin.Controllers
     {
         // GET: Admin/Bomon
         
-
-        //moi them
+        
+        //moi themF
         public ActionResult DSDethitheobm()
         {
 
             var session = (TaiKhoan)Session[ComMon.ComMonStants.UserLogin];
             ViewBag.Mabomon = session.TaiKhoan1;
-            List<Bo_De> bo_Des = new Bode().ListALLChapterBM(session.TaiKhoan1);
+           // List<Bo_De> bo_Des = new Bode().ListALLChapterBM(session.TaiKhoan1);
+            List<Bo_De> bo_Des = new TracNghiemOnlineDB().Bo_De.Where(x => x.Xoa == true && x.NguoiDuyet.Equals(session.TaiKhoan1) && x.PheDuyet.Contains("Đang")).ToList();
 
             return View(bo_Des);
 
@@ -36,7 +37,7 @@ namespace TracNghiemOnline.Areas.Admin.Controllers
             var session = (TaiKhoan)Session[ComMon.ComMonStants.UserLogin];
             ViewBag.Mabomon = session.TaiKhoan1;
     
-            var dsdethi = new TracNghiemOnlineDB().Bo_De.Where(x => x.Ma_NguoiTao.Equals(session.TaiKhoan1)&&x.Xoa==true).ToList();
+            var dsdethi = new TracNghiemOnlineDB().Bo_De.Where(x => x.Ma_NguoiTao.Equals(session.TaiKhoan1)&&x.Xoa==true && x.TrangThai==false ||(x.TrangThai == true && x.NguoiDuyet.Equals(session.TaiKhoan1)) ).ToList();
     
 
             return View(dsdethi);
@@ -218,8 +219,11 @@ namespace TracNghiemOnline.Areas.Admin.Controllers
 
         public ActionResult TaoDeThi()
         {
+            var session = (TaiKhoan)Session[ComMon.ComMonStants.UserLogin];
 
-            var dao = new TracNghiemOnline.Modell.TracNghiemOnlineDB().MonHocs.Select(x => x).ToList();
+            var giaovien = new TracNghiemOnlineDB().GiaoViens.Find(session.TaiKhoan1);
+
+            var dao = new TracNghiemOnline.Modell.TracNghiemOnlineDB().MonHocs.Where(x => x.MaBoMon==giaovien.MaBoMon).ToList();
             ViewBag.MonHoc = dao;
             ViewBag.A = "";
             ViewBag.B = "";
@@ -342,7 +346,11 @@ namespace TracNghiemOnline.Areas.Admin.Controllers
             }
             reseach();
 
-            var dao = new TracNghiemOnline.Modell.TracNghiemOnlineDB().MonHocs.Select(x => x).ToList();
+            var session = (TaiKhoan)Session[ComMon.ComMonStants.UserLogin];
+
+            var giaovien = new TracNghiemOnlineDB().GiaoViens.Find(session.TaiKhoan1);
+
+            var dao = new TracNghiemOnline.Modell.TracNghiemOnlineDB().MonHocs.Where(x => x.MaBoMon == giaovien.MaBoMon).ToList();
             ViewBag.MonHoc = dao;
             return View("TaoDeThi");
 
@@ -365,7 +373,7 @@ namespace TracNghiemOnline.Areas.Admin.Controllers
             var dethi = (Model.BoDeThi)Session[ComMon.ComMonStants.ChapterStudy];
             dethi.BoDeThi1.Ma_NguoiTao = session.TaiKhoan1;
             new Bode().themde(dethi.BoDeThi1);
-            return RedirectToAction("DSDethitheobm", "Bomon");
+            return RedirectToAction("DSDethi", "Bomon");
         }
         public ActionResult loaddethi(string id)
         {
@@ -398,36 +406,41 @@ namespace TracNghiemOnline.Areas.Admin.Controllers
         public JsonResult Updatepheduyet(long maDe, string Pheduyet)
         {
             var tk = (TaiKhoan)Session[ComMon.ComMonStants.UserLogin];
-            if (!tk.ChưcVu.Contains("Admin"))
-            {
+        
                 TracNghiemOnlineDB db = new TracNghiemOnlineDB();
                 var Bode = db.Bo_De.Where(x => x.Ma_BoDe.Equals(maDe));
                 Bode.ToList()[0].PheDuyet = Pheduyet;
-                db.SaveChanges();
-
-
+            Bode.ToList()[0].TrangThai = false;
+            db.SaveChanges();
                 if (Pheduyet.Equals("Đã duyệt"))
                 {
-                    Bo_De boDeThi = new Bo_De();
-                    boDeThi.NoiDung = Bode.ToList()[0].NoiDung;
-                    boDeThi.Ma_Mon = Bode.ToList()[0].Ma_Mon;
-                    boDeThi.ThoiGianThi = Bode.ToList()[0].ThoiGianThi;
-                    boDeThi.Ma_NguoiTao = tk.TaiKhoan1;
-                    boDeThi.TrangThai = true;
-                    boDeThi.Xoa = true;
-                    foreach (var item in Bode.ToList()[0].CauHois)
-                    {
-                        Modell.CauHoi cauHoi = new Modell.CauHoi();
-                        cauHoi.Ma_CauHoi = item.Ma_CauHoi;
-                        boDeThi.CauHois.Add(cauHoi);
+                    try {
+
+                        Bo_De boDeThi = new Bo_De();
+                        boDeThi.NoiDung = Bode.ToList()[0].NoiDung;
+                        boDeThi.Ma_Mon = Bode.ToList()[0].Ma_Mon;
+                        boDeThi.ThoiGianThi = Bode.ToList()[0].ThoiGianThi;
+                        boDeThi.Ma_NguoiTao = Bode.ToList()[0].Ma_NguoiTao;
+                        boDeThi.NguoiDuyet = tk.TaiKhoan1;
+                        boDeThi.TrangThai = true;
+                        boDeThi.Xoa = true;
+                        foreach (var item in Bode.ToList()[0].CauHois)
+                        {
+                            Modell.CauHoi cauHoi = new Modell.CauHoi();
+                            cauHoi.Ma_CauHoi = item.Ma_CauHoi;
+                            boDeThi.CauHois.Add(cauHoi);
+                        }
+                    boDeThi.SoCau = boDeThi.CauHois.Count;
+                        db.Bo_De.Add(boDeThi);
+                        db.SaveChanges();
+                    } catch (Exception e){
+                        string ess = e.Message;
                     }
-                    db.Bo_De.Add(boDeThi);
-                    db.SaveChanges();
-                    var de = new TracNghiemOnlineDB().BoMons.Select(x => x).ToList().Last();
-
+                 
+                   var de = new TracNghiemOnlineDB().BoMons.Select(x => x).ToList().Last();
                 }
 
-                List<Bo_De> bo_Des = new Bode().ListALLChapterBM(tk.TaiKhoan1);
+                List<Bo_De> bo_Des = new TracNghiemOnlineDB().Bo_De.Where(x => x.Xoa == true && x.NguoiDuyet.Equals(tk.TaiKhoan1) && x.TrangThai == false && x.PheDuyet.Equals("Đang xử lý")).ToList();
 
                 var bode1 = (from n in bo_Des
                              select new
@@ -447,41 +460,39 @@ namespace TracNghiemOnline.Areas.Admin.Controllers
 
                 }, JsonRequestBehavior.AllowGet); ;
 
-            }
-            else
-            {
-                TracNghiemOnlineDB db = new TracNghiemOnlineDB();
-                var Bode = db.Bo_De.Where(x => x.Ma_BoDe.Equals(maDe));
-                Bode.ToList()[0].PheDuyet = Pheduyet;
-               
-                
-                if (Pheduyet.Equals("Đã duyệt"))
-                {
-                    Bode.ToList()[0].TrangThai = true;
-                }
-                db.SaveChanges();
-                    List<Bo_De> bo_Des = new Bode().ListALLChapterBM(tk.TaiKhoan1);
+            //}
+            //else
+            //{
+            //    TracNghiemOnlineDB db = new TracNghiemOnlineDB();
+            //    var Bode = db.Bo_De.Where(x => x.Ma_BoDe.Equals(maDe));
+            //    Bode.ToList()[0].PheDuyet = Pheduyet;  
+            //    if (Pheduyet.Equals("Đã duyệt"))
+            //    {
+            //        Bode.ToList()[0].TrangThai = true;
+            //    }
+            //    db.SaveChanges();
+            //        List<Bo_De> bo_Des = new Bode().ListALLChapterBM(tk.TaiKhoan1);
 
-                var bode1 = (from n in bo_Des
-                             select new
-                             {
-                                 Ten = n.NoiDung,
-                                 MaDe = n.Ma_BoDe,
-                                 SoCau = n.SoCau,
-                                 ThoiGian = n.ThoiGianThi,
-                                 TenMon = n.MonHoc.TenMon,
-                                 Giaovien = n.GiaoVien.TenGV,
-                                 Pheduyet = n.PheDuyet,
-                                 Trangthai = n.TrangThai,
-                             }).ToList();
-                return Json(new
-                {
-                    Bode = bode1
+            //    var bode1 = (from n in bo_Des
+            //                 select new
+            //                 {
+            //                     Ten = n.NoiDung,
+            //                     MaDe = n.Ma_BoDe,
+            //                     SoCau = n.SoCau,
+            //                     ThoiGian = n.ThoiGianThi,
+            //                     TenMon = n.MonHoc.TenMon,
+            //                     Giaovien = n.GiaoVien.TenGV,
+            //                     Pheduyet = n.PheDuyet,
+            //                     Trangthai = n.TrangThai,
+            //                 }).ToList();
+            //    return Json(new
+            //    {
+            //        Bode = bode1
 
-                }, JsonRequestBehavior.AllowGet); ;
+            //    }, JsonRequestBehavior.AllowGet); ;
 
 
-            }
+            //}
 
 
         }
@@ -489,10 +500,18 @@ namespace TracNghiemOnline.Areas.Admin.Controllers
         {
             var admin = new TracNghiemOnlineDB().TaiKhoans.SingleOrDefault(x => x.ChưcVu.Equals("Admin"));
             var tk = (TaiKhoan)Session[ComMon.ComMonStants.UserLogin];
+          //  var bomon = (TaiKhoan)Session[ComMon.ComMonStants.UserLogin];
+
+            
+
             TracNghiemOnlineDB db = new TracNghiemOnlineDB();
+        
             var Bode = db.Bo_De.Find(maDe);
+           // var bomon = db.BoMons.Find(tk.TaiKhoan1);
             Bode.TrangThai = false;
+            Bode.Ma_NguoiTao = tk.TaiKhoan1;
             Bode.PheDuyet = "Đang xử lý";
+            
             Bode.NguoiDuyet = admin.TaiKhoan1;
             db.SaveChanges();
           List<Bo_De> bo_Des = new Bode().ListALLChapterBM(tk.TaiKhoan1);

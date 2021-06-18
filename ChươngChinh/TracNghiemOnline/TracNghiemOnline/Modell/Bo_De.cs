@@ -20,7 +20,7 @@ namespace TracNghiemOnline.Modell
         [Key]
         public long Ma_BoDe { get; set; }
 
-        [Column(TypeName = "text")]
+        [StringLength(200)]
         public string NoiDung { get; set; }
 
         [StringLength(10)]
@@ -37,13 +37,14 @@ namespace TracNghiemOnline.Modell
 
         public bool? Xoa { get; set; }
 
-        [StringLength(50)]
+        [StringLength(20)]
         public string PheDuyet { get; set; }
 
         public DateTime? ThoiGianMo { get; set; }
 
         public DateTime? ThoiGianDong { get; set; }
 
+        [StringLength(10)]
         public string NguoiDuyet { get; set; }
 
         public virtual GiaoVien GiaoVien { get; set; }

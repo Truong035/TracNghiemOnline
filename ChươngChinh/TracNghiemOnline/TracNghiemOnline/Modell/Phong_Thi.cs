@@ -30,6 +30,7 @@ namespace TracNghiemOnline.Modell
 
         public long? MaBoDe { get; set; }
 
+        [Required]
         [StringLength(10)]
         public string MaLopHP { get; set; }
 
@@ -38,8 +39,10 @@ namespace TracNghiemOnline.Modell
         [StringLength(100)]
         public string TenPhong { get; set; }
 
+        [StringLength(10)]
         public string MaCanBo1 { get; set; }
 
+        [StringLength(10)]
         public string MaCanBo2 { get; set; }
 
         public virtual Bo_De Bo_De { get; set; }

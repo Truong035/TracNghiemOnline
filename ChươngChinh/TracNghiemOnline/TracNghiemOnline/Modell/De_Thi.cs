@@ -14,9 +14,11 @@ namespace TracNghiemOnline.Modell
             CauHoiDeThis = new HashSet<CauHoiDeThi>();
             Da_SVLuaChon = new HashSet<Da_SVLuaChon>();
             Danh_Gia = new HashSet<Danh_Gia>();
+            Danh_Gia1 = new HashSet<Danh_Gia>();
             KetQuaThis = new HashSet<KetQuaThi>();
         }
 
+        [StringLength(10)]
         public string Ma_SV { get; set; }
 
         public long? Ma_BoDe { get; set; }
@@ -36,6 +38,9 @@ namespace TracNghiemOnline.Modell
 
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<Danh_Gia> Danh_Gia { get; set; }
+
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<Danh_Gia> Danh_Gia1 { get; set; }
 
         public virtual SinhVien SinhVien { get; set; }
 

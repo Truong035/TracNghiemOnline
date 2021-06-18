@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Web;
-using System.Windows.Forms;
+
 using TracNghiemOnline.Model;
 
 namespace TracNghiemOnline.Modell.Dao
@@ -34,7 +34,7 @@ namespace TracNghiemOnline.Modell.Dao
                 tracNghiem.SaveChanges();
             }
             catch (Exception e){
-                MessageBox.Show(""+e.Message);
+    
                 return 0 ; }
 
 
