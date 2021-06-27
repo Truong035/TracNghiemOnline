@@ -8,7 +8,7 @@ namespace TracNghiemOnline.Modell
     public partial class TracNghiemOnlineDB : DbContext
     {
         public TracNghiemOnlineDB()
-            : base("name=TracNghiemOnlineDB")
+            : base("name=TracNghiemOnlineDB1")
         {
         }
 
@@ -64,6 +64,11 @@ namespace TracNghiemOnline.Modell
             modelBuilder.Entity<BoMon>()
                 .Property(e => e.Ma_BoMon)
                 .IsFixedLength();
+
+            modelBuilder.Entity<BoMon>()
+                .HasMany(e => e.GiaoViens)
+                .WithOptional(e => e.BoMon)
+                .HasForeignKey(e => e.MaBoMon);
 
             modelBuilder.Entity<BoMon>()
                 .HasMany(e => e.MonHocs)
@@ -131,10 +136,6 @@ namespace TracNghiemOnline.Modell
                 .HasMany(e => e.Bo_De)
                 .WithOptional(e => e.GiaoVien)
                 .HasForeignKey(e => e.Ma_NguoiTao);
-
-            modelBuilder.Entity<GiaoVien>()
-                .HasOptional(e => e.BoMon)
-                .WithRequired(e => e.GiaoVien);
 
             modelBuilder.Entity<GiaoVien>()
                 .HasMany(e => e.Phong_Thi)

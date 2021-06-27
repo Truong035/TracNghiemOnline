@@ -45,7 +45,14 @@
 
                                     <td>@item.TenGV</td>
 
-                                    <td>@item.BoMon.Ten</td>
+                                    <td>@{ 
+                                        try { @item.BoMon.Ten}
+
+
+
+                                        catch { }
+
+                                    } </td>
 
                                     <td>
 
@@ -123,7 +130,7 @@
     <script>
 
         $(document).ready(function () {
-            loaddsGV();
+           loaddsGV();
         });
         //load du lieu
         function loaddsGV() {

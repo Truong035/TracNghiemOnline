@@ -12,6 +12,7 @@ namespace TracNghiemOnline.Modell
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
         public BoMon()
         {
+            GiaoViens = new HashSet<GiaoVien>();
             MonHocs = new HashSet<MonHoc>();
         }
 
@@ -24,7 +25,8 @@ namespace TracNghiemOnline.Modell
 
         public bool? TrangThai { get; set; }
 
-        public virtual GiaoVien GiaoVien { get; set; }
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<GiaoVien> GiaoViens { get; set; }
 
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<MonHoc> MonHocs { get; set; }

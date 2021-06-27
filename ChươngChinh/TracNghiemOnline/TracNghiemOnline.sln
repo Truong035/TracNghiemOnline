@@ -3,7 +3,7 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 16
 VisualStudioVersion = 16.0.31205.134
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TracNghiemOnline", "TracNghiemOnline\TracNghiemOnline.csproj", "{73E1343A-6B0C-443F-AFC6-052E70D4AFBA}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TracNghiemOnline", "TracNghiemOnline\TracNghiemOnline.csproj", "{0133501A-FF69-4970-ADD4-0A3CCECB9B41}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -11,15 +11,15 @@ Global
 		Release|Any CPU = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(ProjectConfigurationPlatforms) = postSolution
-		{73E1343A-6B0C-443F-AFC6-052E70D4AFBA}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{73E1343A-6B0C-443F-AFC6-052E70D4AFBA}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{73E1343A-6B0C-443F-AFC6-052E70D4AFBA}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{73E1343A-6B0C-443F-AFC6-052E70D4AFBA}.Release|Any CPU.Build.0 = Release|Any CPU
+		{0133501A-FF69-4970-ADD4-0A3CCECB9B41}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{0133501A-FF69-4970-ADD4-0A3CCECB9B41}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{0133501A-FF69-4970-ADD4-0A3CCECB9B41}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{0133501A-FF69-4970-ADD4-0A3CCECB9B41}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
-		SolutionGuid = {D0FE7071-4CC3-442E-B5FE-229F09CD8F3E}
+		SolutionGuid = {1D34D350-63C1-4B4A-A76D-0E6327E4F7B7}
 	EndGlobalSection
 EndGlobal

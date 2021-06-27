@@ -3,6 +3,30 @@
     ViewBag.Title = "Bode";
     Layout = "~/Views/Share/LayOutHome.cshtml";
 }
+@section scripts{
+    <script>
+        function Bode(ID) {
+
+         
+            var now = new Date();
+            //var now = TaoNgay(ngay, thoigian);
+            var tgbd = now.getFullYear() + '/' + (now.getMonth() + 1) + '/' + now.getDate() + '/' + now.getHours() + '/' + now.getMinutes() + '/' + now.getSeconds() + ""
+            $.ajax({
+                type: 'POST',
+                url: '/TrangChu/TGTHI',
+                data: { tgbd: tgbd },
+                success: function (res) {
+                   
+                        window.location = "/ThiThu/" + ID;
+                  
+                }
+
+
+            });
+        }
+    </script>
+
+}
 
 
 
@@ -24,10 +48,10 @@
                             <p>Số câu: @item.SoCau câu</p>
                         </div>
 
-                        <div class="card-footer bg-white"><a class="btn" style="border:solid 1px rgb(218,220,224)" href="/ThiThu/@item.Ma_BoDe">LÀM BÀI</a></div>
+                        <div class="card-footer bg-white"><button class="btn" style="border:solid 1px rgb(218,220,224)" id="@item.Ma_BoDe" onclick="Bode(this.id)">LÀM BÀI</button></div>
 
                     </div>
-                </div>               
+                </div>
 
             }
         </div>

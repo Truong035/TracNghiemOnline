@@ -9,7 +9,7 @@
     <ProductVersion>
     </ProductVersion>
     <SchemaVersion>2.0</SchemaVersion>
-    <ProjectGuid>{73E1343A-6B0C-443F-AFC6-052E70D4AFBA}</ProjectGuid>
+    <ProjectGuid>{0133501A-FF69-4970-ADD4-0A3CCECB9B41}</ProjectGuid>
     <ProjectTypeGuids>{349c5851-65df-11da-9384-00065b846f21};{fae04ec0-301f-11d3-bf4b-00c04f79efbc}</ProjectTypeGuids>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
@@ -19,7 +19,7 @@
     <MvcBuildViews>false</MvcBuildViews>
     <UseIISExpress>true</UseIISExpress>
     <Use64BitIISExpress />
-    <IISExpressSSLPort>44359</IISExpressSSLPort>
+    <IISExpressSSLPort>44349</IISExpressSSLPort>
     <IISExpressAnonymousAuthentication />
     <IISExpressWindowsAuthentication />
     <IISExpressUseClassicPipelineMode />
@@ -53,9 +53,6 @@
     </Reference>
     <Reference Include="EntityFramework.SqlServer, Version=6.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089, processorArchitecture=MSIL">
       <HintPath>..\packages\EntityFramework.6.2.0\lib\net45\EntityFramework.SqlServer.dll</HintPath>
-    </Reference>
-    <Reference Include="HtmlAgilityPack, Version=1.11.34.0, Culture=neutral, PublicKeyToken=bd319b19eaf3b43a, processorArchitecture=MSIL">
-      <HintPath>..\packages\HtmlAgilityPack.1.11.34\lib\Net45\HtmlAgilityPack.dll</HintPath>
     </Reference>
     <Reference Include="Microsoft.CSharp" />
     <Reference Include="Spire.Doc, Version=9.6.10.0, Culture=neutral, PublicKeyToken=663f351905198cb3, processorArchitecture=MSIL">
@@ -124,12 +121,6 @@
     </Reference>
     <Reference Include="Newtonsoft.Json">
       <HintPath>..\packages\Newtonsoft.Json.12.0.2\lib\net45\Newtonsoft.Json.dll</HintPath>
-    </Reference>
-    <Reference Include="WebDriver, Version=3.141.0.0, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>..\packages\Selenium.WebDriver.3.141.0\lib\net45\WebDriver.dll</HintPath>
-    </Reference>
-    <Reference Include="WebDriver.Support, Version=3.141.0.0, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>..\packages\Selenium.Support.3.141.0\lib\net45\WebDriver.Support.dll</HintPath>
     </Reference>
     <Reference Include="WebGrease">
       <Private>True</Private>
@@ -554,39 +545,12 @@
     <Content Include="assets\js\plugin\jquery-ui-1.12.1.custom\jquery-ui.min.js" />
     <Content Include="assets\js\plugin\jquery-ui-touch-punch\jquery.ui.touch-punch.min.js" />
     <Content Include="assets\js\plugin\jquery.sparkline\jquery.sparkline.min.js" />
-    <Content Include="assets\js\plugin\jqvmap\jquery.vmap.min.js" />
-    <Content Include="assets\js\plugin\jqvmap\maps\continents\jquery.vmap.africa.js" />
-    <Content Include="assets\js\plugin\jqvmap\maps\continents\jquery.vmap.asia.js" />
-    <Content Include="assets\js\plugin\jqvmap\maps\continents\jquery.vmap.australia.js" />
-    <Content Include="assets\js\plugin\jqvmap\maps\continents\jquery.vmap.europe.js" />
-    <Content Include="assets\js\plugin\jqvmap\maps\continents\jquery.vmap.north-america.js" />
-    <Content Include="assets\js\plugin\jqvmap\maps\continents\jquery.vmap.south-america.js" />
-    <Content Include="assets\js\plugin\jqvmap\maps\jquery.vmap.algeria.js" />
-    <Content Include="assets\js\plugin\jqvmap\maps\jquery.vmap.argentina.js" />
-    <Content Include="assets\js\plugin\jqvmap\maps\jquery.vmap.brazil.js" />
-    <Content Include="assets\js\plugin\jqvmap\maps\jquery.vmap.canada.js" />
-    <Content Include="assets\js\plugin\jqvmap\maps\jquery.vmap.croatia.js" />
-    <Content Include="assets\js\plugin\jqvmap\maps\jquery.vmap.europe.js" />
-    <Content Include="assets\js\plugin\jqvmap\maps\jquery.vmap.france.js" />
-    <Content Include="assets\js\plugin\jqvmap\maps\jquery.vmap.germany.js" />
-    <Content Include="assets\js\plugin\jqvmap\maps\jquery.vmap.greece.js" />
-    <Content Include="assets\js\plugin\jqvmap\maps\jquery.vmap.indonesia.js" />
-    <Content Include="assets\js\plugin\jqvmap\maps\jquery.vmap.iran.js" />
-    <Content Include="assets\js\plugin\jqvmap\maps\jquery.vmap.iraq.js" />
-    <Content Include="assets\js\plugin\jqvmap\maps\jquery.vmap.new_regions_france.js" />
-    <Content Include="assets\js\plugin\jqvmap\maps\jquery.vmap.russia.js" />
-    <Content Include="assets\js\plugin\jqvmap\maps\jquery.vmap.serbia.js" />
-    <Content Include="assets\js\plugin\jqvmap\maps\jquery.vmap.tunisia.js" />
-    <Content Include="assets\js\plugin\jqvmap\maps\jquery.vmap.turkey.js" />
-    <Content Include="assets\js\plugin\jqvmap\maps\jquery.vmap.ukraine.js" />
-    <Content Include="assets\js\plugin\jqvmap\maps\jquery.vmap.usa.counties.js" />
-    <Content Include="assets\js\plugin\jqvmap\maps\jquery.vmap.usa.districts.js" />
-    <Content Include="assets\js\plugin\jqvmap\maps\jquery.vmap.usa.js" />
-    <Content Include="assets\js\plugin\jqvmap\maps\jquery.vmap.world.js" />
     <Content Include="assets\js\plugin\sweetalert\sweetalert.min.js" />
     <Content Include="assets\js\plugin\webfont\webfont.min.js" />
     <Content Include="assets\js\setting-demo.js" />
     <Content Include="assets\js\setting-demo2.js" />
+    <Content Include="Content\58ARP-request-reply-procedure-see-online-version-for-colours.png" />
+    <Content Include="Content\a.jpg" />
     <Content Include="Content\bootstrap-datepicker.css" />
     <Content Include="Content\bootstrap-datepicker.min.css" />
     <Content Include="Content\bootstrap-datepicker.standalone.css" />
@@ -610,6 +574,19 @@
     <Content Include="Content\datepicker\js\bootstrap.min.js" />
     <Content Include="Content\datepicker\js\jquery.min.js" />
     <Content Include="Content\Img\5.gif" />
+    <Content Include="Content\Img\Anh-1546317181.jpg" />
+    <Content Include="Content\Img\Anh-1546317213.jpg" />
+    <Content Include="Content\Img\Anh-1546317214.jpg" />
+    <Content Include="Content\Img\Anh-1546317216.jpg" />
+    <Content Include="Content\Img\Anh-1546317217.jpg" />
+    <Content Include="Content\Img\Anh-1546317218.jpg" />
+    <Content Include="Content\Img\Anh-1546317219.jpg" />
+    <Content Include="Content\Img\Anh-1546353372.jpg" />
+    <Content Include="Content\Img\Anh-1546353373.jpg" />
+    <Content Include="Content\Img\Anh-1546353374.jpg" />
+    <Content Include="Content\Img\Anh-1546353375.jpg" />
+    <Content Include="Content\Img\Anh-1546353469.jpg" />
+    <Content Include="Content\Img\Anh-1546353470.jpg" />
     <Content Include="Content\Img\logo.png" />
     <Content Include="Content\logo.png" />
     <Content Include="Content\Site.css" />
@@ -654,6 +631,7 @@
     <Content Include="Areas\Admin\Views\Home\PhongThi.cshtml" />
     <Content Include="Areas\Admin\Views\Home\TaoDeThi.cshtml" />
     <Content Include="Areas\Admin\Views\Home\View.cshtml" />
+    <Content Include="Areas\Admin\Views\LoginAdmin\Login.cshtml" />
     <Content Include="Areas\Admin\Views\QuanLyThi\ChonDe.cshtml" />
     <Content Include="Areas\Admin\Views\QuanLyThi\CoiThi.cshtml" />
     <Content Include="Areas\Admin\Views\QuanLyThi\CreateClassRoom.cshtml" />
@@ -743,6 +721,7 @@
     <Content Include="assets\sass\atlantis\_responsive.scss" />
     <Content Include="assets\sass\atlantis\_typography.scss" />
     <Content Include="assets\sass\atlantis\_variables.scss" />
+    <Content Include="Content\ATBMTT.docx" />
     <Content Include="Content\bootstrap-datepicker.css.map" />
     <Content Include="Content\bootstrap-datepicker.standalone.css.map" />
     <Content Include="Content\bootstrap-datepicker3.css.map" />
@@ -751,12 +730,15 @@
     <Content Include="Content\bootstrap-theme.min.css.map" />
     <Content Include="Content\bootstrap.css.map" />
     <Content Include="Content\bootstrap.min.css.map" />
+    <Content Include="Content\CTDLGT.docx" />
     <Content Include="Content\De_1.pdf" />
     <Content Include="Content\De_4.pdf" />
     <Content Include="Content\De_5.pdf" />
     <Content Include="Content\De_6.pdf" />
+    <Content Include="Content\De_8.pdf" />
+    <Content Include="Content\De_9.pdf" />
     <Content Include="Content\Img\TracnghiemOnline.rar" />
-    <Content Include="Areas\Admin\Views\LoginAdmin\Login.cshtml" />
+    <Content Include="Content\Đặc-điểm-của-ngôn-ngữ-lập-trình-Java.docx" />
     <None Include="Dockerfile" />
     <None Include=".dockerignore">
       <DependentUpon>Dockerfile</DependentUpon>
@@ -775,10 +757,22 @@
     <Content Include="Layout\vendors\fontawesome\all.min.js" />
     <Content Include="Layout\vendors\is\is.min.js" />
     <Content Include="Layout\vendors\popperjs\popper.min.js" />
-    <Content Include="Scripts\bootstrap-datepicker.js" />
-    <Content Include="Scripts\bootstrap-datepicker.min.js" />
-    <Content Include="Scripts\bootstrap.js" />
-    <Content Include="Scripts\bootstrap.min.js" />
+    <None Include="Properties\PublishProfiles\FolderProfile.pubxml" />
+    <None Include="Properties\PublishProfiles\FolderProfile1.pubxml" />
+    <None Include="Properties\PublishProfiles\FTPProfile.pubxml" />
+    <Content Include="Scripts\js\JavaScript.js" />
+    <Content Include="Scripts\js\scripts.js" />
+    <Content Include="Web.config" />
+    <Content Include="Web.Debug.config">
+      <DependentUpon>Web.config</DependentUpon>
+    </Content>
+    <Content Include="Web.Release.config">
+      <DependentUpon>Web.config</DependentUpon>
+    </Content>
+    <Content Include="fonts\glyphicons-halflings-regular.eot" />
+    <Content Include="fonts\glyphicons-halflings-regular.ttf" />
+    <Content Include="fonts\glyphicons-halflings-regular.woff" />
+    <Content Include="fonts\glyphicons-halflings-regular.woff2" />
     <Content Include="Layout\css\theme-rtl.css.map" />
     <Content Include="Layout\css\theme-rtl.min.css.map" />
     <Content Include="Layout\css\theme.css.map" />
@@ -818,143 +812,30 @@
     <Content Include="Layout\js\theme.js.map" />
     <Content Include="Layout\js\theme.min.js.map" />
     <Content Include="Layout\vendors\bootstrap\bootstrap.min.js.map" />
-    <None Include="Properties\PublishProfiles\FolderProfile.pubxml" />
-    <None Include="Properties\PublishProfiles\FolderProfile1.pubxml" />
-    <None Include="Properties\PublishProfiles\FTPProfile.pubxml" />
-    <None Include="Scripts\jquery-3.4.1.intellisense.js" />
-    <Content Include="Scripts\jquery-3.4.1.js" />
-    <Content Include="Scripts\jquery-3.4.1.min.js" />
-    <Content Include="Scripts\jquery-3.4.1.slim.js" />
-    <Content Include="Scripts\jquery-3.4.1.slim.min.js" />
-    <Content Include="Scripts\jquery.unobtrusive-ajax.js" />
-    <Content Include="Scripts\jquery.unobtrusive-ajax.min.js" />
-    <None Include="Scripts\jquery.validate-vsdoc.js" />
-    <Content Include="Scripts\jquery.validate.js" />
-    <Content Include="Scripts\jquery.validate.min.js" />
-    <Content Include="Scripts\jquery.validate.unobtrusive.js" />
-    <Content Include="Scripts\jquery.validate.unobtrusive.min.js" />
-    <Content Include="Scripts\js\JavaScript.js" />
-    <Content Include="Scripts\js\scripts.js" />
-    <Content Include="Scripts\locales\bootstrap-datepicker-en-CA.min.js" />
-    <Content Include="Scripts\locales\bootstrap-datepicker.ar-tn.min.js" />
-    <Content Include="Scripts\locales\bootstrap-datepicker.ar.min.js" />
-    <Content Include="Scripts\locales\bootstrap-datepicker.az.min.js" />
-    <Content Include="Scripts\locales\bootstrap-datepicker.bg.min.js" />
-    <Content Include="Scripts\locales\bootstrap-datepicker.bn.min.js" />
-    <Content Include="Scripts\locales\bootstrap-datepicker.br.min.js" />
-    <Content Include="Scripts\locales\bootstrap-datepicker.bs.min.js" />
-    <Content Include="Scripts\locales\bootstrap-datepicker.ca.min.js" />
-    <Content Include="Scripts\locales\bootstrap-datepicker.cs.min.js" />
-    <Content Include="Scripts\locales\bootstrap-datepicker.cy.min.js" />
-    <Content Include="Scripts\locales\bootstrap-datepicker.da.min.js" />
-    <Content Include="Scripts\locales\bootstrap-datepicker.de.min.js" />
-    <Content Include="Scripts\locales\bootstrap-datepicker.el.min.js" />
-    <Content Include="Scripts\locales\bootstrap-datepicker.en-AU.min.js" />
-    <Content Include="Scripts\locales\bootstrap-datepicker.en-CA.min.js" />
-    <Content Include="Scripts\locales\bootstrap-datepicker.en-GB.min.js" />
-    <Content Include="Scripts\locales\bootstrap-datepicker.en-IE.min.js" />
-    <Content Include="Scripts\locales\bootstrap-datepicker.en-NZ.min.js" />
-    <Content Include="Scripts\locales\bootstrap-datepicker.en-ZA.min.js" />
-    <Content Include="Scripts\locales\bootstrap-datepicker.eo.min.js" />
-    <Content Include="Scripts\locales\bootstrap-datepicker.es.min.js" />
-    <Content Include="Scripts\locales\bootstrap-datepicker.et.min.js" />
-    <Content Include="Scripts\locales\bootstrap-datepicker.eu.min.js" />
-    <Content Include="Scripts\locales\bootstrap-datepicker.fa.min.js" />
-    <Content Include="Scripts\locales\bootstrap-datepicker.fi.min.js" />
-    <Content Include="Scripts\locales\bootstrap-datepicker.fo.min.js" />
-    <Content Include="Scripts\locales\bootstrap-datepicker.fr-CH.min.js" />
-    <Content Include="Scripts\locales\bootstrap-datepicker.fr.min.js" />
-    <Content Include="Scripts\locales\bootstrap-datepicker.gl.min.js" />
-    <Content Include="Scripts\locales\bootstrap-datepicker.he.min.js" />
-    <Content Include="Scripts\locales\bootstrap-datepicker.hi.min.js" />
-    <Content Include="Scripts\locales\bootstrap-datepicker.hr.min.js" />
-    <Content Include="Scripts\locales\bootstrap-datepicker.hu.min.js" />
-    <Content Include="Scripts\locales\bootstrap-datepicker.hy.min.js" />
-    <Content Include="Scripts\locales\bootstrap-datepicker.id.min.js" />
-    <Content Include="Scripts\locales\bootstrap-datepicker.is.min.js" />
-    <Content Include="Scripts\locales\bootstrap-datepicker.it-CH.min.js" />
-    <Content Include="Scripts\locales\bootstrap-datepicker.it.min.js" />
-    <Content Include="Scripts\locales\bootstrap-datepicker.ja.min.js" />
-    <Content Include="Scripts\locales\bootstrap-datepicker.ka.min.js" />
-    <Content Include="Scripts\locales\bootstrap-datepicker.kh.min.js" />
-    <Content Include="Scripts\locales\bootstrap-datepicker.kk.min.js" />
-    <Content Include="Scripts\locales\bootstrap-datepicker.km.min.js" />
-    <Content Include="Scripts\locales\bootstrap-datepicker.ko.min.js" />
-    <Content Include="Scripts\locales\bootstrap-datepicker.kr.min.js" />
-    <Content Include="Scripts\locales\bootstrap-datepicker.lt.min.js" />
-    <Content Include="Scripts\locales\bootstrap-datepicker.lv.min.js" />
-    <Content Include="Scripts\locales\bootstrap-datepicker.me.min.js" />
-    <Content Include="Scripts\locales\bootstrap-datepicker.mk.min.js" />
-    <Content Include="Scripts\locales\bootstrap-datepicker.mn.min.js" />
-    <Content Include="Scripts\locales\bootstrap-datepicker.ms.min.js" />
-    <Content Include="Scripts\locales\bootstrap-datepicker.nl-BE.min.js" />
-    <Content Include="Scripts\locales\bootstrap-datepicker.nl.min.js" />
-    <Content Include="Scripts\locales\bootstrap-datepicker.no.min.js" />
-    <Content Include="Scripts\locales\bootstrap-datepicker.oc.min.js" />
-    <Content Include="Scripts\locales\bootstrap-datepicker.pl.min.js" />
-    <Content Include="Scripts\locales\bootstrap-datepicker.pt-BR.min.js" />
-    <Content Include="Scripts\locales\bootstrap-datepicker.pt.min.js" />
-    <Content Include="Scripts\locales\bootstrap-datepicker.ro.min.js" />
-    <Content Include="Scripts\locales\bootstrap-datepicker.rs-latin.min.js" />
-    <Content Include="Scripts\locales\bootstrap-datepicker.rs.min.js" />
-    <Content Include="Scripts\locales\bootstrap-datepicker.ru.min.js" />
-    <Content Include="Scripts\locales\bootstrap-datepicker.si.min.js" />
-    <Content Include="Scripts\locales\bootstrap-datepicker.sk.min.js" />
-    <Content Include="Scripts\locales\bootstrap-datepicker.sl.min.js" />
-    <Content Include="Scripts\locales\bootstrap-datepicker.sq.min.js" />
-    <Content Include="Scripts\locales\bootstrap-datepicker.sr-latin.min.js" />
-    <Content Include="Scripts\locales\bootstrap-datepicker.sr.min.js" />
-    <Content Include="Scripts\locales\bootstrap-datepicker.sv.min.js" />
-    <Content Include="Scripts\locales\bootstrap-datepicker.sw.min.js" />
-    <Content Include="Scripts\locales\bootstrap-datepicker.ta.min.js" />
-    <Content Include="Scripts\locales\bootstrap-datepicker.tg.min.js" />
-    <Content Include="Scripts\locales\bootstrap-datepicker.th.min.js" />
-    <Content Include="Scripts\locales\bootstrap-datepicker.tk.min.js" />
-    <Content Include="Scripts\locales\bootstrap-datepicker.tr.min.js" />
-    <Content Include="Scripts\locales\bootstrap-datepicker.uk.min.js" />
-    <Content Include="Scripts\locales\bootstrap-datepicker.uz-cyrl.min.js" />
-    <Content Include="Scripts\locales\bootstrap-datepicker.uz-latn.min.js" />
-    <Content Include="Scripts\locales\bootstrap-datepicker.vi.min.js" />
-    <Content Include="Scripts\locales\bootstrap-datepicker.zh-CN.min.js" />
-    <Content Include="Scripts\locales\bootstrap-datepicker.zh-TW.min.js" />
-    <Content Include="Scripts\modernizr-2.8.3.js" />
-    <Content Include="Web.config" />
-    <Content Include="Web.Debug.config">
-      <DependentUpon>Web.config</DependentUpon>
-    </Content>
-    <Content Include="Web.Release.config">
-      <DependentUpon>Web.config</DependentUpon>
-    </Content>
-    <Content Include="fonts\glyphicons-halflings-regular.eot" />
-    <Content Include="fonts\glyphicons-halflings-regular.ttf" />
-    <Content Include="fonts\glyphicons-halflings-regular.woff" />
-    <Content Include="fonts\glyphicons-halflings-regular.woff2" />
-    <Content Include="Scripts\jquery-3.4.1.min.map" />
-    <Content Include="Scripts\jquery-3.4.1.slim.min.map" />
+    <None Include="Properties\PublishProfiles\FTPProfile1.pubxml" />
     <Content Include="Views\Login\Login.cshtml" />
+    <Content Include="Views\Share\LayOutHome.cshtml" />
     <Content Include="Views\TrangChu\.vs\ProjectSettings.json" />
     <Content Include="Views\TrangChu\.vs\slnx.sqlite" />
     <Content Include="Views\TrangChu\.vs\TrangChu\config\applicationhost.config" />
     <Content Include="Views\TrangChu\.vs\TrangChu\v16\.suo" />
     <Content Include="Views\TrangChu\.vs\VSWorkspaceState.json" />
+    <Content Include="Views\TrangChu\Bode.cshtml" />
     <Content Include="Views\TrangChu\DangNhapPhongThi.cshtml" />
     <Content Include="Views\TrangChu\DanhGia.cshtml" />
+    <Content Include="Views\TrangChu\DiemSo.cshtml" />
+    <Content Include="Views\TrangChu\Diemthi.cshtml" />
     <Content Include="Views\TrangChu\DSDETHI.cshtml" />
     <Content Include="Views\TrangChu\Index.cshtml" />
     <Content Include="Views\TrangChu\Loald.cshtml" />
+    <Content Include="Views\TrangChu\LopHocPhan.cshtml" />
+    <Content Include="Views\TrangChu\Menu.cshtml" />
+    <Content Include="Views\TrangChu\Phong.cshtml" />
     <Content Include="Views\TrangChu\PhongCho.cshtml" />
     <Content Include="Views\TrangChu\VaoThi.cshtml" />
     <Content Include="Views\Web.config" />
-    <Content Include="Views\Share\LayOutHome.cshtml" />
-    <Content Include="Views\TrangChu\LopHocPhan.cshtml" />
-    <Content Include="Views\TrangChu\Phong.cshtml" />
-    <Content Include="Views\TrangChu\Bode.cshtml" />
-    <Content Include="Views\TrangChu\Menu.cshtml" />
-    <Content Include="Views\TrangChu\DiemSo.cshtml" />
-    <Content Include="Views\TrangChu\Diemthi.cshtml" />
   </ItemGroup>
   <ItemGroup>
-    <Folder Include="App_Data\" />
     <Folder Include="Layout\vendors\%40popper\" />
     <Folder Include="Layout\vendors\popper\" />
   </ItemGroup>
@@ -1006,9 +887,9 @@
         <WebProjectProperties>
           <UseIIS>True</UseIIS>
           <AutoAssignPort>True</AutoAssignPort>
-          <DevelopmentServerPort>52700</DevelopmentServerPort>
+          <DevelopmentServerPort>61611</DevelopmentServerPort>
           <DevelopmentServerVPath>/</DevelopmentServerVPath>
-          <IISUrl>https://localhost:44359/</IISUrl>
+          <IISUrl>https://localhost:44349/</IISUrl>
           <NTLMAuthentication>False</NTLMAuthentication>
           <UseCustomServer>False</UseCustomServer>
           <CustomServerUrl>
