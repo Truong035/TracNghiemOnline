@@ -19,7 +19,6 @@ namespace TracNghiemOnline.Modell
         [Key]
         public long Ma_CauHoi { get; set; }
 
-        [StringLength(500)]
         public string NoiDung { get; set; }
 
         [Column(TypeName = "ntext")]

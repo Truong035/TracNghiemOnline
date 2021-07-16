@@ -20,16 +20,16 @@
                             <div class="card-body">
                                 <form>
                                     <div class="form-group">
-                                        <h5 style="width:710px;"> Câu @(i = i + 1) :  @item.NoiDung </h5>
+                                        <h5 style="width:710px;"> Câu @(i = i + 1) :  @Html.Raw(@item.NoiDung) </h5>
 
-                                        @if (item.HinhAnh.Length > 0)
+                                       @* @if (item.HinhAnh.Length > 0)
                                         {
                                             <div class="card-body row">
                                                 <img class=" center-block" style="margin-left:140px" src="@item.HinhAnh.Trim()"
                                                      alt="anh viet nam anh 1 " width="200px" height="200px" />
                                             </div>
 
-                                        }
+                                        }*@
 
                                     </div>
                                     @foreach (var item1 in item.Dap_AN)
@@ -50,12 +50,12 @@
                                         else
                                         {
                                             <label class="custom-control-inline" style="width:700px" for="@item1.MA_DAN">
-                                                @item1.NoiDung
+                                                @Html.Raw(@item1.NoiDung)
                                             </label>
                                         }
 
                                     </div>
-                                    @{ try
+                                    @*@{ try
                                         {
                                             if (item1.HinhAnh.Length > 0)
                                             {
@@ -65,7 +65,7 @@
                                             }
                                         }
                                         catch { }
-                                    }
+                                    }*@
                                 </div>
                                     }
                                             <label class="text-danger">  Mức đô: nhân biết   </label>

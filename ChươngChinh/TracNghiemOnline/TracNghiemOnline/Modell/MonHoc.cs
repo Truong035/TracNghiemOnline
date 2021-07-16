@@ -14,6 +14,7 @@ namespace TracNghiemOnline.Modell
         {
             Bo_De = new HashSet<Bo_De>();
             Chuong_Hoc = new HashSet<Chuong_Hoc>();
+            LichNops = new HashSet<LichNop>();
             LopHocPhans = new HashSet<LopHocPhan>();
         }
 
@@ -35,6 +36,9 @@ namespace TracNghiemOnline.Modell
 
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<Chuong_Hoc> Chuong_Hoc { get; set; }
+
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<LichNop> LichNops { get; set; }
 
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<LopHocPhan> LopHocPhans { get; set; }

@@ -8,7 +8,7 @@ namespace TracNghiemOnline.Modell
     public partial class TracNghiemOnlineDB : DbContext
     {
         public TracNghiemOnlineDB()
-            : base("name=TracNghiemOnlineDB1")
+            : base("name=TracNghiemOnlineDB")
         {
         }
 
@@ -17,6 +17,7 @@ namespace TracNghiemOnline.Modell
         public virtual DbSet<CauHoi> CauHois { get; set; }
         public virtual DbSet<CauHoiDeThi> CauHoiDeThis { get; set; }
         public virtual DbSet<Chuong_Hoc> Chuong_Hoc { get; set; }
+        public virtual DbSet<CT_Dethi> CT_Dethi { get; set; }
         public virtual DbSet<Da_SVLuaChon> Da_SVLuaChon { get; set; }
         public virtual DbSet<Danh_Gia> Danh_Gia { get; set; }
         public virtual DbSet<Dap_AN> Dap_AN { get; set; }
@@ -27,6 +28,7 @@ namespace TracNghiemOnline.Modell
         public virtual DbSet<KetQuaThi> KetQuaThis { get; set; }
         public virtual DbSet<Kho_CauHoi> Kho_CauHoi { get; set; }
         public virtual DbSet<KiThi> KiThis { get; set; }
+        public virtual DbSet<LichNop> LichNops { get; set; }
         public virtual DbSet<Lop> Lops { get; set; }
         public virtual DbSet<LopHocPhan> LopHocPhans { get; set; }
         public virtual DbSet<MonHoc> MonHocs { get; set; }
@@ -35,6 +37,7 @@ namespace TracNghiemOnline.Modell
         public virtual DbSet<SinhVien> SinhViens { get; set; }
         public virtual DbSet<TaiKhoan> TaiKhoans { get; set; }
         public virtual DbSet<BoDeOnTap> BoDeOnTaps { get; set; }
+        public virtual DbSet<DSGV_ThucHien> DSGV_ThucHien { get; set; }
 
         protected override void OnModelCreating(DbModelBuilder modelBuilder)
         {
@@ -55,6 +58,11 @@ namespace TracNghiemOnline.Modell
                 .HasMany(e => e.CauHois)
                 .WithRequired(e => e.Bo_De)
                 .WillCascadeOnDelete(false);
+
+            modelBuilder.Entity<Bo_De>()
+                .HasMany(e => e.DSGV_ThucHien)
+                .WithOptional(e => e.Bo_De)
+                .HasForeignKey(e => e.MaDE);
 
             modelBuilder.Entity<Bo_De>()
                 .HasMany(e => e.Phong_Thi)
@@ -79,10 +87,6 @@ namespace TracNghiemOnline.Modell
                 .HasMany(e => e.Danh_Gia)
                 .WithOptional(e => e.Chuong_Hoc)
                 .HasForeignKey(e => e.MaChuong);
-
-            modelBuilder.Entity<Danh_Gia>()
-                .Property(e => e.NhanXet)
-                .IsUnicode(false);
 
             modelBuilder.Entity<De_Thi>()
                 .Property(e => e.Ma_SV)
@@ -138,6 +142,11 @@ namespace TracNghiemOnline.Modell
                 .HasForeignKey(e => e.Ma_NguoiTao);
 
             modelBuilder.Entity<GiaoVien>()
+                .HasMany(e => e.LichNops)
+                .WithOptional(e => e.GiaoVien)
+                .HasForeignKey(e => e.MaBoMON);
+
+            modelBuilder.Entity<GiaoVien>()
                 .HasMany(e => e.Phong_Thi)
                 .WithOptional(e => e.GiaoVien)
                 .HasForeignKey(e => e.NguoiTao);
@@ -151,6 +160,15 @@ namespace TracNghiemOnline.Modell
                 .HasMany(e => e.CauHoiDeThis)
                 .WithOptional(e => e.Kho_CauHoi)
                 .HasForeignKey(e => e.MaCauHoi);
+
+            modelBuilder.Entity<LichNop>()
+                .Property(e => e.MaBoMON)
+                .IsFixedLength();
+
+            modelBuilder.Entity<LichNop>()
+                .HasMany(e => e.DSGV_ThucHien)
+                .WithOptional(e => e.LichNop)
+                .HasForeignKey(e => e.MaLich);
 
             modelBuilder.Entity<LopHocPhan>()
                 .Property(e => e.MaLop)
@@ -184,6 +202,11 @@ namespace TracNghiemOnline.Modell
             modelBuilder.Entity<MonHoc>()
                 .Property(e => e.MaBoMon)
                 .IsFixedLength();
+
+            modelBuilder.Entity<MonHoc>()
+                .HasMany(e => e.LichNops)
+                .WithOptional(e => e.MonHoc)
+                .HasForeignKey(e => e.MaMon);
 
             modelBuilder.Entity<MonHoc>()
                 .HasMany(e => e.LopHocPhans)
@@ -255,6 +278,10 @@ namespace TracNghiemOnline.Modell
                 .Property(e => e.MaLopHP)
                 .IsFixedLength()
                 .IsUnicode(false);
+
+            modelBuilder.Entity<DSGV_ThucHien>()
+                .Property(e => e.MaGV)
+                .IsFixedLength();
         }
     }
 }

@@ -5,7 +5,6 @@
     var machuong = (long)ViewBag.MaChuong;
 
 }
-
 @section scripts{
     <script>
         var cout = 20000;
@@ -144,6 +143,7 @@
                         success: function (urlImage) {
                             if (urlImage.status == true) {
                                 window.location = "/Admin/CauHoi/CreateCauHoi/" + machuong;
+                              @*  window.location = "/Admin/CauHoi/LoadCauHoi/" + machuong;*@
                             }
                             else {
                                 alert("Sai Định Dạng Vui Lòng Kiểm Trả Lại");
@@ -273,7 +273,7 @@
                             </div>
                             <input class="@i" id="@i" hidden type='file' onchange="readURL(this);" accept="image/*" />
                             <div class=" row file-upload-content" name=btnanh id="@i" style="margin-top:-2%">
-                                @{
+                               @* @{
                                     if (item.HinhAnh.Length > 0)
                                     {
                                         <input class="txtlinkHinh" id="@i" value="@item.HinhAnh" hidden />
@@ -282,7 +282,7 @@
                                         </div>
                                         <i class="col-auto bi bi-x-circle-fill remove-image " id="@i" style="margin-left:-4% ;margin-top:-1%; font-size: 2rem; color: #ff0000" onclick="removeUpload(this)"></i>
                                     }
-                                }
+                                }*@
 
                             </div>
                         </div>
@@ -311,13 +311,13 @@
                                 <input class="@Cout" id="@Cout" hidden type='file' onchange="readURL(this);" accept="image/*" />
                                 <div class=" row file-upload-content" id="@Cout" name=btnanh style="margin-top:-2%">
                                     @{
-                                        if (item1.HinhAnh.Length > 0)
+                                       @* if (item1.HinhAnh.Length > 0)
                                         {<input class="txtlinkHinh" hidden value="@item1.HinhAnh" id="@Cout" />
                                             <div class="col-auto ">
                                                 <img class="file-upload-image " id="@Cout" src="@item1.HinhAnh" alt="your image" />
                                             </div>
                                             <i class="col-auto bi bi-x-circle-fill remove-image " onclick="removeUpload(this)" id="@Cout" style="margin-left:-4.2% ;margin-top:5px; font-size: 2rem; color: #ff0000"></i>
-                                        }
+                                        }*@
                                     }
                                 </div>
                             </div>

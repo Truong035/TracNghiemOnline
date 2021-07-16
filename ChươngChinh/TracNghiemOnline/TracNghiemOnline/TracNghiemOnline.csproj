@@ -164,6 +164,7 @@
     <Compile Include="Modell\CauHoi.cs" />
     <Compile Include="Modell\CauHoiDeThi.cs" />
     <Compile Include="Modell\Chuong_Hoc.cs" />
+    <Compile Include="Modell\CT_Dethi.cs" />
     <Compile Include="Modell\Danh_Gia.cs" />
     <Compile Include="Modell\Dao\Bode.cs" />
     <Compile Include="Modell\Dao\BoDeDao.cs" />
@@ -174,12 +175,14 @@
     <Compile Include="Modell\Dap_AN.cs" />
     <Compile Include="Modell\Da_SVLuaChon.cs" />
     <Compile Include="Modell\De_Thi.cs" />
+    <Compile Include="Modell\DSGV_ThucHien.cs" />
     <Compile Include="Modell\DS_LopHP.cs" />
     <Compile Include="Modell\DS_SVThi.cs" />
     <Compile Include="Modell\GiaoVien.cs" />
     <Compile Include="Modell\KetQuaThi.cs" />
     <Compile Include="Modell\Kho_CauHoi.cs" />
     <Compile Include="Modell\KiThi.cs" />
+    <Compile Include="Modell\LichNop.cs" />
     <Compile Include="Modell\Lop.cs" />
     <Compile Include="Modell\LopHocPhan.cs" />
     <Compile Include="Modell\MonHoc.cs" />
@@ -739,6 +742,13 @@
     <Content Include="Content\De_9.pdf" />
     <Content Include="Content\Img\TracnghiemOnline.rar" />
     <Content Include="Content\Đặc-điểm-của-ngôn-ngữ-lập-trình-Java.docx" />
+    <Content Include="Areas\Admin\Views\Bomon\BoMON.cshtml" />
+    <Content Include="Areas\Admin\Views\Bomon\TaoLich.cshtml" />
+    <Content Include="Areas\Admin\Views\Bomon\Updatebomon.cshtml" />
+    <Content Include="Areas\Admin\Views\Home\ChonDe1.cshtml" />
+    <Content Include="Areas\Admin\Views\Bomon\DSDEDUYET.cshtml" />
+    <Content Include="Areas\Admin\Views\Bomon\DSDEGUI.cshtml" />
+    <Content Include="Areas\Admin\Views\QuanLyThi\LichSuThi.cshtml" />
     <None Include="Dockerfile" />
     <None Include=".dockerignore">
       <DependentUpon>Dockerfile</DependentUpon>

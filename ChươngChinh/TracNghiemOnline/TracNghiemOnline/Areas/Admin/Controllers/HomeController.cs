@@ -23,11 +23,20 @@ namespace TracNghiemOnline.Areas.Admin.Controllers
         // GET: Admin/Home
         [HttpGet]
     
+
         public ActionResult Index()
         {
             reseach();
             return View();
           
+        }
+        public ActionResult ChonDe1(long id)
+        {
+            Session["mads"] = id;
+            var session = (TaiKhoan)Session[ComMon.ComMonStants.UserLogin];
+            var ds = new TracNghiemOnlineDB().DSGV_ThucHien.Find(id);
+            var dethi = new TracNghiemOnlineDB().Bo_De.Where(x=>x.TrangThai==true && x.Ma_Mon==ds.LichNop.MaMon && x.Ma_NguoiTao==session.TaiKhoan1).ToList();
+            return View(dethi);
         }
         public void save_file_from_url(string file_name, string url)
         {
@@ -410,9 +419,22 @@ namespace TracNghiemOnline.Areas.Admin.Controllers
         public ActionResult BoMon()
         {
             var session = (TaiKhoan)Session[ComMon.ComMonStants.UserLogin];
-            var BoDe = new TracNghiemOnlineDB().Bo_De.Where(x => x.Ma_NguoiTao == session.TaiKhoan1 && x.Xoa == true
-             && x.PheDuyet != null).ToList();     
-            return View(BoDe);
+
+            var ds = new TracNghiemOnlineDB();
+            foreach (var item in new TracNghiemOnlineDB().LichNops.Where(x=>x.ThoiGian<DateTime.Now))
+            {
+                var lich = ds.LichNops.Find(item.id);
+              
+                ds.SaveChanges();
+                foreach (var item1 in new TracNghiemOnlineDB().DSGV_ThucHien.Where(X=>X.MaDE==null && X.MaLich==item.id))
+                {
+                    var gv = ds.DSGV_ThucHien.Find(item1.id);
+                    gv.trangthai = "Đã hết hạn nộp";
+                    ds.SaveChanges();
+                }
+
+            }
+            return View();
         }
 
         public JsonResult DanhGia(string id)
@@ -740,15 +762,30 @@ namespace TracNghiemOnline.Areas.Admin.Controllers
 
         public void GuiboMon(long id)
         {
+
+            long id1 = (long)Session["mads"];
             TracNghiemOnlineDB db = new TracNghiemOnlineDB();
-            var bode = db.Bo_De.Find(id);
-            var session = (TaiKhoan)Session[ComMon.ComMonStants.UserLogin];   
-            var gv =  db.GiaoViens.Find(session.TaiKhoan1);
-            bode.PheDuyet = "Đang xử lý";
-            bode.NguoiDuyet = gv.MaBoMon;
-            bode.TrangThai = false;
+            var bode = db.DSGV_ThucHien.Find(id1);
+            bode.MaDE = id;
+            var lich = db.LichNops.Find(bode.MaLich);
+            try
+            {
+                if (DateTime.UtcNow > lich.ThoiGian)
+                {
+                    bode.trangthai = "Nộp Muộn";
+                }
+                else
+                {
+                    bode.trangthai = "Đang xử lý";
+                }
+            }
+            catch {
+                bode.trangthai = "Đang xử lý";
+            }
+
+            bode.NgayNop = DateTime.Now;
+            Session["mads"]=null;
             db.SaveChanges();
-            
         }
         public void HuyGui(long id)
         {

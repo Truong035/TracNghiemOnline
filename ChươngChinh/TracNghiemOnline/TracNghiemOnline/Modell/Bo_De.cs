@@ -14,6 +14,7 @@ namespace TracNghiemOnline.Modell
             BoDeOnTaps = new HashSet<BoDeOnTap>();
             CauHois = new HashSet<CauHoi>();
             De_Thi = new HashSet<De_Thi>();
+            DSGV_ThucHien = new HashSet<DSGV_ThucHien>();
             Phong_Thi = new HashSet<Phong_Thi>();
         }
 
@@ -61,6 +62,9 @@ namespace TracNghiemOnline.Modell
 
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<De_Thi> De_Thi { get; set; }
+
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<DSGV_ThucHien> DSGV_ThucHien { get; set; }
 
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<Phong_Thi> Phong_Thi { get; set; }

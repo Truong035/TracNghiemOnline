@@ -66,7 +66,7 @@
                                 $('#lop').append(Let);
                             });
 
-                           
+
 
                             $('#modalLopHP').modal();
                         }
@@ -121,21 +121,20 @@
                         type: 'Get',
                         url: '/Admin/QuanLyThi/VaoThi/' + maPhong,
                         success: function (data) {
-                            $('#DsThethi').empty();
-                            $.each(data.Bode, function (K, V) {
+                            $('#bodeid').empty();
+                            $.each(data.Bode, function (K, v) {
+                                var let = '<tr>'
 
+                                let += '<td>' + v.MaDe + '</td>';
+                                let += '<td>' + v.Ten + '</td>';
+                                let += '<td>' + v.TenMon + '</td>';
+                                let += '<td>' + v.SoCau + '</td>';
+                                let += '<td>' + v.ThoiGian + '</td>';
 
-                                let de = '<div class="col-md-3">'
-                                de += '<div class="card   mb-4">'
-                                de += '<div class="card-footer bg-primary d-flex align-items-center justify-content-between">'
-                                de += ' <h3 class="small text-white">' + V.Ten + '</h3 >'
-                                de += '</div> '
-                                de += '   <div class="card-body" > Thời Gian:' + V.ThoiGian + 'Phút </div >'
-                                de += '    <div class="card-body" > Số Câu:' + V.SoCau + 'Câu </div >'
-                                de += ' <a class="btn  bg-danger "href = "/Admin/QuanLyThi/ChonDe/' + V.MaDe + '" > Bat Dau </a >'
-                                de += '  </div >'
-                                de += '   </div >'
-                                $('#DsThethi').append(de);
+                                /*        let += '<td>' + v.Giaovien + '</td>';*/
+                                let += '<td> <a href="/Admin/QuanLyThi/ChonDe/' + v.MaDe + '" name="btnSua" class="btn btn-xs btn-success"><i class="far fa-edit" aria-hidden="true" style="color:white"></i></a></td>';
+                                let += '</tr>'
+                                $('#bodeid').append(let);
 
                             });
 
@@ -160,13 +159,13 @@
 
 <div class="col-md-12" id="DsPhong">
     <div class="card">
-    <div class="card-header">
-        <div class="d-flex align-items-center">
-            <h4 class="card-title">DANH SÁCH PHÒNG THI</h4>
-            <button class="btn btn-primary btn-round ml-auto" id="btnThem" style="text-align:center"><i class="fa fa-plus"></i>TẠO PHÒNG</button>
+        <div class="card-header">
+            <div class="d-flex align-items-center">
+                <h4 class="card-title">DANH SÁCH PHÒNG THI</h4>
+                <button class="btn btn-primary btn-round ml-auto" id="btnThem" style="text-align:center"><i class="fa fa-plus"></i>TẠO PHÒNG</button>
+            </div>
         </div>
-    </div>
-    <div class="card-body">
+        <div class="card-body">
 
             <div class="table-responsive">
                 <div id="add-row_wrapper" class="dataTables_wrapper container-fluid dt-bootstrap4">
@@ -208,70 +207,96 @@
                             </tbody>
 
                         </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="container-fluid" id="ChonDe">
+    <div class="card">
+        <div class="card-header">
+            <div class="d-flex align-items-center">
+                <h4 class="card-title">DANH SÁCH ĐỀ THI</h4>
+
+            </div>
+        </div>
+        <div style="width:auto; height:3px; background-color:rgb(248,249,250);"></div>
+        <div class="card-body">
+            <div class="table-responsive">
+                <div id="add-row_wrapper" class="dataTables_wrapper container-fluid dt-bootstrap4">
+
+                    <div class="col-sm-12">
+                        <table id="dataTable" class="display table table-striped table-hover dataTable" role="grid" aria-describedby="add-row_info">
+
+                            <thead>
+                                <tr>
+                                    <th>Mã Đề </th>
+                                    <th>Nội Dung </th>
+                                    <th>Tên Môn Học</th>
+                                    <th>Số Câu</th>
+                                    <th>Thời Gian Thi</th>
+                                    <th>Người gửi</th>
+                                    <th></th>
+                                </tr>
+                            </thead>
+
+                            <tbody id="bodeid">
+                            </tbody>
+                        </table>
+                    </div>
+
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<div class="modal" tabindex="-1" role="dialog" id="modalConfirm">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header bg-primary">
+                <h5 class="modal-title">CẢNH BÁO</h5>
+
+            </div>
+            <div class="modal-body">
+                <input type="text" hidden id="ma" value="" />
+                Bạn có chắc chắn muốn xóa?
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-success" id="btnYes">Xác nhận</button>
+                <button type="button" class="btn btn-secondary" data-dismiss="modal" id="btnDong">Đóng</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+@*  Them Phong *@
+
+<div class="modal" tabindex="-1" role="dialog" id="modalLopHP">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header bg-primary">
+                Bạn vui lòng chọn lớp học phần
+            </div>
+            <div class="modal-body">
+                <p>
+                    <label>Tên Phòng</label>
+                    <input type="text" class="form-control" id="tenPhong" placeholder="Nhập Tên Phòng">
+                    <div class="form-group">
+                        <div class="form-group" id="LopHP">
+                            <select id="lop" class="form-control">
+                            </select>
+
+
                         </div>
                     </div>
-                </div>
-                    </div>
-                </div>
+                </p>
             </div>
-     
-        <div class="card-body">
-            <div class="container-fluid" id="ChonDe">
-                <div class="row ">
-                    <h1 class=" col-10 mt-4">Đề Thi </h1>
-                    <div class="col-2 mt-4" style="float:right"><button id="btnDong" class="btn badge-danger">Quay Lai</button></div>
-                </div>
-
-                <div class="row" id="DsThethi">
-
-                </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-success" id="btnSubmit">Xác nhận</button>
+                <button type="button" class="btn btn-secondary" data-dismiss="modal" id="btnDong">Đóng</button>
             </div>
         </div>
-        <div class="modal" tabindex="-1" role="dialog" id="modalConfirm">
-            <div class="modal-dialog" role="document">
-                <div class="modal-content">
-                    <div class="modal-header bg-primary">
-                        <h5 class="modal-title">CẢNH BÁO</h5>
-
-                    </div>
-                    <div class="modal-body">
-                        <input type="text" hidden id="ma" value="" />
-                        Bạn có chắc chắn muốn xóa?
-                    </div>
-                    <div class="modal-footer">
-                        <button type="button" class="btn btn-success" id="btnYes">Xác nhận</button>
-                        <button type="button" class="btn btn-secondary" data-dismiss="modal" id="btnDong">Đóng</button>
-                    </div>
-                </div>
-            </div>
-        </div>
-
-        @*  Them Phong *@
-
-        <div class="modal" tabindex="-1" role="dialog" id="modalLopHP">
-            <div class="modal-dialog" role="document">
-                <div class="modal-content">
-                    <div class="modal-header bg-primary">
-                        Bạn vui lòng chọn lớp học phần
-                    </div>
-                    <div class="modal-body">
-                        <p>
-                            <label>Tên Phòng</label>
-                            <input type="text" class="form-control" id="tenPhong" placeholder="Nhập Tên Phòng">
-                            <div class="form-group">
-                                <div class="form-group" id="LopHP">
-                                    <select id="lop" class="form-control">
-                                    </select>
-
-
-                                </div>
-                            </div>
-                        </p>
-                    </div>
-                    <div class="modal-footer">
-                        <button type="button" class="btn btn-success" id="btnSubmit">Xác nhận</button>
-                        <button type="button" class="btn btn-secondary" data-dismiss="modal" id="btnDong">Đóng</button>
-                    </div>
-                </div>
-            </div>
-        </div>
+    </div>
+</div>

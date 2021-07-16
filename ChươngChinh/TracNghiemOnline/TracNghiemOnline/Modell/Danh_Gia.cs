@@ -8,7 +8,7 @@ namespace TracNghiemOnline.Modell
 
     public partial class Danh_Gia
     {
-        [Key]
+        [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
         public long MaDG { get; set; }
 
         public long? MaDeThi { get; set; }
@@ -17,9 +17,10 @@ namespace TracNghiemOnline.Modell
 
         public double SoCauDung { get; set; }
 
+        [Key]
         public double TongCau { get; set; }
 
-        [Column(TypeName = "text")]
+        [StringLength(50)]
         public string NhanXet { get; set; }
 
         [StringLength(20)]

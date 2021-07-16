@@ -14,7 +14,7 @@
                     url: "/Admin/Home/GuiboMon/" + id,
                     type: 'Get',
                     success: function (res) {
-                        document.location ="/Admin/Home/BoMon"
+                        document.location ="/Admin/Home/BoMon";
                     }
                   
 
@@ -44,7 +44,7 @@
                                 @{
                                     try
                                     {
-                                        if (item.Kho_CauHoi.HinhAnh.Length>0)
+                                        if (item.Kho_CauHoi.HinhAnh.Length > 0)
                                         {
                                             <div class="card-body ">
                                                 <img class="img-circle center-block" style="margin-left:140px" src="@item.Kho_CauHoi.HinhAnh"
@@ -65,7 +65,7 @@
                                 <div class="form-group">
                                     @{ try
                                         {
-                                            if (item1.HinhAnh.Length>0)
+                                            if (item1.HinhAnh.Length > 0)
                                             {
                                                 <img class="img-circle center-block" style="margin-left:80px" src="@item1.HinhAnh"
                                                      alt="anh viet nam anh 1 " width="150px" />
@@ -115,11 +115,35 @@
                         }
                         else
                         {
-                            <div class="card-body">
-                                <a class=" btn btn-danger " href="/Admin/Home/DSDETHI"> Quay Lại </a>
-                                <button id="@mess" class=" btn btn-primary" onclick="GuiDe(id)"> Gửi Bộ Môn </button>
-                                <a class=" btn btn-success" href="@ViewBag.linkpdf" download=""> Xuất PDF </a>
-                            </div>
+                            try
+                            {
+                                long id = (long)Session["mads"];
+                                if (id > 0)
+                                {
+                                    <div class="card-body">
+                                        <a class=" btn btn-danger " href="/Admin/Home/ChonDe1/@id"> Quay Lại </a>
+                                        <button id="@mess" class=" btn btn-primary" onclick="GuiDe(id)"> Gửi Bộ Môn </button>
+                                        <a class=" btn btn-success" href="@ViewBag.linkpdf" download=""> Xuất PDF </a>
+                                    </div>
+                                }
+                                else
+                                {
+                                    <div class="card-body">
+                                        <a class=" btn btn-danger " href="/Admin/Home/DSDETHI"> Quay Lại </a>
+
+                                        <a class=" btn btn-success" href="@ViewBag.linkpdf" download=""> Xuất PDF </a>
+                                    </div>
+                                }
+
+
+                            }
+                            catch
+                            {
+
+                            }
+
+
+
 
                         }
 

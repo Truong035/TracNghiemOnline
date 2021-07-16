@@ -8,29 +8,37 @@
         <div class="card">
             <div class="card-header">
                 <div class="d-flex align-items-center">
-                    <h4 class="card-title">DANH SACH PHÒNG THI</h4>
+                    <h4 class="card-title">DANH SÁCH PHÒNG THI @Model.TenPhong </h4>
                     </div>
-                <div class="container-sm">
-                    <p>
-                        <input id="Txtmaphong" hidden="hidden" value="@Model.MaPhong" />
-                        Mã Phòng :  @Model.MaPhong
-                        Lớp HP :@Model.LopHocPhan.TenLop
-                    </p>
-                    <p>
-                        Sĩ Số    :@Model.DS_SVThi.Count;
-               
-                    <p>
-                    Môn Thi : @Model.Bo_De.MonHoc.TenMon;
-                    </p>
-                    <p>
-                        <input id="TxtThoiGian" hidden="hidden" value="@ViewBag.GioThi " />
-                        Thời Gian Thi : @Model.Bo_De.ThoiGianThi  Phút;
-                    </p>
-                    <p>
-                        Thời Gian Bắt Đầu  : @Model.ThoiGianMo.ToString();
-                    </p>
-                    
+                <br />
+                <div class="container-sm row">
+                    <div class="col">
+                        <p>
+                            <input id="Txtmaphong" hidden="hidden" value="@Model.MaPhong" />
+                         
+                            Lớp HP :@Model.LopHocPhan.TenLop
+                        </p>
+                        <p>
+                            Sĩ Số    :@Model.DS_SVThi.Count
+
+                        <p>
+                            Môn Thi : @Model.Bo_De.MonHoc.TenMon
+                        </p>
+
+                    </div>
+                    <div class="col">
+                        <p>
+                            <input id="TxtThoiGian" hidden="hidden" value="@ViewBag.GioThi " />
+                            Thời Gian Thi : @Model.Bo_De.ThoiGianThi  Phút;
+                        </p>
+                        <p>
+                            Thời Gian Bắt Đầu  : @Model.ThoiGianMo.ToString();
+                        </p>
+
                         <p id="thoigian"></p>
+                    </div>
+                    
+
                 
                 </div>
 
@@ -195,11 +203,11 @@
 
                                 // HIển thị chuỗi thời gian trong thẻ p
                                 if (hours > 0) {
-                                    document.getElementById("thoigian").innerHTML = "Thời Gian Còn Lại  " + hours + " : "
+                                    document.getElementById("thoigian").innerHTML = "Thời Gian Còn Lại : " + hours + " : "
                                         + minutes + " : " + seconds + " Phút ";
                                 }
                                 else {
-                                    document.getElementById("thoigian").innerHTML = "Thời Gian Còn Lại  "
+                                    document.getElementById("thoigian").innerHTML = "Thời Gian Còn Lại : "
                                         + minutes + " : " + seconds + " Phút ";
                                 }
                                 // Nếu thời gian kết thúc, hiển thị chuỗi thông báo

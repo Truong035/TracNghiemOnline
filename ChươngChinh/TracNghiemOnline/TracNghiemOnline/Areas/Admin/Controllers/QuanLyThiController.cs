@@ -17,6 +17,10 @@ namespace TracNghiemOnline.Areas.Admin.Controllers
     public class QuanLyThiController : BaseController
     {
         // GET: Admin/QuanLyThi
+        public ActionResult LichSuThi()
+        {
+            return View();
+        }
         public ActionResult KiThi()
         {
 
@@ -511,7 +515,8 @@ namespace TracNghiemOnline.Areas.Admin.Controllers
                              SoCau = n.SoCau,
                              ThoiGian = n.ThoiGianThi,
                              TenMon = n.MonHoc.TenMon,
-
+                             
+                             NguoiTao = new TracNghiemOnlineDB().GiaoViens.Find(n.Ma_NguoiTao).TenGV
 
                          }).ToList();
 
@@ -599,7 +604,7 @@ namespace TracNghiemOnline.Areas.Admin.Controllers
             return View(classRom);
         }
 
-        public JsonResult UpdateExamRoom(string id)
+        public JsonResult UpdateExamRoom(string id,long? made)
         {
             try
             {
@@ -632,6 +637,7 @@ namespace TracNghiemOnline.Areas.Admin.Controllers
             }
             else
             {
+                classRoom.MaBoDe = made;
                 new QuanLyThiDAO().UpDatePhongThi1(classRoom);
                 return Json(new
                 {

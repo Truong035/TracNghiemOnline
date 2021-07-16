@@ -15,6 +15,7 @@ namespace TracNghiemOnline.Areas.Admin.Controllers
             Session[ComMon.ComMonStants.UserLogin] = null;
             return View();
         }
+        
         public ActionResult DangNhap(TaiKhoan taiKhoan)
         {
             if (ModelState.IsValid)
