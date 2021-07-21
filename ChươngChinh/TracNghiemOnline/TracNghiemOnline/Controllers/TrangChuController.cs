@@ -17,12 +17,7 @@ namespace TracNghiemOnline.Controllers
         // GET: TrangChu
         [HttpGet]
         
-        public ActionResult Index()
-        {
-            var session = (TaiKhoan)Session[ComMon.ComMonStants.UserLogin];
-            var DsMonHoc = lisALLSubject(long.Parse(session.TaiKhoan1));
-            return View(DsMonHoc);
-        }
+      
         public ActionResult Phong()
         {
             TracNghiemOnlineDB db = new TracNghiemOnlineDB();
@@ -60,10 +55,39 @@ namespace TracNghiemOnline.Controllers
         //    TracNghiemOnlineDB = new TracNghiemOnlineDB();
             var ds = db.DS_SVThi.SingleOrDefault(x=>x.MaDeThi==madethi1);
             ds.TrangThai = "Đã chuyển tab";
-           
             db.SaveChanges();
             return dethi.dem.Value;
         }
+
+        public string Refresh(long madethi1, string tgbd)
+        {
+            var ngay = tgbd.Split('/');
+            TracNghiemOnlineDB db = new TracNghiemOnlineDB();
+            DateTime data = new DateTime(int.Parse(ngay[0]), int.Parse(ngay[1]), int.Parse(ngay[2]), int.Parse(ngay[3]), int.Parse(ngay[4]), int.Parse(ngay[5]));
+            CT_Dethi cT = new CT_Dethi();
+            cT.MADETHI = madethi1;
+            cT.LYDO = " Mất kết nối " + data.ToString();
+            db.CT_Dethi.Add(cT);
+            db.SaveChanges();
+            //    TracNghiemOnlineDB = new TracNghiemOnlineDB();
+            var ds = db.DS_SVThi.SingleOrDefault(x => x.MaDeThi == madethi1);
+            ds.TrangThai = "Mất kết nối";
+            db.SaveChanges();
+            return ds.MaPhong;
+        }
+
+        public int Refresh1(long madethi1)
+        {
+            
+            TracNghiemOnlineDB db = new TracNghiemOnlineDB();
+            //    TracNghiemOnlineDB = new TracNghiemOnlineDB();
+            var ds = db.DS_SVThi.SingleOrDefault(x => x.MaDeThi == madethi1);
+            ds.TrangThai = "Đang làm bài";
+
+            db.SaveChanges();
+            return 0;
+        }
+
         public void TGTHI(string tgbd)
         {
             Session["TGTHI"] = tgbd;
@@ -187,27 +211,7 @@ namespace TracNghiemOnline.Controllers
             return View();
         }
 
-        public ActionResult Menul()
-        {
-            var session = (TaiKhoan)Session[ComMon.ComMonStants.UserLogin];
-            var DsMonHoc = lisALLSubject(long.Parse(session.TaiKhoan1));
-
-            return PartialView(DsMonHoc);
-
-        }
-        internal object lisALLSubject(long taiKhoan1)
-        {
-            //TracNghiemOnlineDB db = new TracNghiemOnlineDB();
-            //var sv = db.SinhViens.Find(taiKhoan1);
-            //var lop = db.Lops.Find(sv.Ma_Lop);
-            //var dsmon = db.DS_MonHoc.Where(x => x.Ma_Nganh == lop.Ma_Nganh).ToList();
-            //var MonHoc = new List<MonHoc>();
-            //foreach (var item in dsmon)
-            //{
-            //    MonHoc.Add(new TracNghiemOnlineDB().MonHocs.Find(item.Ma_Mon));
-            //}
-            return null;
-        }
+     
         public  ActionResult LuaChon(string madethi ,string id)
         {
             var examQuestion = (De_Thi)Session[ComMon.ComMonStants.ExamQuesTion];
@@ -264,11 +268,8 @@ namespace TracNghiemOnline.Controllers
           
                 var list = new BoDeDao().ChapterStudy(long.Parse(phong.MaBoDe.ToString()));
                 DeThi = new BoDeDao().MixExemQuestion(list, session.TaiKhoan1);
-           
-           
-
             }
-            new BoDeDao().UpdateDsThi(phong, DeThi,session.TaiKhoan1, "Đang Làm");
+            new BoDeDao().UpdateDsThi(phong, DeThi,session.TaiKhoan1, "Đã vào phòng");
             Session[ComMon.ComMonStants.ExamQuesTion] = DeThi;
             DateTime dateTime =DateTime.Parse(phong.ThoiGianDong.ToString());
             ViewBag.GioThi = dateTime.ToString("yyyy/MM/dd HH:mm:ss");
@@ -466,24 +467,9 @@ namespace TracNghiemOnline.Controllers
       
 
 
-        public ActionResult MonHoc(string id)
-        {
-
-            return View();
-        }
-
         
-             public ActionResult DanhGia(string id)
-        {
-
-            return View();
-        }
-
       
-        public ActionResult TAODE(string id)
-        {
-            return View();
-        }
+     
         public ActionResult Menu()
         {
             var taikhoan = (TaiKhoan)Session[ComMon.ComMonStants.UserLogin];

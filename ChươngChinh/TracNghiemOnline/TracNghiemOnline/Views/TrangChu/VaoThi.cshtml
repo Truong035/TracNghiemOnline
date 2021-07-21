@@ -29,8 +29,7 @@
                 <div class="card col-md-12" style="margin-top:3%">
                     <input id="TxtThoiGian" hidden="hidden" value="@ViewBag.GioThi" />
                     <input id="TxtMaDe" hidden value="@Dethi.MaDeThi" />
-
-
+             
                     <div class="card-title">
                         <h4 class="card-title text-info text-center">Thông Tin Sinh Viên</h4>
                     </div>
@@ -46,27 +45,25 @@
                 </div>
 
             </div>
-
-
-
         </div>
     </div>
     <div class="main-panel">
+        <div class="content" id="frmBatDau">
+        <div class="row">
+            <div class="card row col-8 container" style="margin-top:0px;margin-left:20%;height:250px">
 
+                <div class="card-body text-center" style="margin-top:60px">
+                    <button id="btnBatDau" class="btn btn-warning"> Bắt đầu</button>
 
-        <div class="content">
-            <div class="row" id="frmBatDau">
-                <div class="card row col-8 container" style="margin-top:0px;margin-left:20%;height:250px">
-
-                    <div class="card-body text-center" style="margin-top:60px">
-                        <button id="btnBatDau" class="btn btn-warning"> Bắt đầu</button>
-
-                    </div>
                 </div>
             </div>
+        </div>
+        </div>
+        <div class="content" id="frmbailam">
 
 
-            <div class="container-fluid" id="frmbailam">
+
+            <div class="container-fluid" >
                 <div class="container-fluid" style="margin-top:-5%">
                     <div class=" row card" style="width:102%">
 
@@ -170,7 +167,7 @@
 
                                 </div>
                                 <div class=" card-header-text text-center">
-                                    <button class="btn btn-facebook "  id="bntNopBai"> Nộp Bài</button>
+                                    <button class="btn btn-facebook " id="bntNopBai"> Nộp Bài</button>
                                 </div>
                             </div>
 
@@ -187,7 +184,7 @@
         </div>
     </div>
 
-</div>
+    </div>
 
 
 @section scripts{
@@ -198,6 +195,7 @@
 
     <script>
         var madethi = $('#TxtMaDe').val();
+     
         var listch = [];
         function changeText(button) {
             var mach = $(button).val();
@@ -231,16 +229,10 @@
             });
 
         };
-        function Close() {
-          //  clearInterval(x);
-            $('#thongbao').hide();
-            $('#frmBatDau').slideDown();
-            $('#frmbailam').hide();
-        }
-
+      
         $(document).ready(function () {
             $('#frmbailam').hide();
-
+           
             $.ajax({
                 type: 'POST',
                 url: '/TrangChu/KiemTraDe',
@@ -259,10 +251,21 @@
             });
 
             $('#btnBatDau').click(function () {
-                Batdau();
-                openFullscreen();
-                $('#frmBatDau').hide();
-                $('#frmbailam').slideDown();;
+                $.ajax({
+                    type: 'POST',
+                    url: '/TrangChu/Refresh1',
+                    //  data: { listCH: JSON.stringify(listch) },
+                    data: { madethi1: madethi },
+                    success: function (data) {
+                        Batdau();
+                        openFullscreen();
+                        $('#frmBatDau').hide();
+                        $('#frmbailam').slideDown();
+                    }
+
+                })
+
+                
             });
 
 
@@ -277,6 +280,8 @@
                 }
 
             });
+         
+
             $('#bntNopBai').click(function () {
                 var buton = $('.btnchon');
 
@@ -290,18 +295,37 @@
                         });
                     }
                 }
-                if (listch.length == buton.length) {
-                    window.location = "/Diemthi/" + madethi;
-                }
-                else {
-                    alert("vui lòng làm hết câu hỏi");
-                }
+                var let = ` <div id = "dialog"> <div class="col-lg-5 col-md-10 col-sm-10 container text-center" style="margin-top:10%">
+                <div class="card card-stats">
+                    <div class="card-header card-header-warning">
+                        <h4 class="card-title text-center">Thông báo</h4>
+                    </div>
+                    <div class="card-header">
+                        <div class="stats">
 
+                            <h3 class="card-text">Bạn có chắc muốn nộp luôn chứ</h3>
+                        </div>
+                    </div>
+                    <div class=" card-header-text text-center">
+                        <a class="btn btn-info" href="/Diemthi/`+ madethi+`">Nộp</a>
+                        <a class="btn btn-danger" onclick="Close2()">Đóng</a>
+                    </div>
+                </div>
+            </div> </div>`
+
+                $('#thongbao').empty();
+
+                $('#thongbao').append(let);
+
+                $('#thongbao').show();
 
 
             });
+        });
+        function Close2() {
+            $('#thongbao').hide();
 
-          
+        }
         var x;
         function Batdau() {
             var tg = $('#TxtThoiGian').val();
@@ -316,8 +340,33 @@
                     data: { madethi },
                     success: function (KetQua) {
                         if (KetQua.status == false) {
+                            var let = `<div id="dialog">
 
+                                <div class="col-lg-5 col-md-10 col-sm-10 container text-center" style="margin-top:10%">
+                                    <div class="card card-stats">
+                                        <div class="card-header card-header-warning">
+                                            <h4 class="card-title text-center">Thông báo</h4>
+                                        </div>
+                                        <div class="card-header">
+                                            <div class="stats">
 
+                                                <h3 class="card-text">Bạn đã bị giáo viên cầm thi</h3>
+                                            </div>
+                                         </div>
+                                        <div class=" card-header-text text-center">
+                                            <a class="btn btn-info" href="/PhongThi">Thoát</a>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>`
+
+                            clearInterval(x);
+                            $('#thongbao').empty();
+
+                            $('#thongbao').append(let);
+
+                            $('#thongbao').show();
+                        
                         }
 
                     }
@@ -360,7 +409,7 @@
                 type: 'POST',
                 url: '/TrangChu/HuyDe',
                 //  data: { listCH: JSON.stringify(listch) },
-                data: { madethi1:madethi, tgbd: tgbd},
+                data: { madethi1: madethi, tgbd: tgbd},
                 success: function (data) {
                   
                                 var let = `<div id="dialog">
@@ -377,7 +426,7 @@
                                             </div>
                                          </div>
                                         <div class=" card-header-text text-center">
-                                            <button id="Thoat" onclick="Close()" class="btn btn-info" href="/PhongThi">Thoát</button>
+                                            <button id="Thoat" onclick="Close1()" class="btn btn-info" href="/PhongThi">Thoát</button>
                                         </div>
                                     </div>
                                 </div>
@@ -393,9 +442,15 @@
             });
 
         }
-    </script>
+        function Close1() {
+            //  clearInterval(x);
+            $('#thongbao').hide();
+            $('#frmbailam').hide();
+            $('#frmBatDau').show();
 
-    <script>
+            //   
+        }
+
 
         function closeFullscreen() {
             if (document.exitFullscreen) {
@@ -417,15 +472,41 @@
             }
             function my_onkeydown_handler(event) {
                 switch (event.keyCode) {
-                    case 18:
+                    //case 18:
+                    //    event.preventDefault();
+                    //    event.keyCode = 0;
+                    //    ViPham();
+                    //    clearInterval(x1);
+                    //    closeFullscreen();
+                    //    document.removeEventListener("keydown", my_onkeydown_handler);
+                    //    break;
+                    case 116:
                         event.preventDefault();
                         event.keyCode = 0;
-                        ViPham();
-                        clearInterval(x1);
-                        closeFullscreen();
-                        document.removeEventListener("keydown", my_onkeydown_handler);
+                    //    window.status = "F5 disabled";
+                        var now = new Date();
+
+                        var tgbd = now.getFullYear() + '/' + (now.getMonth() + 1) + '/' + now.getDate() + '/' + now.getHours() + '/' + now.getMinutes() + '/' + now.getSeconds() + ""
+                        $.ajax({
+                            type: 'POST',
+                            url: '/TrangChu/Refresh',
+                            //  data: { listCH: JSON.stringify(listch) },
+                            data: { madethi1: madethi, tgbd: tgbd },
+                            success: function (data) {
+
+                                window.location = "/PhongThi";
+
+
+                            }
+                        });
+                        
                         break;
 
+                    case 116:
+                        event.preventDefault();
+                        event.keyCode = 0;
+                      
+                        break;
                     case 91:
                         event.preventDefault();
                         event.keyCode = 0;
@@ -451,6 +532,74 @@
             }, 1000)
 
         }
+     
+        document.onkeypress = function (event) {
+            event = (event || window.event);
+            if (event.keyCode == 123) {
+                return false;
+            }
+        }
+        document.onmousedown = function (event) {
+            event = (event || window.event);
+            if (event.keyCode == 123) {
+                return false;
+            }
+        }
+        document.onkeydown = function (e) {
+            e = (event || window.event);
+            if (e.ctrlKey && (e.keyCode === 67 || e.keyCode === 86 || e.keyCode === 85 || e.keyCode === 117 || e.keycode === 17 || e.keycode === 85)) {//ctrl+u Alt+c, Alt+v will also be disabled sadly.
+                // alert('not allowed');
+            }
 
+            if (e.keyCode == 123) {
+                return false;
+            }
+            if (e.keyCode === 8) {
+                // try to cancel the backspace
+                return false;
+            }
+        } 
+        
+        document.onkeydown = function () {
+            switch (event.keyCode) {
+                case 116: //F5 button
+                    event.returnValue = false;
+                    event.keyCode = 0;
+                    var now = new Date();
+
+                    var tgbd = now.getFullYear() + '/' + (now.getMonth() + 1) + '/' + now.getDate() + '/' + now.getHours() + '/' + now.getMinutes() + '/' + now.getSeconds() + ""
+                    $.ajax({
+
+                        type: 'POST',
+                        url: '/TrangChu/Refresh',
+                        //  data: { listCH: JSON.stringify(listch) },
+                        data: { madethi1: madethi, tgbd: tgbd },
+                        success: function (data) {
+                            window.location = "/PhongThi";
+                        }
+                    });
+                    return false;
+                case 82: //R button
+                    if (event.ctrlKey) {
+                        event.returnValue = false;
+                        event.keyCode = 0;
+                        var now = new Date();
+                        var tgbd = now.getFullYear() + '/' + (now.getMonth() + 1) + '/' + now.getDate() + '/' + now.getHours() + '/' + now.getMinutes() + '/' + now.getSeconds() + ""
+                        $.ajax({
+                            type: 'POST',
+                            url: '/TrangChu/Refresh',
+                            //  data: { listCH: JSON.stringify(listch) },
+                            data: { madethi1: madethi, tgbd: tgbd },
+                            success: function (data) {
+
+                                window.location = "/PhongThi";
+
+
+                            }
+                        });
+                        return false;
+                    }
+            }
+        }
     </script>
 }

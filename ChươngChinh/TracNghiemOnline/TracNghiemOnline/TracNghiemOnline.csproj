@@ -775,6 +775,7 @@
     <None Include="Properties\PublishProfiles\FTPProfile.pubxml" />
     <Content Include="Scripts\js\JavaScript.js" />
     <Content Include="Scripts\js\scripts.js" />
+    <Content Include="Scripts\js\vohieuhoa.js" />
     <Content Include="Web.config" />
     <Content Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
