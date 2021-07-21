@@ -1,93 +1,81 @@
-﻿
+﻿@model  TracNghiemOnline.Modell.Phong_Thi
+@using TracNghiemOnline.Modell;
 @{
-    Layout = null;
-    TracNghiemOnline.Modell.De_Thi Dethi = (TracNghiemOnline.Modell.De_Thi)ViewBag.DeThi;
+
+    De_Thi Dethi = (De_Thi)ViewBag.DeThi;
+    ViewBag.Title = "Index";
+    Layout = "~/Views/Share/layoutBaithi.cshtml";
+
 }
 
+<div class="wrapper ">
+    <div class="sidebar" data-image="../assets/img/sidebar-3.jpg">
+        <!--
+            Tip 1: You can change the color of the sidebar using: data-color="purple | azure | green | orange | danger"
 
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="utf-8" />
-    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
-    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
-    <meta name="description" content="" />
-    <meta name="author" content="" />
-    <title>Trắc Nghiệm Online</title>
-    <link href="~/Content/css/styles.css" rel="stylesheet" />
-    <link href="https://cdn.datatables.net/1.10.20/css/dataTables.bootstrap4.min.css" rel="stylesheet" crossorigin="anonymous" />
-    <style>
-
-        #CauHoi {
-            position: fixed;
-            top: 10%;
-            left: 83.5%;
-            height: 100%;
-            cursor: pointer;
-            z-index: 99;
-        }
-        #dialog {
-            width: 100%;
-            height: 100%;
-            position: fixed;
-            z-index: 100000;
-            overflow: hidden;
-            text-align: center;
-            background-color: rgb(68 65 65 / 0.55);
-        }
-        #frmch {
-            width: 80%;
-        }
-    </style>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.1/js/all.min.js" crossorigin="anonymous"></script>
-
-</head>
-<body class="sb-nav-fixed ">
-    <div id="layoutSidenav">
-        <div id="layoutSidenav ">
-            <div id="thongbao">
+            Tip 2: you can also add an image using data-image tag
+        -->
+        <div class="logo">
+            <a href="#" class="simple-text logo-normal">
+                Trắc Nghiệm Online
+            </a>
+        </div>
+        <div class="sidebar-wrapper">
+            <div class="card ">
+                <img src="https://i.ytimg.com/vi/Lom1Xn8Mw-8/mqdefault.jpg" class="rounded" alt="Responsive image" />
 
             </div>
-            <div class="container-fluid">
-                <main>
+            <div class="col-12">
+                <div class="card col-md-12" style="margin-top:3%">
+                    <input id="TxtThoiGian" hidden="hidden" value="@ViewBag.GioThi" />
+                    <input id="TxtMaDe" hidden value="@Dethi.MaDeThi" />
 
-                    <div id="layoutSidenav_content" style="margin-top:-4%">
 
-                        <div id="DongHo">
-                            <div class="col-md-2 card" style="margin-top:3%">
-                                <input id="TxtThoiGian" hidden="hidden" value="@ViewBag.GioThi" />
-                                <input id="TxtMaDe" hidden="hidden" value="@Dethi.MaDeThi" />
-                                <div class="card-title">
-                                    <h5 class="card-header py-2 text-center">Thông Tin Sinh Viên </h5>
-                                </div>
-                                <div class="status card-body  small bottom-50">
-                                    MaSV :   @Dethi.SinhVien.MaSV
-                                </div>
-                                <div class="status card-body  small">
-                                    Tên : @Dethi.SinhVien.Ten
-                                </div>
-                                <div class="status card-body small">
-                                    Ngày Sinh : @Dethi.SinhVien.NgaySinh
-                                </div>
-                                <div class="status card-body  small">
-                                    Lớp :   @Dethi.SinhVien.Lop.TenLop
-                                </div>
-                                <div class="status card-body  small">
-                                    Môn Thi : @Dethi.Bo_De.MonHoc.TenMon
-                                </div>
+                    <div class="card-title">
+                        <h4 class="card-title text-info text-center">Thông Tin Sinh Viên</h4>
+                    </div>
+                    <div class="status card-body  small bottom-50">
+                        <label class="bmd-label-floating row"> MaSV :   @Dethi.SinhVien.MaSV</label>
+                        <label class="bmd-label-floating row">Tên : @Dethi.SinhVien.Ten</label>
+                        <label class="bmd-label-floating row">Ngày Sinh : @Dethi.SinhVien.NgaySinh.Value.Day/@Dethi.SinhVien.NgaySinh.Value.Month/@Dethi.SinhVien.NgaySinh.Value.Year </label>
+                        <label class="bmd-label-floating row"> Lớp :   @Dethi.SinhVien.Lop.TenLop</label>
+                        <label class="bmd-label-floating row">   Môn Thi : @Dethi.Bo_De.MonHoc.TenMon</label>
+                        <label class="bmd-label-floating row">  <span id="demo"></span></label>
+                    </div>
 
-                                <div class="status card-body  small">
-                                    <span id="demo">Đồng Hồ</span>
-                                </div>
-                            </div>
+                </div>
+
+            </div>
+
+
+
+        </div>
+    </div>
+    <div class="main-panel">
+
+
+        <div class="content">
+            <div class="row" id="frmBatDau">
+                <div class="card row col-8 container" style="margin-top:0px;margin-left:20%;height:250px">
+
+                    <div class="card-body text-center" style="margin-top:60px">
+                        <button id="btnBatDau" class="btn btn-warning"> Bắt đầu</button>
+
+                    </div>
+                </div>
+            </div>
+
+
+            <div class="container-fluid" id="frmbailam">
+                <div class="container-fluid" style="margin-top:-5%">
+                    <div class=" row card" style="width:102%">
+
+                        <input id="TxtThoiGian" value="@ViewBag.GioThi" hidden />
+                        <div class=" right card-header card-header-primary text-center" style=" left:33%; width:400px;">
+                            <h4 class="card-title">Bài Thi</h4>
                         </div>
 
-                        <div class="card-header text-center col-md-12 card py-3">
-                            <span>Đề Thi Trắc Nghiệm</span>
-                        </div>
-
-                        <div class="card col-auto">
-
+                        <div class="col-9">
                             @{
                                 int dem = 0;
                                 foreach (var item in Dethi.CauHoiDeThis)
@@ -95,13 +83,13 @@
 
 
                                     dem++;
-                                    <h5 class=" card-body chon" style="width:920px" id="@item.Kho_CauHoi.Ma_CauHoi">Câu @dem )@item.Kho_CauHoi.NoiDung </h5>
+                                    <h4 class=" card-body chon" id="@item.Kho_CauHoi.Ma_CauHoi">Câu @dem )@item.Kho_CauHoi.NoiDung </h4>
                                     try
                                     {
                                         if (item.Kho_CauHoi.HinhAnh.Length > 0)
                                         {
-                                            <div class="row" style="margin-top:0px;margin-left:10%">
-                                                <img src="@item.Kho_CauHoi.HinhAnh" width="200">
+                                            <div class="row card-header" style="margin-top:0px;margin-left:10%;margin-top:-30px">
+                                                <img src="@item.Kho_CauHoi.HinhAnh" width="500">
                                             </div>}
                                     }
                                     catch { }
@@ -111,7 +99,7 @@
                                     {
                                         if (item1.TrangThai == false)
                                         {
-                                            <div class="row" style="margin-top:0px;margin-left:3%" ;>
+                                            <div class="row card-header" style="margin-top:0px;margin-left:3%" ;>
                                                 <label class="form-check-label" for="@item1.MA_DAN">
                                                     <input class="form-check-input txtch" onclick="changeText(this)" type="radio" value="@item.Kho_CauHoi.Ma_CauHoi" name="@item.Kho_CauHoi.Ma_CauHoi" id="@item1.MA_DAN">
                                                     @item1.NoiDung
@@ -120,9 +108,9 @@
                                         }
                                         else
                                         {
-                                            <div class="row" style="margin-top:0px;margin-left:3%" ;>
+                                            <div class="row card-header " style="margin-top:0px;margin-left:3%" ;>
                                                 <label class="form-check-label" id="@item1.MA_DAN" for="@item1.MA_DAN">
-                                                    <input class="form-check-input txtch" type="radio" onclick="changeText(this.id)" value="@item.Kho_CauHoi.Ma_CauHoi" checked name="@item.Kho_CauHoi.Ma_CauHoi" id="@item1.MA_DAN">
+                                                    <input class="form-check-input txtch" type="radio" onclick="changeText(this)" value="@item.Kho_CauHoi.Ma_CauHoi" checked name="@item.Kho_CauHoi.Ma_CauHoi" id="@item1.MA_DAN">
                                                     @item1.NoiDung
                                                 </label>
                                             </div>
@@ -133,8 +121,8 @@
 
                                             if (item1.HinhAnh.Length > 0)
                                             {
-                                                <div class="row" style="margin-left:6%" ;>
-                                                    <img src="@item1.HinhAnh" width="150">
+                                                <div class="row card-header " style="margin-top:0px;margin-left:6%" ;>
+                                                    <img src="@item1.HinhAnh" width="300">
                                                 </div>}
                                         }
                                         catch { }
@@ -145,132 +133,69 @@
 
                                 }
                             }
-
-
-                            @*<div class="card col-12">
-                                    @{
-                                        int i = 0;
-                                        foreach (var item in Dethi.CauHoiDeThis)
-                                        {
-
-                                            <div class="form-group">
-                                                <h5 style="width:710px;"> Câu @(i=i+1) : @item.Kho_CauHoi.NoiDung </h5>
-
-                                                @{
-                                                    try
-                                                    {
-                                                        if (item.Kho_CauHoi.HinhAnh.Length > 0)
-                                                        {
-                                                            <div class="card-body ">
-                                                                <img class="img-circle center-block" style="margin-left:140px" src="@item.Kho_CauHoi.HinhAnh"
-                                                                     alt="anh viet nam anh 1 " width="400px" height="400px" />
-                                                            </div>
-
-                                                        }
-
-                                                    }
-                                                    catch { }
-
-                                                }
-
-                                            </div>
-                                            foreach (var item1 in item.Kho_CauHoi.Dap_AN)
-                                            {
-                                                <div class="form-group">
-                                                    @try
-                                                    {
-                                                        if (item1.HinhAnh.Length > 0)
-                                                        {
-                                                            <img class="img-circle center-block" style="margin-left:80px" src="@item1.HinhAnh"
-                                                                 alt="anh viet nam anh 1" width="150px" />
-
-                                                        }
-                                                    }
-                                                    catch { }
-
-                                                    <div class="custom-control custom-radio">
-                                                        @{
-                                                            if (item1.TrangThai == true)
-                                                            {
-                                                                <input class="custom-control-inline form-check" id="@item1.MA_DAN" name="@item1.Ma_CauHoi" checked="checked" type="radio" onclick="changeText(this.id)" />
-                                                                <label class="custom-control-inline" style="width:700px" for="@item1.MA_DAN">
-                                                                    @item1.NoiDung
-                                                                </label>
-                                                            }
-                                                            else
-                                                            {
-                                                                <input class="custom-control-inline form-check" id="@item1.MA_DAN" name="@item1.Ma_CauHoi" type="radio" onclick="changeText(this.id)" />
-                                                                <label class="custom-control-inline" style="width:700px" for="@item1.MA_DAN">
-                                                                    @item1.NoiDung
-                                                                </label>
-                                                            }
-
-                                                        }
-                                                    </div>
-                                                </div>
-
-                                            }
-
-
-
-                                        }
-                                    }
-                                    <div class="card-body ">
-                                        <input id="bntNopBai" class=" btn btn-success " type="submit" value="Nộp Bài" />
-                                    </div>
-                                </div>*@
-                            <div id="CauHoi" class="col-2">
-                                <div class="card">
-                                    <div class="card-info">
-                                        <h5 class="card-header py-2 text-center">Danh sách câu hỏi  </h5>
-                                    </div>
-                                    <div class="card-body">
-
-                                        <div class="stats">
-                                            @{
-                                                int cout = 1;
-                                                foreach (var item in Dethi.CauHoiDeThis)
-                                                {
-                                                    if (item.Kho_CauHoi.Dap_AN.ToList().Exists(x => x.TrangThai == true))
-                                                    {
-                                                        <a name="chon" href="#@item.Kho_CauHoi.Ma_CauHoi" id="@item.Kho_CauHoi.Ma_CauHoi" class="btn btn-success btnchon" style=" margin-bottom:3px; border-radius:30% ;padding:2px;width:30px;height:30px"> @cout</a>
-
-                                                    }
-                                                    else
-                                                    {
-                                                        <a name="chon" href="#@item.Kho_CauHoi.Ma_CauHoi" id="@item.Kho_CauHoi.Ma_CauHoi" class="btn btn-outline-secondary btnchon" style=" margin-bottom:3px; border-radius:30% ;padding:2px;width:30px;height:30px"> @cout</a>
-                                                    }
-
-                                                    cout++;
-                                                }
-                                            }
-
-                                        </div>
-
-
-                                    </div>
-                                    <div class=" card-body text-center">
-                                        <button class="btn btn-success btn-success" id="bntNopBai"> Nộp Bài</button>
-                                    </div>
+                        </div>
+                        <div id="DongHo" class="col-2">
+                            <div class="card" style="border-color:#000000">
+                                <div class=" card-header-info">
+                                    <h5 class="card-title text-center">Danh sách câu hỏi  </h5>
                                 </div>
+                                <div class="card-header">
+                                    <div class="stats">
+                                        <label id="thoigian"></label>
+                                    </div>
+                                    <div class="stats">
+                                        <label class="small">Số câu @Dethi.CauHoiDeThis.Count câu </label>
+                                    </div>
+                                    <div class="stats">
+
+                                        @{
+                                            int cout = 1;
+                                            foreach (var item in Dethi.CauHoiDeThis)
+                                            {
+                                                if (item.Kho_CauHoi.Dap_AN.ToList().Exists(x => x.TrangThai == true))
+                                                {
+                                                    <a name="chon" href="#@item.Kho_CauHoi.Ma_CauHoi" id="@item.Kho_CauHoi.Ma_CauHoi" class="btn btn-success btnchon" style=" margin-bottom:3px; border-radius:30% ;padding:2px;width:30px;height:30px"> @cout</a>
+
+                                                }
+                                                else
+                                                {
+                                                    <a name="chon" href="#@item.Kho_CauHoi.Ma_CauHoi" id="@item.Kho_CauHoi.Ma_CauHoi" class="btn btn-outline-secondary btnchon" style=" margin-bottom:3px; border-radius:30% ;padding:2px;width:30px;height:30px"> @cout</a>
+                                                }
+
+                                                cout++;
+                                            }
+                                        }
+                                    </div>
 
 
+                                </div>
+                                <div class=" card-header-text text-center">
+                                    <button class="btn btn-facebook "  id="bntNopBai"> Nộp Bài</button>
+                                </div>
                             </div>
 
+
                         </div>
+
+
                     </div>
 
-                </main>
-
-
+                </div>
 
             </div>
+
         </div>
     </div>
-    <script src="https://code.jquery.com/jquery-3.5.1.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.5.3/dist/js/bootstrap.bundle.min.js" crossorigin="anonymous"></script>
 
- 
+</div>
+
+
+@section scripts{
+
+    <script src="~/assets/js/plugin/perfect-scrollbar.jquery.min.js"></script>
+    <script src="~/assets/js/material-dashboard.js"></script>
+
+
     <script>
         var madethi = $('#TxtMaDe').val();
         var listch = [];
@@ -306,9 +231,16 @@
             });
 
         };
-
+        function Close() {
+          //  clearInterval(x);
+            $('#thongbao').hide();
+            $('#frmBatDau').slideDown();
+            $('#frmbailam').hide();
+        }
 
         $(document).ready(function () {
+            $('#frmbailam').hide();
+
             $.ajax({
                 type: 'POST',
                 url: '/TrangChu/KiemTraDe',
@@ -325,6 +257,14 @@
 
                 }
             });
+
+            $('#btnBatDau').click(function () {
+                Batdau();
+                openFullscreen();
+                $('#frmBatDau').hide();
+                $('#frmbailam').slideDown();;
+            });
+
 
             $(document).on('click', "button[name ='chon']", function () {
                 var ma = this.id;
@@ -361,53 +301,14 @@
 
             });
 
-            document.addEventListener('visibilitychange', function () {
-                if (document.visibilityState == "hidden") {
-                    $.ajax({
-                        type: 'POST',
-                        url: '/TrangChu/HuyDe',
-                        //  data: { listCH: JSON.stringify(listch) },
-                        data: { madethi },
-                        success: function (data) {
-
-                            var let = `<div id="dialog">
-
-                <div class="col-lg-5 col-md-10 col-sm-10 container text-center" style="margin-top:10%">
-                    <div class="card card-stats">
-                        <div class="card-header card-header-warning">
-                            <h4 class="card-title text-center">Thông báo</h4>
-                        </div>
-                        <div class="card-header">
-                            <div class="stats">
-
-                                <h3 class="card-text">Bạn đã vi phạm quy chế thi</h3>
-                            </div>
-                         </div>
-                        <div class=" card-header-text text-center">
-                            <a class="btn btn-info" href="/PhongThi">Thoát</a>
-                        </div>
-                    </div>
-                </div>
-            </div>`
-
-                            clearInterval(x);
-                            $('#thongbao').empty();
-                            $('#thongbao').append(let);
-
-                            $('#thongbao').show();
-                        }
-                    });
-
-
-                }
-            });
-
-            // Thiết lập thời gian đích mà ta sẽ đếm
+          
+        var x;
+        function Batdau() {
             var tg = $('#TxtThoiGian').val();
             var countDownDate = new Date(tg).getTime();
             // cập nhập thời gian sau mỗi 1 giây
 
-            var x = setInterval(function () {
+            x = setInterval(function () {
                 // Lấy thời gian hiện tại
                 $.ajax({
                     type: 'POST',
@@ -416,32 +317,6 @@
                     success: function (KetQua) {
                         if (KetQua.status == false) {
 
-                            var let = `<div id="dialog">
-
-                <div class="col-lg-5 col-md-10 col-sm-10 container text-center" style="margin-top:10%">
-                    <div class="card card-stats">
-                        <div class="card-header card-header-warning">
-                            <h4 class="card-title text-center">Thông báo</h4>
-                        </div>
-                        <div class="card-header">
-                            <div class="stats">
-
-                                <h3 class="card-text">Bạn đã vi phạm quy chế thi</h3>
-                            </div>
-                         </div>
-                        <div class=" card-header-text text-center">
-                            <a class="btn btn-info" href="/PhongThi">Thoát</a>
-                        </div>
-                    </div>
-                </div>
-            </div>`
-
-                            clearInterval(x);
-                            $('#thongbao').empty();
-
-                            $('#thongbao').append(let);
-
-                            $('#thongbao').show();
 
                         }
 
@@ -461,12 +336,12 @@
 
                 // HIển thị chuỗi thời gian trong thẻ p
                 if (hours > 0) {
-                    document.getElementById("demo").innerHTML = "Thời Gian Còn Lại  " + hours + " : "
+                    document.getElementById("demo").innerHTML = "Thời Gian  " + hours + " : "
                         + minutes + " : " + seconds + " Phút ";
                 }
                 else {
-                    document.getElementById("demo").innerHTML = "Thời Gian Còn Lại  "
-                        + minutes + " : " + seconds + " Phút ";
+                    document.getElementById("demo").innerHTML = "Thời Gian   "
+                        + minutes + " : " + seconds + " Giây ";
                 }
                 // Nếu thời gian kết thúc, hiển thị chuỗi thông báo
                 if (distance < 0) {
@@ -475,14 +350,107 @@
                     clearInterval(x);
                 }
             }, 1000);
+        }
 
-        });
+        function ViPham() {
+            var now = new Date();
+     
+            var tgbd = now.getFullYear() + '/' + (now.getMonth() + 1) + '/' + now.getDate() + '/' + now.getHours() + '/' + now.getMinutes() + '/' + now.getSeconds() + ""
+            $.ajax({
+                type: 'POST',
+                url: '/TrangChu/HuyDe',
+                //  data: { listCH: JSON.stringify(listch) },
+                data: { madethi1:madethi, tgbd: tgbd},
+                success: function (data) {
+                  
+                                var let = `<div id="dialog">
+
+                                <div class="col-lg-5 col-md-10 col-sm-10 container text-center" style="margin-top:10%">
+                                    <div class="card card-stats">
+                                        <div class="card-header card-header-warning">
+                                            <h4 class="card-title text-center">Thông báo</h4>
+                                        </div>
+                                        <div class="card-header">
+                                            <div class="stats">
+
+                                                <h3 class="card-text">Bạn đã rời khỏi màn hình `+ data +` lần</h3>
+                                            </div>
+                                         </div>
+                                        <div class=" card-header-text text-center">
+                                            <button id="Thoat" onclick="Close()" class="btn btn-info" href="/PhongThi">Thoát</button>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>`
+
+                              clearInterval(x);
+                                $('#thongbao').empty();
+
+                                $('#thongbao').append(let);
+
+                                $('#thongbao').show();
+                }
+            });
+
+        }
     </script>
 
+    <script>
 
+        function closeFullscreen() {
+            if (document.exitFullscreen) {
+                document.exitFullscreen();
+            } else if (document.webkitExitFullscreen) { /* Safari */
+                document.webkitExitFullscreen();
+            } else if (document.msExitFullscreen) { /* IE11 */
+                document.msExitFullscreen();
+            }
+        }
+        function openFullscreen() {
+            var elem = document.documentElement;
+            if (document.requestFullscreen) {
+                elem.requestFullscreen();
+            } else if (elem.webkitRequestFullscreen) { /* Safari */
+                elem.webkitRequestFullscreen();
+            } else if (elem.msRequestFullscreen) { /* IE11 */
+                elem.msRequestFullscreen();
+            }
+            function my_onkeydown_handler(event) {
+                switch (event.keyCode) {
+                    case 18:
+                        event.preventDefault();
+                        event.keyCode = 0;
+                        ViPham();
+                        clearInterval(x1);
+                        closeFullscreen();
+                        document.removeEventListener("keydown", my_onkeydown_handler);
+                        break;
 
-</body>
-</html>
+                    case 91:
+                        event.preventDefault();
+                        event.keyCode = 0;
+                        ViPham();
+                      
+                        closeFullscreen();
+                        document.removeEventListener("keydown", my_onkeydown_handler);
+                        break;
+                }
+            }
 
+            var x1 = setInterval(function () {
+                // Lấy thời gian hiện tại
 
+                document.addEventListener("keydown", my_onkeydown_handler);
 
+                if (!document.fullscreenElement) {
+                    document.removeEventListener("keydown", my_onkeydown_handler);
+                    clearInterval(x1);
+                    ViPham();
+                
+                }
+            }, 1000)
+
+        }
+
+    </script>
+}

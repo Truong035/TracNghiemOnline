@@ -1,78 +1,128 @@
 ﻿
 @{
-    Layout = null;
-   TracNghiemOnline.Modell.De_Thi Dethi = (TracNghiemOnline.Modell.De_Thi) ViewBag.DeThi;
+    //Layout = null;
+    TracNghiemOnline.Modell.De_Thi Dethi = (TracNghiemOnline.Modell.De_Thi)ViewBag.DeThi;
+    ViewBag.Title = "Index";
+    Layout = "~/Views/Share/layoutBaithi.cshtml";
+
 }
+<div class="wrapper ">
+    <div class="sidebar" data-image="../assets/img/sidebar-3.jpg">
+        <!--
+            Tip 1: You can change the color of the sidebar using: data-color="purple | azure | green | orange | danger"
 
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="utf-8" />
-    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
-    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
-    <meta name="description" content="" />
-    <meta name="author" content="" />
-    <title>Trắc Nghiệm Online</title>
-    <link href="~/Content/css/styles.css" rel="stylesheet" />
-    <link href="https://cdn.datatables.net/1.10.20/css/dataTables.bootstrap4.min.css" rel="stylesheet" crossorigin="anonymous" />
-    <style>
+            Tip 2: you can also add an image using data-image tag
+        -->
+        <div class="logo">
+            <a href="#" class="simple-text logo-normal">
+                Trắc Nghiệm Online
+            </a>
+        </div>
+        <div class="sidebar-wrapper">
+            <div class="card ">
+                <img src="https://i.ytimg.com/vi/Lom1Xn8Mw-8/mqdefault.jpg" class="rounded" alt="Responsive image" />
 
-        #CauHoi {
-            position: fixed;
-            top: 10%;
-            left: 83.5%;
-            height: 100%;
-            cursor: pointer;
-            z-index: 99;
-        }
-        #frmch{
-          width:80%;
-        }
-    </style>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.1/js/all.min.js" crossorigin="anonymous"></script>
-</head>
-<body class="sb-nav-fixed ">
-    <div id="layoutSidenav">
-        <div id="layoutSidenav ">
+            </div>
+            <div class="col-12">
+                <div class="card col-md-12" style="margin-top:3%">
+                    <input id="TxtThoiGian" hidden="hidden" value="@ViewBag.GioThi" />
+                    <input id="TxtMaDe" hidden value="@Dethi.MaDeThi" />
+
+
+                    <div class="card-title">
+                        <h4 class="card-title text-info text-center">Thông Tin Sinh Viên</h4>
+                    </div>
+                    <div class="status card-body  small bottom-50">
+                        <label class="bmd-label-floating row"> MaSV :   @Dethi.SinhVien.MaSV</label>
+                        <label class="bmd-label-floating row">Tên : @Dethi.SinhVien.Ten</label>
+                        <label class="bmd-label-floating row">Ngày Sinh : @Dethi.SinhVien.NgaySinh.Value.Day/@Dethi.SinhVien.NgaySinh.Value.Month/@Dethi.SinhVien.NgaySinh.Value.Year </label>
+                        <label class="bmd-label-floating row"> Lớp :   @Dethi.SinhVien.Lop.TenLop</label>
+                        <label class="bmd-label-floating row">   Môn Thi : @Dethi.Bo_De.MonHoc.TenMon</label>
+                        <label class="bmd-label-floating row">  <span id="demo">Đồng Hồ</span></label>
+                    </div>
+
+                </div>
+
+            </div>
+
+
+
+        </div>
+    </div>
+    <div class="main-panel">
+
+        <nav class="navbar navbar-expand-lg navbar-transparent navbar-absolute fixed-top ">
             <div class="container-fluid">
-                <main>
-                    <div id="layoutSidenav_content" style="margin-top:-4%">
+                <div class="navbar-wrapper">
+                    <ul class="nav navbar-nav navbar-right">
+                        <li>
 
-                        <div id="DongHo">
-                            <div class="col-md-2 card" style="margin-top:3%">
-                                <input id="TxtThoiGian" hidden="hidden" value="@ViewBag.GioThi" />
-                                <input id="TxtMaDe" hidden value="@Dethi.MaDeThi" />
-                                <div class="card-title">
-                                    <h5 class="card-header py-2 text-center">Thông Tin Sinh Viên </h5>
-                                </div>
-                                <div class="status card-body  small bottom-50">
-                                    MaSV :   @Dethi.SinhVien.MaSV
-                                </div>
-                                <div class="status card-body  small">
-                                    Tên : @Dethi.SinhVien.Ten
-                                </div>
-                                <div class="status card-body small">
-                                    Ngày Sinh : @Dethi.SinhVien.NgaySinh
-                                </div>
-                                <div class="status card-body  small">
-                                    Lớp :   @Dethi.SinhVien.Lop.TenLop
-                                </div>
-                                <div class="status card-body  small">
-                                    Môn Thi : @Dethi.Bo_De.MonHoc.TenMon
-                                </div>
 
-                                <div class="status card-body  small">
-                                    <span id="demo">Đồng Hồ</span>
-                                </div>
+
+                        </li>
+
+                    </ul>
+
+                </div>
+                <button class="navbar-toggler" type="button" data-toggle="collapse" aria-controls="navigation-index" aria-expanded="false" aria-label="Toggle navigation">
+                    <span class="sr-only">Toggle navigation</span>
+                    <span class="navbar-toggler-icon icon-bar"></span>
+                    <span class="navbar-toggler-icon icon-bar"></span>
+                    <span class="navbar-toggler-icon icon-bar"></span>
+                </button>
+                <div class="collapse navbar-collapse justify-content-end">
+
+
+                    <ul class="navbar-nav">
+                        <li class="nav-item dropdown">
+                            @*<a class="nav-link" href="http://example.com" id="navbarDropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                    <i class="material-icons">notifications</i>
+                                    <span class="notification">5</span>
+                                    <p class="d-lg-none d-md-block">
+                                        Some Actions
+                                    </p>
+                                </a>*@
+                            @*<div class="dropdown-menu dropdown-menu-right" aria-labelledby="navbarDropdownMenuLink">
+                                    <a class="dropdown-item" href="#">Mike John responded to your email</a>
+                                    <a class="dropdown-item" href="#">You have 5 new tasks</a>
+                                    <a class="dropdown-item" href="#">You're now friend with Andrew</a>
+                                    <a class="dropdown-item" href="#">Another Notification</a>
+                                    <a class="dropdown-item" href="#">Another One</a>
+                                </div>*@
+                        </li>
+                        <li class="nav-item dropdown">
+                            <a class="nav-link" href="javascript:;" id="navbarDropdownProfile" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                <i class="material-icons">person</i>
+                                <p class="d-lg-none d-md-block">
+                                    Account
+                                </p>
+                            </a>
+
+
+                            <div class="dropdown-menu dropdown-menu-right" aria-labelledby="navbarDropdownProfile">
+                                <a class="dropdown-item" href="/Account/GioiThieu">Giới thiệu phần mềm</a>
+
+
+                                <div class="dropdown-divider"></div>
+                                <a class="dropdown-item" href="/Account/Login">Đăng Xuất</a>
                             </div>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </nav>
+
+        <div class="content">
+            <div class="container-fluid">
+                <div class="container-fluid" style="margin-top:-5%">
+                    <div class=" row card" style="width:102%">
+
+                        <input id="TxtThoiGian" value="@ViewBag.GioThi" hidden />
+                        <div class=" right card-header card-header-primary text-center" style=" left:33%; width:400px;">
+                            <h4 class="card-title">Bài Thi</h4>
                         </div>
 
-                        <div class="card-header text-center col-md-12 card py-3">
-                            <span>Đề Thi Trắc Nghiệm</span>
-                        </div>
-
-                        <div class="card col-auto">
-
+                        <div class="col-9">
                             @{
                                 int dem = 0;
                                 foreach (var item in Dethi.CauHoiDeThis)
@@ -80,13 +130,13 @@
 
 
                                     dem++;
-                                    <h5 class=" card-body chon" style="width:920px" id="@item.Kho_CauHoi.Ma_CauHoi">Câu @dem )@item.Kho_CauHoi.NoiDung </h5>
+                                    <h4 class=" card-body chon" id="@item.Kho_CauHoi.Ma_CauHoi">Câu @dem )@item.Kho_CauHoi.NoiDung </h4>
                                     try
                                     {
                                         if (item.Kho_CauHoi.HinhAnh.Length > 0)
                                         {
-                                            <div class="row" style="margin-top:0px;margin-left:10%">
-                                                <img src="@item.Kho_CauHoi.HinhAnh" width="200">
+                                            <div class="row card-header" style="margin-top:0px;margin-left:10%;margin-top:-30px">
+                                                <img src="@item.Kho_CauHoi.HinhAnh" width="400">
                                             </div>}
                                     }
                                     catch { }
@@ -96,7 +146,7 @@
                                     {
                                         if (item1.TrangThai == false)
                                         {
-                                            <div class="row" style="margin-top:0px;margin-left:3%" ;>
+                                            <div class="row card-header" style="margin-top:0px;margin-left:3%" ;>
                                                 <label class="form-check-label" for="@item1.MA_DAN">
                                                     <input class="form-check-input txtch" onclick="changeText(this)" type="radio" value="@item.Kho_CauHoi.Ma_CauHoi" name="@item.Kho_CauHoi.Ma_CauHoi" id="@item1.MA_DAN">
                                                     @item1.NoiDung
@@ -105,9 +155,9 @@
                                         }
                                         else
                                         {
-                                            <div class="row" style="margin-top:0px;margin-left:3%" ;>
+                                            <div class="row card-header " style="margin-top:0px;margin-left:3%" ;>
                                                 <label class="form-check-label" id="@item1.MA_DAN" for="@item1.MA_DAN">
-                                                    <input class="form-check-input txtch" type="radio" onclick="changeText(this.id)" value="@item.Kho_CauHoi.Ma_CauHoi" checked name="@item.Kho_CauHoi.Ma_CauHoi" id="@item1.MA_DAN">
+                                                    <input class="form-check-input txtch" type="radio" onclick="changeText(this)" value="@item.Kho_CauHoi.Ma_CauHoi" checked name="@item.Kho_CauHoi.Ma_CauHoi" id="@item1.MA_DAN">
                                                     @item1.NoiDung
                                                 </label>
                                             </div>
@@ -118,8 +168,8 @@
 
                                             if (item1.HinhAnh.Length > 0)
                                             {
-                                                <div class="row" style="margin-left:6%" ;>
-                                                    <img src="@item1.HinhAnh" width="150">
+                                                <div class="row card-header " style="margin-top:0px;margin-left:6%" ;>
+                                                    <img src="@item1.HinhAnh" width="300">
                                                 </div>}
                                         }
                                         catch { }
@@ -130,82 +180,84 @@
 
                                 }
                             }
-
-
-                         
-                            <div id="CauHoi" class="col-2">
-                                <div class="card">
-                                    <div class="card-info">
-                                        <h5 class="card-header py-2 text-center">Danh sách câu hỏi  </h5>
-                                    </div>
-                                    <div class="card-body">
-
-                                        <div class="stats">
-                                            @{
-                                                int cout = 1;
-                                                foreach (var item in Dethi.CauHoiDeThis)
-                                                {
-                                                    if (item.Kho_CauHoi.Dap_AN.ToList().Exists(x => x.TrangThai == true))
-                                                    {
-                                                        <a name="chon" href="#@item.Kho_CauHoi.Ma_CauHoi" id="@item.Kho_CauHoi.Ma_CauHoi" class="btn btn-success btnchon" style=" margin-bottom:3px; border-radius:30% ;padding:2px;width:30px;height:30px"> @cout</a>
-
-                                                    }
-                                                    else
-                                                    {
-                                                        <a name="chon" href="#@item.Kho_CauHoi.Ma_CauHoi" id="@item.Kho_CauHoi.Ma_CauHoi" class="btn btn-outline-secondary btnchon" style=" margin-bottom:3px; border-radius:30% ;padding:2px;width:30px;height:30px"> @cout</a>
-                                                    }
-
-                                                    cout++;
-                                                }
-                                            }
-
-                                        </div>
-
-
-                                    </div>
-                                    <div class=" card-body text-center">
-                                        <button class="btn btn-success btn-success" id="bntNopBai"> Nộp Bài</button>
-                                    </div>
+                        </div>
+                        <div id="DongHo" class="col-2">
+                            <div class="card" style="border-color:#000000">
+                                <div class=" card-header-info">
+                                    <h5 class="card-title text-center">Danh sách câu hỏi  </h5>
                                 </div>
+                                <div class="card-header">
+                                    <div class="stats">
+                                        <label id="thoigian"></label>
+                                    </div>
+                                    <div class="stats">
+                                        <label class="small">Số câu @Dethi.CauHoiDeThis.Count câu </label>
+                                    </div>
+                                    <div class="stats">
+
+                                        @{
+                                            int cout = 1;
+                                            foreach (var item in Dethi.CauHoiDeThis)
+                                            {
+                                                if (item.Kho_CauHoi.Dap_AN.ToList().Exists(x => x.TrangThai == true))
+                                                {
+                                                    <a name="chon" href="#@item.Kho_CauHoi.Ma_CauHoi" id="@item.Kho_CauHoi.Ma_CauHoi" class="btn btn-success btnchon" style=" margin-bottom:3px; border-radius:30% ;padding:2px;width:30px;height:30px"> @cout</a>
+
+                                                }
+                                                else
+                                                {
+                                                    <a name="chon" href="#@item.Kho_CauHoi.Ma_CauHoi" id="@item.Kho_CauHoi.Ma_CauHoi" class="btn btn-outline-secondary btnchon" style=" margin-bottom:3px; border-radius:30% ;padding:2px;width:30px;height:30px"> @cout</a>
+                                                }
+
+                                                cout++;
+                                            }
+                                        }
+                                    </div>
 
 
+                                </div>
+                                <div class=" card-header-text text-center">
+                                    <button class="btn btn-facebook " id="bntNopBai"> Nộp Bài</button>
+                                </div>
                             </div>
 
+
                         </div>
+
+
                     </div>
-                </main>
 
-
+                </div>
 
             </div>
+
         </div>
     </div>
-    <script src="https://code.jquery.com/jquery-3.5.1.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.5.3/dist/js/bootstrap.bundle.min.js" crossorigin="anonymous"></script>
 
+</div>
+@section scripts{
+
+    <script src="~/assets/js/plugin/perfect-scrollbar.jquery.min.js"></script>
+    <script src="~/assets/js/material-dashboard.js"></script>
     <script>
 
         var madethi = $('#TxtMaDe').val();
         $(document).ready(function () {
-
             $.ajax({
                 type: 'post',
                 url: '/TrangChu/KiemTraDe',
                 data: { madethi: madethi.trim() },
                 success: function (KetQua) {
                     if (KetQua.status == false) {
-
                         window.location = "/PhongThi";
-
                         clearInterval(x);
-
-
                     }
 
                 }
             });
-        });
+            
 
+        });
         $(document).on('click', "button[name ='chon']", function () {
             var ma = this.id;
             var roll = $('.chon');
@@ -304,6 +356,7 @@
                 document.getElementById("demo").innerHTML = "Thời Gian Còn Lại  "
                     + minutes + " : " + seconds + " giây ";
             }
+
             // Nếu thời gian kết thúc, hiển thị chuỗi thông báo
             if (distance < 0) {
                 alert("Đã Hết Giờ Làm Bài")
@@ -316,7 +369,8 @@
     </script>
 
 
+}
 
-</body>
-</html>
+
+
 

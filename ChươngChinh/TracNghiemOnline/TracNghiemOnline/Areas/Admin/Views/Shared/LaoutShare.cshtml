@@ -41,7 +41,7 @@
     <script src="//cdn.datatables.net/buttons/1.6.2/js/buttons.html5.min.js"></script>
     <script src="//cdn.datatables.net/buttons/1.6.2/js/buttons.print.min.js"></script>
 </head>
-<body>
+<body class="card">
     <div class="wrapper">
         <div class="main-header">
             <!-- Logo Header -->
@@ -123,8 +123,8 @@
             @{Html.RenderAction("Menull", "Home");}
         </div>
         <!-- End Sidebar -->
-        <div class="main-panel">
-            <div class="content">
+        <div class="main-panel ">
+            <div class="content ">
                 @RenderBody()
             </div>
             <footer class="footer">

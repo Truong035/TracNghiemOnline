@@ -27,30 +27,36 @@
     </script>
 
 }
-<div class="container-fluid">
-    <div class="row">
-        @foreach (var item in Model)
-        {
+<div class="col-md-12">
+    <div class="card-header">
+        <div class="d-flex align-items-center">
+            <h4 class="card-title">DANH SÁCH PHÒNG THI</h4>
+          
+        </div>
+    </div>
+    <div style="width:auto; height:3px; background-color:rgb(248,249,250);"></div>
+
+    @foreach (var item in Model)
+    {
         <div class="col-md-3" id="@item.MaPhong">
-         
             <div class="card   mb-3">
                 <div class="card-footer bg-primary d-flex align-items-center justify-content-between">
                     <h2 class="small text-white">@item.TenPhong</h2>
                 </div>
-                <div class="card-body small"> Lớp @item.LopHocPhan.TenLop</div>
-                <div class="card-body small"> Kỳ Học : @item.LopHocPhan.KiThi.TenKi </div>
-                <div class="card-body small"> Môn :  @item.Bo_De.MonHoc.TenMon </div>
-                <div class="card-body small"> Thời Gian Thi : @item.ThoiGianMo </div>
-                <div class="card-body small">
-                    <button id="@item.MaPhong" onclick="Vothi(id)" class=" btn btn-danger"> Vào</button>
+                <span class=" p-2 small"> Lớp @item.LopHocPhan.TenLop</span>
+                <span class="p-2 small"> Kỳ Học : @item.LopHocPhan.KiThi.TenKi </span>
+                <div class="p-2 small"> Môn :  @item.Bo_De.MonHoc.TenMon </div>
+                <div class="p-2 small"> Thời Gian Thi : @item.ThoiGianMo </div>
+                <div class="p-2 small">
+                    <button id="@item.MaPhong" onclick="Vothi(id)" class=" btn  btn-danger"> Vào</button>
                 </div>
             </div>
-            </div>
-            }
-
         </div>
+    }
+
+
+
 
 </div>
-
 
 

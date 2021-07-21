@@ -39,18 +39,30 @@ namespace TracNghiemOnline.Controllers
             return View(phong_This);
 
         }
-      public  void HuyDe(long madethi)
+      public  int HuyDe(long madethi1,string tgbd)
         {
+            var ngay = tgbd.Split('/');
             TracNghiemOnlineDB db = new TracNghiemOnlineDB();
-            var dethi = db.De_Thi.Find(madethi);
+            var dethi = db.De_Thi.Find(madethi1);
+            if (dethi.dem == null) { dethi.dem = 0; }
+            dethi.dem++;
 
-            dethi.TrangThai = false;
+            db.SaveChanges();
+            DateTime data = new DateTime(int.Parse(ngay[0]), int.Parse(ngay[1]), int.Parse(ngay[2]), int.Parse(ngay[3]), int.Parse(ngay[4]), int.Parse(ngay[5]));
+            //    dethi.TrangThai = false;
+         //   dethi.CT_Dethi = dethi.CT_Dethi + "D";
+            CT_Dethi cT = new CT_Dethi();
+            cT.MADETHI = madethi1;
+            cT.LYDO =  "Sinh viên đã rời khỏi màn hình lúc "+data.ToString();
            
+            db.CT_Dethi.Add(cT);
             db.SaveChanges();
         //    TracNghiemOnlineDB = new TracNghiemOnlineDB();
-            var ds = db.DS_SVThi.SingleOrDefault(x=>x.MaDeThi==madethi);
+            var ds = db.DS_SVThi.SingleOrDefault(x=>x.MaDeThi==madethi1);
             ds.TrangThai = "Đã chuyển tab";
+           
             db.SaveChanges();
+            return dethi.dem.Value;
         }
         public void TGTHI(string tgbd)
         {
@@ -147,31 +159,31 @@ namespace TracNghiemOnline.Controllers
         }
         public ActionResult Loald(string id)
         {
-          string tgbd= (string) Session["TGTHI"];
+            string tgbd = (string)Session["TGTHI"];
             var ngay = tgbd.Split('/');
             var session = (TaiKhoan)Session[ComMon.ComMonStants.UserLogin];
             var list = new BoDeDao().ChapterStudy(long.Parse(id));
             var Exem = new De_Thi();
             try
             {
-               Exem=(De_Thi)Session[ComMon.ComMonStants.ExamQuesTion];
+                Exem = (De_Thi)Session[ComMon.ComMonStants.ExamQuesTion];
 
 
                 if (Exem == null)
                 {
                     Exem = new BoDeDao().MixExemQuestion(list, session.TaiKhoan1);
-             
+
                 }
             }
             catch
             {
                 Exem = new BoDeDao().MixExemQuestion(list, session.TaiKhoan1);
-           
+
             }
             Session[ComMon.ComMonStants.ExamQuesTion] = Exem;
             DateTime data = new DateTime(int.Parse(ngay[0]), int.Parse(ngay[1]), int.Parse(ngay[2]), int.Parse(ngay[3]), int.Parse(ngay[4]), int.Parse(ngay[5])).AddMinutes(double.Parse(list.ThoiGianThi));
-            ViewBag.GioThi= data.ToString("yyyy/MM/dd HH:mm:ss");
-            ViewBag.DeThi =(De_Thi) Exem;
+            ViewBag.GioThi = data.ToString("yyyy/MM/dd HH:mm:ss");
+            ViewBag.DeThi = (De_Thi)Exem;
             return View();
         }
 
@@ -262,7 +274,7 @@ namespace TracNghiemOnline.Controllers
             ViewBag.GioThi = dateTime.ToString("yyyy/MM/dd HH:mm:ss");
           
             ViewBag.DeThi = DeThi;
-            return View(DeThi);
+            return View(phong);
          
         }
         public JsonResult KiemTraDe(long madethi)

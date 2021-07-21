@@ -8,11 +8,12 @@ namespace TracNghiemOnline.Modell
 
     public partial class CT_Dethi
     {
+        [Key]
         public long id { get; set; }
 
         public long? MADETHI { get; set; }
 
-        [StringLength(50)]
+        [StringLength(200)]
         public string LYDO { get; set; }
 
         public virtual De_Thi De_Thi { get; set; }

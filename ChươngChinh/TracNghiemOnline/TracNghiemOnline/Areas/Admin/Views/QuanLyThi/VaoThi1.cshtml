@@ -19,7 +19,13 @@
                     url: '/Admin/QuanLyThi/UpdateRoom',
                     data: { tgbd:tgbd },
                     success: function (res) {
-                       window.location = '/Admin/QuanLyThi/ToChucThi/' + res.status;                   
+                        if (res.code == 100) {
+                            window.location = '/Admin/QuanLyThi/ToChucThi/' + res.status;
+                        }
+                        else {
+                            alert("Phòng chưa có thí sinh thi");
+                        }
+                                        
                     }
                 });
                 
