@@ -45,6 +45,8 @@ namespace TracNghiemOnline.Modell
         [StringLength(10)]
         public string MaCanBo2 { get; set; }
 
+        public bool? CheDo { get; set; }
+
         public virtual Bo_De Bo_De { get; set; }
 
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]

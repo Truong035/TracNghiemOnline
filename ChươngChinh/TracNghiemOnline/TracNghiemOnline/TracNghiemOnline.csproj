@@ -55,6 +55,12 @@
       <HintPath>..\packages\EntityFramework.6.2.0\lib\net45\EntityFramework.SqlServer.dll</HintPath>
     </Reference>
     <Reference Include="Microsoft.CSharp" />
+    <Reference Include="PagedList, Version=1.17.0.0, Culture=neutral, PublicKeyToken=abbb863e9397c5e1, processorArchitecture=MSIL">
+      <HintPath>..\packages\PagedList.1.17.0.0\lib\net40\PagedList.dll</HintPath>
+    </Reference>
+    <Reference Include="PagedList.Mvc, Version=4.5.0.0, Culture=neutral, PublicKeyToken=abbb863e9397c5e1, processorArchitecture=MSIL">
+      <HintPath>..\packages\PagedList.Mvc.4.5.0.0\lib\net40\PagedList.Mvc.dll</HintPath>
+    </Reference>
     <Reference Include="Spire.Doc, Version=9.6.10.0, Culture=neutral, PublicKeyToken=663f351905198cb3, processorArchitecture=MSIL">
       <HintPath>..\packages\Spire.Doc.9.6.10\lib\net40\Spire.Doc.dll</HintPath>
     </Reference>
@@ -153,7 +159,9 @@
     <Compile Include="Areas\Admin\Controllers\QuanLyThiController.cs" />
     <Compile Include="ComMon\ComMonStants.cs" />
     <Compile Include="Controllers\BaseController.cs" />
+    <Compile Include="Controllers\BaseController1Controller.cs" />
     <Compile Include="Controllers\LoginController.cs" />
+    <Compile Include="Controllers\LopHPController.cs" />
     <Compile Include="Controllers\TrangChuController.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
@@ -169,13 +177,16 @@
     <Compile Include="Modell\Dao\Bode.cs" />
     <Compile Include="Modell\Dao\BoDeDao.cs" />
     <Compile Include="Modell\Dao\CauHoiDao.cs" />
+    <Compile Include="Modell\Dao\DanhGia1.cs" />
     <Compile Include="Modell\Dao\LoginDao.cs" />
     <Compile Include="Modell\Dao\MonHocDao.cs" />
     <Compile Include="Modell\Dao\QuanLyThiDAO.cs" />
+    <Compile Include="Modell\Dao\TaoDeDao.cs" />
     <Compile Include="Modell\Dap_AN.cs" />
     <Compile Include="Modell\Da_SVLuaChon.cs" />
     <Compile Include="Modell\De_Thi.cs" />
     <Compile Include="Modell\DSGV_ThucHien.cs" />
+    <Compile Include="Modell\DS_BaiHoc.cs" />
     <Compile Include="Modell\DS_LopHP.cs" />
     <Compile Include="Modell\DS_SVThi.cs" />
     <Compile Include="Modell\GiaoVien.cs" />
@@ -195,6 +206,7 @@
     <Compile Include="Model\CauHoi.cs" />
     <Compile Include="Model\DanhGia.cs" />
     <Compile Include="Model\DapAn.cs" />
+    <Compile Include="Model\NoiDungThi.cs" />
     <Compile Include="Model\SoLuongChuong.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
@@ -218,48 +230,6 @@
     <Content Include="assets\fonts\fontawesome\fa-regular-400.svg" />
     <Content Include="assets\fonts\fontawesome\fa-solid-900.svg" />
     <Content Include="assets\fonts\simple-line-icons\Simple-Line-Icons.svg" />
-    <Content Include="assets\img\arashmil.jpg" />
-    <Content Include="assets\img\bg-404.jpeg" />
-    <Content Include="assets\img\bg-abstract.png" />
-    <Content Include="assets\img\bg-abstract2.png" />
-    <Content Include="assets\img\blogpost.jpg" />
-    <Content Include="assets\img\chadengle.jpg" />
-    <Content Include="assets\img\examples\example1-300x300.jpg" />
-    <Content Include="assets\img\examples\example1.jpeg" />
-    <Content Include="assets\img\examples\example10-300x300.jpg" />
-    <Content Include="assets\img\examples\example10.jpeg" />
-    <Content Include="assets\img\examples\example11-300x300.jpg" />
-    <Content Include="assets\img\examples\example11.jpeg" />
-    <Content Include="assets\img\examples\example12-300x300.jpg" />
-    <Content Include="assets\img\examples\example12.jpeg" />
-    <Content Include="assets\img\examples\example2-300x300.jpg" />
-    <Content Include="assets\img\examples\example2.jpeg" />
-    <Content Include="assets\img\examples\example3-300x300.jpg" />
-    <Content Include="assets\img\examples\example3.jpeg" />
-    <Content Include="assets\img\examples\example4-300x300.jpg" />
-    <Content Include="assets\img\examples\example4.jpeg" />
-    <Content Include="assets\img\examples\example5-300x300.jpg" />
-    <Content Include="assets\img\examples\example5.jpeg" />
-    <Content Include="assets\img\examples\example6-300x300.jpg" />
-    <Content Include="assets\img\examples\example6.jpeg" />
-    <Content Include="assets\img\examples\example7-300x300.jpg" />
-    <Content Include="assets\img\examples\example7.jpeg" />
-    <Content Include="assets\img\examples\example8-300x300.jpg" />
-    <Content Include="assets\img\examples\example8.jpeg" />
-    <Content Include="assets\img\examples\example9-300x300.jpg" />
-    <Content Include="assets\img\examples\example9.jpeg" />
-    <Content Include="assets\img\examples\logoinvoice.svg" />
-    <Content Include="assets\img\examples\product1.jpg" />
-    <Content Include="assets\img\examples\product10.jpeg" />
-    <Content Include="assets\img\examples\product11.jpeg" />
-    <Content Include="assets\img\examples\product12.jpeg" />
-    <Content Include="assets\img\examples\product2.jpg" />
-    <Content Include="assets\img\examples\product3.jpg" />
-    <Content Include="assets\img\examples\product4.jpg" />
-    <Content Include="assets\img\examples\product5.jpg" />
-    <Content Include="assets\img\examples\product6.jpg" />
-    <Content Include="assets\img\examples\product7.jpg" />
-    <Content Include="assets\img\examples\product8.jpg" />
     <Content Include="assets\img\flags\ad.png" />
     <Content Include="assets\img\flags\ae.png" />
     <Content Include="assets\img\flags\af.png" />
@@ -508,6 +478,7 @@
     <Content Include="assets\img\flags\za.png" />
     <Content Include="assets\img\flags\zm.png" />
     <Content Include="assets\img\flags\zw.png" />
+    <Content Include="assets\img\hinh-anh-thac-nuoc-dep-14-1.jpg" />
     <Content Include="assets\img\icon.ico" />
     <Content Include="assets\img\icon.png" />
     <Content Include="assets\img\icon.svg" />
@@ -520,15 +491,7 @@
     <Content Include="assets\img\logoproduct2.svg" />
     <Content Include="assets\img\logoproduct3.svg" />
     <Content Include="assets\img\mlane.jpg" />
-    <Content Include="assets\img\productimg\product1.jpeg" />
-    <Content Include="assets\img\productimg\product2.jpeg" />
-    <Content Include="assets\img\productimg\product3.jpeg" />
-    <Content Include="assets\img\productimg\product4.jpeg" />
-    <Content Include="assets\img\productimg\product5.jpeg" />
-    <Content Include="assets\img\productimg\product6.jpeg" />
-    <Content Include="assets\img\productimg\product7.jpeg" />
-    <Content Include="assets\img\productimg\product8.jpeg" />
-    <Content Include="assets\img\productimg\product9.jpeg" />
+    <Content Include="assets\img\new_logo.png" />
     <Content Include="assets\img\profile.jpg" />
     <Content Include="assets\img\profile2.jpg" />
     <Content Include="assets\img\sauro.jpg" />
@@ -545,6 +508,7 @@
     <Content Include="assets\js\plugin\bootstrap-notify\bootstrap-notify.min.js" />
     <Content Include="assets\js\plugin\chart-circle\circles.min.js" />
     <Content Include="assets\js\plugin\chart.js\chart.min.js" />
+    <Content Include="assets\js\plugin\chartist2.min.js" />
     <Content Include="assets\js\plugin\datatables\datatables.min.js" />
     <Content Include="assets\js\plugin\jquery-scrollbar\jquery.scrollbar.min.js" />
     <Content Include="assets\js\plugin\jquery-ui-1.12.1.custom\jquery-ui.min.js" />
@@ -555,8 +519,6 @@
     <Content Include="assets\js\plugin\webfont\webfont.min.js" />
     <Content Include="assets\js\setting-demo.js" />
     <Content Include="assets\js\setting-demo2.js" />
-    <Content Include="Content\58ARP-request-reply-procedure-see-online-version-for-colours.png" />
-    <Content Include="Content\a.jpg" />
     <Content Include="Content\bootstrap-datepicker.css" />
     <Content Include="Content\bootstrap-datepicker.min.css" />
     <Content Include="Content\bootstrap-datepicker.standalone.css" />
@@ -569,7 +531,6 @@
     <Content Include="Content\bootstrap-theme.min.css" />
     <Content Include="Content\bootstrap.css" />
     <Content Include="Content\bootstrap.min.css" />
-    <Content Include="Content\Capture.PNG" />
     <Content Include="Content\chromdriver\12.exe" />
     <Content Include="Content\chromdriver\chromedriver.exe" />
     <Content Include="Content\chromdriver\d.exe" />
@@ -594,7 +555,7 @@
     <Content Include="Content\Img\Anh-1546353469.jpg" />
     <Content Include="Content\Img\Anh-1546353470.jpg" />
     <Content Include="Content\Img\logo.png" />
-    <Content Include="Content\logo.png" />
+    <Content Include="Content\PagedList.css" />
     <Content Include="Content\Site.css" />
     <Content Include="favicon.ico" />
     <Content Include="fonts\glyphicons-halflings-regular.svg" />
@@ -736,15 +697,8 @@
     <Content Include="Content\bootstrap-theme.min.css.map" />
     <Content Include="Content\bootstrap.css.map" />
     <Content Include="Content\bootstrap.min.css.map" />
-    <Content Include="Content\CTDLGT.docx" />
-    <Content Include="Content\De_1.pdf" />
-    <Content Include="Content\De_4.pdf" />
-    <Content Include="Content\De_5.pdf" />
-    <Content Include="Content\De_6.pdf" />
-    <Content Include="Content\De_8.pdf" />
     <Content Include="Content\De_9.pdf" />
     <Content Include="Content\Img\TracnghiemOnline.rar" />
-    <Content Include="Content\Đặc-điểm-của-ngôn-ngữ-lập-trình-Java.docx" />
     <Content Include="Areas\Admin\Views\Bomon\BoMON.cshtml" />
     <Content Include="Areas\Admin\Views\Bomon\TaoLich.cshtml" />
     <Content Include="Areas\Admin\Views\Bomon\Updatebomon.cshtml" />
@@ -775,7 +729,6 @@
     <None Include="Properties\PublishProfiles\FTPProfile.pubxml" />
     <Content Include="Scripts\js\JavaScript.js" />
     <Content Include="Scripts\js\scripts.js" />
-    <Content Include="Scripts\js\vohieuhoa.js" />
     <Content Include="Web.config" />
     <Content Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
@@ -839,7 +792,6 @@
     <Content Include="Views\TrangChu\DiemSo.cshtml" />
     <Content Include="Views\TrangChu\Diemthi.cshtml" />
     <Content Include="Views\TrangChu\DSDETHI.cshtml" />
-    <Content Include="Views\TrangChu\Index.cshtml" />
     <Content Include="Views\TrangChu\Loald.cshtml" />
     <Content Include="Views\TrangChu\LopHocPhan.cshtml" />
     <Content Include="Views\TrangChu\Menu.cshtml" />
@@ -848,10 +800,19 @@
     <Content Include="Views\TrangChu\VaoThi.cshtml" />
     <Content Include="Views\Web.config" />
     <Content Include="Views\Share\layoutBaithi.cshtml" />
+    <Content Include="Views\Share\LayOutLopHocPhan.cshtml" />
+    <Content Include="Views\TrangChu\Index.cshtml" />
+    <Content Include="Views\LopHP\HocBai.cshtml" />
+    <Content Include="Views\LopHP\OnTap.cshtml" />
+    <Content Include="Views\LopHP\Thi.cshtml" />
+    <Content Include="Views\LopHP\KetQuathi.cshtml" />
+    <Content Include="Views\LopHP\QuanLy.cshtml" />
+    <Content Include="Views\LopHP\DanhGia.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Layout\vendors\%40popper\" />
     <Folder Include="Layout\vendors\popper\" />
+    <Folder Include="Views\BaseController1\" />
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />

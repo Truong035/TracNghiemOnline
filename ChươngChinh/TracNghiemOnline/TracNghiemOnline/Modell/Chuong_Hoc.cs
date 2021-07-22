@@ -13,6 +13,7 @@ namespace TracNghiemOnline.Modell
         {
             Kho_CauHoi = new HashSet<Kho_CauHoi>();
             Danh_Gia = new HashSet<Danh_Gia>();
+            DS_BaiHoc = new HashSet<DS_BaiHoc>();
         }
 
         [Key]
@@ -32,5 +33,8 @@ namespace TracNghiemOnline.Modell
 
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<Danh_Gia> Danh_Gia { get; set; }
+
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<DS_BaiHoc> DS_BaiHoc { get; set; }
     }
 }

@@ -62,9 +62,15 @@ namespace TracNghiemOnline
 
 
             routes.MapRoute(
-            name: "LopHoc",
+            name: "LopHocPhan",
             url: "LopHocPhan",
             defaults: new { controller = "TrangChu", action = "LopHocPhan", id = UrlParameter.Optional }
+        );
+
+            routes.MapRoute(
+            name: "HocBai",
+            url: "HocBai/{id}",
+            defaults: new { controller = "LopHP", action = "HocBai", id = UrlParameter.Optional }
         );
 
             routes.MapRoute(
@@ -72,6 +78,12 @@ namespace TracNghiemOnline
             url: "Bode/{id}",
             defaults: new { controller = "TrangChu", action = "Bode", id = UrlParameter.Optional }
         );
+            routes.MapRoute(
+         name: "LopHoc",
+         url: "LopHoc/{id}",
+         defaults: new { controller = "TrangChu", action = "Index", id = UrlParameter.Optional }
+     );
+
             routes.MapRoute(
                 name: "Default",
                 url: "{controller}/{action}/{id}",

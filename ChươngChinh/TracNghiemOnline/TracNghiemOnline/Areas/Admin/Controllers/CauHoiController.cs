@@ -29,11 +29,13 @@ namespace TracNghiemOnline.Areas.Admin.Controllers
     {
         // GET: Admin/CauHoi
         // static List<Kho_CauHoi> cauHois=new List<Kho_CauHoi>();
-        public ActionResult Index(string id)
+        public ActionResult Index(long? id)
         {
+            Session[ComMon.ComMonStants.Cauhoi] = null;
+            var session = (TaiKhoan)Session[ComMon.ComMonStants.UserLogin];
             ViewBag.MaChuong = id;
-            List<Kho_CauHoi> kho_CauHois = new CauHoiDao().ListQuestion(long.Parse(id));
-
+            List<Kho_CauHoi> kho_CauHois = new TracNghiemOnlineDB().Kho_CauHoi.Where(x => x.NguoiTao.Equals(session.TaiKhoan1) && x.Xoa == true && x.Ma_Chuong==id).ToList();
+           
             return View(kho_CauHois);
 
         }
@@ -65,10 +67,13 @@ namespace TracNghiemOnline.Areas.Admin.Controllers
 
         public ActionResult LoadQuestion()
         {
+            var session = (TaiKhoan)Session[ComMon.ComMonStants.UserLogin];
             List<Kho_CauHoi> cauHois = (List<Kho_CauHoi>)Session[ComMon.ComMonStants.Cauhoi];
             foreach (var item in cauHois)
             {
-
+                item.Xoa = true;
+                item.TrangThai = true;
+                item.NguoiTao = session.TaiKhoan1;
                 new CauHoiDao().CreatrQuestion(item);
             }
             //cauHois = new List<Kho_CauHoi>();

@@ -31,6 +31,11 @@ namespace TracNghiemOnline.Modell
 
         public bool? TrangThai { get; set; }
 
+        [StringLength(10)]
+        public string NguoiTao { get; set; }
+
+        public bool? Xoa { get; set; }
+
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<CauHoi> CauHois { get; set; }
 

@@ -8,7 +8,6 @@ namespace TracNghiemOnline.Modell
 
     public partial class CT_Dethi
     {
-        [Key]
         public long id { get; set; }
 
         public long? MADETHI { get; set; }

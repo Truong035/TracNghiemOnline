@@ -4,7 +4,7 @@ using System.Linq;
 using System.Web;
 using System.Web.Mvc;
 using System.Web.Services.Description;
-
+using TracNghiemOnline.ComMon;
 using TracNghiemOnline.Model;
 //using System.Windows.Forms;
 using TracNghiemOnline.Modell;
@@ -15,6 +15,35 @@ namespace TracNghiemOnline.Controllers
     public class TrangChuController : BaseController
     {
         // GET: TrangChu
+        public ActionResult Index(string id)
+        {
+
+            LopHocPhan lopHoc = new TracNghiemOnlineDB().LopHocPhans.Find(id);
+            Session["LopHP"] = lopHoc;
+            var session = (TaiKhoan)Session[ComMonStants.UserLogin];
+            foreach (var item in new TracNghiemOnlineDB().Chuong_Hoc.Where(x => x.Ma_Mon == lopHoc.MaMon && x.TrangThai == 1))
+            {
+                if (!new TracNghiemOnlineDB().DS_BaiHoc.Select(x => x).ToList().Exists(x => x.Ma_Bai == item.Ma_Chuong && x.MaSV.Equals(session.TaiKhoan1)))
+                {
+
+                    TracNghiemOnlineDB tracNghiemDB = new TracNghiemOnlineDB();
+                    tracNghiemDB.DS_BaiHoc.Add(new DS_BaiHoc()
+                    {
+                        SoCauSai = 0,
+                        Ma_Bai = item.Ma_Chuong,
+                        MaSV = session.TaiKhoan1,
+                        SoCauDung = 0,
+                        ListCauHoi = ""
+
+                    });
+                    tracNghiemDB.SaveChanges();
+                }
+
+            }
+
+            return View(new TracNghiemOnlineDB().Chuong_Hoc.Where(x => x.Ma_Mon == lopHoc.MaMon && x.TrangThai == 1));
+        }
+
         [HttpGet]
         
       
@@ -150,8 +179,6 @@ namespace TracNghiemOnline.Controllers
         public ActionResult Bode(string  id)
         {
             
-
-
             var Bodeom = new TracNghiemOnlineDB().BoDeOnTaps.Where(x => x.MaLopHP.Equals(id)).ToList();
 
            List<Bo_De> list = new List<Bo_De>();
@@ -161,11 +188,11 @@ namespace TracNghiemOnline.Controllers
                 {
                     list.Add(item.Bo_De);
                 }
-                else if (item.ThoiGianMo <=DateTime.Now && item.ThoiGianDong >= DateTime.Now)
+                else if (item.ThoiGianMo <= DateTime.Now && item.ThoiGianDong >= DateTime.Now)
                 {
                     list.Add(item.Bo_De);
                 }
-                else if (item.ThoiGianMo>=DateTime.Now && item.ThoiGianDong == null)
+                else if (item.ThoiGianMo >= DateTime.Now && item.ThoiGianDong == null)
                 {
                     list.Add(item.Bo_De);
                 }
@@ -173,11 +200,11 @@ namespace TracNghiemOnline.Controllers
                 {
                     list.Add(item.Bo_De);
                 }
-                else if(item.ThoiGianDong == null)
+                else if (item.ThoiGianDong == null)
                 {
                     list.Add(item.Bo_De);
                 }
-              
+
             }
             return View(list);
         }

@@ -180,3 +180,7 @@ C:\Users\PhamTrongTruong\Desktop\TracNghiemOnline\ChươngChinh\TracNghiemOnline
 C:\Users\PhamTrongTruong\Desktop\TracNghiemOnline\ChươngChinh\TracNghiemOnline\TracNghiemOnline\obj\Debug\TracNghiemOnline.csproj.CopyComplete
 C:\Users\PhamTrongTruong\Desktop\TracNghiemOnline\ChươngChinh\TracNghiemOnline\TracNghiemOnline\obj\Debug\TracNghiemOnline.dll
 C:\Users\PhamTrongTruong\Desktop\TracNghiemOnline\ChươngChinh\TracNghiemOnline\TracNghiemOnline\obj\Debug\TracNghiemOnline.pdb
+C:\Users\PhamTrongTruong\Desktop\TracNghiemOnline\ChươngChinh\TracNghiemOnline\TracNghiemOnline\bin\PagedList.dll
+C:\Users\PhamTrongTruong\Desktop\TracNghiemOnline\ChươngChinh\TracNghiemOnline\TracNghiemOnline\bin\PagedList.Mvc.dll
+C:\Users\PhamTrongTruong\Desktop\TracNghiemOnline\ChươngChinh\TracNghiemOnline\TracNghiemOnline\bin\PagedList.xml
+C:\Users\PhamTrongTruong\Desktop\TracNghiemOnline\ChươngChinh\TracNghiemOnline\TracNghiemOnline\bin\PagedList.Mvc.xml

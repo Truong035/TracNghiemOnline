@@ -1,0 +1,311 @@
+﻿@model TracNghiemOnline.Model.DanhGia
+@{
+    ViewBag.Title = "KetQuathi";
+    Layout = "~/Views/Share/LayOutLopHocPhan.cshtml";
+}
+
+
+@section scripts{
+    <script>
+        var item = $('#onbai');
+        item.addClass("Narlink");
+        $('#Xembaithi').show();
+        $('#bntmucdo').click(function () {
+            $('#myNavbar').slideDown();
+            $('#XemDanhgia').hide();
+        //    $('#Xembaithi').hide();
+
+        });
+        @*$('#bntnoidung').click(function () {
+            $('#myNavbar1').hide();
+            $('#XemDanhgia').hide();
+            $('#myNavbar2').show();
+
+
+
+        });*@
+
+        $('#bntbaithi').click(function () {
+            $('#myNavbar').hide();
+         //   $('#Xembaithi').slideDown();
+            $('#XemDanhgia').hide();
+
+
+
+        });
+
+        $('#bntnhanxet').click(function () {
+            $('#myNavbar').hide();
+            //  $('#myNavbar2').hide();
+            $('#XemDanhgia').slideDown();
+     //       $('#Xembaithi').hide();
+
+        });
+
+
+    </script>
+
+}
+
+<div class="container" style="margin-top:-5%">
+
+    <div class=" row card">
+
+        <div class=" right card-header card-header-info text-center" style=" left:40%; width:200px;">
+            <h4 class="card-title"> Kết quả bài Thi</h4>
+        </div>
+        <div class="card-header">
+            <div class="stats">
+                <h6 class="card-title"> Mã đề : @Model.ketQuaThi1.MaDeThi</h6>
+            </div>
+            <div class="stats">
+                <h6 class="card-title"> Thời gian : @Model.ketQuaThi1.ThoiGianThi phút </h6>
+            </div>
+            <div class="stats">
+                <h6 class="card-title"> Điểm số : @Model.ketQuaThi1.DiêmSo </h6>
+            </div>
+            <div class="stats">
+                <h6 class="card-title"> Ngày thi : @Model.ketQuaThi1.NgayThi  </h6>
+            </div>
+
+        </div>
+
+        <div class="row container" style="margin-left:1%">
+            <button class="btn btn-twitter navbar-toggle" id="bntbaithi" data-toggle="collapse" data-target="#Xembaithi"> Xem kết quả </button>
+
+            <button type="button" id="bntmucdo" class=" btn btn-twitter navbar-toggle" data-toggle="collapse" data-target="#myNavbar">
+                Xem Thống Kê
+            </button>
+
+
+            <button type="button" id="bntnhanxet" class=" btn btn-twitter navbar-toggle" data-toggle="collapse" data-target="#XemDanhgia">
+                Nhận Xét
+            </button>
+
+
+        </div>
+        <div class="row container navbar-toggle " style="margin-left:1%">
+            <div class="col-12 collapse " id="XemDanhgia">
+                <div class="card-body ">
+                    <table border="1" class="table-light" style="text-align:center ;width:100% ;border-color:#d1d1d1">
+                        <tr class="badge-primary">
+                            <th rowspan="1">STT</th>
+                            <th rowspan="1">Phần kiến thức</th>
+                            <th rowspan="1"> Đánh giá</th>
+                            <th>Nhận xét</th>
+                        </tr>
+
+                        @for (int i = 0; i < Model.DanhGiaMucDo1.Count; i++)
+                        {
+                            <tr>
+                                <td> @(i + 1)</td>
+                                <td> @Model.DanhGiaMucDo1[i].noidung.TenChuong </td>
+                                @{ if (Model.DanhGiaMucDo1[i].danh_Gia.DanhGia == 1)
+                                    {
+                                        <td class="text-danger">  Yếu  </td>
+                                    }
+                                    else if (Model.DanhGiaMucDo1[i].danh_Gia.DanhGia == 2)
+                                    {
+                                        <td style="color:#ff6a00">  Trung bình  </td>
+                                    }
+                                    else if (Model.DanhGiaMucDo1[i].danh_Gia.DanhGia == 3)
+                                    {
+                                        <td style="color:#000000">  Khá  </td>
+                                    }
+                                    else if (Model.DanhGiaMucDo1[i].danh_Gia.DanhGia == 4)
+                                    {
+                                        <td class="text-success"> Giỏi </td>
+                                    }
+                                }
+
+
+                                <td>
+                                    <div class="stats">
+                                        -@Model.DanhGiaMucDo1[i].danh_Gia.NhanXet[0]
+
+                                    </div>
+                                    <div class="stats">
+
+                                        @Model.DanhGiaMucDo1[i].danh_Gia.NhanXet[1]
+                                    </div>
+
+                                </td>
+
+                            </tr>
+                        }
+
+                    </table>
+                </div>
+            </div>
+            <div class="col-12 collapse" id="myNavbar">
+                <div class="card-body ">
+                    <div class="navbar-header nav-item">
+                        <span class=" navbar-toggle " data-toggle="collapse" data-target="#myNavbar1">
+                            Theo mức độ
+                        </span>
+                    </div>
+                    <div class="container-fluid " id="myNavbar1">
+
+                        <div class="card-body ">
+                            <table border="1" class="table-light" style="text-align:center ;width:100%">
+                                <tr class="badge-primary">
+                                    <th rowspan="2">STT</th>
+                                    <th rowspan="2">Phần kiến thức</th>
+                                    <th colspan="4">Sô Câu Đúng</th>
+                                    <th rowspan="2">Tổng Sô Câu</th>
+                                </tr>
+                                <tr class="badge-primary">
+                                    <th>Nhận Biết</th>
+                                    <th>Thông Hiệu</th>
+                                    <th>Vận Dụng</th>
+                                    <th>Vận Dụng Cao</th>
+                                </tr>
+                                @for (int i = 0; i < Model.DanhGiaMucDo1.Count; i++)
+                                {
+                                    <tr>
+                                        <td> @(i+1) </td>
+
+                                        <td> @Model.DanhGiaMucDo1[i].noidung.TenChuong </td>
+                                        <td>  @Model.DanhGiaMucDo1[i].nhanbiet   </td>
+                                        <td>  @Model.DanhGiaMucDo1[i].Thonghieu   </td>
+                                        <td> @Model.DanhGiaMucDo1[i].vandung </td>
+                                        <td>  @Model.DanhGiaMucDo1[i].vandungcao   </td>
+                                        <td>  @Model.DanhGiaMucDo1[i].danh_Gia.SoCauDung/@Model.DanhGiaMucDo1[i].danh_Gia.TongCau </td>
+
+                                    </tr>
+                                }
+
+                            </table>
+
+                        </div>
+
+                    </div>
+                    <div class="navbar-header">
+                        <span class=" navbar-toggle" data-toggle="collapse" data-target="#myNavbar2">
+                            Theo nôi dung
+                        </span>
+                    </div>
+                    <div class="container-fluid " id="myNavbar2">
+                        @for (int i = 0; i < Model.DanhGiaMucDo1.Count; i++)
+                        {
+                            <div class="stats">
+
+                                <label>  @Model.DanhGiaMucDo1[i].noidung.TenChuong :  @Model.DanhGiaMucDo1[i].danh_Gia.SoCauDung/@Model.DanhGiaMucDo1[i].danh_Gia.TongCau </label>
+                            </div>
+
+                        }
+
+                    </div>
+
+
+                </div>
+            </div>
+
+
+        </div>
+
+        <div style="margin-left:2%" id="Xembaithi" class=" collapse col-12 container">
+
+
+            <div class="col-12">
+
+                @{
+                    int dem = 0;
+                    foreach (var item in Model.ketQuaThi1.CauHoiDeThis)
+                    {
+
+
+                        dem++;
+                        <h4 class=" card-body chon" id="@item.Kho_CauHoi.Ma_CauHoi">Câu @dem )@Html.Raw(item.Kho_CauHoi.NoiDung) </h4>
+                        try
+                        {
+                            if (item.Kho_CauHoi.HinhAnh.Length > 0)
+                            {
+                                <div class="row card-header" style="margin-top:0px;margin-left:15%;margin-top:-30px">
+                                    <img src="@item.Kho_CauHoi.HinhAnh" width="500">
+                                </div>}
+                        }
+                        catch { }
+
+
+                        foreach (var item1 in item.Kho_CauHoi.Dap_AN)
+                        {
+                            if (Model.ketQuaThi1.Da_SVLuaChon.ToList().Exists(x => x.Ma_DAN == item1.MA_DAN && item1.TrangThai == true))
+                            {
+                                <div class="row card-header" style="margin-top:0px;margin-left:2.2%">
+                                    <label class="form-check-label" for="flexRadioDefault">
+                                        <i style="font-size: 1rem;margin-top:-3px; color: #44ad57" class=" form-check-input bi bi-check-circle-fill" name="flexRadioDefault" id="flexRadioDefault1"></i>'
+                                        @Html.Raw(item1.NoiDung)
+                                    </label>
+                                </div>
+
+                            }
+                            else
+                            {
+                                if (item1.TrangThai == true)
+                                {
+                                    <div class="row card-header" style="margin-top:0px;margin-left:2.5%">
+                                        <label class="form-check-label text-success" for="flexRadioDefault1">
+                                            <input class="form-check-input" disabled type="radio" name="flexRadioDefault" id="flexRadioDefault2">
+                                            @Html.Raw(item1.NoiDung)
+                                        </label>
+                                    </div>
+                                }
+                                else
+                                {
+                                    if (Model.ketQuaThi1.Da_SVLuaChon.ToList().Exists(x => x.Ma_DAN == item1.MA_DAN && item1.TrangThai == false))
+                                    {
+                                        <div class="row card-header" style="margin-top:0px;margin-left:2.2%">
+                                            <label class="form-check-label" for="flexRadioDefault1">
+                                                <i style="font-size: 1rem;margin-top:-3px;color: #9b0000" class="form-check-input bi bi-x-circle-fill" name="flexRadioDefault" id="flexRadioDefault1"></i>
+                                                @Html.Raw(item1.NoiDung)
+                                            </label>
+                                        </div>
+                                    }
+                                    else
+                                    {
+                                        <div class="row card-header" style="margin-top:0px;margin-left:2.5%" ;>
+                                            <label class="form-check-label" for="@item1.MA_DAN">
+                                                <input class="form-check-input txtch" disabled type="radio" value="@item.Kho_CauHoi.Ma_CauHoi" name="@item.Kho_CauHoi.Ma_CauHoi" id="@item1.MA_DAN">
+                                                @Html.Raw(item1.NoiDung)
+                                            </label>
+                                        </div>
+                                    }
+
+
+
+                                }
+                                try
+                                {
+
+                                    if (item1.HinhAnh.Length > 0)
+                                    {
+                                        <div class="row card-header" style="margin-top:0px;margin-left:6%" ;>
+                                            <img src="@item1.HinhAnh" width="150">
+                                        </div>}
+                                }
+                                catch { }
+
+
+                            }
+
+
+                        }
+                    }
+
+                }
+            </div>
+
+
+
+        </div>
+
+
+    </div>
+
+</div>
+
+
+
+
+

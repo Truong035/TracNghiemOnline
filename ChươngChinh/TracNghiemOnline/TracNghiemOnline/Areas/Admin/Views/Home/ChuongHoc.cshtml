@@ -57,7 +57,7 @@
                                                 <td>   @item.Ma_Chuong </td>
 
                                                 <td>   @item.TenChuong</td>
-                                                <td>  @item.Kho_CauHoi.Count </td>
+                                                <td>  @(item.Kho_CauHoi.Where(x=>x.NguoiTao.Equals(session.TaiKhoan1)).ToList().Count) </td>
                                                 <td>
                                                     <a href="/Admin/CauHoi/Index/@item.Ma_Chuong" class="btn btn-xs btn-primary">
                                                         <span><i class="far fa-eye"></i></span>
@@ -141,7 +141,7 @@
     <script>
 
         $(document).ready(function () {
-            loadDSGV();
+          //  loadDSGV();
             $('#btnAdd').click(function () {
                 $('#modalBoMon').modal();
                 $('#idNganh').val('');

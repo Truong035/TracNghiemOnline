@@ -37,6 +37,7 @@ namespace TracNghiemOnline.Modell
         public virtual DbSet<SinhVien> SinhViens { get; set; }
         public virtual DbSet<TaiKhoan> TaiKhoans { get; set; }
         public virtual DbSet<BoDeOnTap> BoDeOnTaps { get; set; }
+        public virtual DbSet<DS_BaiHoc> DS_BaiHoc { get; set; }
         public virtual DbSet<DSGV_ThucHien> DSGV_ThucHien { get; set; }
 
         protected override void OnModelCreating(DbModelBuilder modelBuilder)
@@ -88,20 +89,15 @@ namespace TracNghiemOnline.Modell
                 .WithOptional(e => e.Chuong_Hoc)
                 .HasForeignKey(e => e.MaChuong);
 
+            modelBuilder.Entity<Chuong_Hoc>()
+                .HasMany(e => e.DS_BaiHoc)
+                .WithOptional(e => e.Chuong_Hoc)
+                .HasForeignKey(e => e.Ma_Bai);
+
             modelBuilder.Entity<De_Thi>()
                 .Property(e => e.Ma_SV)
                 .IsFixedLength()
                 .IsUnicode(false);
-
-            modelBuilder.Entity<De_Thi>()
-                .HasMany(e => e.Danh_Gia)
-                .WithOptional(e => e.De_Thi)
-                .HasForeignKey(e => e.MaDeThi);
-
-            modelBuilder.Entity<De_Thi>()
-                .HasMany(e => e.Danh_Gia1)
-                .WithOptional(e => e.De_Thi1)
-                .HasForeignKey(e => e.MaDeThi);
 
             modelBuilder.Entity<De_Thi>()
                 .HasMany(e => e.KetQuaThis)
@@ -150,6 +146,10 @@ namespace TracNghiemOnline.Modell
                 .HasMany(e => e.Phong_Thi)
                 .WithOptional(e => e.GiaoVien)
                 .HasForeignKey(e => e.NguoiTao);
+
+            modelBuilder.Entity<Kho_CauHoi>()
+                .Property(e => e.NguoiTao)
+                .IsFixedLength();
 
             modelBuilder.Entity<Kho_CauHoi>()
                 .HasMany(e => e.CauHois)
@@ -274,10 +274,19 @@ namespace TracNghiemOnline.Modell
                 .WithOptional(e => e.TaiKhoan)
                 .HasForeignKey(e => e.NguoiDuyet);
 
+            modelBuilder.Entity<TaiKhoan>()
+                .HasMany(e => e.DS_BaiHoc)
+                .WithOptional(e => e.TaiKhoan)
+                .HasForeignKey(e => e.MaSV);
+
             modelBuilder.Entity<BoDeOnTap>()
                 .Property(e => e.MaLopHP)
                 .IsFixedLength()
                 .IsUnicode(false);
+
+            modelBuilder.Entity<DS_BaiHoc>()
+                .Property(e => e.MaSV)
+                .IsFixedLength();
 
             modelBuilder.Entity<DSGV_ThucHien>()
                 .Property(e => e.MaGV)

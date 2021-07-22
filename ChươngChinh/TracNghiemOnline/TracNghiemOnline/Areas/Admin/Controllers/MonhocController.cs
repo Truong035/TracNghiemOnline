@@ -156,14 +156,15 @@ namespace TracNghiemOnline.Areas.Admin.Controllers
             
             try
             {
-         var mon=new MonHocDao().ListChapterStudy(long.Parse(ma));
+                var session = (TaiKhoan)Session[ComMon.ComMonStants.UserLogin];
+                var mon=new MonHocDao().ListChapterStudy(long.Parse(ma));
 
                 var dsNganh = (from n in mon
                                select new
                                {
                                    Ma = n.Ma_Chuong,
                                    Ten = n.TenChuong,
-                                   SoCau = n.Kho_CauHoi.Count
+                                   SoCau = n.Kho_CauHoi.Where(x=>x.NguoiTao.Equals(x.NguoiTao)&& x.Xoa==true).ToList().Count
                                }).ToList();
 
                 return Json(new { code = 200, dsNganh = dsNganh, msg = "Lấy danh sách thành công" }, JsonRequestBehavior.AllowGet);
