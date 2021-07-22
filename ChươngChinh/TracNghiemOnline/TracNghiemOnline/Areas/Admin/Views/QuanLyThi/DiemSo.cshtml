@@ -60,7 +60,7 @@
 
 
                                         dem++;
-                                        <h4 class=" card-body chon" id="@item.Kho_CauHoi.Ma_CauHoi">Câu @dem )@item.Kho_CauHoi.NoiDung </h4>
+                                        <h4 class=" card-body chon" id="@item.Kho_CauHoi.Ma_CauHoi">Câu @dem )@Html.Raw(@item.Kho_CauHoi.NoiDung) </h4>
                                         try
                                         {
                                             if (item.Kho_CauHoi.HinhAnh.Length > 0)
@@ -79,7 +79,7 @@
                                                 <div class="row" style="margin-top:0px;margin-left:2.2%">
                                                     <label class="form-check-label" for="flexRadioDefault">
                                                         <i style="font-size: 1rem;margin-top:-3px; color: #44ad57" class=" form-check-input bi bi-check-circle-fill" name="flexRadioDefault" id="flexRadioDefault1"></i>'
-                                                        @item1.NoiDung
+                                                        @Html.Raw(@item1.NoiDung)
 
                                                     </label>
                                                 </div>
@@ -92,7 +92,7 @@
                                                     <div class="row" style="margin-top:0px;margin-left:2.5%">
                                                         <label class="form-check-label text-success" for="flexRadioDefault1">
                                                             <input class="form-check-input" disabled type="radio" name="flexRadioDefault" id="flexRadioDefault2">
-                                                            @item1.NoiDung
+                                                            @Html.Raw(@item1.NoiDung)
                                                         </label>
                                                     </div>
                                                 }
@@ -103,7 +103,7 @@
                                                         <div class="row" style="margin-top:0px;margin-left:2.2%">
                                                             <label class="form-check-label" for="flexRadioDefault1">
                                                                 <i style="font-size: 1rem;margin-top:-3px;color: #9b0000" class="form-check-input bi bi-x-circle-fill" name="flexRadioDefault" id="flexRadioDefault1"></i>
-                                                                @item1.NoiDung
+                                                                @Html.Raw(@item1.NoiDung)
                                                             </label>
                                                         </div>
                                                     }
@@ -112,7 +112,7 @@
                                                         <div class="row" style="margin-top:0px;margin-left:2.5%" ;>
                                                             <label class="form-check-label" for="@item1.MA_DAN">
                                                                 <input class="form-check-input txtch" disabled type="radio" value="@item.Kho_CauHoi.Ma_CauHoi" name="@item.Kho_CauHoi.Ma_CauHoi" id="@item1.MA_DAN">
-                                                                @item1.NoiDung
+                                                                @Html.Raw(@item1.NoiDung)
                                                             </label>
                                                         </div>
                                                     }

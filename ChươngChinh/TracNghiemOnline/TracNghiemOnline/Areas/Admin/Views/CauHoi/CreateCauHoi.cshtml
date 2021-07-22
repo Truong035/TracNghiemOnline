@@ -5,12 +5,26 @@
     var machuong = (long)ViewBag.MaChuong;
 
 }
+
+<style type="text/css">
+    div .note-btn i {
+        color: black
+    }
+
+    .note-btn span {
+        color: black
+    }
+</style>
+
 @section scripts{
     <script>
         var cout = 20000;
         var dem = 2000;
         var check = false;
         $(document).ready(function () {
+
+            loadsummernote('textarea');
+            $(".note-icon-trash").trigger('click');
 
             // $('.file-upload-content').hide();
             $('#btnthem').click(function () {
@@ -62,6 +76,30 @@
             });
 
         })
+
+        function loadsummernote(a) {
+            var myElement = $(a);
+            myElement.summernote({
+                // set editor height
+                placeholder: 'Nhập thông tin bạn muốn đăng',
+                toolbar: [
+
+                    ['style', ['style']],
+                    ['fontname', ['fontname']],
+                    ['color', ['color']],
+                    ['para', ['ul', 'ol', 'paragraph']],
+                    ['table', ['table']],
+                    ['insert', ['link']],
+                    ['view', ['fullscreen', 'undo', 'redo']],
+                ],
+                disableResizeEditor: true,
+                height: 100,
+                minHeight: null, // set minimum height of editor
+                maxHeight: null // set maximum height of editor
+                // set focus to editable area after initializing summernote
+            });
+        }
+
         function readURL(input) {
 
             if (input.files && input.files[0]) {
@@ -273,7 +311,7 @@
                             </div>
                             <input class="@i" id="@i" hidden type='file' onchange="readURL(this);" accept="image/*" />
                             <div class=" row file-upload-content" name=btnanh id="@i" style="margin-top:-2%">
-                               @* @{
+                                @{
                                     if (item.HinhAnh.Length > 0)
                                     {
                                         <input class="txtlinkHinh" id="@i" value="@item.HinhAnh" hidden />
@@ -282,7 +320,7 @@
                                         </div>
                                         <i class="col-auto bi bi-x-circle-fill remove-image " id="@i" style="margin-left:-4% ;margin-top:-1%; font-size: 2rem; color: #ff0000" onclick="removeUpload(this)"></i>
                                     }
-                                }*@
+                                }
 
                             </div>
                         </div>
@@ -311,13 +349,13 @@
                                 <input class="@Cout" id="@Cout" hidden type='file' onchange="readURL(this);" accept="image/*" />
                                 <div class=" row file-upload-content" id="@Cout" name=btnanh style="margin-top:-2%">
                                     @{
-                                       @* if (item1.HinhAnh.Length > 0)
+                                        if (item1.HinhAnh.Length > 0)
                                         {<input class="txtlinkHinh" hidden value="@item1.HinhAnh" id="@Cout" />
                                             <div class="col-auto ">
                                                 <img class="file-upload-image " id="@Cout" src="@item1.HinhAnh" alt="your image" />
                                             </div>
                                             <i class="col-auto bi bi-x-circle-fill remove-image " onclick="removeUpload(this)" id="@Cout" style="margin-left:-4.2% ;margin-top:5px; font-size: 2rem; color: #ff0000"></i>
-                                        }*@
+                                        }
                                     }
                                 </div>
                             </div>

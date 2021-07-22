@@ -132,6 +132,8 @@ namespace TracNghiemOnline.Areas.Admin.Controllers
 
             return "/Content/Img/" + Filename;
         }
+
+        [ValidateInput(false)]
         public void LuuCauHoi(string listCH)
         {
             var lisch = new JavaScriptSerializer().Deserialize<List<Kho_CauHoi>>(listCH);
@@ -178,7 +180,7 @@ namespace TracNghiemOnline.Areas.Admin.Controllers
             Session[ComMon.ComMonStants.Cauhoi] = lisch;
 
         }
-
+        [ValidateInput(false)]
         public void UpdateCauHoi(string listCH)
         {
 
@@ -237,7 +239,22 @@ namespace TracNghiemOnline.Areas.Admin.Controllers
 
         }
 
-        public ActionResult LoadCauHoi(long? id)
+        public ActionResult deleteCauHoi(long? id)
+        {
+            TracNghiemOnlineDB db = new TracNghiemOnlineDB();
+            var s = db.Kho_CauHoi.SingleOrDefault(x => x.Ma_CauHoi == id);
+            var machuong = s.Ma_Chuong;
+            foreach (var da in s.Dap_AN.ToList())
+            {
+                db.Dap_AN.Remove(da);
+                db.SaveChanges();
+            }
+            db.Kho_CauHoi.Remove(s);
+            db.SaveChanges();
+
+            return RedirectToAction("Index/" + machuong, "CauHoi");
+        }
+            public ActionResult LoadCauHoi(long? id)
         {
             List<Kho_CauHoi> cauHois = (List<Kho_CauHoi>)Session[ComMon.ComMonStants.Cauhoi];
             foreach (var item in cauHois)
@@ -621,8 +638,25 @@ namespace TracNghiemOnline.Areas.Admin.Controllers
                                 pic.Image.Save(imgName, System.Drawing.Imaging.ImageFormat.Png);
 
                             }
+                            else if (docObject.DocumentObjectType == DocumentObjectType.TextRange)
+                            {
+
+                                TextRange nd = docObject as TextRange;
+
+                                totalText +=  nd.Text;
+
+
+
+
+                            }
+                            else if (docObject.DocumentObjectType == DocumentObjectType.OfficeMath)
+                            {
+
+                                totalText +=  (docObject as OfficeMath).ToMathMLCode().Replace("mml:", "");
+
+                            }
+
                         }
-                        totalText += paragraph.Text.ToString();
 
                     }
 

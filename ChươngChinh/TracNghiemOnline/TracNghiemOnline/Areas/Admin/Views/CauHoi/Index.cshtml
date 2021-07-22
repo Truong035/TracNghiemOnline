@@ -23,7 +23,7 @@
                             <thead>
                                 <tr>
                                     <th width="100px">Mã Câu Hỏi  </th>
-                                    <th>Nôi Dung</th>
+                                    <th> Nôi Dung</th>
                                     <th width="70px"> Mức Độ </th>
                                     <th width="150px"></th>
                                 </tr>
@@ -33,7 +33,7 @@
                                 {
                                     <tr>
                                         <td> @item.Ma_CauHoi </td>
-                                        <td> @item.NoiDung</td>
+                                        <td> @Html.Raw(@item.NoiDung)</td>
                                         <td>  @item.MucDo </td>
                                         <td>
                                             <a href="/Admin/CauHoi/DapAn/@item.Ma_CauHoi" class="btn btn-xs btn-primary">
@@ -42,7 +42,7 @@
                                             <a href="#" class="btn btn-xs btn-success">
                                                 <span><i class="far fa-edit"></i></span>
                                             </a>&ensp;
-                                            <a href="#" class="btn btn-xs btn-danger">
+                                            <a href="/Admin/CauHoi/deleteCauHoi/@item.Ma_CauHoi" class="btn btn-xs btn-danger">
                                                 <span><i class="far fa-trash-alt"></i></span>
                                             </a>
                                         </td>
