@@ -431,17 +431,16 @@
             @foreach (var item in Model)
             {
                 <div class="col-md-3" id="@item.MaLop.Trim()">
-                    <div class="card   mb-3">
-                        <div class="card-footer bg-primary d-flex align-items-center justify-content-between">
-                            <h2 class="small text-white">@item.TenLop</h2>
+                    <div class="card   mb-3" style="border-radius:10px">
+                        <div class="card-footer bg-primary d-flex align-items-center justify-content-between" style="border-top-left-radius: 10px; border-top-right-radius: 10px;">
+                            <h2 class="small text-white" style="text-transform:uppercase">@item.TenLop</h2>
                         </div>
-                        <div class="card-body small"> Giáo Viên @item.GiaoVien.TenGV </div>
-                        <div class="card-body small"> Kỳ Học : @item.KiThi.TenKi </div>
-                        <div class="card-body small"> Môn :  @item.MonHoc.TenMon </div>
+                        <div class="card-body small"> Giảng viên: @item.GiaoVien.TenGV </div>
+                        <div class="card-body small"> Kỳ học: @item.KiThi.TenKi </div>
                         <div class="card-body small">
-                            <button id="@item.MaLop.Trim()" class="btn-success btn btn-xs" onclick="Lophocphan(id)"> Xem Danh Sách </button>
-                            <button id="@item.MaLop.Trim()" onclick="OnTap(id)" class="btn-danger btn btn-xs "> Ôn Tập</button>
-                            <button id="@item.MaLop.Trim()" onclick="OnTap(id)" class="btn-danger btn btn-xs ">KhoCauHoi</button>
+                            <button id="@item.MaLop.Trim()" class="btn-success btn btn-xs" onclick="Lophocphan(id)"> Xem danh sách </button>
+                            <button id="@item.MaLop.Trim()" onclick="OnTap(id)" class="btn-warning btn btn-xs "> Ôn tập</button>
+                            <button id="@item.MaLop.Trim()" onclick="OnTap(id)" class="btn-danger btn btn-xs ">Kho câu hỏi</button>
                         </div>
                     </div>
                 </div>

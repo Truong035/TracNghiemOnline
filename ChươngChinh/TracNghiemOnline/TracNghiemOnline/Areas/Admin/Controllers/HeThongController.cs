@@ -111,7 +111,7 @@ namespace TracNghiemOnline.Areas.Admin.Controllers
                 db.GiaoViens.Add(giaoVien);
                 db.SaveChanges();
                     TaiKhoan taiKhoan = new TaiKhoan();
-                    taiKhoan.TenDangNhap = "BM" + n.Ma_BoMon;
+                    taiKhoan.TenDangNhap = n.Ma_BoMon;
                     taiKhoan.MatKhau = ""+1;
                     taiKhoan.TaiKhoan1 = n.Ma_BoMon;
                    taiKhoan.ChưcVu = "BoMon";
