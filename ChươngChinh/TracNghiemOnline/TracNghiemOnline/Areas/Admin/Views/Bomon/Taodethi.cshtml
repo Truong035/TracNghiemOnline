@@ -32,7 +32,7 @@
                 type: "POST",
                 url: "ChonTG",
                 data: { tg },
-                success: function () {}
+                success: function () { }
             });
         };
         function showoption() {
@@ -57,7 +57,7 @@
             </div>
         </div>
         <div class="card-body ">
-            @using (Html.BeginForm("Monhoc", "Bomon", new AjaxOptions { InsertionMode = InsertionMode.Replace, UpdateTargetId = "ThongBao" }))
+            @using (Html.BeginForm("Monhoc", "Home", new AjaxOptions { InsertionMode = InsertionMode.Replace, UpdateTargetId = "ThongBao" }))
             {
                 <h1 id="ThongBao" style="color:azure"></h1>
                 <div class="form-group">

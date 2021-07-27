@@ -14,12 +14,66 @@ using TracNghiemOnline.Modell.Dao;
 
 namespace TracNghiemOnline.Areas.Admin.Controllers
 {
+    public class DiemTru
+    {
+        private int value;
+        private string Ten;
+
+        public List<DiemTru> listAll()
+        {
+            List<DiemTru> diemTrus = new List<DiemTru>();
+            for (int i = 0; i < 101; i = i + 25)
+            {
+                DiemTru diemTru = new DiemTru();
+                diemTru.value = i;
+                diemTru.Ten = i + "%";
+                diemTrus.Add(diemTru);
+            }
+            return diemTrus;
+
+        }
+    }
+    public class CanhCao
+    {
+        private string canhCao;
+        private string Name;
+
+        //public List<DiemTru> listAll()
+        //{
+        //    List<CanhCao> canhCaos = new List<CanhCao>();
+        //    CanhCao canhCao = new CanhCao();
+        //    canhCao.Name=""
+
+
+        //}
+    }
     public class QuanLyThiController : BaseController
     {
         // GET: Admin/QuanLyThi
-        public ActionResult LichSuThi()
+
+
+        [HttpPost]
+        public ActionResult EditDethi(De_Thi de_Thi)
         {
-            return View();
+            TracNghiemOnlineDB db = new TracNghiemOnlineDB();
+            var de = db.De_Thi.Find(de_Thi.MaDeThi);
+            de.DiemTru = de_Thi.DiemTru.Value;
+        //    de.ThoiGianThi = de.ThoiGianThi;
+            de.CanhCao = de_Thi.CanhCao;
+            de.ChiTiet = de_Thi.ChiTiet;
+            db.SaveChanges();
+            var classRoom = (Phong_Thi)Session[ComMon.ComMonStants.ExamRoom];
+            return RedirectToAction("ToChucThi/" + classRoom.MaPhong);
+
+        }
+
+        public ActionResult LichSuThi(long id)
+        {
+            De_Thi de_Thi = new TracNghiemOnlineDB().De_Thi.Where(x => x.MaDeThi == id).ToList()[0];
+            //       ViewBag.lstLop = new SelectList(ltsLop, "Ma_Lop", "TenLop");
+            ViewBag.TruDiem = new SelectList(new DiemTru().listAll(), "value", "Ten");
+
+            return View(de_Thi);
         }
         public ActionResult KiThi()
         {
@@ -28,7 +82,7 @@ namespace TracNghiemOnline.Areas.Admin.Controllers
         }
         public void AddKiThi(string nd)
         {
-   
+
             TracNghiemOnlineDB db = new TracNghiemOnlineDB();
             KiThi kiThi = new KiThi();
             kiThi.TenKi = nd;
@@ -160,9 +214,10 @@ namespace TracNghiemOnline.Areas.Admin.Controllers
         {
             var session = (TaiKhoan)Session[ComMon.ComMonStants.UserLogin];
             var lop = new TracNghiemOnlineDB().LopHocPhans.Where(x => x.TrangThai == 1).ToList();
-            if (session.ChưcVu == "Cán Bộ") {
-                 lop = (List<LopHocPhan>)new QuanLyThiDAO().ListClassRom(session.TaiKhoan1);
-            }      
+            if (session.ChưcVu == "Cán Bộ")
+            {
+                lop = (List<LopHocPhan>)new QuanLyThiDAO().ListClassRom(session.TaiKhoan1);
+            }
             var ListGV = (from c in new TracNghiemOnlineDB().GiaoViens.Where(x => x.TrangThai == true)
                           select new
                           {
@@ -182,22 +237,22 @@ namespace TracNghiemOnline.Areas.Admin.Controllers
                 code = 200,
                 lop = LopHoc,
                 ListGV
-            }, JsonRequestBehavior.AllowGet) ;
+            }, JsonRequestBehavior.AllowGet);
         }
         public ActionResult TroVe()
         {
-             var taikhoan =(TaiKhoan)Session[ComMon.ComMonStants.UserLogin];
-            if(taikhoan.ChưcVu.Contains("Sinh"))
+            var taikhoan = (TaiKhoan)Session[ComMon.ComMonStants.UserLogin];
+            if (taikhoan.ChưcVu.Contains("Sinh"))
             {
-                
+
                 return Redirect("/LopHocPhan");
             }
             else
             {
                 return RedirectToAction("DanhGiaKetQuahocTap", "QuanLyThi");
-               
+
             }
-        } 
+        }
 
         public ActionResult DiemSo(long id)
         {
@@ -333,14 +388,14 @@ namespace TracNghiemOnline.Areas.Admin.Controllers
         public ActionResult LopHocPhan()
         {
             var session = (TaiKhoan)Session[ComMon.ComMonStants.UserLogin];
-            var LopHoc = new TracNghiemOnlineDB().LopHocPhans.Where(x=>x.TrangThai==1).ToList();
+            var LopHoc = new TracNghiemOnlineDB().LopHocPhans.Where(x => x.TrangThai == 1).ToList();
             bool quyen = true;
-             if(session.ChưcVu.Equals("Cán Bộ"))
+            if (session.ChưcVu.Equals("Cán Bộ"))
             {
                 LopHoc = new QuanLyThiDAO().ListClassRom(session.TaiKhoan1);
                 quyen = false;
             }
-            ViewBag.Quyen=(bool)quyen;
+            ViewBag.Quyen = (bool)quyen;
             return View(LopHoc);
         }
         public ActionResult PhongThi()
@@ -359,22 +414,23 @@ namespace TracNghiemOnline.Areas.Admin.Controllers
             return View(PhongThi);
         }
 
-      
+
         public JsonResult GiaoVienDay(long MaMon)
         {
             var Mon = new TracNghiemOnlineDB().MonHocs.Find(MaMon);
             var bomon = new TracNghiemOnlineDB().BoMons.Find(Mon.MaBoMon);
 
-            var DSGV = new TracNghiemOnlineDB().GiaoViens.Where(x => x.MaBoMon.Equals(bomon.Ma_BoMon)&&x.TrangThai==true);
+            var DSGV = new TracNghiemOnlineDB().GiaoViens.Where(x => x.MaBoMon.Equals(bomon.Ma_BoMon) && x.TrangThai == true);
 
-            var data= from c in DSGV.ToList()
-                      select (new{
-                      c.MaGV,
-                      c.TenGV,
-                      
-                      });
+            var data = from c in DSGV.ToList()
+                       select (new
+                       {
+                           c.MaGV,
+                           c.TenGV,
 
-            return Json(new { data}, JsonRequestBehavior.AllowGet);
+                       });
+
+            return Json(new { data }, JsonRequestBehavior.AllowGet);
         }
         public JsonResult CreateClassRoom()
         {
@@ -407,7 +463,7 @@ namespace TracNghiemOnline.Areas.Admin.Controllers
             var LopHoc1 = new TracNghiemOnlineDB().LopHocPhans.Where(x => x.TrangThai == 1).ToList();
             bool quyen = true;
             if (session.ChưcVu.Equals("Cán Bộ"))
-            {                
+            {
                 quyen = false;
             }
             ViewBag.Quyen = quyen;
@@ -419,8 +475,8 @@ namespace TracNghiemOnline.Areas.Admin.Controllers
         }
         public JsonResult LoadLopHP()
         {
-      
-       
+
+
             var session = (TaiKhoan)Session[ComMon.ComMonStants.UserLogin];
             var LopHoc1 = new TracNghiemOnlineDB().LopHocPhans.Where(x => x.TrangThai == 1).ToList();
             bool quyen = true;
@@ -460,8 +516,8 @@ namespace TracNghiemOnline.Areas.Admin.Controllers
             Session[ComMon.ComMonStants.OnTap] = boDeOnTap;
             var session = (TaiKhoan)Session[ComMon.ComMonStants.UserLogin];
             var lophoc = new TracNghiemOnlineDB().LopHocPhans.Find(id);
-            var bode = new TracNghiemOnlineDB().Bo_De.Where(x => x.Ma_Mon == lophoc.MaMon && x.Ma_NguoiTao ==session.TaiKhoan1 && x.Xoa==true).ToList();
-          
+            var bode = new TracNghiemOnlineDB().Bo_De.Where(x => x.Ma_Mon == lophoc.MaMon && x.Ma_NguoiTao == session.TaiKhoan1 && x.Xoa == true).ToList();
+
             var bode1 = (from n in bode
                          select new
                          {
@@ -487,15 +543,15 @@ namespace TracNghiemOnline.Areas.Admin.Controllers
         public JsonResult VaoThi(string id)
         {
             var classRom = new QuanLyThiDAO().ExamitionRoom(id);
-           
+
             Session[ComMon.ComMonStants.ExamRoom] = classRom;
             var session = (TaiKhoan)Session[ComMon.ComMonStants.UserLogin];
             bool quyen = true;
-            var bode = new BoDeDao().ListALLChapterStudy(long.Parse(classRom.LopHocPhan.MaMon.ToString()),session.TaiKhoan1);
+            var bode = new BoDeDao().ListALLChapterStudy(long.Parse(classRom.LopHocPhan.MaMon.ToString()), session.TaiKhoan1);
             if (session.ChưcVu.Equals("Cán Bộ"))
             {
-               bode = new TracNghiemOnlineDB().Bo_De.Where(x => x.Ma_Mon == classRom.LopHocPhan.MaMon && x.Ma_NguoiTao == session.TaiKhoan1 && x.Xoa == true).ToList();
-               
+                bode = new TracNghiemOnlineDB().Bo_De.Where(x => x.Ma_Mon == classRom.LopHocPhan.MaMon && x.Ma_NguoiTao == session.TaiKhoan1 && x.Xoa == true).ToList();
+
             }
             long made = 0;
             string trangthai = classRom.TrangThai;
@@ -503,7 +559,8 @@ namespace TracNghiemOnline.Areas.Admin.Controllers
             {
                 made = long.Parse(classRom.MaBoDe.ToString());
             }
-            catch {
+            catch
+            {
                 made = 0;
             }
 
@@ -515,14 +572,16 @@ namespace TracNghiemOnline.Areas.Admin.Controllers
                              SoCau = n.SoCau,
                              ThoiGian = n.ThoiGianThi,
                              TenMon = n.MonHoc.TenMon,
-                             
+
                              NguoiTao = new TracNghiemOnlineDB().GiaoViens.Find(n.Ma_NguoiTao).TenGV
 
                          }).ToList();
 
             return Json(new
             {
-                Bode = bode1,trangthai,made,
+                Bode = bode1,
+                trangthai,
+                made,
 
             }, JsonRequestBehavior.AllowGet); ;
 
@@ -538,9 +597,9 @@ namespace TracNghiemOnline.Areas.Admin.Controllers
         }
 
 
-        public string CreateLopHoc(string malop, long mamon, long maki,string GV)
+        public string CreateLopHoc(string malop, long mamon, long maki, string GV)
         {
-          
+
             new QuanLyThiDAO().CreateClassRoom(malop, mamon, GV, maki);
             return "";
         }
@@ -604,7 +663,7 @@ namespace TracNghiemOnline.Areas.Admin.Controllers
             return View(classRom);
         }
 
-        public JsonResult UpdateExamRoom(string id,long? made)
+        public JsonResult UpdateExamRoom(string id, long? made)
         {
             try
             {
@@ -623,7 +682,7 @@ namespace TracNghiemOnline.Areas.Admin.Controllers
             }
             catch { };
             var classRoom = (Phong_Thi)Session[ComMon.ComMonStants.ExamRoom];
-           
+
             var session = (TaiKhoan)Session[ComMon.ComMonStants.UserLogin];
             if (session.ChưcVu.Equals("Cán Bộ"))
             {
@@ -644,7 +703,7 @@ namespace TracNghiemOnline.Areas.Admin.Controllers
                     status = classRoom.MaPhong
                 });
             }
-          
+
         }
 
         public JsonResult UpdateRoom(string tgbd)
@@ -652,30 +711,30 @@ namespace TracNghiemOnline.Areas.Admin.Controllers
             string[] ngay = tgbd.Split('/');
 
             var classRoom = (Phong_Thi)Session[ComMon.ComMonStants.ExamRoom];
-            
-           if(new TracNghiemOnlineDB().DS_SVThi.Where(x => x.MaPhong.Equals(classRoom.MaPhong)).ToList().Count == 0)
+
+            if (new TracNghiemOnlineDB().DS_SVThi.Where(x => x.MaPhong.Equals(classRoom.MaPhong)).ToList().Count == 0)
             {
                 return Json(new
                 {
                     status = classRoom.MaPhong,
-                     code = 200
+                    code = 200
                 });
             }
 
             var session = (TaiKhoan)Session[ComMon.ComMonStants.UserLogin];
             if (session.ChưcVu.Equals("Cán Bộ"))
             {
-                
+
 
                 classRoom.TrangThai = "Đang Thi";
                 classRoom.ThoiGianMo = new DateTime(int.Parse(ngay[0]), int.Parse(ngay[1]), int.Parse(ngay[2]), int.Parse(ngay[3]), int.Parse(ngay[4]), int.Parse(ngay[5]));
-               classRoom.ThoiGianDong = new DateTime(int.Parse(ngay[0]), int.Parse(ngay[1]), int.Parse(ngay[2]), int.Parse(ngay[3]), int.Parse(ngay[4]), int.Parse(ngay[5])).AddMinutes(double.Parse(classRoom.Bo_De.ThoiGianThi));
+                classRoom.ThoiGianDong = new DateTime(int.Parse(ngay[0]), int.Parse(ngay[1]), int.Parse(ngay[2]), int.Parse(ngay[3]), int.Parse(ngay[4]), int.Parse(ngay[5])).AddMinutes(double.Parse(classRoom.Bo_De.ThoiGianThi));
                 new QuanLyThiDAO().UpDatePhongThi(classRoom);
                 return Json(new
                 {
                     status = classRoom.MaPhong,
-                     code = 100
-                },JsonRequestBehavior.AllowGet);
+                    code = 100
+                }, JsonRequestBehavior.AllowGet);
 
             }
             else
@@ -685,7 +744,7 @@ namespace TracNghiemOnline.Areas.Admin.Controllers
                 {
                     status = classRoom.MaPhong,
                     code = 100
-                }, JsonRequestBehavior.AllowGet); 
+                }, JsonRequestBehavior.AllowGet);
             }
 
         }
@@ -738,7 +797,7 @@ namespace TracNghiemOnline.Areas.Admin.Controllers
             var Lisv = new QuanLyThiDAO().LissAllSinhVien(id);
             ViewBag.MaPhong = id;
             return View(Lisv);
-            
+
         }
 
         public string LuuSinhVien(string DSlop)

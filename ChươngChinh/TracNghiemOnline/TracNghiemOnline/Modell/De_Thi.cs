@@ -43,7 +43,7 @@ namespace TracNghiemOnline.Modell
 
         public DateTime? NgayThi { get; set; }
 
-        public int? ThoiGianThi { get; set; }
+        public string ThoiGianThi { get; set; }
 
         public long? MaMon { get; set; }
 

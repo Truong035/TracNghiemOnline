@@ -46,6 +46,7 @@ namespace TracNghiemOnline.Modell.Dao
             De_Thi de_Thi = new De_Thi();
             de_Thi.Ma_BoDe = bo_De.Ma_BoDe;
            de_Thi.Ma_SV = SV;
+         
             de_Thi.TrangThai = true;
             var lisQuestion = (List<CauHoi>)bo_De.CauHois;
             int Lenght = lisQuestion.Count;
@@ -60,7 +61,10 @@ namespace TracNghiemOnline.Modell.Dao
                 de_Thi.CauHoiDeThis.Add(cauHoi);
                 lisQuestion.RemoveAt(vt);
             }
+            de_Thi.ThoiGianThi = bo_De.ThoiGianThi;
             de_Thi.TrangThai = true;
+           
+            de_Thi.DiemTru = 0;
             db.De_Thi.Add(de_Thi);
             db.SaveChanges();
             de_Thi.MaDeThi = db.De_Thi.Select(x => x).ToList().Last().MaDeThi;

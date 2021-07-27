@@ -388,3 +388,10 @@ C:\Users\hp\Documents\TracNghiemOnline\ChươngChinh\TracNghiemOnline\TracNghiem
 C:\Users\hp\Documents\TracNghiemOnline\ChươngChinh\TracNghiemOnline\TracNghiemOnline\obj\Debug\TracNghiemOnline.csproj.CopyComplete
 C:\Users\hp\Documents\TracNghiemOnline\ChươngChinh\TracNghiemOnline\TracNghiemOnline\obj\Debug\TracNghiemOnline.dll
 C:\Users\hp\Documents\TracNghiemOnline\ChươngChinh\TracNghiemOnline\TracNghiemOnline\obj\Debug\TracNghiemOnline.pdb
+C:\Users\PhamTrongTruong\Desktop\TracNghiemOnline\ChươngChinh\TracNghiemOnline\TracNghiemOnline\bin\HtmlAgilityPack.dll
+C:\Users\PhamTrongTruong\Desktop\TracNghiemOnline\ChươngChinh\TracNghiemOnline\TracNghiemOnline\bin\WebDriver.dll
+C:\Users\PhamTrongTruong\Desktop\TracNghiemOnline\ChươngChinh\TracNghiemOnline\TracNghiemOnline\bin\WebDriver.Support.dll
+C:\Users\PhamTrongTruong\Desktop\TracNghiemOnline\ChươngChinh\TracNghiemOnline\TracNghiemOnline\bin\HtmlAgilityPack.pdb
+C:\Users\PhamTrongTruong\Desktop\TracNghiemOnline\ChươngChinh\TracNghiemOnline\TracNghiemOnline\bin\HtmlAgilityPack.xml
+C:\Users\PhamTrongTruong\Desktop\TracNghiemOnline\ChươngChinh\TracNghiemOnline\TracNghiemOnline\bin\WebDriver.xml
+C:\Users\PhamTrongTruong\Desktop\TracNghiemOnline\ChươngChinh\TracNghiemOnline\TracNghiemOnline\bin\WebDriver.Support.xml

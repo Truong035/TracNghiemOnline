@@ -79,7 +79,7 @@ namespace TracNghiemOnline.Controllers
             new TaoDeDao().TaoDe(danhGia, sl, mucdo,lopHocPhan) ;
             Session["noidung"] = bai_Hocs;
             danhGia.ketQuaThi1.NgayThi = new DateTime(int.Parse(ngay[0]), int.Parse(ngay[1]), int.Parse(ngay[2]), int.Parse(ngay[3]), int.Parse(ngay[4]), int.Parse(ngay[5])).AddMinutes(2 * sl);
-            danhGia.ketQuaThi1.ThoiGianThi = 2 * sl;
+            danhGia.ketQuaThi1.ThoiGianThi =""+2 * sl;
             danhGia.ketQuaThi1.DiêmSo = 0;
             danhGia.ketQuaThi1.TrangThai = false;
             danhGia.ketQuaThi1.MaMon = lopHocPhan.MaMon;

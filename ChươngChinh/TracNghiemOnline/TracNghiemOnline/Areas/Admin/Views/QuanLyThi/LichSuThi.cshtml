@@ -1,8 +1,9 @@
-﻿
+﻿@model TracNghiemOnline.Modell.De_Thi
 @{
     ViewBag.Title = "LichSuThi";
     Layout = "~/Areas/Admin/Views/Shared/LaoutShare.cshtml";
 }
+@using TracNghiemOnline.Modell;
 <div class="row" style="height:20px;">
 
 </div>
@@ -14,16 +15,23 @@
             </div>
         </div>
         <div class="card-body row">
-            <div class="col-lg-6 container">
-                <form>
+            <div class="col-lg-5 container">
+                @using (Html.BeginForm("EditDethi", "QuanLyThi", new AjaxOptions { InsertionMode = InsertionMode.Replace, UpdateTargetId = "ThongBao" }))
+                {
+                   
+                    <div class="row" hidden>
+                        <div class="col-lg-3"> <label>Mã sinh viên </label> </div>
+                        <div class="col">  @Html.EditorFor(model => model.MaDeThi, new { htmlAttributes = new { @class = "form-control col-5", type = "number" } })</div>
+                    </div>
                     <div class="row">
                         <div class="col-lg-3"> <label>Mã sinh viên </label> </div>
-                        <div class="col"> 5951071113</div>
+                        <div class="col"> @Model.Ma_SV</div>
                     </div>
                     <br />
                     <div class="row">
                         <div class="col-3"> <label>Họ tên</label> </div>
-                        <div class="col"> 5951071113</div>
+                        <div class="col">@Model.SinhVien.Ten</div>
+
                     </div>
                     <br />
                     <div class="row">
@@ -31,25 +39,26 @@
                         <div class="col"> 03/05/2000</div>
                     </div>
                     <br />
-                    <div class="row">
-                        <div class="col-lg-3"> <label>Cảnh cáo sinh viên</label> </div>
-                        <div class="col"> <select class="form-control  col-5"></select> </div>
-                    </div>
-                    <br />
+               
                     <div class="row">
                         <div class="col-lg-3"> <label>Số điểm trừ</label> </div>
-                        <div class="col"> <select class="form-control  col-5"></select> </div>
+                        <div class="col">
+                            @Html.EditorFor(model => model.DiemTru, new { htmlAttributes = new { @class = "form-control col-5", type = "number" } })
+                        </div>
                     </div>
                     <br />
                     <div class="row">
-                        <div class="col-lg-3"> <label>Mã sinh viên </label> </div>
-                        <div class="col"> 5951071113</div>
+                        <div class="col-lg-3"> <label>Cảnh cáo sinh viên</label> </div>
+                        <div class="col">
+                            @Html.EditorFor(model => model.CanhCao, new { htmlAttributes = new { @class = "form-control col-5" } })
+
+                        </div>
                     </div>
                     <br />
                     <div class="row">
                         <div class="col-lg-3"> <label>Ghi chu </label> </div>
                         <div class="col">
-                            <textarea class="col-7" rows="5"></textarea>
+                            @Html.TextAreaFor(model => model.ChiTiet, new { htmlAttributes = new { @class = "form-control col-7", rows = "5" } })
 
                         </div>
                     </div>
@@ -61,44 +70,49 @@
                         </button>
                     </div>
 
-                </form>
+                }
 
 
             </div>
-            <div class="col-6">
-                <div class="table-responsive">
-                    <div id="add-row_wrapper" class="dataTables_wrapper container-fluid dt-bootstrap4">
+            @if (new TracNghiemOnlineDB().CT_Dethi.Where(x => x.MADETHI == Model.MaDeThi).ToList().Count > 0)
+            {
+                <div class="col-7 text-center">
 
-                        <div class="col-sm-3">
-                            <table class="table-striped dataTable table-bordered" style="padding:3px">
-                                <thead>
-                                    <tr role="row">
-                                        <th class="sorting_asc" tabindex="0" aria-controls="add-row" rowspan="1" colspan="1" aria-sort="ascending" aria-label="Name: activate to sort column descending">Thời gian</th>
-                                        <th class="sorting" tabindex="0" aria-controls="add-row" aria-label="Position: activate to sort column ascending">Thực hiện</th>
-                                    </tr>
-                                </thead>
-
-                                <tbody id="tblGiaoVien">
-
-
-                                    @for (int i = 0; i < 10; i++)
-                                    {
-                                        <tr style="height:20px">
-                                            <td>ssssssssssssssssssssssss</td>
-                                            <td class="col-12">sssssssssssssssssssssssssssssssssssssssssssss</td>
-
-
+                    <div class="table-responsive">
+                        <h3> Lịch sử thi</h3>
+                        <div id="add-row_wrapper" class="dataTables_wrapper container-fluid dt-bootstrap4">
+                            <div class="col-sm-12">
+                                <table class="table-striped table-bordered col-12" style="padding:3px">
+                                    <thead>
+                                        <tr role="row">
+                                            <th class="sorting_asc" tabindex="0" aria-controls="add-row" rowspan="1" colspan="1" aria-sort="ascending" aria-label="Name: activate to sort column descending">Tên</th>
+                                            <th class="sorting" tabindex="0" aria-controls="add-row" aria-label="Position: activate to sort column ascending">Thực hiện</th>
                                         </tr>
+                                    </thead>
 
-                                    }
+                                    <tbody id="tblGiaoVien">
 
-                                </tbody>
-                            </table>
+
+                                        @foreach (var item in new TracNghiemOnlineDB().CT_Dethi.Where(x => x.MADETHI == Model.MaDeThi))
+                                        {
+                                            <tr style="height:20px">
+                                                <td>@Model.SinhVien.Ten</td>
+                                                <td>@item.LYDO</td>
+
+
+                                            </tr>
+
+                                        }
+
+                                    </tbody>
+                                </table>
+                            </div>
                         </div>
                     </div>
+
                 </div>
 
-            </div>
+            }
         </div>
     </div>
 </div>
