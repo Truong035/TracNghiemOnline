@@ -27,11 +27,11 @@
             $(document).on('click', 'button[name=btngui]', function () {
 
                 $.ajax({
-                   
+
                     url: '/Admin/Bomon/guide', tguideype: 'post',
                     data: {
                         made: $(this).closest('tr').find("td:eq(0)").text().trim(),
-                       // trangthai: true,
+                        // trangthai: true,
                     },
                     success: function (data) {
                         document.location = "/Admin/Bomon/DSDEGUI";
@@ -116,12 +116,12 @@
                     let += '<td>' + v.SoCau + '</td>';
                     let += '<td>' + v.ThoiGian + '</td>';
 
-            /*        let += '<td>' + v.Giaovien + '</td>';*/
+                    /*        let += '<td>' + v.Giaovien + '</td>';*/
 
                     let += '<td><a href="/Admin/Home/LoadDeThi/' + v.MaDe + '" class="btn btn-xs btn-primary"><span><i class="far fa-eye"></i></span></a>';
 
 
-                    let += '<button name="btngui" class="btn btn-xs btn-success"><i class="" aria-hidden="true" style="color:white"></i> gui admin </button>';
+                    let += '<button name="btngui" class="btn btn-xs btn-secondary">Gửi Admin</button>';
 
 
                     let += '<button name="btnSua" class="btn btn-xs btn-success"><i class="far fa-edit" aria-hidden="true" style="color:white"></i></button>';
@@ -146,8 +146,8 @@
 <div class="modal" tabindex="-1" role="dialog" id="modalConfirm">
     <div class="modal-dialog" role="document">
         <div class="modal-content">
-            <div class="modal-header bg-warning">
-                <h5 class="modal-title">CẢNH BÁO</h5>
+            <div class="modal-header">
+                <h4 class="modal-title font-weight-bold">CẢNH BÁO</h4>
 
             </div>
             <div class="modal-body">
@@ -203,7 +203,7 @@
                                     <th></th>
                                 </tr>
                             </thead>
-                          
+
                             <tbody id="bodeid">
                                 @foreach (var item in Model)
                                 {
@@ -212,7 +212,7 @@
                                         <td>  @item.NoiDung </td>
                                         <td> @item.MonHoc.TenMon</td>
                                         <td> @item.CauHois.Count</td>
-                                        <td id="sad"> @item.ThoiGianThi</td>
+                                        <td id="sad"> @item.ThoiGianThi phút</td>
                                         @*<td>  @item.GiaoVien.TenGV </td>*@
                                         <td>
                                             <a href="/Admin/Bomon/xemde/@item.Ma_BoDe?tenmon=@item.MonHoc.TenMon" class="btn btn-xs btn-primary">
@@ -220,7 +220,7 @@
                                             </a>
 
 
-                                            <button name="btngui" class="btn btn-xs btn-success"><i class="bi bi-arrow-bar-up" aria-hidden="true" style="color:white"></i> gui admin</button>
+                                            <button name="btngui" class="btn btn-xs btn-secondary">Gửi Admin</button>
 
                                             <button name="btnSua" class="btn btn-xs btn-success"><i class="far fa-edit" aria-hidden="true" style="color:white"></i></button>
                                             <button name="Delete" class="btn btn-xs btn-danger"><i class="far fa-trash-alt" aria-hidden="true"></i></button>
@@ -237,8 +237,8 @@
                 </div>
             </div>
         </div>
-        </div>
-    
+    </div>
+
 </div>
 
 
@@ -248,8 +248,8 @@
 <div class="modal" tabindex="-1" role="dialog" id="modalSinhVien">
     <div class="modal-dialog" role="document">
         <div class="modal-content">
-            <div class="modal-header bg-info" style="color:white">
-                <h5 class="modal-title">THÔNG TIN ĐỀ THI</h5>
+            <div class="modal-header">
+                <h4 class="modal-title font-weight-bold">THÔNG TIN ĐỀ THI</h4>
             </div>
             <div class="modal-body">
                 <p>
@@ -258,7 +258,7 @@
                         <input type="text" disabled class="form-control" id="MaDe">
                         <label>Nôi Dung</label>
                         <input type="text" class="form-control" id="NoiDung">
-                        <div class="form-group">
+                        <div>
                             <label>Thời Gian</label>
                             <select class=" form-control col-12" id="txtTG">
                                 <option value=""> ==========Thời Gian ============= </option>

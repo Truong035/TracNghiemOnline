@@ -11,7 +11,7 @@
     <div class="card">
         <div class="card-header">
             <div class="d-flex align-items-center">
-                <h4 class="card-title">DANH SÁCH MÔN HỌC</h4>
+                <h4 class="card-title">DANH SÁCH CHƯƠNG HỌC </h4>
                 @{
                     var session = (TaiKhoan)Session[ComMonStants.UserLogin];
                     if (session.ChưcVu.Equals("BoMon"))
@@ -97,7 +97,7 @@
 <div class="modal" tabindex="-1" role="dialog" id="modalBoMon">
     <div class="modal-dialog" role="document">
         <div class="modal-content">
-            <div class="modal-header bg-dark" style="color:white">
+            <div class="modal-header">
                 <h5 class="modal-title">THÔNG TIN CHƯƠNG</h5>
 
             </div>
@@ -121,7 +121,7 @@
 <div class="modal" tabindex="-1" role="dialog" id="modalConfirm">
     <div class="modal-dialog" role="document">
         <div class="modal-content">
-            <div class="modal-header bg-dark">
+            <div class="modal-header">
                 <h5 class="modal-title">CẢNH BÁO</h5>
 
             </div>

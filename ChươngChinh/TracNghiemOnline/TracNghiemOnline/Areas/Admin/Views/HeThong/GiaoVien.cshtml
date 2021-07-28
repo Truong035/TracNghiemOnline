@@ -75,9 +75,9 @@
 @*Modal thêm sửa*@
 <div class="modal" tabindex="-1" role="dialog" id="modalGiaoVien">
     <div class="modal-dialog" role="document">
-        <div class="modal-content">
+        <div class="modal-content ">
             <div class="modal-header ">
-                <h5 class="modal-title">THÔNG TIN GIÁO VIÊN</h5>
+                <h4 class="modal-title text-700">THÔNG TIN GIÁO VIÊN</h4>
 
             </div>
             <div class="modal-body">
@@ -90,7 +90,7 @@
                         <input type="text" class="form-control" id="tenGV" placeholder="Tên giáo viên">
 
                         <label>Chọn ngành</label>
-                        <div class="form-group">
+                        <div>
                             @if (ViewBag.lstNganh != null)
                             {
                                 @Html.DropDownListFor(model => model.Ma_BoMon, ViewBag.lstNganh as SelectList, "--Chọn Bộ Môn--", new { @class = "form-control" })

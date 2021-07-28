@@ -190,6 +190,10 @@ namespace TracNghiemOnline.Areas.Admin.Controllers
         {
             var khoch = new Bode().listkhocauhoi(id);
             ViewBag.linkpdf = xuatpdf(id, Request["tenmon"]);
+            var de = new TracNghiemOnlineDB().Bo_De.Where(x => x.Ma_BoDe == id).FirstOrDefault();
+            ViewBag.TenDe = de.NoiDung;
+            ViewBag.MonThi = de.MonHoc.TenMon;
+            ViewBag.ThoiGianThi = de.ThoiGianThi;
             return View(khoch);
 
         }

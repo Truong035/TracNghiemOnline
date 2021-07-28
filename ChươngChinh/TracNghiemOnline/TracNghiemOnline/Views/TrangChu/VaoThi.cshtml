@@ -472,14 +472,14 @@
             }
             function my_onkeydown_handler(event) {
                 switch (event.keyCode) {
-                    //case 18:
-                    //    event.preventDefault();
-                    //    event.keyCode = 0;
-                    //    ViPham();
-                    //    clearInterval(x1);
-                    //    closeFullscreen();
-                    //    document.removeEventListener("keydown", my_onkeydown_handler);
-                    //    break;
+                    case 18:
+                        event.preventDefault();
+                        event.keyCode = 0;
+                        ViPham();
+                        clearInterval(x1);
+                        closeFullscreen();
+                        document.removeEventListener("keydown", my_onkeydown_handler);
+                        break;
                     case 116:
                         event.preventDefault();
                         event.keyCode = 0;

@@ -162,7 +162,7 @@
         <div class="card-header">
             <div class="d-flex align-items-center">
                 <h4 class="card-title">DANH SÁCH PHÒNG THI</h4>
-                <button class="btn btn-primary btn-round ml-auto" id="btnThem" style="text-align:center"><i class="fa fa-plus"></i>TẠO PHÒNG</button>
+                <button class="btn btn-primary btn-round ml-auto" id="btnThem" style="text-align:center"><i class="fa fa-plus"></i>Tạo phòng</button>
             </div>
         </div>
         <div class="card-body">
@@ -195,8 +195,8 @@
                                         <td>  @item.TrangThai </td>
                                         <td id="@item.MaBoDe">
 
-                                            <a class="btn btn-sm badge-primary" href="/Admin/Home/DSSVThi/@item.MaPhong"> Xem Danh Sách  </a>
-                                            <button class="btn btn-sm badge-warning " name="btnVaoThi" href="/Admin/QuanLyThi/VaoThi/@item.MaPhong"> Vào </button>
+                                            <a class="btn btn-sm badge-success" href="/Admin/Home/DSSVThi/@item.MaPhong"> Xem Danh Sách  </a>
+                                            <button class="btn btn-sm badge-secondary " name="btnVaoThi" href="/Admin/QuanLyThi/VaoThi/@item.MaPhong"> Vào </button>
 
                                             <button class="btn  btn-sm badge-danger " name="btnHuyPhong" href="/Admin/QuanLyThi/VaoThi/@item.MaPhong"> Hủy Phòng </button>
 
@@ -255,7 +255,7 @@
 <div class="modal" tabindex="-1" role="dialog" id="modalConfirm">
     <div class="modal-dialog" role="document">
         <div class="modal-content">
-            <div class="modal-header bg-primary">
+            <div class="modal-header">
                 <h5 class="modal-title">CẢNH BÁO</h5>
 
             </div>
@@ -276,15 +276,18 @@
 <div class="modal" tabindex="-1" role="dialog" id="modalLopHP">
     <div class="modal-dialog" role="document">
         <div class="modal-content">
-            <div class="modal-header bg-primary">
-                Bạn vui lòng chọn lớp học phần
+            <div class="modal-header">
+                 THÔNG TIN PHÒNG THI
             </div>
             <div class="modal-body">
                 <p>
-                    <label>Tên Phòng</label>
-                    <input type="text" class="form-control" id="tenPhong" placeholder="Nhập Tên Phòng">
                     <div class="form-group">
-                        <div class="form-group" id="LopHP">
+                        <label>Tên Phòng</label>
+                        <input type="text" class="form-control" id="tenPhong" placeholder="Nhập Tên Phòng">
+                    </div>
+                    <div class="form-group">
+                        <label>Lớp học phần</label>
+                        <div id="LopHP">
                             <select id="lop" class="form-control">
                             </select>
 

@@ -8,7 +8,7 @@
     <div class="card">
         <div class="card-header">
             <div class="d-flex align-items-center">
-                <h4 class="card-title">DANH SÁCH PHÒNG THI @Model.TenPhong </h4>
+                <h4 class="card-title text-uppercase">PHÒNG THI @Model.TenPhong </h4>
             </div>
             <br />
             <div class="container-sm row">
@@ -16,23 +16,23 @@
                     <p>
                         <input id="Txtmaphong" hidden="hidden" value="@Model.MaPhong" />
 
-                        Lớp HP :@Model.LopHocPhan.TenLop
+                        Lớp HP: @Model.LopHocPhan.TenLop
                     </p>
                     <p>
-                        Sĩ Số    :@Model.DS_SVThi.Count
+                        Sĩ số: @Model.DS_SVThi.Count
 
                     <p>
-                        Môn Thi : @Model.Bo_De.MonHoc.TenMon
+                        Môn thi: @Model.Bo_De.MonHoc.TenMon
                     </p>
 
                 </div>
                 <div class="col">
                     <p>
                         <input id="TxtThoiGian" hidden="hidden" value="@ViewBag.GioThi " />
-                        Thời Gian Thi : @Model.Bo_De.ThoiGianThi  Phút;
+                        Thời gian thi: @Model.Bo_De.ThoiGianThi  Phút
                     </p>
                     <p>
-                        Thời Gian Bắt Đầu  : @Model.ThoiGianMo.ToString();
+                        Thời gian bắt đầu: @Model.ThoiGianMo.ToString()
                     </p>
 
                     <p id="thoigian"></p>
@@ -41,9 +41,15 @@
 
 
             </div>
+            <div class="container-sm row">
+                <div class="col">
+                    <button class="btn btn-secondary" id="btnDanhsach">Danh sách</button>
+                    <button class="btn btn-secondary" id="btnGiamSat">Giám sát</button>
+                </div>
 
+            </div>
 
-            <div class="card mb-4">
+            <div class="card mb-4" id="frmDanhSach">
                 <div class="card-header">
 
                     Danh sách sinh viên thi
@@ -107,6 +113,24 @@
                     </div>
                 </div>
             </div>
+
+
+            <div class="card mb-4" id="frmGiamSat">
+                <div class="card-header">
+                    Danh sách sinh viên thi
+                </div>
+                <div class="card-body">
+                    <div class="row">
+                        @for (int i = 0; i < 9; i++)
+                        {
+                            <div class="col-4">
+                                <img src="https://i.ytimg.com/vi/Lom1Xn8Mw-8/mqdefault.jpg">
+                                <p>Tên sinh viên</p>
+                            </div>
+                        }
+                    </div>
+                </div>
+            </div>
         </div>
     </div>
 </div>
@@ -114,6 +138,9 @@
 @section  Jsfooter{
     <script>
         $(document).ready(function () {
+            $('#frmGiamSat').hide();
+
+
             // Thiết lập thời gian đích mà ta sẽ đếm
             var tg = $('#TxtThoiGian').val();
             $.ajax({
@@ -212,11 +239,11 @@
 
                 // HIển thị chuỗi thời gian trong thẻ p
                 if (hours > 0) {
-                    document.getElementById("thoigian").innerHTML = "Thời Gian Còn Lại : " + hours + " : "
+                    document.getElementById("thoigian").innerHTML = "Thời Gian Còn Lại: " + hours + " : "
                         + minutes + " : " + seconds + " Phút ";
                 }
                 else {
-                    document.getElementById("thoigian").innerHTML = "Thời Gian Còn Lại : "
+                    document.getElementById("thoigian").innerHTML = "Thời Gian Còn Lại: "
                         + minutes + " : " + seconds + " Phút ";
                 }
                 // Nếu thời gian kết thúc, hiển thị chuỗi thông báo
@@ -228,7 +255,16 @@
             }, 1000);
         });
 
+        $('#btnGiamSat').click(function () {
+            $('#frmGiamSat').show();
+            $('#frmDanhSach').hide();
+            
+        })
+        
+        $('#btnDanhsach').click(function () {
+            $('#frmGiamSat').hide();
+            $('#frmDanhSach').show();
 
-
+        })
     </script>
 }

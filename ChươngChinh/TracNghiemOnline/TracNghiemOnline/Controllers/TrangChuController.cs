@@ -231,6 +231,7 @@ namespace TracNghiemOnline.Controllers
                 Exem = new BoDeDao().MixExemQuestion(list, session.TaiKhoan1);
 
             }
+           
             Session[ComMon.ComMonStants.ExamQuesTion] = Exem;
             DateTime data = new DateTime(int.Parse(ngay[0]), int.Parse(ngay[1]), int.Parse(ngay[2]), int.Parse(ngay[3]), int.Parse(ngay[4]), int.Parse(ngay[5])).AddMinutes(double.Parse(list.ThoiGianThi));
             ViewBag.GioThi = data.ToString("yyyy/MM/dd HH:mm:ss");
@@ -299,6 +300,12 @@ namespace TracNghiemOnline.Controllers
             new BoDeDao().UpdateDsThi(phong, DeThi,session.TaiKhoan1, "Đã vào phòng");
             Session[ComMon.ComMonStants.ExamQuesTion] = DeThi;
             DateTime dateTime =DateTime.Parse(phong.ThoiGianDong.ToString());
+            CT_Dethi cT_Dethi = new CT_Dethi();
+            cT_Dethi.MADETHI = DeThi.MaDeThi;
+            cT_Dethi.LYDO = "Sinh viên đã vào phòng ";
+            TracNghiemOnlineDB db = new TracNghiemOnlineDB();
+            db.CT_Dethi.Add(cT_Dethi);
+            db.SaveChanges();
             ViewBag.GioThi = dateTime.ToString("yyyy/MM/dd HH:mm:ss");
           
             ViewBag.DeThi = DeThi;
