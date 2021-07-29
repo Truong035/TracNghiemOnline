@@ -1,165 +1,260 @@
 ﻿@model TracNghiemOnline.Model.DanhGia
 @{
     ViewBag.Title = "DiemSo";
-    Layout = null;
+    Layout = "~/Areas/Admin/Views/Shared/LaoutShare.cshtml";
 
 
 }
+@using TracNghiemOnline.Modell;
+<div class="col-md-12" id="frmxem">
+    <div class="card">
+        <div class="card-header">
+            <div class="d-flex align-items-center">
+                <h4 class="card-title">THÔNG TIN SINH VIÊN</h4>
+                <button class="btn btn-primary btn-round ml-auto" id="btnclose">Quay lại</button>
+            </div>
+            
+        </div>
+        <div class="card-body row">
+            <div class="col-lg-5 container">
 
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <title>Trắc nghiệm online</title>
-    <meta content="width=device-width, initial-scale=1.0, shrink-to-fit=no" name="viewport">
-    <link rel="icon" href="/assets/img/icon.ico" type="image/x-icon">
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.5.0/font/bootstrap-icons.css">
-    <!-- Fonts and icons -->
-    <link rel="stylesheet" href="/assets/css/fonts.min.css" media="all">
-    <!-- CSS Files -->
-    <link rel="stylesheet" href="/assets/css/bootstrap.min.css">
-    <link rel="stylesheet" href="/assets/css/atlantis.min.css">
-    <script type="text/javascript" async="" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.7/MathJax.js?config=TeX-MML-AM_CHTML">
-    </script>
-    <script src="/assets/demo/JavaScript.js"></script>
+                <div class="row">
+                    <div class="col-lg-3"> <label>Mã sinh viên </label> </div>
+                    <div class="col"> @Model.ketQuaThi.De_Thi.SinhVien.MaSV</div>
+                </div>
+                <br />
+                <div class="row">
+                    <div class="col-3"> <label>Họ tên</label> </div>
+                    <div class="col">@Model.ketQuaThi.De_Thi.SinhVien.Ten</div>
 
-</head>
-<body>
-    <div class="container-fluid">
-        <div class="col-10" style="margin-left:10%">
-            <div class="card-body mb-4">
-                <div class="container">
-                    <div class="card card-body">
-                        <table>
-                            <tr>
-                                <td width="10%">
-                                    <p style="margin-bottom:0; font-weight:700;">Mã sinh viên:</p>
-                                    <p style="margin-bottom: 0; font-weight: 700;">Họ tên:</p>
-                                    <p style="margin-bottom: 0; font-weight: 700;">Số câu đúng:</p>
-                                    <p style="margin-bottom: 0; font-weight: 700;">Số câu sai:</p>
-                                    <p style="font-weight: 700;">Điểm số:</p>
-                                </td>
-                                <td>
-                                    <p style="margin-bottom:0">@Model.ketQuaThi.De_Thi.Ma_SV</p>
-                                    <p style="margin-bottom:0">@Model.ketQuaThi.De_Thi.SinhVien.Ten  </p>
-                                    <p style="margin-bottom:0">@Model.ketQuaThi.SoCauDung câu </p>
-                                    <p style="margin-bottom:0">@Model.ketQuaThi.SoCauSai câu </p>
-                                    <p>@Model.ketQuaThi.DiemSo điểm </p>
-                                </td>
-                                <td style="text-align:right; vertical-align:top"><a class="btn btn-primary btn-round ml-auto " href="/Admin/QuanLyThi/TroVe">Quay Về</a></td>
-                            </tr>
-                        </table>
-                        @*<div class="d-flex align-items-center">
+                </div>
+                <br />
+                <div class="row">
+                    <div class="col-lg-3"> <label>Ngày sinh </label> </div>
+                    <div class="col">@Model.ketQuaThi.De_Thi.SinhVien.NgaySinh</div>
+                </div>
+                <br />
 
-
-                            </div>*@
-
+                <div class="row">
+                    <div class="col-lg-3"> <label>Số điểm trừ</label> </div>
+                    <div class="col">
+                        @Model.ketQuaThi.De_Thi.DiemTru
+                    </div>
+                </div>
+                <br />
+                <div class="row">
+                    <div class="col-lg-3"> <label>Cảnh cáo sinh viên</label> </div>
+                    <div class="col">
+                        @Model.ketQuaThi.De_Thi.CanhCao
 
                     </div>
                 </div>
+                <br />
+                <div class="row">
+                    <div class="col-lg-3"> <label>Ghi chú </label> </div>
+                    <div class="col">
+                        @Model.ketQuaThi.De_Thi.ChiTiet
 
-                <div class="container">
-                    <div class=" card card-body ">
-                        
-                        @{
-                            int dem = 0;
-                            foreach (var item in Model.ketQuaThi.De_Thi.CauHoiDeThis)
+                    </div>
+                </div>
+                <br />
+
+
+
+            </div>
+            @if (new TracNghiemOnlineDB().CT_Dethi.Where(x => x.MADETHI == Model.ketQuaThi.De_Thi.MaDeThi).ToList().Count > 0)
+            {
+                <div class="col-7 text-center">
+
+                    <div class="table-responsive">
+                        <h3> Lịch sử thi</h3>
+                        <div id="add-row_wrapper" class="dataTables_wrapper container-fluid dt-bootstrap4">
+                            <div class="col-sm-12">
+                                <table class="table-striped table-bordered col-12" style="padding:3px">
+                                    <thead>
+                                        <tr role="row">
+                                            <th class="sorting_asc" tabindex="0" aria-controls="add-row" rowspan="1" colspan="1" aria-sort="ascending" aria-label="Name: activate to sort column descending">Tên</th>
+                                            <th class="sorting" tabindex="0" aria-controls="add-row" aria-label="Position: activate to sort column ascending">Thực hiện</th>
+                                        </tr>
+                                    </thead>
+
+                                    <tbody id="tblGiaoVien">
+
+
+                                        @foreach (var item in new TracNghiemOnlineDB().CT_Dethi.Where(x => x.MADETHI == Model.ketQuaThi.De_Thi.MaDeThi))
+                                        {
+                                            <tr style="height:20px">
+                                                <td>@Model.ketQuaThi.De_Thi.SinhVien.Ten</td>
+                                                <td>@item.LYDO</td>
+
+
+                                            </tr>
+
+                                        }
+
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+
+                </div>
+
+            }
+        </div>
+    </div>
+</div>
+
+<div class="container-fluid" id="frmdiem">
+    <div class="col-12">
+        <div class="card-body mb-4">
+            <div class="container">
+                <div class="card card-body">
+                    <table>
+                        <tr>
+                            <td width="10%">
+                                <p style="margin-bottom:0; font-weight:700;">Mã sinh viên:</p>
+                                <p style="margin-bottom: 0; font-weight: 700;">Họ tên:</p>
+                                <p style="margin-bottom: 0; font-weight: 700;">Số câu đúng:</p>
+                                <p style="margin-bottom: 0; font-weight: 700;">Số câu sai:</p>
+                                <p style="font-weight: 700;">Điểm số:  @Model.ketQuaThi.DiemSo</p>
+                            </td>
+                            <td>
+                                <p style="margin-bottom:0">@Model.ketQuaThi.De_Thi.Ma_SV</p>
+                                <p style="margin-bottom:0">@Model.ketQuaThi.De_Thi.SinhVien.Ten  </p>
+                                <p style="margin-bottom:0">@Model.ketQuaThi.SoCauDung câu </p>
+                                <p style="margin-bottom:0">@Model.ketQuaThi.SoCauSai câu </p>
+                                <p>@Model.ketQuaThi.DiemSo điểm </p>
+                            </td>
+                            <td style="text-align:right; vertical-align:top">
+                                <button class="btn btn-primary btn-round ml-auto" id="btnxem">Lịch sử thi</button>
+                                <a class="btn btn-primary btn-round ml-auto " href="/Admin/QuanLyThi/TroVe">Quay Về</a>
+                            </td>
+                        </tr>
+                    </table>
+                    @*<div class="d-flex align-items-center">
+
+
+                        </div>*@
+
+
+                </div>
+            </div>
+
+            <div class="container">
+
+                <div class=" card card-body ">
+
+                    @{
+                        int dem = 0;
+                        foreach (var item in Model.ketQuaThi.De_Thi.CauHoiDeThis)
+                        {
+                            dem++;
+                            <div class="chon font-weight-bold" id="@item.Kho_CauHoi.Ma_CauHoi">Câu @dem. @Html.Raw(@item.Kho_CauHoi.NoiDung) </div>
+                            try
                             {
-                                dem++;
-                                <div class="chon font-weight-bold" id="@item.Kho_CauHoi.Ma_CauHoi">Câu @dem. @Html.Raw(@item.Kho_CauHoi.NoiDung) </div>
-                                try
+                                if (item.Kho_CauHoi.HinhAnh.Length > 0)
                                 {
-                                    if (item.Kho_CauHoi.HinhAnh.Length > 0)
-                                    {
-                                        <div class="row" style="margin-top:0px;margin-left:10%">
-                                            <img src="@item.Kho_CauHoi.HinhAnh" width="200">
-                                        </div>}
+                                    <div class="row" style="margin-top:0px;margin-left:10%">
+                                        <img src="@item.Kho_CauHoi.HinhAnh" width="200">
+                                    </div>}
+                            }
+                            catch { }
+
+
+                            foreach (var item1 in item.Kho_CauHoi.Dap_AN)
+                            {
+                                if (Model.ketQuaThi.De_Thi.Da_SVLuaChon.ToList().Exists(x => x.Ma_DAN == item1.MA_DAN && item1.TrangThai == true))
+                                {
+                                    <div class="row" style="margin-top:0px;margin-left:2.2%">
+                                        <label class="form-check-label" for="flexRadioDefault">
+                                            <i style="font-size: 1rem;margin-top:-3px; color: #44ad57" class=" form-check-input bi bi-check-circle-fill" name="flexRadioDefault" id="flexRadioDefault1"></i>'
+                                            @Html.Raw(@item1.NoiDung)
+
+                                        </label>
+                                    </div>
+
                                 }
-                                catch { }
-
-
-                                foreach (var item1 in item.Kho_CauHoi.Dap_AN)
+                                else
                                 {
-                                    if (Model.ketQuaThi.De_Thi.Da_SVLuaChon.ToList().Exists(x => x.Ma_DAN == item1.MA_DAN && item1.TrangThai == true))
+                                    if (item1.TrangThai == true)
                                     {
-                                        <div class="row" style="margin-top:0px;margin-left:2.2%">
-                                            <label class="form-check-label" for="flexRadioDefault">
-                                                <i style="font-size: 1rem;margin-top:-3px; color: #44ad57" class=" form-check-input bi bi-check-circle-fill" name="flexRadioDefault" id="flexRadioDefault1"></i>'
+                                        <div class="row" style="margin-top:0px;margin-left:2.5%">
+                                            <label class="form-check-label text-success" for="flexRadioDefault1">
+                                                <input class="form-check-input" disabled type="radio" name="flexRadioDefault" id="flexRadioDefault2">
                                                 @Html.Raw(@item1.NoiDung)
-
                                             </label>
                                         </div>
-
                                     }
                                     else
                                     {
-                                        if (item1.TrangThai == true)
+                                        if (Model.ketQuaThi.De_Thi.Da_SVLuaChon.ToList().Exists(x => x.Ma_DAN == item1.MA_DAN && item1.TrangThai == false))
                                         {
-                                            <div class="row" style="margin-top:0px;margin-left:2.5%">
-                                                <label class="form-check-label text-success" for="flexRadioDefault1">
-                                                    <input class="form-check-input" disabled type="radio" name="flexRadioDefault" id="flexRadioDefault2">
+                                            <div class="row" style="margin-top:0px;margin-left:2.2%">
+                                                <label class="form-check-label" for="flexRadioDefault1">
+                                                    <i style="font-size: 1rem;margin-top:-3px;color: #9b0000" class="form-check-input bi bi-x-circle-fill" name="flexRadioDefault" id="flexRadioDefault1"></i>
                                                     @Html.Raw(@item1.NoiDung)
                                                 </label>
                                             </div>
                                         }
                                         else
                                         {
-                                            if (Model.ketQuaThi.De_Thi.Da_SVLuaChon.ToList().Exists(x => x.Ma_DAN == item1.MA_DAN && item1.TrangThai == false))
-                                            {
-                                                <div class="row" style="margin-top:0px;margin-left:2.2%">
-                                                    <label class="form-check-label" for="flexRadioDefault1">
-                                                        <i style="font-size: 1rem;margin-top:-3px;color: #9b0000" class="form-check-input bi bi-x-circle-fill" name="flexRadioDefault" id="flexRadioDefault1"></i>
-                                                        @Html.Raw(@item1.NoiDung)
-                                                    </label>
-                                                </div>
-                                            }
-                                            else
-                                            {
-                                                <div class="row" style="margin-top:0px;margin-left:2.5%" ;>
-                                                    <label class="form-check-label" for="@item1.MA_DAN">
-                                                        <input class="form-check-input txtch" disabled type="radio" value="@item.Kho_CauHoi.Ma_CauHoi" name="@item.Kho_CauHoi.Ma_CauHoi" id="@item1.MA_DAN">
-                                                        @Html.Raw(@item1.NoiDung)
-                                                    </label>
-                                                </div>
-                                            }
-
-
-
+                                            <div class="row" style="margin-top:0px;margin-left:2.5%" ;>
+                                                <label class="form-check-label" for="@item1.MA_DAN">
+                                                    <input class="form-check-input txtch" disabled type="radio" value="@item.Kho_CauHoi.Ma_CauHoi" name="@item.Kho_CauHoi.Ma_CauHoi" id="@item1.MA_DAN">
+                                                    @Html.Raw(@item1.NoiDung)
+                                                </label>
+                                            </div>
                                         }
-                                        try
-                                        {
 
-                                            if (item1.HinhAnh.Length > 0)
-                                            {
-                                                <div class="row card-header" style="margin-top:0px;margin-left:6%" ;>
-                                                    <img src="@item1.HinhAnh" width="200">
-                                                </div>}
-                                        }
-                                        catch { }
 
 
                                     }
+                                    try
+                                    {
+
+                                        if (item1.HinhAnh.Length > 0)
+                                        {
+                                            <div class="row card-header" style="margin-top:0px;margin-left:6%" ;>
+                                                <img src="@item1.HinhAnh" width="200">
+                                            </div>}
+                                    }
+                                    catch { }
 
 
                                 }
-                            
-                                
+
+
                             }
 
-                        }
-                    </div>
 
+                        }
+
+                    }
                 </div>
+
             </div>
         </div>
-
-
     </div>
 
 
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.5.3/dist/js/bootstrap.bundle.min.js" crossorigin="anonymous"></script>
+</div>
 
+@section Jsfooter{
+    <script>
+        $(document).ready(function () {
+            $('#frmxem').hide();
+            $('#btnxem').click(function () {
+                $('#frmxem').show();
+                $('#frmdiem').hide();
 
-</body>
-</html>
+            });
+            $('#btnclose').click(function () {
+                $('#frmdiem').show();
+                $('#frmxem').hide();
+            });
 
+        });
+        
+    </script>
+        }

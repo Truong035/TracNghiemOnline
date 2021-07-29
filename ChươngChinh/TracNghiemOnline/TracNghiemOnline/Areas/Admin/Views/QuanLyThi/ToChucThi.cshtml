@@ -3,6 +3,25 @@
     ViewBag.Title = "ToChucThi";
     Layout = "~/Areas/Admin/Views/Shared/LaoutShare.cshtml";
 }
+<div class="modal" tabindex="-1" role="dialog" id="modalConfirm">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header header-title card-header-info btn-info">
+                <h5 class="modal-title text-center">CHON LÝ DO HỦY</h5>
+            </div>
+            <div class="modal-body">
+                <div class="form-group">
+                    <label>Lý do </label>
+                    <textarea class="form-control" id="txtlydo" rows="5"></textarea>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-primary btn-sm" id="btnSubmit">Xác nhận</button>
+                <button type="button" class="btn btn-danger btn-sm" id="btnDong">Đóng</button>
+            </div>
+        </div>
+    </div>
+</div>
 
 <div class="col-md-12">
     <div class="card">
@@ -72,7 +91,7 @@
                                         </thead>
                                         <tbody id="tblDeThi">
 
-                                            @foreach (var item in Model.DS_SVThi)
+                                            @*@foreach (var item in Model.DS_SVThi)
                                             {
                                                 <tr id=" @item.MaDeThi">
                                                     <td>
@@ -92,11 +111,21 @@
                                                         if (item.SinhVien.De_Thi.ToList()[0].TrangThai == true)
                                                         {
 
-                                                            <td id="true"><button name="TrangThai" id="true" class="btn btn-sm btn-success"> Đóng </button> </td>
+                                                                                                        <td >
+                                                                                                            <button name="TrangThai" id="true" class="btn btn-sm btn-success"> Đóng </button>
+                                                                                                            <a href="/Admin/QuanLyThi/LichSuThi/@item.MaDeThi" class="btn btn-xs btn-primary">
+                                                                                                                <span>Xem</span>
+                                                                                                            </a>
+                                                                                                        </td>
                                                         }
                                                         else
                                                         {
-                                                            <td><button id="false" name="TrangThai" class="btn btn-sm btn-success"> Mở  </button> </td>
+                                                <td>
+                                                    <button id="false" name="TrangThai" class="btn btn-sm btn-danger"> Mở  </button>
+                                                    <a href="/Admin/QuanLyThi/LichSuThi/@item.MaDeThi" class="btn btn-xs btn-primary">
+                                                        <span>Xem</span>
+                                                    </a>
+                                                </td>
                                                         }
 
                                                     }
@@ -104,7 +133,7 @@
 
                                                 </tr>
 
-                                            }
+                                            }*@
                                         </tbody>
                                     </table>
                                 </div>
@@ -121,11 +150,12 @@
                 </div>
                 <div class="card-body">
                     <div class="row">
-                        @for (int i = 0; i < 9; i++)
+                        @foreach (var item in Model.DS_SVThi)
+                  
                         {
                             <div class="col-4">
                                 <img src="https://i.ytimg.com/vi/Lom1Xn8Mw-8/mqdefault.jpg">
-                                <p>Tên sinh viên</p>
+                                <p>@item.SinhVien.Ten</p>
                             </div>
                         }
                     </div>
@@ -139,41 +169,64 @@
     <script>
         $(document).ready(function () {
             $('#frmGiamSat').hide();
+            $('#btnDong').click(function () {
+                $('#modalConfirm').hide();
+                $('#txtlydo').val("");
 
+            });
 
+            $('#btnSubmit').click(function () {
+             
+                $.ajax({
+                    type: 'POST',
+                    url: '/Admin/QuanLyThi/UpateTrangThai',
+                    data: { s: boleen, dethi: made, lydo: $('#txtlydo').val()},
+                    success: function (res) {
+                        Loaddata(res);
+                        $('#modalConfirm').hide();
+                        $('#txtlydo').val("");
+                    }
+
+                });
+              
+            });
             // Thiết lập thời gian đích mà ta sẽ đếm
             var tg = $('#TxtThoiGian').val();
             $.ajax({
                 type: 'POST',
                 url: '/Admin/QuanLyThi/LoadPhongThi',
                 success: function (res) {
-                    Loaddata(res);
+                   Loaddata(res);
                 }
 
             });
-
+            var boleen = "";
+            var made = "";
             $(document).on('click', 'button[name=TrangThai]', function () {
-                var boleen = $(this).attr("id");
+                boleen = $(this).attr("id");
                 //  alert(boleen);
                 //  closest('tr').find("td:eq(4)").attr('id');
-                var made = $(this).closest('tr').attr('id');
+                made = $(this).closest('tr').attr('id');
+                if (boleen == 'true') {
+                    $('#modalConfirm').show();
+                }
+                else {
 
-                $.ajax({
-                    type: 'POST',
-                    url: '/Admin/QuanLyThi/UpateTrangThai',
-                    data: { s: boleen, dethi: made },
-                    success: function (res) {
-                        Loaddata(res);
-                    }
+                    $.ajax({
+                        type: 'POST',
+                        url: '/Admin/QuanLyThi/UpateTrangThai',
+                        data: { s: boleen, dethi: made, lydo: $('#txtlydo').val()},
+                        success: function (res) {
+                            Loaddata(res);
+                        }
 
-                });
+                    });
+
+                }
+              
+                
             });
             var countDownDate = new Date(tg).getTime();
-
-
-
-
-
 
 
             function Loaddata(res) {

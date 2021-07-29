@@ -106,6 +106,7 @@ namespace TracNghiemOnline.Areas.Admin.Controllers
                     db.BoMons.Add(n);
                 GiaoVien giaoVien = new GiaoVien();
                 giaoVien.MaGV = n.Ma_BoMon;
+                giaoVien.TenGV = n.Ten;
                 giaoVien.MaBoMon = n.Ma_BoMon;
                 giaoVien.TrangThai = false;
                 db.GiaoViens.Add(giaoVien);
@@ -234,6 +235,9 @@ namespace TracNghiemOnline.Areas.Admin.Controllers
                 n.NgaySinh = ngaySinh;
                 n.DiaChi = diaChi;               
                 n.Ma_Lop = maLop;
+                n.DaXoa = 0;
+               
+
                 db.SinhViens.Add(n);                 
                 db.SaveChanges();
                 TracNghiemOnlineDB tracNghiem = new TracNghiemOnlineDB();

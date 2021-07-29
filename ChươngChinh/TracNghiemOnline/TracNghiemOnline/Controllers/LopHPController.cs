@@ -35,7 +35,21 @@ namespace TracNghiemOnline.Controllers
             ViewBag.ID = id;
             return View();
         }
+        public ActionResult SeachDethi(long? id)
+        {
+            if (id == null)
+            {
+                return View("Error");
+            }
+            TaiKhoan tk = (TaiKhoan)Session["user"];
+            DanhGia danhGia = new DanhGia();
+            new TaoDeDao().TimKiem(danhGia, long.Parse(id.ToString()));
+            Session["lambai"] = danhGia;
+            Session["a"] = (int)0;
+        
+            return RedirectToAction("KetQuathi");
 
+        }
         public ActionResult QuanLy(int? page)
         {
             LopHocPhan lopHocPhan = (LopHocPhan)Session["LopHP"];

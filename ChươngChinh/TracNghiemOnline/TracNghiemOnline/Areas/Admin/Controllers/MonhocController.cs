@@ -151,9 +151,7 @@ namespace TracNghiemOnline.Areas.Admin.Controllers
             }
         }
         public JsonResult dsChuong(string ma)
-        {
-
-            
+        {            
             try
             {
                 var session = (TaiKhoan)Session[ComMon.ComMonStants.UserLogin];
@@ -164,7 +162,7 @@ namespace TracNghiemOnline.Areas.Admin.Controllers
                                {
                                    Ma = n.Ma_Chuong,
                                    Ten = n.TenChuong,
-                                   SoCau = n.Kho_CauHoi.Where(x=>x.NguoiTao.Equals(x.NguoiTao)&& x.Xoa==true).ToList().Count
+                                   SoCau = n.Kho_CauHoi.Where(x=>x.NguoiTao.Equals(session.TaiKhoan1)&& x.Xoa==true).ToList().Count
                                }).ToList();
 
                 return Json(new { code = 200, dsNganh = dsNganh, msg = "Lấy danh sách thành công" }, JsonRequestBehavior.AllowGet);

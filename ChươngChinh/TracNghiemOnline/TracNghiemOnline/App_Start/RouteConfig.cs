@@ -53,6 +53,11 @@ namespace TracNghiemOnline
      defaults: new { controller = "TrangChu", action = "Diemthi", id = UrlParameter.Optional }
  );
 
+            routes.MapRoute(
+  name: "SeachDethi",
+  url: "SeachDethi/{id}",
+  defaults: new { controller = "LopHP", action = "SeachDethi", id = UrlParameter.Optional }
+);
 
             routes.MapRoute(
              name: "VaoThi",

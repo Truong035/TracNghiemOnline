@@ -102,44 +102,44 @@
                 }
 
             });
-            function Loaddata(data) {
-
-                $('#bodeid').empty();
-                $('#modalSinhVien').hide();
-                $('#modalConfirm').modal('hide');
-                $.each(data.Bode, function (k, v) {
-                    let = '<tr>'
-
-                    let += '<td>' + v.MaDe + '</td>';
-                    let += '<td>' + v.Ten + '</td>';
-                    let += '<td>' + v.TenMon + '</td>';
-                    let += '<td>' + v.SoCau + '</td>';
-                    let += '<td>' + v.ThoiGian + '</td>';
-
-                    /*        let += '<td>' + v.Giaovien + '</td>';*/
-
-                    let += '<td><a href="/Admin/Home/LoadDeThi/' + v.MaDe + '" class="btn btn-xs btn-primary"><span><i class="far fa-eye"></i></span></a>';
-
-
-                    let += '<button name="btngui" class="btn btn-xs btn-secondary">Gửi Admin</button>';
-
-
-                    let += '<button name="btnSua" class="btn btn-xs btn-success"><i class="far fa-edit" aria-hidden="true" style="color:white"></i></button>';
-                    let += '<button name="Delete" class="btn btn-xs btn-danger"><i class="far fa-trash-alt" aria-hidden="true"></i></button></td>';
-
-
-
-                    let += '</tr>'
-                    $('#bodeid').append(let);
-
-                });
-
-
-
-            }
+         
 
         })
+        function Loaddata(data) {
 
+            $('#bodeid').empty();
+            $('#modalSinhVien').hide();
+            $('#modalConfirm').modal('hide');
+            $.each(data.Bode, function (k, v) {
+                let = '<tr>'
+
+                let += '<td>' + v.MaDe + '</td>';
+                let += '<td>' + v.Ten + '</td>';
+                let += '<td>' + v.TenMon + '</td>';
+                let += '<td>' + v.SoCau + '</td>';
+                let += '<td>' + v.ThoiGian + '</td>';
+
+                /*        let += '<td>' + v.Giaovien + '</td>';*/
+
+                let += '<td><a href="/Admin/Home/LoadDeThi/' + v.MaDe + '" class="btn btn-xs btn-primary"><span><i class="far fa-eye"></i></span></a>';
+
+
+                let += '<button name="btngui" class="btn btn-xs btn-secondary">Gửi Admin</button>';
+
+
+                let += '<button name="btnSua" class="btn btn-xs btn-success"><i class="far fa-edit" aria-hidden="true" style="color:white"></i></button>';
+                let += '<button name="Delete" class="btn btn-xs btn-danger"><i class="far fa-trash-alt" aria-hidden="true"></i></button></td>';
+
+
+
+                let += '</tr>'
+                $('#bodeid').append(let);
+
+            });
+
+
+
+        }
     </script>
 }
 
@@ -175,10 +175,11 @@
                     var session = (TaiKhoan)Session[ComMonStants.UserLogin];
                     if (!session.ChưcVu.Equals("Admin"))
                     {
-                        <a href="/Admin/Bomon/Taodethi" class="btn btn-primary btn-round ml-auto" style="float:right">
+                        <a href="/Admin/Home/TaoDeThi" class="btn btn-primary btn-round ml-auto" style="float:right">
                             <i class="fa fa-plus"></i>
                             <span>Thêm đề thi</span>
                         </a>
+
                     }
                 }
 

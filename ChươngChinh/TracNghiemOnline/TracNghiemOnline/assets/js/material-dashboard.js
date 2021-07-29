@@ -51,7 +51,7 @@ var seq2 = 0,
 
 $(document).ready(function() {
 
-  $('body').bootstrapMaterialDesign();
+  
 
   $sidebar = $('.sidebar');
 
@@ -289,13 +289,7 @@ md = {
     });
   },
 
-  initSidebarsCheck: function() {
-    if ($(window).width() <= 991) {
-      if ($sidebar.length != 0) {
-        md.initRightMenu();
-      }
-    }
-  },
+
 
   checkFullPageBackgroundImage: function() {
     $page = $('.full-page');

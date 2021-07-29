@@ -8,6 +8,34 @@ namespace TracNghiemOnline.Modell.Dao
 {
     public class TaoDeDao
     {
+          internal void TimKiem(DanhGia danhGia ,long id)
+        {   danhGia.ketQuaThi1 = new TracNghiemOnlineDB().De_Thi.Where(x => x.MaDeThi== id).ToList().Last();
+            List<NoiDungThi> noiDungs = new List<NoiDungThi>();
+            foreach (var item in danhGia.ketQuaThi1.CauHoiDeThis)
+            {
+                foreach (var item1 in noiDungs)
+                {
+                    if (item1.noidung.Ma_Chuong == item.Kho_CauHoi.Ma_Chuong)
+                    {
+                        item1.SoCau++;
+                    }
+
+                }
+                if (!noiDungs.Exists(x => x.noidung.Ma_Chuong == item.Kho_CauHoi.Ma_Chuong))
+                {
+                    noiDungs.Add(new NoiDungThi
+                    {
+                        noidung = new TracNghiemOnlineDB().Chuong_Hoc.Find(item.Kho_CauHoi.Ma_Chuong),
+                        SoCau = 0
+                    }) ;
+                }
+                
+            }
+            danhGia.DanhGiaMucDo1 = noiDungs;
+
+    
+
+        }
         internal void CreateTopic(De_Thi bo_De1, long mabai, TaiKhoan tk, LopHocPhan lopHocPhan)
         {
             bo_De1.CauHoiDeThis = new List<CauHoiDeThi>();

@@ -14,6 +14,10 @@
             
 
             var Bode
+            $('#btnDong').click(function () {
+                $('#modalConfirm').hide();
+
+            });
 
             $(document).on('click', 'button[name=btnpheduyet]', function () {
                 $.ajax({
@@ -81,8 +85,8 @@
                     let += '<td>' + v.Giaovien + '</td>';
                     let += '<td id="Đã phê duyệt"><button name="btnpheduyet" class="btn btn-sm badge-success ">   Duyệt </button> ';
                     let += '<button  name="btnhuyduyet" class="btn btn-sm badge-success "> Hủy </button>';
-                    let += '<a href="/Admin/Home/LoadDeThi/' + v.MaDe + '" class="btn btn-sm btn-primary"><span><i class="far fa-eye"></i></span></a> </td> ';
-
+               
+                    let += '<a href="/Admin/Home/LoadDeThi/' + v.MaDe + '?tenmon=' + v.TenMon + '" class="btn btn-xs btn-primary"><span><i class="far fa-eye"></i></span></a> </td>';
                     let += '</tr>'
                     $('#bodeid').append(let);
 
@@ -100,7 +104,7 @@
 <div class="modal" tabindex="-1" role="dialog" id="modalConfirm">
     <div class="modal-dialog" role="document">
         <div class="modal-content">
-            <div class="modal-header">
+            <div class="modal-header header-title card-header-info btn-info">
                 <h5 class="modal-title text-center">CHON LÝ DO HỦY</h5>
             </div>
             <div class="modal-body">
@@ -130,10 +134,11 @@
 
                     if (!session.ChưcVu.Equals("Admin"))
                     {
-                        <a href="/Admin/Bomon/Taodethi" class="btn btn-primary btn-round ml-auto" style="float:right">
+                        <a href="/Admin/Home/TaoDeThi" class="btn btn-primary btn-round ml-auto" style="float:right">
                             <i class="fa fa-plus"></i>
                             <span>Thêm đề thi</span>
                         </a>
+
                     }
                 }
 
@@ -142,7 +147,7 @@
         <div class="card-body">
             <div class="table-responsive">
                 <div id="add-row_wrapper" class="dataTables_wrapper container-fluid dt-bootstrap4">
-                    <div class="col-sm-12">
+           
                         <table id="dataTable" class="  display table table-striped table-hover dataTable" role="grid" aria-describedby="add-row_info">
 
                             <tr role="row">
@@ -153,7 +158,7 @@
                                 <th class="sorting" tabindex="0" aria-controls="add-row" rowspan="1" colspan="1" aria-label="Position: activate to sort column ascending">Thời gian thi</th>
                                 <th class="sorting" tabindex="0" aria-controls="add-row" rowspan="1" colspan="1" aria-label="Position: activate to sort column ascending">Người tạo</th>
                                 <th class="sorting" tabindex="0" aria-controls="add-row" rowspan="1" colspan="1" aria-label="Position: activate to sort column ascending">Ngày tạo</th>
-                                <th style="width: 15%;" class="sorting" tabindex="0" aria-controls="add-row" rowspan="1" colspan="1" aria-label="Action: activate to sort column ascending"></th>
+                                <th style="width: 17%;" class="sorting" tabindex="0" aria-controls="add-row" rowspan="1" colspan="1" aria-label="Action: activate to sort column ascending"></th>
                             </tr>
 
 
@@ -171,10 +176,10 @@
                                     <td>  @item.GiaoVien.TenGV </td>
                                     <td>  @item.NgayNop </td>
                                     <td>
-                                        <button name="btnpheduyet" class="btn btn-sm badge-success "> Duyệt </button>
+                                        <button name="btnpheduyet" class="btn btn-xs badge-success "> Duyệt </button>
 
-                                        <button name="btnhuyduyet" class="btn btn-sm badge-danger "> Hủy </button>
-                                        <a href="/Admin/Home/LoadDeThi/@item.Bo_De.Ma_BoDe" class="btn btn-xs btn-primary"><span><i class="far fa-eye"></i></span></a>
+                                        <button name="btnhuyduyet" class="btn btn-xs badge-danger "> Hủy </button>
+                                        <a href="/Admin/Home/LoadDeThi/@item.Bo_De.Ma_BoDe" class="btn btn-xs btn-primary">Xem</a>
 
                                     </td>
 
@@ -187,7 +192,7 @@
                                 }
                             </tbody>
                         </table>
-                    </div>
+                    
 
                 </div>
             </div>

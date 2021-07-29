@@ -39,9 +39,7 @@
                     <div class="col-sm-12">
                         <table id="dataTable" class="display table table-striped table-hover dataTable" role="grid" aria-describedby="add-row_info">
                             <thead>
-                                <table id="dataTable" class="display table table-striped table-hover dataTable" role="grid" aria-describedby="add-row_info">
-                                    <thead>
-
+                              
                                         <tr>
                                             <th>Mã Chương</th>
                                             <th>Tên Chương</th>
@@ -61,7 +59,8 @@
                                                 <td>
                                                     <a href="/Admin/CauHoi/Index/@item.Ma_Chuong" class="btn btn-xs btn-primary">
                                                         <span><i class="far fa-eye"></i></span>
-                                                    </a>&ensp;
+                                                    </a>
+                                                    
                                                     @{
                                                         // var session = (TaiKhoan)Session[ComMonStants.UserLogin];
                                                         if (session.ChưcVu.Equals("BoMon"))
@@ -69,6 +68,7 @@
                                                             <button name="Update" class="btn btn-xs btn-success">
                                                                 <span><i class="far fa-edit"></i></span>
                                                             </button>
+
                                                             <button name="Delete" class="btn btn-xs btn-danger">
                                                                 <span><i class="far fa-trash-alt"></i></span>
                                                             </button>
@@ -141,7 +141,7 @@
     <script>
 
         $(document).ready(function () {
-          //  loadDSGV();
+           loadDSGV();
             $('#btnAdd').click(function () {
                 $('#modalBoMon').modal();
                 $('#idNganh').val('');
@@ -259,14 +259,14 @@
                             tr += '<td>' + v.SoCau + '</td>';
                             tr += '<td>';
                             tr += ' <a href="/Admin/CauHoi/Index/' + v.Ma + '" class="btn btn-xs btn-primary">';
-                            tr += '<span><i class="far fa-eye"></i></span></a>&ensp;';
+                            tr += '<span><i class="far fa-eye"></i></span></a> &ensp;';
                             if (quyen == 1) {
-                                tr += '<button name="Update" class="btn btn-xs btn-success"><i class="far fa-edit" aria-hidden="true"></i></button> &ensp;';
-                                tr += '<button name="Delete" class="btn btn-xs btn-danger"><i class="far fa-trash-alt" aria-hidden="true" style="color:white"></i></button>';
+                                tr += '<button name="Update" class="btn btn-xs btn-success"><span><i class="far fa-edit"></i></span></button> &ensp;';
+                                tr += '<button name="Delete" class="btn btn-xs btn-danger"><span><i class="far fa-trash-alt"></i></span></button>';
                             }
                            
-                            tr += '</td > ';
-                            tr += '</tr > ';
+                            tr += '</td >';
+                            tr += '</tr >';
                             $('#tblchuong').append(tr);
 
                         });

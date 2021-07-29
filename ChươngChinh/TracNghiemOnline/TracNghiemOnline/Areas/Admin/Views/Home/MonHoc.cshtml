@@ -2,9 +2,13 @@
 @{
     ViewBag.Title = "MonHoc";
     Layout = "~/Areas/Admin/Views/Shared/LaoutShare.cshtml";
-    List<TracNghiemOnline.Model.SoLuongChuong> chuong_s = (List<TracNghiemOnline.Model.SoLuongChuong>)ViewBag.Chuong;
+    List<Chuong_Hoc> chuong_s = (List<Chuong_Hoc>)ViewBag.Chuong;
     //List<TracNghiemOnline.Model.SoLuongChuong> SL = (List<TracNghiemOnline.Model.SoLuongChuong>)ViewBag.SLChuong;
+    var session = (TaiKhoan)Session[ComMonStants.UserLogin];
+    var gv = new TracNghiemOnlineDB().GiaoViens.Find(session.TaiKhoan1);
 }
+@using TracNghiemOnline.ComMon;
+@using TracNghiemOnline.Modell;
 @section  Jsfooter{
     <script>
         $(document).ready(function () {
@@ -19,10 +23,10 @@
                         chuong: {
                             Ma_Chuong: $(item).data('id')
                         },
-                        nhanbiet : $(item).val(),
-                      thongHieu :"0",
+                        nhanbiet: $(item).val(),
+                        thongHieu: "0",
                         vandung: "0",
-                       vandungcao: "0"
+                        vandungcao: "0"
                     });
 
                 });
@@ -46,7 +50,7 @@
                     success: function (res) {
                         if (res.status == true) {
                             window.location = "/Admin/Home/LoadDeThi"
-                     }
+                        }
                     }
                 });
             });
@@ -131,30 +135,30 @@
                         <div class="row">
                             <div class="col-3">
 
-                                <label>  @item.Chuong.TenChuong  </label>
+                                <label>  @item.TenChuong  </label>
 
                             </div>
                             <div class="col-2 ">
                                 <div class="col-10">
-                                    <input type="number" value="0" style="width:60px" class="txtNhanBiet" min="0" max="@item.nhanBiet" data-id="@item.Chuong.Ma_Chuong" />
+                                    <input type="number" value="0" style="width:60px" class="txtNhanBiet" min="0" max="@item.Kho_CauHoi.Where(x=>x.Ma_Chuong==item.Ma_Chuong && x.MucDo.Contains("Nhận Biết") && x.NguoiTao.Equals(gv.MaBoMon)).ToList().Count" data-id="@item.Ma_Chuong" />
                                 </div>
 
                             </div>
                             <div class="col-2 ">
                                 <div class="col-10">
-                                    <input type="number" value="0" style="width:60px" class="txtThongHieu" min="0" max="@item.thongHieu" />
+                                    <input type="number" value="0" style="width:60px" class="txtThongHieu" min="0" max="@item.Kho_CauHoi.Where(x=>x.Ma_Chuong==item.Ma_Chuong && x.MucDo.Contains("Thông Hiểu") && x.NguoiTao.Equals(gv.MaBoMon)).ToList().Count" data-id="@item.Ma_Chuong" />
                                 </div>
 
                             </div>
                             <div class="col-2 ">
                                 <div class="col-10">
-                                    <input type="number" value="0" style="width:60px" class="txtVanDung" min="0" max="@item.vandung"  />
+                                    <input type="number" value="0" style="width:60px" class="txtVanDung" min="0" max="@item.Kho_CauHoi.Where(x=>x.Ma_Chuong==item.Ma_Chuong && x.MucDo.Equals("Vận Dụng") &&  x.NguoiTao.Equals(gv.MaBoMon)).ToList().Count" data-id="@item.Ma_Chuong" />
                                 </div>
 
                             </div>
                             <div class="col-2 ">
                                 <div class="col-10">
-                                    <input type="number" value="0" style="width:60px" class="txtVanDungCao" min="0" max="@item.vandungcao"  />
+                                    <input type="number" value="0" style="width:60px" class="txtVanDungCao" min="0" max="@item.Kho_CauHoi.Where(x=>x.Ma_Chuong==item.Ma_Chuong && x.MucDo.Equals("Vận Dụng Cao") &&  x.NguoiTao.Equals(gv.MaBoMon)).ToList().Count" data-id="@item.Ma_Chuong" />
                                 </div>
 
                             </div>
@@ -164,12 +168,12 @@
                 }
             </div>
 
-
+            <div class="card-body" style="text-align:center">
+                <button class="btn btn-success" id="btnTao" type="button"> Hoàn Thành  </button>
+                <a class="badge-danger btn " href="/Admin/Home/TaoDeThi"> Hủy bỏ </a>
+            </div>
         </div>
-        <div class="card-body" style="text-align:center">
-            <button class="badge-dark" id="btnTao" type="button"> Hoàn Thành  </button>
-            <button class="badge-dark" type="reset" > Quay Lại </button>
-        </div>
+       
 
     </form>
 </div>

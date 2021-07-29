@@ -8,63 +8,63 @@
 @section scripts{
     <script>
         $(document).ready(function () {
-                var ctx = document.getElementById('myChart').getContext('2d');
+            var ctx = document.getElementById('myChart').getContext('2d');
             var c = [];
             var ten = [];
             $('#frmdiem').slideDown();
             $('#frmbieudo').hide();
             var maphong = $('#txtmaphong').val();
-                $.ajax({
-                    type: 'Post',
-                    url: "/Admin/Home/DanhGia/"+maphong,
-                    dataType: 'json',
-                    success: function (res) {
+            $.ajax({
+                type: 'Post',
+                url: "/Admin/Home/DanhGia/" + maphong,
+                dataType: 'json',
+                success: function (res) {
 
-                        $.each(res.mang, function (k, v) {
+                    $.each(res.mang, function (k, v) {
 
-                            c.push(v.gt)
-                            ten.push(v.ten);
+                        c.push(v.gt)
+                        ten.push(v.ten);
 
-                        })
+                    })
 
-                        var chart = new Chart(ctx, {
-                            // The type of chart we want to create
-                            type: 'bar',
+                    var chart = new Chart(ctx, {
+                        // The type of chart we want to create
+                        type: 'bar',
 
-                            // The data for our dataset
-                            data: {
-                                labels: ten,
-                                datasets: [{
-                                    label: 'Biểu Đồ Thống Kê',
-                                    backgroundColor: [
-                                        'rgba(255, 99, 132, 0.2)',
-                                        'rgba(54, 162, 235, 0.2)',
-                                        'rgba(255, 206, 86, 0.2)',
-                                        'rgba(75, 192, 192, 0.2)',
-                                        'rgba(153, 102, 255, 0.2)',
-                                        'rgba(255, 159, 64, 0.2)'
-                                    ],
-                                    borderColor: [
-                                        'rgba(255, 99, 132, 1)',
-                                        'rgba(54, 162, 235, 1)',
-                                        'rgba(255, 206, 86, 1)',
-                                        'rgba(75, 192, 192, 1)',
-                                        'rgba(153, 102, 255, 1)',
-                                        'rgba(255, 159, 64, 1)'
-                                    ],
-                                 //   borderWidth: 1,
-                                    data: c
-                                }]
-                            },
+                        // The data for our dataset
+                        data: {
+                            labels: ten,
+                            datasets: [{
+                                label: 'Biểu Đồ Thống Kê',
+                                backgroundColor: [
+                                    'rgba(255, 99, 132, 0.2)',
+                                    'rgba(54, 162, 235, 0.2)',
+                                    'rgba(255, 206, 86, 0.2)',
+                                    'rgba(75, 192, 192, 0.2)',
+                                    'rgba(153, 102, 255, 0.2)',
+                                    'rgba(255, 159, 64, 0.2)'
+                                ],
+                                borderColor: [
+                                    'rgba(255, 99, 132, 1)',
+                                    'rgba(54, 162, 235, 1)',
+                                    'rgba(255, 206, 86, 1)',
+                                    'rgba(75, 192, 192, 1)',
+                                    'rgba(153, 102, 255, 1)',
+                                    'rgba(255, 159, 64, 1)'
+                                ],
+                                //   borderWidth: 1,
+                                data: c
+                            }]
+                        },
 
-                            // Configuration options go here
-                            options: {}
-                        });
-                    }
+                        // Configuration options go here
+                        options: {}
+                    });
+                }
 
 
 
-                });
+            });
 
             $('#example').DataTable({
                 dom: 'Bfrtip',
@@ -90,6 +90,25 @@
 
 }
 
+<div class="modal" tabindex="-1" role="dialog" id="modalConfirm">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header header-title card-header-info btn-info">
+                <h5 class="modal-title text-center">LÝ DO</h5>
+            </div>
+            <div class="modal-body">
+                <div class="form-group">
+                    <label>Lý do </label>
+                    <textarea class="form-control" id="txtlydo" rows="5"></textarea>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-primary btn-sm" id="btnSubmit">Xác nhận</button>
+                <button type="button" class="btn btn-danger btn-sm" id="btnDong">Đóng</button>
+            </div>
+        </div>
+    </div>
+</div>
 
 
 <div class="col-md-12">
@@ -108,13 +127,13 @@
                         <span>Xem thống kê </span>
                     </button>
 
-</div>
-                    <input id="txtmaphong" value="@ViewBag.Maphong" hidden />
                 </div>
-            
+                <input id="txtmaphong" value="@ViewBag.Maphong" hidden />
+            </div>
+
         </div>
-        <div class="card-body " >
-            <div class="container-fluid"  id="frmdiem">
+        <div class="card-body ">
+            <div class="container-fluid" id="frmdiem">
                 <div class="card-body">
                     <div class="navbar-collapse" id="XemDanhgia">
                         <div class="table-responsive">
@@ -154,7 +173,7 @@
                                                     <td>  @item.ketQuaThi.SoCauDung </td>
                                                     <td>  @item.ketQuaThi.DiemSo </td>
                                                     <td>
-                                                        <a href="/Admin/QuanLyThi/DiemSo/@item.ketQuaThi.Ma_DeThi" class="btn btn-sm btn-success"><span>Xem kết quả</span></a>
+                                                        <a href="/Admin/QuanLyThi/DiemSo/@item.ketQuaThi.Ma_DeThi"><span>  <i class="far fa-eye"></i></span></a>
                                                     </td>
                                                 </tr>
                                             }
@@ -175,22 +194,22 @@
 
 
                     </div>
+                </div>
+
+
+
+            </div>
+
+            <div class="container-fluid" id="frmbieudo">
+                <div class="card mb-4">
+                    <canvas id="myChart" width="100" height="50">
+                    </canvas>
+                </div>
+
             </div>
 
 
-
         </div>
-
-        <div class="container-fluid" id="frmbieudo">
-            <div class="card mb-4">
-                <canvas id="myChart" width="100" height="50">
-                </canvas>
-            </div>
-
-        </div>
-
 
     </div>
-
-</div>
 </div>

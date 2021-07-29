@@ -617,13 +617,18 @@ namespace TracNghiemOnline.Areas.Admin.Controllers
             }
             return "";
         }
-        public JsonResult UpateTrangThai(bool s, long dethi)
+        public JsonResult UpateTrangThai(bool s, long dethi,string lydo)
         {
             TracNghiemOnlineDB db = new TracNghiemOnlineDB();
             var de = db.De_Thi.Find(dethi);
             if (s == true)
             {
                 de.TrangThai = false;
+                CT_Dethi cT = new CT_Dethi();
+                cT.MADETHI = dethi;
+                cT.LYDO = "Gíao viên đã cấm thi sinh viên lý do :"+lydo;
+                db.CT_Dethi.Add(cT);
+                
             }
             else
             {

@@ -6,6 +6,7 @@
     Layout = "~/Views/Share/layoutBaithi.cshtml";
 
 }
+
 <div class="wrapper ">
     <div class="sidebar" data-image="../assets/img/sidebar-3.jpg">
         <!--
@@ -52,8 +53,6 @@
         </div>
     </div>
     <div class="main-panel">
-
-     
         <div class="content">
             <div class="container-fluid">
                 <div class="container-fluid" style="margin-top:-5%">
@@ -76,7 +75,7 @@
 
 
                                         dem++;
-                                        <h4 class=" card-body chon" id="@item.Kho_CauHoi.Ma_CauHoi">Câu @dem )@Html.Raw@item.Kho_CauHoi.NoiDung </h4>
+                                        <h4 class=" card-body chon" id="@item.Kho_CauHoi.Ma_CauHoi">Câu @dem )@Html.Raw(@item.Kho_CauHoi.NoiDung) </h4>
                                         try
                                         {
                                             if (item.Kho_CauHoi.HinhAnh.Length > 0)

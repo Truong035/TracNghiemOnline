@@ -81,22 +81,23 @@ namespace TracNghiemOnline.Modell.Dao
             return tracNghiem.Dap_AN.Where(x => x.Ma_CauHoi == ma_CauHoi).ToList();
         }
 
-        internal void CreateTopic(Bo_De bo_De1, List<SoLuongChuong> soluong)
+        internal void CreateTopic(Bo_De bo_De1, List<SoLuongChuong> soluong,string mabm)
         {
             bo_De1.CauHois = new List<CauHoi>();
 
             foreach (var item in soluong)
             {
-                Random(bo_De1, item.nhanBiet,item.Chuong, "Nhận Biết");
-                Random(bo_De1, item.thongHieu, item.Chuong, "Thông Hiểu");
-                Random(bo_De1, item.vandung, item.Chuong, "Vận Dụng");
-                Random(bo_De1, item.vandungcao, item.Chuong, "Vận Dụng Cao");
+                Random(bo_De1, item.nhanBiet,item.Chuong, "Nhận Biết",mabm);
+                Random(bo_De1, item.thongHieu, item.Chuong, "Thông Hiểu", mabm);
+                Random(bo_De1, item.vandung, item.Chuong, "Vận Dụng", mabm);
+                Random(bo_De1, item.vandungcao, item.Chuong, "Vận Dụng Cao", mabm);
             }
         }
 
-        private void Random(Bo_De bo_De1, string sl,Chuong_Hoc chuong, string v)
+        private void Random(Bo_De bo_De1, string sl,Chuong_Hoc chuong, string v,string mabm)
         {
-            List<Kho_CauHoi> kho_CauHois = Nuberofquestion(chuong.Ma_Chuong, v);
+            List<Kho_CauHoi> kho_CauHois = tracNghiem.Kho_CauHoi.Where(x => x.Ma_Chuong == chuong.Ma_Chuong && x.MucDo.Equals(v)&& x.NguoiTao.Equals(mabm) && x.Xoa==true).ToList();
+      
             Random random = new Random();
             if (kho_CauHois.Count > 0)
             {

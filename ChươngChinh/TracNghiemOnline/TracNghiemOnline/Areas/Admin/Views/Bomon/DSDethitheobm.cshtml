@@ -136,29 +136,8 @@
             });
             function Loaddata(data) {
 
-                $('#bodeid').empty();
-                $('#modalSinhVien').hide();
-                $('#modalConfirm').modal('hide');
-                $.each(data.Bode, function (k, v) {
-                    let = '<tr>'
 
-                    let += '<td>' + v.MaDe + '</td>';
-                    let += '<td>' + v.Ten + '</td>';
-                    let += '<td>' + v.TenMon + '</td>';
-                    let += '<td>' + v.SoCau + '</td>';
-                    let += '<td>' + v.ThoiGian + '</td>';
-
-                    let += '<td>' + v.Giaovien + '</td>';
-                    let += '<td id="Đã phê duyệt"><button name="btnpheduyet" class="btn btn-sm badge-success ">   Duyệt </button> ';
-                    let += '<button  name="btnhuyduyet" class="btn btn-sm badge-success "> Hủy </button>';
-                    let += '<a href="/Admin/Home/LoadDeThi/' + v.MaDe + '" class="btn btn-sm btn-primary"><span><i class="far fa-eye"></i></span></a> </td> ';
-
-                    let += '</tr>'
-                    $('#bodeid').append(let);
-
-                });
-
-
+                window.location = "/Admin/BoMon/DSDethitheobm";
 
             }
 
@@ -199,10 +178,11 @@
                     var session = (TaiKhoan)Session[ComMonStants.UserLogin];
                     if (!session.ChưcVu.Equals("Admin"))
                     {
-                        <a href="/Admin/Bomon/Taodethi" class="btn btn-primary btn-round ml-auto" style="float:right">
+                        <a href="/Admin/Home/TaoDeThi" class="btn btn-primary btn-round ml-auto" style="float:right">
                             <i class="fa fa-plus"></i>
                             <span>Thêm đề thi</span>
                         </a>
+
                     }
                 }
 
@@ -246,7 +226,7 @@
 
                 if (!session.ChưcVu.Equals("Admin"))
                 {
-                    <a href="/Admin/Home/LoadDeThi/@item.Ma_BoDe" class="btn btn-xs btn-primary"><span><i class="far fa-eye"></i></span></a>
+                    <a href="/Admin/Home/LoadDeThi/@item.Ma_BoDe" class="btn btn-xs btn-primary"><span>Xem</span></a>
                 }
             }
 

@@ -17,16 +17,16 @@
 
 
 
-                            <div class="card-body">
-                                <form>
+                                <div class="card-body">
+
                                     <div class="form-group">
-                                        <h5 style="width:710px;"> Câu @(i = i + 1) :  @Html.Raw(@item.NoiDung) </h5>
+                                        <h5 style="width:710px;">  <a href="/Admin/CauHoi/EditCH/@i"> <i class="bi bi-pencil"></i> </a>     Câu @(i = i + 1) :  @Html.Raw(item.NoiDung) </h5>
 
                                         @if (item.HinhAnh.Length > 0)
                                         {
                                             <div class="card-body row">
                                                 <img class=" center-block" style="margin-left:140px" src="@item.HinhAnh.Trim()"
-                                                     alt="anh viet nam anh 1 " width="200px" height="200px" />
+                                                     alt="anh viet nam anh 1 " width="400" />
                                             </div>
 
                                         }
@@ -34,50 +34,54 @@
                                     </div>
                                     @foreach (var item1 in item.Dap_AN)
                                     {
-                                <div class="form-group">
+                                        <div class="form-group">
 
 
 
-                                    <div class="custom-control custom-radio row">
+                                            <div class="custom-control custom-radio row">
 
 
-                                        @if (item1.TrangThai == true)
-                                        {
-                                            <label class="custom-control-inline text-danger" style="width:700px" ; for="@item1.MA_DAN">
-                                                @item1.NoiDung
-                                            </label>
-                                        }
-                                        else
-                                        {
-                                            <label class="custom-control-inline" style="width:700px" for="@item1.MA_DAN">
-                                                @Html.Raw(@item1.NoiDung)
-                                            </label>
-                                        }
+                                                @if (item1.TrangThai == true)
+                                                {
+                                                    <label class="custom-control-inline text-danger" style="width:700px" ; for="@item1.MA_DAN">
+                                                        @Html.Raw(item1.NoiDung)
+                                                    </label>
+                                                }
+                                                else
+                                                {
+                                                    <label class="custom-control-inline" style="width:700px" for="@item1.MA_DAN">
+                                                        @Html.Raw(@item1.NoiDung)
+                                                    </label>
+                                                }
 
-                                    </div>
-                                    @{ try
-                                        {
-                                            if (item1.HinhAnh.Length > 0)
-                                            {
-                                                <img class=" center-block row" style="margin-left:80px" src="@item1.HinhAnh"
-                                                     alt="anh viet nam anh 1 " width="150px" />
+                                            </div>
+                                            @{ try
+                                                {
+                                                    if (item1.HinhAnh.Length > 0)
+                                                    {
+                                                        <img class=" center-block row" style="margin-left:80px" src="@item1.HinhAnh"
+                                                             alt="anh viet nam anh 1 " width="300" />
 
+                                                    }
+                                                }
+                                                catch { }
                                             }
-                                        }
-                                        catch { }
+                                        </div>
                                     }
+                                   
+                                <label class="text-danger"> Mức độ :  @item.MucDo   </label>
+                                    
+
+
+
                                 </div>
-                                    }
-                                            <label class="text-danger">  Mức đô: @item.MucDo   </label>
-                                      
-                            </div>
 
                         }
 
 
                     }
                     catch { }
-                    <a class="btn btn-success" href="/Admin/CauHoi/LoadQuestion"> Thêm </a>
+                    <a class="btn btn-success btn-sm" href="/Admin/CauHoi/LoadQuestion"> Thêm </a>
                 }
 
             </div>

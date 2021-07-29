@@ -8,11 +8,13 @@
 
 }
 @section Jsfooter{
+
+
     <script>
 
         $(document).ready(function () {
 
- 
+
 
             $('#ChonDe').hide();
 
@@ -23,7 +25,12 @@
                 $('#DSSV').slideDown();
 
             });
-
+            $('#example').DataTable({
+                dom: 'Bfrtip',
+                buttons: [
+                    'copy', 'csv', 'excel', 'pdf', 'print'
+                ]
+            });
             $('#CheckChon').click(function () {
 
                 if ($(this).prop("checked") == true) {
@@ -55,7 +62,7 @@
             });
 
             $('#btnYes').click(function () {
-            
+
                 $.ajax({
                     url: '/Admin/QuanLyThi/DeleteSinhVien', type: 'post',
                     data: {
@@ -166,7 +173,7 @@
         }
 
     </script>
-
+   
 }
 
 
@@ -202,28 +209,28 @@
                 @if (maphong.Length > 0)
                 {
 
-               
+
                     <button id="@maphong" onclick="Them(id)" class="btn btn-primary btn-round ml-auto">
-                          <i class="fa fa-plus"></i>
+                        <i class="fa fa-plus"></i>
                         Lưu
                     </button>
                 }
-                
-                    @{
 
-                        if (quyen == false)
+                @{
+
+                    if (quyen == false)
+                    {
+                        if (maphong.Length == 0)
                         {
-                            if (maphong.Length == 0)
-                            {
-                                <button id="@lophocphan.MaLop.Trim()" class="btn btn-primary btn-round ml-auto" onclick="TaoDeOn(id)">
-                                    <i class="fa fa-plus"> </i>
-                                    Tạo Đề Ôn
-                                </button>
-                            }
-
+                            <button id="@lophocphan.MaLop.Trim()" class="btn btn-primary btn-round ml-auto" onclick="TaoDeOn(id)">
+                                <i class="fa fa-plus"> </i>
+                                Tạo Đề Ôn
+                            </button>
                         }
+
                     }
-                
+                }
+
             </div>
 
 
@@ -232,9 +239,8 @@
             <div class="card-body">
                 <div class="table-responsive">
                     <div id="add-row_wrapper" class="dataTables_wrapper container-fluid dt-bootstrap4">
-
                         <div class="col-sm-12">
-                            <table id="add-row" class="display table table-striped table-hover dataTable" role="grid" aria-describedby="add-row_info">
+                            <table id="example" class="display table table-striped table-hover dataTable" role="grid" aria-describedby="add-row_info">
                                 <thead>
                                     <tr>
                                         @if (maphong.Length > 0)
@@ -270,7 +276,7 @@
                                                 if (quyen == true)
                                                 {
                                                     <td style="text-align:center">
-                                                        <div class="col"><button class="btn btn-xs btn-danger" name="btnXoa"> Xóa  </button></div>
+                                                        <div class="col"><button class="btn btn-xs btn-danger" name="btnXoa"> <i class="bi bi-trash"></i>  </button></div>
                                                     </td>
                                                 }
 
@@ -293,27 +299,27 @@
 
 
         </div>
-    <div class="modal" tabindex="-1" role="dialog" id="modalConfirm">
-        <div class="modal-dialog" role="document">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <h5 class="modal-title">CẢNH BÁO</h5>
+        <div class="modal" tabindex="-1" role="dialog" id="modalConfirm">
+            <div class="modal-dialog" role="document">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title">CẢNH BÁO</h5>
 
-                </div>
-                <div class="modal-body">
-                    <input type="text" hidden id="ma" value="" />
-                    Bạn có chắc chắn muốn xóa?
-                </div>
-                <div class="modal-footer">
-                    <button type="button" class="btn btn-primary" id="btnYes">Xác nhận</button>
-                    <button type="button" class="btn btn-danger" data-dismiss="modal" id="btnDong">Đóng</button>
+                    </div>
+                    <div class="modal-body">
+                        <input type="text" hidden id="ma" value="" />
+                        Bạn có chắc chắn muốn xóa?
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-primary" id="btnYes">Xác nhận</button>
+                        <button type="button" class="btn btn-danger" data-dismiss="modal" id="btnDong">Đóng</button>
+                    </div>
                 </div>
             </div>
         </div>
     </div>
-</div>
 
-    </div>
+</div>
 <div class="container-fluid" id="ChonDe">
     <div class="row ">
         <h1 class=" col-10 mt-4">Đề Thi </h1>
