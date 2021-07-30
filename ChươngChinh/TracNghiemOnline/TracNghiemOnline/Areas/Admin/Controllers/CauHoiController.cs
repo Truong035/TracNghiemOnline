@@ -514,167 +514,9 @@ namespace TracNghiemOnline.Areas.Admin.Controllers
             List<Kho_CauHoi> cauHois = new List<Kho_CauHoi>();
             string strExtexsion = Path.GetFileName(file.FileName).Trim();
 
-            if (strExtexsion.Contains(".xls"))
-            {
-                try
-                {
-                    string path = Server.MapPath("~/Content/" + file.FileName);
-                    try
-                    {
-                        if (System.IO.File.Exists(path))
-                        {
-                            System.IO.File.Delete(path);
-                        }
-                        file.SaveAs(path);
-                    }
-                    catch { }
 
-
-                    EXCELL.Application application = new EXCELL.Application();
-                    EXCELL.Workbook workbook = application.Workbooks.Open(path);
-                    EXCELL.Worksheet worksheet = workbook.ActiveSheet;
-
-
-                    EXCELL.Range range = worksheet.UsedRange;
-
-                    cauHois = new List<Kho_CauHoi>();
-
-                    for (int i = 2; i <= range.Rows.Count; i++)
-                    {
-                        try
-                        {
-
-                            Kho_CauHoi cauHoi = new Kho_CauHoi();
-
-                            cauHoi.NoiDung = ((EXCELL.Range)range.Cells[i, 1]).Text;
-
-                            cauHoi.HinhAnh = ((EXCELL.Range)range.Cells[i, 8]).Text;
-
-
-                            if (((EXCELL.Range)range.Cells[i, 7]).Text.Equals("1"))
-                            {
-                                cauHoi.MucDo = "Nhận Biết";
-                            }
-                            else if (((EXCELL.Range)range.Cells[i, 7]).Text.Equals("2"))
-                            {
-                                cauHoi.MucDo = "Thông Hiểu";
-                            }
-                            else if (((EXCELL.Range)range.Cells[i, 7]).Text.Equals("3"))
-                            {
-                                cauHoi.MucDo = "Vận Dụng";
-                            }
-                            else
-                            {
-                                cauHoi.MucDo = "Vận Dụng Cao";
-                            }
-
-                            cauHoi.Dap_AN = new List<Dap_AN>();
-                            Dap_AN dapAn = new Dap_AN();
-                            dapAn.NoiDung = "" + ((EXCELL.Range)range.Cells[i, 2]).Text;
-                            dapAn.HinhAnh = ((EXCELL.Range)range.Cells[i, 9]).Text;
-
-                            if (((EXCELL.Range)range.Cells[i, 6]).Text.Equals("A"))
-                            {
-                                dapAn.TrangThai = true;
-                            }
-
-
-                            else { dapAn.TrangThai = false; }
-                            cauHoi.Dap_AN.Add(dapAn);
-                            dapAn = new Dap_AN();
-                            dapAn.NoiDung = "" + ((EXCELL.Range)range.Cells[i, 3]).Text;
-                            dapAn.HinhAnh = ((EXCELL.Range)range.Cells[i, 10]).Text;
-
-                            if (((EXCELL.Range)range.Cells[i, 6]).Text.Equals("B"))
-                            {
-                                dapAn.TrangThai = true;
-                            }
-                            else { dapAn.TrangThai = false; }
-                            cauHoi.Dap_AN.Add(dapAn);
-                            dapAn = new Dap_AN();
-                            dapAn.NoiDung = "" + ((EXCELL.Range)range.Cells[i, 4]).Text;
-                            dapAn.HinhAnh = ((EXCELL.Range)range.Cells[i, 11]).Text;
-
-                            if (((EXCELL.Range)range.Cells[i, 6]).Text.Equals("C"))
-                            {
-                                dapAn.TrangThai = true;
-                            }
-                            else { dapAn.TrangThai = false; }
-                            cauHoi.Dap_AN.Add(dapAn);
-
-                            dapAn = new Dap_AN();
-                            dapAn.NoiDung = "" + ((EXCELL.Range)range.Cells[i, 5]).Text;
-                            dapAn.HinhAnh = ((EXCELL.Range)range.Cells[i, 12]).Text;
-
-                            if (((EXCELL.Range)range.Cells[i, 6]).Text.Equals("D"))
-                            {
-                                dapAn.TrangThai = true;
-                            }
-                            else { dapAn.TrangThai = false; }
-                            cauHoi.Dap_AN.Add(dapAn);
-
-                            cauHois.Add(cauHoi);
-
-                        }
-                        catch
-                        {
-
-                        }
-                    }
-
-
-                    application.Workbooks.Close();
-                    try
-                    {
-                        System.IO.File.Delete(path);
-                    }
-                    catch { }
-
-                    foreach (var item in cauHois)
-                    {
-
-
-                        try
-                        {
-                            if (item.HinhAnh.Length > 0)
-                            {
-                                item.HinhAnh = copyanh(item.HinhAnh.Trim());
-
-                            }
-                            foreach (var item1 in item.Dap_AN)
-                            {
-
-                                if (item1.HinhAnh.Length > 0)
-                                {
-                                    item1.HinhAnh = copyanh(item1.HinhAnh.Trim());
-
-                                }
-                            }
-                        }
-                        catch (Exception e)
-                        {
-
-                        }
-
-                    }
-                    Session[ComMon.ComMonStants.Cauhoi] = cauHois;
-                    return Json(new
-                    {
-                        status = true
-                    });
-
-
-                }
-                catch
-                {
-                    return Json(new
-                    {
-                        status = false
-                    });
-                }
-            }
-            else
-            {
+        
+                int COUT = 0;
                 DateTime aDateTime = DateTime.Now;
                 object path = Server.MapPath("~/Content/" + file.FileName);
                 if (System.IO.File.Exists(path.ToString()))
@@ -703,11 +545,12 @@ namespace TracNghiemOnline.Areas.Admin.Controllers
                             {
                                 int sas = Convert.ToInt32(aDateTime.Year * 12 * 30 * 24 * 60 * 60 + aDateTime.Month * 30 * 24 * 60 * 60 + aDateTime.Day * 24 * 60 * 60 + aDateTime.Hour * 60 * 60 + aDateTime.Minute * 60 + aDateTime.Second);
                                 DocPicture pic = docObject as DocPicture;
-                                String imgName = Server.MapPath("~/Content/Img/Anh" + sas + String.Format(".png"));
-                                anh.Add("/Content/Img/Anh" + sas + String.Format(".png"));
+                                String imgName = Server.MapPath("~/Content/Img/Anh" + sas+"-"+COUT + String.Format(".png"));
+                                anh.Add("/Content/Img/Anh" + sas+"-"+COUT+ String.Format(".png"));
                                 //Save Image  
                                 pic.Image.Save(imgName, System.Drawing.Imaging.ImageFormat.Png);
-
+                                COUT++;
+                                aDateTime = DateTime.Now;
                             }
                             else if (docObject.DocumentObjectType == DocumentObjectType.TextRange)
                             {
@@ -966,7 +809,7 @@ namespace TracNghiemOnline.Areas.Admin.Controllers
 
                 }
                 Session[ComMon.ComMonStants.Cauhoi] = cauHois;
-            }
+            
 
             return Json(new
             {

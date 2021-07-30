@@ -124,11 +124,10 @@
                 let += '<td><a href="/Admin/Home/LoadDeThi/' + v.MaDe + '" class="btn btn-xs btn-primary"><span><i class="far fa-eye"></i></span></a>';
 
 
-                let += '<button name="btngui" class="btn btn-xs btn-secondary">Gửi Admin</button>';
-
 
                 let += '<button name="btnSua" class="btn btn-xs btn-success"><i class="far fa-edit" aria-hidden="true" style="color:white"></i></button>';
-                let += '<button name="Delete" class="btn btn-xs btn-danger"><i class="far fa-trash-alt" aria-hidden="true"></i></button></td>';
+                let += '<button name="Delete" class="btn btn-xs btn-danger"><i class="far fa-trash-alt" aria-hidden="true"></i></button>'; 
+                let += '<button name="btngui" class="btn btn-xs  btn-info"><img src="https://img.icons8.com/dotty/15/000000/send-file.png"/></button> </td>';
 
 
 
@@ -215,17 +214,18 @@
                                         <td> @item.CauHois.Count</td>
                                         <td id="sad"> @item.ThoiGianThi phút</td>
                                         @*<td>  @item.GiaoVien.TenGV </td>*@
-                                        <td>
-                                            <a href="/Admin/Bomon/xemde/@item.Ma_BoDe?tenmon=@item.MonHoc.TenMon" class="btn btn-xs btn-primary">
-                                                <span><i class="far fa-eye"></i></span>
-                                            </a>
+                                    <td>
+                                        <a href="/Admin/Bomon/xemde/@item.Ma_BoDe?tenmon=@item.MonHoc.TenMon" class="btn btn-xs btn-primary">
+                                            <span><i class="far fa-eye"></i></span>
+                                        </a>
 
 
-                                            <button name="btngui" class="btn btn-xs btn-secondary">Gửi Admin</button>
 
-                                            <button name="btnSua" class="btn btn-xs btn-success"><i class="far fa-edit" aria-hidden="true" style="color:white"></i></button>
-                                            <button name="Delete" class="btn btn-xs btn-danger"><i class="far fa-trash-alt" aria-hidden="true"></i></button>
-                                        </td>
+                                        <button name="btnSua" class="btn btn-xs btn-success"><i class="far fa-edit" aria-hidden="true" style="color:white"></i></button>
+                                        <button name="Delete" class="btn btn-xs btn-danger"><i class="far fa-trash-alt" aria-hidden="true"></i></button>
+                                        <button name="btngui" class="btn btn-xs btn-info"><img src="https://img.icons8.com/dotty/15/000000/send-file.png" /></button>
+
+                                    </td>
 
                                     </tr>
 

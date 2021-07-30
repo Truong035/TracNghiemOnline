@@ -122,39 +122,27 @@ namespace TracNghiemOnline.Controllers
             Session["TGTHI"] = tgbd;
 
         }
-        public ActionResult DSDETHI(string id) {
+        public ActionResult DSDETHI() {
 
             TracNghiemOnlineDB db = new TracNghiemOnlineDB();
             var session = (TaiKhoan)Session[ComMon.ComMonStants.UserLogin];
-            var listPhong = db.Phong_Thi.Where(x => x.MaLopHP.Equals(id));
-            List<DanhGia> danhgia = new List<DanhGia>();
-            foreach (var item in listPhong)
-            {
-                var dsdethi = new TracNghiemOnlineDB().DS_SVThi.Where(x => x.Ma_SV.Equals(session.TaiKhoan1) && x.MaPhong.Equals(item.MaPhong) && x.TrangThai.Equals("Đã Nộp"));
-                if (dsdethi != null)
-                {
-                    foreach (var item1 in dsdethi)
-                    {
-                        try
-                        {
-                            if (item1.MaDeThi != null)
-                            {
-                                var exam = new QuanLyThiDAO().SearDethi(item1.MaDeThi);
-                                danhgia.Add(new QuanLyThiDAO().Mark(exam));
+          
+            var dssv = db.DS_SVThi.Where(x => x.Ma_SV.Equals(session.TaiKhoan1));
 
-                            }
-                         
-                        }
-                        catch { }
-                    
-                    }
+            List<Phong_Thi> phong_This = new List<Phong_Thi>();
+        
+            foreach (var item in dssv)
+            {
+                var phong = new TracNghiemOnlineDB().Phong_Thi.Where(x => x.MaPhong.Equals(item.MaPhong) && x.TrangThai.Equals("Đã Đóng"));
+                if (phong != null)
+                {
+                    phong_This.AddRange(phong);
+                             
                 }
 
             }
            
-
-
-            return View(danhgia);
+            return View(phong_This);
         }
         public ActionResult LopHocPhan() {
             TracNghiemOnlineDB db = new TracNghiemOnlineDB();
@@ -515,22 +503,34 @@ namespace TracNghiemOnline.Controllers
         {
             TracNghiemOnlineDB db = new TracNghiemOnlineDB();
             var de = db.De_Thi.Find(id);
+     
+            var exam = new QuanLyThiDAO().SearDethi(id);
+            var mark = new QuanLyThiDAO().Mark(exam);
+            Session[ComMon.ComMonStants.ExamQuesTion] = null;
             de.TrangThai = true;
+            de.DiêmSo = mark.ketQuaThi.DiemSo;
+           
             db.SaveChanges();
-            
+           
             var SV = db.DS_SVThi.SingleOrDefault(x => x.MaDeThi == de.MaDeThi);
             try
             {
                 if (SV != null)
                 {
-                    SV.TrangThai = "Đã Nộp";
-                    db.SaveChanges();
+                    if (!SV.TrangThai.Equals("Đã Nộp")) {
+                        SV.TrangThai = "Đã Nộp";
+                        CT_Dethi cT_Dethi = new CT_Dethi();
+                        cT_Dethi.MADETHI = id;
+                        cT_Dethi.LYDO = "Sinh viên đã nộp bài";
+                        db.CT_Dethi.Add(cT_Dethi);
+                        db.SaveChanges();
+                    }
+
+                   
                 }
             }
             catch { }
-            var exam = new QuanLyThiDAO().SearDethi(id);
-            var mark = new QuanLyThiDAO().Mark(exam);
-            Session[ComMon.ComMonStants.ExamQuesTion] = null;
+          
             return View(mark);
         }
 

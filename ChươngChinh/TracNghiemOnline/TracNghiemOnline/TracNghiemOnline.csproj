@@ -220,16 +220,10 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
-    <Content Include="assets\demo\chart-area-demo.js" />
-    <Content Include="assets\demo\chart-bar-demo.js" />
-    <Content Include="assets\demo\chart-pie-demo.js" />
     <Content Include="assets\demo\datatables1-demo.js" />
     <Content Include="assets\demo\JavaScript.js" />
-    <Content Include="assets\css\atlantis.css" />
     <Content Include="assets\css\atlantis.min.css" />
     <Content Include="assets\css\bootstrap.min.css" />
-    <Content Include="assets\css\demo.css" />
-    <Content Include="assets\css\fonts.css" />
     <Content Include="assets\css\fonts.min.css" />
     <Content Include="assets\css\material-dashboard.css" />
     <Content Include="assets\fonts\flaticon\flaticon.css" />
@@ -255,7 +249,6 @@
     <Content Include="assets\img\new_logo.png" />
     <Content Include="assets\img\profile.jpg" />
     <Content Include="assets\img\sauro.jpg" />
-    <Content Include="assets\img\talha.jpg" />
     <Content Include="assets\img\visa.svg" />
     <Content Include="assets\js\atlantis.js" />
     <Content Include="assets\js\atlantis.min.js" />
@@ -353,7 +346,6 @@
     <Content Include="Areas\Admin\Views\QuanLyThi\VaoThi1.cshtml" />
     <Content Include="Areas\Admin\Views\Shared\LaoutShare.cshtml" />
     <Content Include="Areas\Admin\Views\web.config" />
-    <Content Include="assets\css\atlantis.css.map" />
     <Content Include="assets\img\img-shadow.gvdesign" />
     <Content Include="Content\ATBMTT.docx" />
     <Content Include="Content\bootstrap-theme.css.map" />

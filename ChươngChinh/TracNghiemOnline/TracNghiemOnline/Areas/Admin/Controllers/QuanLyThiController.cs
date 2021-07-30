@@ -626,7 +626,7 @@ namespace TracNghiemOnline.Areas.Admin.Controllers
                 de.TrangThai = false;
                 CT_Dethi cT = new CT_Dethi();
                 cT.MADETHI = dethi;
-                cT.LYDO = "Gíao viên đã cấm thi sinh viên lý do :"+lydo;
+                cT.LYDO = "Gíao viên đã cấm thi sinh viên lý do "+lydo;
                 db.CT_Dethi.Add(cT);
                 
             }

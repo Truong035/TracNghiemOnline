@@ -1,4 +1,12 @@
-﻿<!DOCTYPE html>
+﻿@using TracNghiemOnline.ComMon;
+@using TracNghiemOnline.Modell;
+@{
+
+    var session = (TaiKhoan)Session[ComMonStants.UserLogin];
+    var gv = new TracNghiemOnlineDB().GiaoViens.Find(session.TaiKhoan1);
+
+}
+<!DOCTYPE html>
 <html lang="en" class="wf-flaticon-n4-inactive wf-fontawesome5solid-n4-active wf-fontawesome5regular-n4-active wf-fontawesome5brands-n4-active wf-simplelineicons-n4-active wf-lato-n4-active wf-lato-n3-active wf-lato-n7-active wf-lato-n9-active wf-active">
 <head>
     <meta http-equiv="X-UA-Compatible" content="IE=edge" />
@@ -78,7 +86,7 @@
                                         <div class="user-box">
                                             <div class="avatar-lg"><img src="~/assets/img/profile.jpg" alt="image profile" class="avatar-img rounded"></div>
                                             <div class="u-text">
-                                                <h4>Hizrian</h4>
+                                                <h4>@gv.TenGV</h4>
                                                 @*<a href="profile.html" class="btn btn-xs btn-secondary btn-sm">View Profile</a>*@
                                             </div>
                                         </div>
