@@ -60,13 +60,7 @@
 
 
             </div>
-            <div class="container-sm row">
-                <div class="col">
-                    <button class="btn btn-secondary" id="btnDanhsach">Danh sách</button>
-                    <button class="btn btn-secondary" id="btnGiamSat">Giám sát</button>
-                </div>
-
-            </div>
+            
 
             <div class="card mb-4" id="frmDanhSach">
                 <div class="card-header">
@@ -144,23 +138,7 @@
             </div>
 
 
-            <div class="card mb-4" id="frmGiamSat">
-                <div class="card-header">
-                    Danh sách sinh viên thi
-                </div>
-                <div class="card-body">
-                    <div class="row">
-                        @foreach (var item in Model.DS_SVThi)
-                  
-                        {
-                            <div class="col-4">
-                                <img src="https://i.ytimg.com/vi/Lom1Xn8Mw-8/mqdefault.jpg">
-                                <p>@item.SinhVien.Ten</p>
-                            </div>
-                        }
-                    </div>
-                </div>
-            </div>
+            
         </div>
     </div>
 </div>
@@ -305,16 +283,6 @@
             }, 1000);
         });
 
-        $('#btnGiamSat').click(function () {
-            $('#frmGiamSat').show();
-            $('#frmDanhSach').hide();
-            
-        })
         
-        $('#btnDanhsach').click(function () {
-            $('#frmGiamSat').hide();
-            $('#frmDanhSach').show();
-
-        })
     </script>
 }
