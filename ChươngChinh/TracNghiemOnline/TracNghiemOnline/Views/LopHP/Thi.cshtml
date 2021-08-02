@@ -30,23 +30,23 @@
                     if (data.startust == false) {
                         var let = `    <div id="dialog">
 
-            <div class="col-lg-5 col-md-10 col-sm-10 container text-center" style="margin-top:10%">
-                <div class="card card-stats">
-                    <div class="card-header card-header-warning">
-                        <h4 class="card-title text-center">Thông báo</h4>
-                    </div>
-                    <div class="card-header">
-                        <div class="stats">
-
-                            <h3 class="card-text">Bạn đã vi phạm quy chế thi</h3>
+                <div class="col-lg-5 col-md-10 col-sm-10 container text-center" style="margin-top:10%">
+                    <div class="card card-stats">
+                        <div class="card-header card-header-warning">
+                            <h4 class="card-title text-center">Thông báo</h4>
                         </div>
-                     </div>
-                    <div class=" card-header-text text-center">
-                        <a class="btn btn-info" href="/Home/OnTap">Thoát</a>
+                        <div class="card-header">
+                            <div class="stats">
+
+                                <h3 class="card-text">Bạn đã vi phạm quy chế thi</h3>
+                            </div>
+                         </div>
+                        <div class=" card-header-text text-center">
+                            <a class="btn btn-info" href="/Home/OnTap">Thoát</a>
+                        </div>
                     </div>
                 </div>
-            </div>
-        </div>`
+            </div>`
 
 
                         $('#thongbao').append(let);
@@ -57,7 +57,7 @@
             });
 
 
-            document.addEventListener('visibilitychange', function () {
+            @*document.addEventListener('visibilitychange', function () {
                 if (document.visibilityState == "hidden") {
                     $.ajax({
                         type: 'POST',
@@ -67,23 +67,23 @@
 
                             var let = `    <div id="dialog">
 
-            <div class="col-lg-5 col-md-10 col-sm-10 container text-center" style="margin-top:10%">
-                <div class="card card-stats">
-                    <div class="card-header card-header-warning">
-                        <h4 class="card-title text-center">Thông báo</h4>
-                    </div>
-                    <div class="card-header">
-                        <div class="stats">
-
-                            <h3 class="card-text">Bạn đã vi phạm quy chế thi</h3>
+                <div class="col-lg-5 col-md-10 col-sm-10 container text-center" style="margin-top:10%">
+                    <div class="card card-stats">
+                        <div class="card-header card-header-warning">
+                            <h4 class="card-title text-center">Thông báo</h4>
                         </div>
-                     </div>
-                    <div class=" card-header-text text-center">
-                        <a class="btn btn-info" href="/LopHP/OnTap">Thoát</a>
+                        <div class="card-header">
+                            <div class="stats">
+
+                                <h3 class="card-text">Bạn đã vi phạm quy chế thi</h3>
+                            </div>
+                         </div>
+                        <div class=" card-header-text text-center">
+                            <a class="btn btn-info" href="/LopHP/OnTap">Thoát</a>
+                        </div>
                     </div>
                 </div>
-            </div>
-        </div>`
+            </div>`
 
 
                             $('#thongbao').append(let);
@@ -94,7 +94,7 @@
 
 
                 }
-            });
+            });*@
 
 
             $('#btnnop').click(function () {
@@ -186,9 +186,64 @@
             }
 
         }
-
-
+     
     </script>
+
+    <script>
+  
+
+        document.getElementById("demo").onmouseleave = function () { mouseLeave() };
+
+        function mouseEnter() {
+            clearInterval(x);
+            
+
+        }
+       
+        var x
+        var cout = 0;
+        function mouseLeave() {
+            cout = 0;
+            document.getElementById("demo").onmouseenter = function () { mouseEnter() };
+           x = setInterval(function () {
+             
+                cout++;
+                if (cout == 3) {
+              
+                  //  window.location = "/LopHP/KetQuathi";
+
+                    var let = `    <div id="dialog">
+
+                <div class="col-lg-5 col-md-10 col-sm-10 container text-center" style="margin-top:10%">
+                    <div class="card card-stats">
+                        <div class="card-header card-header-warning">
+                            <h4 class="card-title text-center">Thông báo</h4>
+                        </div>
+                        <div class="card-header">
+                            <div class="stats">
+
+                                <h3 class="card-text">Bạn đã vi phạm quy chế thi</h3>
+                            </div>
+                         </div>
+                        <div class=" card-header-text text-center">
+                            <a class="btn btn-info" href="/LopHP/OnTap">Thoát</a>
+                        </div>
+                    </div>
+                </div>
+            </div>`
+
+
+                    $('#thongbao').append(let);
+
+                    $('#thongbao').show();
+                    cout = 0;
+                    clearInterval(x);
+                }
+               
+            }, 1000);
+        }
+    </script>
+
 }
 
 <div class="container-fluid" style="margin-top:-5%">

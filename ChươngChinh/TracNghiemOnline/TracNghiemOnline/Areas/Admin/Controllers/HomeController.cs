@@ -30,6 +30,100 @@ namespace TracNghiemOnline.Areas.Admin.Controllers
             return View();
           
         }
+        public ActionResult Save()
+        {
+            List<DS_SVThi> dssv = ((List<DS_SVThi>)Session["Sinhvien"]);
+            foreach (var item in dssv)
+            {
+                TracNghiemOnlineDB db = new TracNghiemOnlineDB();
+                if(!db.DS_SVThi.ToList().Exists(x=>x.Ma_SV.Equals(item.Ma_SV)&& x.MaPhong.Equals(item.MaPhong)))
+                {
+                    db.DS_SVThi.Add(item);
+                    db.SaveChanges();
+                }
+
+            }
+            return Redirect("/Admin/QuanLyThi/PhongThi");
+        }
+
+        public JsonResult UploadExcel(HttpPostedFileBase file)
+        {
+            List<DS_SVThi> sinhViens = new List<DS_SVThi>();
+            string path = Server.MapPath("~/Content/" + file.FileName);
+            try
+            {
+                if (System.IO.File.Exists(path))
+                {
+                    System.IO.File.Delete(path);
+                }
+                file.SaveAs(path);
+            }
+            catch { }
+
+            EXCELL.Application application = new EXCELL.Application();
+            EXCELL.Workbook workbook = application.Workbooks.Open(path);
+            EXCELL.Worksheet worksheet = workbook.ActiveSheet;
+
+
+            EXCELL.Range range = worksheet.UsedRange;
+
+            TracNghiemOnlineDB db = new TracNghiemOnlineDB();
+            string s="";
+            for (int i = 2; i <= range.Rows.Count; i++)
+            {
+                try
+                {
+                  
+
+                    string msv = ((EXCELL.Range)range.Cells[i, 1]).Text;
+                    var sv = db.SinhViens.Where(x => x.MaSV.Trim().Equals(msv.Trim())).ToList();
+                    s += "/"+msv;
+                    if(sv.ToList().Count>0)    
+                        {
+                        DS_SVThi dS_SVThi = new DS_SVThi();
+                        dS_SVThi.Ma_SV = sv.ToList()[0].MaSV;
+                    
+                        sinhViens.Add(dS_SVThi);
+
+                         }
+
+                }
+                catch
+                {
+
+                }
+                  
+            }
+
+
+
+            application.Workbooks.Close();
+            try
+            {
+                System.IO.File.Delete(path);
+            }
+            catch { }
+            Session["Sinhvien"] = sinhViens;
+            return Json(new
+            {
+                status = true,
+                s,
+                sl=sinhViens.Count
+            }, JsonRequestBehavior.AllowGet) ; 
+        }
+
+        public ActionResult LoadData(string id)
+        {
+            List<DS_SVThi> dssv = ((List<DS_SVThi>)Session["Sinhvien"]);
+            foreach (var item in dssv)
+            {
+                item.MaPhong = id;
+            }
+            Session["Sinhvien"] = dssv;
+            return View();
+
+        }
+
         public ActionResult ChonDe1(long id)
         {
             Session["mads"] = id;
@@ -237,7 +331,7 @@ namespace TracNghiemOnline.Areas.Admin.Controllers
                 {
                     status = true
                     
-                });
+                },JsonRequestBehavior.AllowGet);
 
 
             }
@@ -246,7 +340,7 @@ namespace TracNghiemOnline.Areas.Admin.Controllers
                 return Json(new
                 {
                     status = false
-                });
+                }, JsonRequestBehavior.AllowGet);
             }
         }
         public string xuatpdf(long id, string tenmon)

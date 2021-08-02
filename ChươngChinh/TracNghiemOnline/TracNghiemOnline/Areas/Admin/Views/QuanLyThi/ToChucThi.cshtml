@@ -264,12 +264,9 @@
             // cập nhập thời gian sau mỗi 1 giây
             var x = setInterval(function () {
                 // Lấy thời gian hiện tại
-
-
-
                 $.ajax({
                     url: '/Admin/QuanLyThi/KiemTraPhongThi',
-                    type: 'post',
+                    type: 'get',
                     success: function (res) {
 
                         Loaddata(res);

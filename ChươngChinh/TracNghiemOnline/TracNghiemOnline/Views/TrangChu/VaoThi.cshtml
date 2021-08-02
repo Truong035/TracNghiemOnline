@@ -29,11 +29,11 @@
                 <div class="card col-md-12" style="margin-top:3%">
                     <input id="TxtThoiGian" hidden="hidden" value="@ViewBag.GioThi" />
                     <input id="TxtMaDe" hidden value="@Dethi.MaDeThi" />
-             
+
                     <div class="card-title">
                         <h4 class="card-title text-info text-center">Thông Tin Sinh Viên</h4>
                     </div>
-                    <div class="status card-body  small bottom-50">
+                    <div class="status card-body bottom-50">
                         <label class="bmd-label-floating row"> MaSV :   @Dethi.SinhVien.MaSV</label>
                         <label class="bmd-label-floating row">Tên : @Dethi.SinhVien.Ten</label>
                         <label class="bmd-label-floating row">Ngày Sinh : @Dethi.SinhVien.NgaySinh.Value.Day/@Dethi.SinhVien.NgaySinh.Value.Month/@Dethi.SinhVien.NgaySinh.Value.Year </label>
@@ -48,22 +48,12 @@
         </div>
     </div>
     <div class="main-panel">
-        <div class="content" id="frmBatDau">
-        <div class="row">
-            <div class="card row col-8 container" style="margin-top:0px;margin-left:20%;height:250px">
-
-                <div class="card-body text-center" style="margin-top:60px">
-                    <button id="btnBatDau" class="btn btn-warning"> Bắt đầu</button>
-
-                </div>
-            </div>
-        </div>
-        </div>
+    
         <div class="content" id="frmbailam">
 
 
 
-            <div class="container-fluid" >
+            <div class="container-fluid">
                 <div class="container-fluid" style="margin-top:-5%">
                     <div class=" row card" style="width:102%">
 
@@ -184,7 +174,7 @@
         </div>
     </div>
 
-    </div>
+</div>
 
 
 @section scripts{
@@ -195,7 +185,7 @@
 
     <script>
         var madethi = $('#TxtMaDe').val();
-     
+
         var listch = [];
         function changeText(button) {
             var mach = $(button).val();
@@ -229,10 +219,10 @@
             });
 
         };
-      
+
         $(document).ready(function () {
-            $('#frmbailam').hide();
-           
+          //  $('#frmbailam').hide();
+            Batdau();
             $.ajax({
                 type: 'POST',
                 url: '/TrangChu/KiemTraDe',
@@ -250,24 +240,6 @@
                 }
             });
 
-            $('#btnBatDau').click(function () {
-                $.ajax({
-                    type: 'POST',
-                    url: '/TrangChu/Refresh1',
-                    //  data: { listCH: JSON.stringify(listch) },
-                    data: { madethi1: madethi },
-                    success: function (data) {
-                        Batdau();
-                        openFullscreen();
-                        $('#frmBatDau').hide();
-                        $('#frmbailam').slideDown();
-                    }
-
-                })
-
-                
-            });
-
 
             $(document).on('click', "button[name ='chon']", function () {
                 var ma = this.id;
@@ -280,7 +252,7 @@
                 }
 
             });
-         
+
 
             $('#bntNopBai').click(function () {
                 var buton = $('.btnchon');
@@ -341,7 +313,6 @@
                     success: function (KetQua) {
                         if (KetQua.status == false) {
                             var let = `<div id="dialog">
-
                                 <div class="col-lg-5 col-md-10 col-sm-10 container text-center" style="margin-top:10%">
                                     <div class="card card-stats">
                                         <div class="card-header card-header-warning">
@@ -366,7 +337,7 @@
                             $('#thongbao').append(let);
 
                             $('#thongbao').show();
-                        
+
                         }
 
                     }
@@ -403,7 +374,7 @@
 
         function ViPham() {
             var now = new Date();
-     
+
             var tgbd = now.getFullYear() + '/' + (now.getMonth() + 1) + '/' + now.getDate() + '/' + now.getHours() + '/' + now.getMinutes() + '/' + now.getSeconds() + ""
             $.ajax({
                 type: 'POST',
@@ -411,7 +382,7 @@
                 //  data: { listCH: JSON.stringify(listch) },
                 data: { madethi1: madethi, tgbd: tgbd},
                 success: function (data) {
-                  
+
                                 var let = `<div id="dialog">
 
                                 <div class="col-lg-5 col-md-10 col-sm-10 container text-center" style="margin-top:10%">
@@ -426,13 +397,13 @@
                                             </div>
                                          </div>
                                         <div class=" card-header-text text-center">
-                                            <button id="Thoat" onclick="Close1()" class="btn btn-info" href="/PhongThi">Thoát</button>
+                                            <button id="Thoat" onclick="Close1()" class="btn btn-info">Thoát</button>
                                         </div>
                                     </div>
                                 </div>
                             </div>`
 
-                              clearInterval(x);
+                             // clearInterval(x);
                                 $('#thongbao').empty();
 
                                 $('#thongbao').append(let);
@@ -445,94 +416,16 @@
         function Close1() {
             //  clearInterval(x);
             $('#thongbao').hide();
-            $('#frmbailam').hide();
-            $('#frmBatDau').show();
+           // $('#frmbailam').hide();
+           // $('#frmBatDau').show();
 
-            //   
+            //
         }
 
 
-        function closeFullscreen() {
-            if (document.exitFullscreen) {
-                document.exitFullscreen();
-            } else if (document.webkitExitFullscreen) { /* Safari */
-                document.webkitExitFullscreen();
-            } else if (document.msExitFullscreen) { /* IE11 */
-                document.msExitFullscreen();
-            }
-        }
-        function openFullscreen() {
-            var elem = document.documentElement;
-            if (document.requestFullscreen) {
-                elem.requestFullscreen();
-            } else if (elem.webkitRequestFullscreen) { /* Safari */
-                elem.webkitRequestFullscreen();
-            } else if (elem.msRequestFullscreen) { /* IE11 */
-                elem.msRequestFullscreen();
-            }
-            function my_onkeydown_handler(event) {
-                switch (event.keyCode) {
-                    case 18:
-                        event.preventDefault();
-                        event.keyCode = 0;
-                        ViPham();
-                        clearInterval(x1);
-                        closeFullscreen();
-                        document.removeEventListener("keydown", my_onkeydown_handler);
-                        break;
-                    case 116:
-                        event.preventDefault();
-                        event.keyCode = 0;
-                    //    window.status = "F5 disabled";
-                        var now = new Date();
-
-                        var tgbd = now.getFullYear() + '/' + (now.getMonth() + 1) + '/' + now.getDate() + '/' + now.getHours() + '/' + now.getMinutes() + '/' + now.getSeconds() + ""
-                        $.ajax({
-                            type: 'POST',
-                            url: '/TrangChu/Refresh',
-                            //  data: { listCH: JSON.stringify(listch) },
-                            data: { madethi1: madethi, tgbd: tgbd },
-                            success: function (data) {
-
-                                window.location = "/PhongThi";
-
-
-                            }
-                        });
-                        
-                        break;
-
-                    case 116:
-                        event.preventDefault();
-                        event.keyCode = 0;
-                      
-                        break;
-                    case 91:
-                        event.preventDefault();
-                        event.keyCode = 0;
-                        ViPham();
-                      
-                        closeFullscreen();
-                        document.removeEventListener("keydown", my_onkeydown_handler);
-                        break;
-                }
-            }
-
-            var x1 = setInterval(function () {
-                // Lấy thời gian hiện tại
-
-                document.addEventListener("keydown", my_onkeydown_handler);
-
-                if (!document.fullscreenElement) {
-                    document.removeEventListener("keydown", my_onkeydown_handler);
-                    clearInterval(x1);
-                    ViPham();
-                
-                }
-            }, 1000)
-
-        }
-     
+       
+   
+      
         document.onkeypress = function (event) {
             event = (event || window.event);
             if (event.keyCode == 123) {
@@ -558,18 +451,42 @@
                 // try to cancel the backspace
                 return false;
             }
-        } 
-        
+        }
+        function my_onkeydown_handler(event) {
+            switch (event.keyCode) {
+              
+                case 116:
+                    event.preventDefault();
+                    event.keyCode = 0;
+                    //    window.status = "F5 disabled";
+                    var now = new Date();
+
+                    var tgbd = now.getFullYear() + '/' + (now.getMonth() + 1) + '/' + now.getDate() + '/' + now.getHours() + '/' + now.getMinutes() + '/' + now.getSeconds() + ""
+                    $.ajax({
+                        type: 'POST',
+                        url: '/TrangChu/Refresh',
+                        //  data: { listCH: JSON.stringify(listch) },
+                        data: { madethi1: madethi, tgbd: tgbd },
+                        success: function (data) {
+
+                            window.location = "/PhongThi";
+
+
+                        }
+                    });
+
+                    break;
+            }
+        }
+        document.addEventListener("keydown", my_onkeydown_handler);
         document.onkeydown = function () {
             switch (event.keyCode) {
                 case 116: //F5 button
                     event.returnValue = false;
                     event.keyCode = 0;
                     var now = new Date();
-
                     var tgbd = now.getFullYear() + '/' + (now.getMonth() + 1) + '/' + now.getDate() + '/' + now.getHours() + '/' + now.getMinutes() + '/' + now.getSeconds() + ""
                     $.ajax({
-
                         type: 'POST',
                         url: '/TrangChu/Refresh',
                         //  data: { listCH: JSON.stringify(listch) },
@@ -602,4 +519,41 @@
             }
         }
     </script>
+    <script>
+
+        document.getElementById("demo1").onmouseleave = function () { mouseLeave() };
+
+        function mouseEnter() {
+            clearInterval(x);
+
+        }
+        document.addEventListener('visibilitychange', function () {
+            if (document.visibilityState == "hidden") {
+
+                ViPham();
+
+            }
+        })
+
+
+        var x
+        var cout = 0;
+        function mouseLeave() {
+            cout = 1;
+            document.getElementById("demo1").onmouseenter = function () { mouseEnter() };
+            x = setInterval(function () {
+
+                cout++;
+                if (cout == 3) {
+
+     
+                    ViPham();
+                    cout = 0;
+                    clearInterval(x);
+                }
+
+            }, 1000);
+        }
+    </script>
+
 }

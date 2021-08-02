@@ -1,0 +1,74 @@
+﻿
+@using TracNghiemOnline.Modell;
+@{
+    ViewBag.Title = "LoadData";
+    Layout = "~/Areas/Admin/Views/Shared/LaoutShare.cshtml";
+}
+<div class="row" style="height:20px;">
+
+</div>
+<div class="col-md-12">
+    <div class="card">
+        <div class="card-header">
+            <div class="d-flex align-items-center">
+                <h4 class="card-title">DANH SÁCH SINH VIÊN</h4>
+                <a class="btn btn-primary btn-round ml-auto" href="/Admin/Home/Save" >
+                    <i class="fa fa-plus"></i>
+                    Lưu
+                </a>
+            </div>
+        </div>
+        <div class="card-body">
+            <div class="table-responsive">
+                <div id="add-row_wrapper" class="dataTables_wrapper container-fluid dt-bootstrap4">
+
+                    <div class="col-sm-12">
+                        <table id="dataTable" class="display table table-striped table-hover dataTable" role="grid" aria-describedby="add-row_info">
+                            <thead>
+                                <tr role="row">
+                                    <th class="sorting_asc" tabindex="0" aria-controls="add-row" rowspan="1" colspan="1" aria-sort="ascending" aria-label="Name: activate to sort column descending">Mã sinh viên</th>
+                                    <th class="sorting" tabindex="0" aria-controls="add-row" rowspan="1" colspan="1" aria-label="Position: activate to sort column ascending">Tên sinh viên</th>
+                                    <th class="sorting" tabindex="0" aria-controls="add-row" rowspan="1" colspan="1" aria-label="Position: activate to sort column ascending">Ngày sinh</th>
+                                    <th class="sorting" tabindex="0" aria-controls="add-row" rowspan="1" colspan="1" aria-label="Position: activate to sort column ascending">Địa chỉ</th>
+                                    <th class="sorting" tabindex="0" aria-controls="add-row" rowspan="1" colspan="1" aria-label="Position: activate to sort column ascending">Lớp</th>
+                                    <th style="width: 15%;" class="sorting" tabindex="0" aria-controls="add-row" rowspan="1" colspan="1" aria-label="Action: activate to sort column ascending"></th>
+                                </tr>
+                            </thead>
+
+                            <tbody id="tblSinhVien">
+
+                                @{
+                                    List<DS_SVThi> dssv = ((List<DS_SVThi>)Session["Sinhvien"]);
+                                    foreach (var item1 in dssv)
+                                    {
+                                        var item = new TracNghiemOnlineDB().SinhViens.Find(item1.Ma_SV);
+                                        <tr id="@item.MaSV">
+                                            <td>@item.MaSV</td>
+                                            <td>@item.Ten</td>
+                                            <td> @item.NgaySinh</td>
+                                            <td>@item.DiaChi</td>
+                                            <td>@item.Lop.TenLop</td>
+
+                                            <td>
+
+                                                <button name="Update" class="btn btn-xs btn-primary"><i class="far fa-edit" aria-hidden="true"></i></button>&ensp;
+                                                <button name="Delete" class="btn btn-xs btn-danger"><i class="far fa-trash-alt" aria-hidden="true" style="color:white"></i></button>
+
+                                            </td>
+
+                                        </tr>
+
+
+                                    }
+                                }
+
+                            </tbody>
+                        </table>
+                    </div>
+
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+

@@ -14,8 +14,6 @@
 
         $(document).ready(function () {
 
-
-
             $('#ChonDe').hide();
 
             $('#btnDong').click(function () {
@@ -261,7 +259,7 @@
                                 </thead>
 
                                 <tbody>
-                                    @foreach (var item in lophocphan.DS_LopHP.ToList())
+                                    @foreach (var item in lophocphan.DS_LopHP.OrderByDescending(x=>Int64.Parse(x.MA_SV)).ToList())
                                     {
                                         <tr id="@item.Ma_LOP">
                                             @if (maphong.Length > 0)

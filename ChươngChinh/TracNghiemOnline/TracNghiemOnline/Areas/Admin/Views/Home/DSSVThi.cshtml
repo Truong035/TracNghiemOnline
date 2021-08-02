@@ -33,6 +33,35 @@
         });
 
 
+        function readURL(input) {
+            var maphong1 = input.title;
+            alert(maphong1)
+            if (input.files && input.files[0]) {
+                var formdata = new FormData();
+                formdata.append('file', input.files[0]);
+                $.ajax({
+                    type: 'POST',
+                    url: '/Admin/Home/UploadExcel',
+                    dataType: "json",
+                    contentType: false, //Khong co hear
+                    processData: false,//Khong Xu Ly Du Lieu
+                         data: formdata,
+                        success: function (data) {
+                            if (data.status == true) {
+                                 window.location = '/Admin/Home/LoadData/'+maphong1;
+                                console.log(data.s)
+                            }
+                            else {
+                                alert("FILE không hợp lệ");
+                            }
+                        }
+                    });
+                
+                }
+
+            }
+        
+        
 
     </script>
 
@@ -44,6 +73,11 @@
             <div class="d-flex align-items-center">
                 <h4 class="card-title">DANH SÁCH SINH VIÊN THI</h4>
                 <div class="ml-auto">
+                    <button  id="btnNhan" title="@Model.MaPhong" onclick="$('#txtFile').trigger( 'click' )" class="btn btn-primary btn-round ml-auto" data-target="#addRowModal">
+                        <i class="fa fa-plus"></i>
+                        Import file
+                    </button>
+                    <input id="txtFile" title="@Model.MaPhong" onchange="readURL(this);" hidden type="file" accept="application/vnd.openxmlformats-officedocument.spreadsheetml.sheet" />
                     <a class="btn btn-primary btn-round ml-auto" href="/Admin/QuanLyThi/DSSVPhongThi/@Model.MaPhong" data-target="#addRowModal">
                         <i class="fa fa-plus"></i>
                         Thêm sinh viên
@@ -61,7 +95,7 @@
                         else
                         {
                             <a class="btn btn-primary btn-round ml-auto" href="/Admin/QuanLyThi/PhongThi" data-target="#addRowModal">
-                                
+
                                 Trở về
                             </a>
 
