@@ -11,20 +11,15 @@
 @using TracNghiemOnline.Modell;
 @using TracNghiemOnline.ComMon;
 
-<div class="container-fluid py-8">
+<div class="container py-8">
     <div class="card mb-4">
-        <div class="card-header">
-
-            Lich sử thi
-        </div>
         <div class="card-body">
 
-            <table class="table table-bordered" id="example" width="100%" cellspacing="0">
+            <table class="table table-bordered" id="example" width="100%" cellspacing="0" style="font-family:Arial">
                 <thead>
                     <tr>
                         <th> Phòng  </th>
                         <th>Mã Đề</th>
-                        <th>Mã SV  </th>
                         <th> Môn thi </th>
                         <th>Thời gian thi </th>
 
@@ -47,12 +42,11 @@
                     <tr>
                         <td>  @item.TenPhong  </td>
                         <td> @dethi.ketQuaThi.Ma_DeThi </td>
-                        <td> @dethi.ketQuaThi.De_Thi.SinhVien.MaSV </td>
                         <td>  @item.LopHocPhan.MonHoc.TenMon  </td>
                         <td>  @item.Bo_De.ThoiGianThi Phút </td>
                         <td>  @dethi.ketQuaThi.DiemSo </td>
                         <td>  @item.ThoiGianMo.Value.Day/ @item.ThoiGianMo.Value.Month/ @item.ThoiGianMo.Value.Year </td>
-                        <td> <a href="/Diemthi/@item1.MaDeThi"> xem</a> </td>
+                        <td> <a href="/Diemthi/@item1.MaDeThi" class="btn btn-info" style="padding: 1px 10px; color: #fff">Xem</a></td>
                     </tr>
                             }
 

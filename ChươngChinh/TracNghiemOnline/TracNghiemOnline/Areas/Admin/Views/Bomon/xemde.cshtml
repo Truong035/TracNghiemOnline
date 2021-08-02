@@ -5,81 +5,81 @@
 
 }
 
-    <div class="card" style="margin:2rem">
-        <table class="display table dataTable no-footer" role="grid" style="margin-left:2rem">
-            <tbody>
-                <tr role="row" class="odd">
-                    <td><p style="text-transform:uppercase; font-weight:700; margin-bottom:0">@ViewBag.TenDe</p><p style="margin-bottom:0">Môn thi: @ViewBag.MonThi</p><p>Thời gian: @ViewBag.ThoiGianThi phút</p></td>
-                </tr>
-            </tbody>
-        </table>
-        <div class="card mb-4">
-            
-            @{
-                int i = 0;
-                foreach (var item in Model)
-                {
-                    <div  style="margin-left:3rem">
-                            <div class="form-group">
-                                            <h5 style="width:710px;font-weight:700"> Câu @(i = i + 1):    @Html.Raw(item.NoiDung) </h5>
+<div class="card" style="margin:2rem">
+    <table class="display table dataTable no-footer" role="grid" style="margin-left:2rem">
+        <tbody>
+            <tr role="row" class="odd">
+                <td><p style="text-transform:uppercase; font-weight:700; margin-bottom:0">@ViewBag.TenDe</p><p style="margin-bottom:0">Môn thi: @ViewBag.MonThi</p><p>Thời gian: @ViewBag.ThoiGianThi phút</p></td>
+            </tr>
+        </tbody>
+    </table>
+    <div class="card mb-4">
 
-                                @if (item.HinhAnh.Length > 0)
+        @{
+            int i = 0;
+            foreach (var item in Model)
+            {
+                <div style="margin-left:3rem">
+                    <div class="form-group">
+                        <h5 style="width:710px;font-weight:700"> Câu @(i = i + 1):    @Html.Raw(item.NoiDung) </h5>
+
+                        @if (item.HinhAnh.Length > 0)
+                        {
+                            <div class="card-body row">
+                                <img class=" center-block" style="margin-left:140px" src="@item.HinhAnh.Trim()"
+                                     alt="anh viet nam anh 1 " width="500" />
+                            </div>
+
+                        }
+
+                    </div>
+                    @foreach (var item1 in item.Dap_AN)
+                    {
+                        <div>
+                            <div class="custom-control custom-radio row">
+                                @if (item1.TrangThai == true)
                                 {
-                                    <div class="card-body row">
-                                        <img class=" center-block" style="margin-left:140px" src="@item.HinhAnh.Trim()"
-                                             alt="anh viet nam anh 1 " width="500" />
-                                    </div>
-
+                                    <label class="custom-control-inline text-danger" style="font-weight:500" ; for="@item1.MA_DAN">
+                                        @Html.Raw(item1.NoiDung)
+                                    </label>
+                                }
+                                else
+                                {
+                                    <label class="custom-control-inline" style="font-weight: 500" for="@item1.MA_DAN">
+                                        @Html.Raw(item1.NoiDung)
+                                    </label>
                                 }
 
                             </div>
-                            @foreach (var item1 in item.Dap_AN)
-                            {
-                                <div>
-                                    <div class="custom-control custom-radio row">
-                                        @if (item1.TrangThai == true)
-                                        {
-                                        <label class="custom-control-inline text-danger" style="width:700px; font-weight:500" ; for="@item1.MA_DAN">
-                                            @Html.Raw(item1.NoiDung)
-                                        </label>
-                                        }
-                                        else
-                                        {
-                                            <label class="custom-control-inline" style="width: 700px; font-weight: 500" for="@item1.MA_DAN">
-                                                @Html.Raw(item1.NoiDung)
-                                            </label>
-                                        }
+                            @{ try
+                                {
+                                    if (item1.HinhAnh.Length > 0)
+                                    {
+                                        <img class=" center-block row" style="margin-left:80px" src="@item1.HinhAnh"
+                                             alt="anh viet nam anh 1 " width="300" />
 
-                                    </div>
-                                    @{ try
-                                        {
-                                            if (item1.HinhAnh.Length > 0)
-                                            {
-                                                <img class=" center-block row" style="margin-left:80px" src="@item1.HinhAnh"
-                                                     alt="anh viet nam anh 1 " width="300" />
-
-                                            }
-                                        }
-                                        catch { }
                                     }
-                                </div>
+                                }
+                                catch { }
                             }
-                          
-                    </div>
-
-                }
-
-                <div class="card-body" style="margin-left:40%">
-                    <a id="txtTroVe" class="btn btn-primary btn-round" href="/Admin/BoMon/DSDethi"> Quay Lại </a>
-                    <a id="txtTroVe" class="btn  btn-round btn-danger" href="@ViewBag.linkpdf" download=""> Xuất PDF </a>
+                        </div>
+                    }
 
                 </div>
 
             }
-        </div>
 
+            <div class="card-body" style="margin-left:40%">
+                <a id="txtTroVe" class="btn btn-primary btn-round" href="/Admin/BoMon/DSDethi"> Quay Lại </a>
+                <a id="txtTroVe" class="btn  btn-round btn-danger" href="@ViewBag.linkpdf" download=""> Xuất PDF </a>
 
+            </div>
+
+        }
     </div>
+
+
+</div>
 
 
 

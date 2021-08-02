@@ -233,10 +233,12 @@
     <Content Include="assets\fonts\fontawesome\fa-regular-400.svg" />
     <Content Include="assets\fonts\fontawesome\fa-solid-900.svg" />
     <Content Include="assets\fonts\simple-line-icons\Simple-Line-Icons.svg" />
+    <Content Include="assets\img\delete_50px.png" />
     <Content Include="assets\img\icon.ico" />
     <Content Include="assets\img\icon.png" />
     <Content Include="assets\img\icon.svg" />
     <Content Include="assets\img\img-shadow.png" />
+    <Content Include="assets\img\inbox_100px.png" />
     <Content Include="assets\img\jm_denis.jpg" />
     <Content Include="assets\img\logo.svg" />
     <Content Include="assets\img\logo2.svg" />
@@ -367,6 +369,7 @@
     <Content Include="assets\fonts\simple-line-icons\Simple-Line-Icons.woff2" />
     <Content Include="Areas\Admin\Views\CauHoi\EditCH.cshtml" />
     <Content Include="Areas\Admin\Views\Home\LoadData.cshtml" />
+    <Content Include="Areas\Admin\Views\Home\DoiMatKhau.cshtml" />
     <None Include="Dockerfile" />
     <None Include=".dockerignore">
       <DependentUpon>Dockerfile</DependentUpon>
@@ -465,6 +468,7 @@
     <Content Include="Views\LopHP\KetQuathi.cshtml" />
     <Content Include="Views\LopHP\QuanLy.cshtml" />
     <Content Include="Views\LopHP\DanhGia.cshtml" />
+    <Content Include="Views\TrangChu\DoiMatKhau.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Views\BaseController1\" />

@@ -890,7 +890,8 @@ namespace TracNghiemOnline.Areas.Admin.Controllers
                   
                     ViewBag.Mess = id;
                     ViewBag.linkpdf = xuatpdf(long.Parse(id), Request["tenmon"]);
-
+                    //var de = new TracNghiemOnlineDB().Bo_De.Where(x => x.Ma_BoDe == long.Parse(id)).FirstOrDefault();
+                    
                 }
                 else
                 {
@@ -905,7 +906,9 @@ namespace TracNghiemOnline.Areas.Admin.Controllers
             }
             ViewBag.Mess = id;
                var dethi = (Model.BoDeThi)Session[ComMon.ComMonStants.ChapterStudy];
-
+            ViewBag.TenDe = dethi.BoDeThi1.NoiDung;
+            ViewBag.MonThi = dethi.BoDeThi1.MonHoc.TenMon;
+            ViewBag.ThoiGianThi = dethi.BoDeThi1.ThoiGianThi;
             return View(dethi.BoDeThi1);
         }
         public ActionResult DeOnTap(long id)
@@ -1119,5 +1122,33 @@ namespace TracNghiemOnline.Areas.Admin.Controllers
                 status = true
             }) ;
         } 
+        public ActionResult DoiMatKhau()
+        {
+            return View();
+        }
+        public JsonResult DoiMK(string matkhaucu, string matkhaumoi)
+        {
+            try
+            {
+                TracNghiemOnlineDB db = new TracNghiemOnlineDB();
+                var taikhoan = (TaiKhoan)Session[ComMon.ComMonStants.UserLogin];
+                var tk = db.TaiKhoans.Where(x => x.TenDangNhap.Equals(taikhoan.TenDangNhap) && x.MatKhau.Equals(matkhaucu)).FirstOrDefault();
+                int trangthai = 0;
+                if (tk != null)
+                {
+                    tk.MatKhau = matkhaumoi;
+                    db.SaveChanges();
+                }
+                else
+                {
+                    trangthai = 1;
+                }
+                return Json(new { code = 200, trangthai = trangthai }, JsonRequestBehavior.AllowGet);
+            }
+            catch (Exception ex)
+            {
+                return Json(new { code = 500 }, JsonRequestBehavior.AllowGet);
+            }
+        }
     }
 }

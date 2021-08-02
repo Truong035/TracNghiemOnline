@@ -21,6 +21,14 @@
 
 <section class="py-8">
     <div class="container-fluid">
+        @if (Model.Count == 0)
+        {
+            <div class="card-body text-center">
+
+                <img src="~/assets/img/inbox_100px.png" />
+                <h4 style="font-family:Arial">Bạn chưa có lớp học phần nào</h4>
+            </div>
+        }
         <div class="row" style="padding:0% 5%">
 
             @foreach (var item in Model)
@@ -37,11 +45,11 @@
                             <p>Học kỳ: @item.KiThi.TenKi </p>
                         </div>
                         @*<div class="card-body"> Kỳ Học : @item.KiThi.TenKi </div>
-                    <div class="card-body"> Môn :  @item.MonHoc.TenMon </div>*@
+                        <div class="card-body"> Môn :  @item.MonHoc.TenMon </div>*@
                     </div>
                 </div>
 
-               
+
 
             }
         </div>

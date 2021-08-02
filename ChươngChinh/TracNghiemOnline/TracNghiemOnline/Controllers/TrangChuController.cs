@@ -547,5 +547,34 @@ namespace TracNghiemOnline.Controllers
             Session[ComMon.ComMonStants.ExamQuesTion] = null;
             return View(mark);
         }
+        public ActionResult DoiMatKhau()
+        {
+
+            return PartialView();
+        }
+        public JsonResult DoiMK(string matkhaucu, string matkhaumoi)
+        {
+            try
+            {
+                TracNghiemOnlineDB db = new TracNghiemOnlineDB();
+                var taikhoan = (TaiKhoan)Session[ComMon.ComMonStants.UserLogin];
+                var tk = db.TaiKhoans.Where(x => x.TenDangNhap.Equals(taikhoan.TenDangNhap) && x.MatKhau.Equals(matkhaucu)).FirstOrDefault();
+                int trangthai = 0;
+                if (tk != null)
+                {                  
+                    tk.MatKhau = matkhaumoi;
+                    db.SaveChanges();
+                }
+                else
+                {
+                    trangthai = 1;
+                }
+                return Json(new { code = 200, trangthai = trangthai}, JsonRequestBehavior.AllowGet);
+            }
+            catch(Exception ex)
+            {
+                return Json(new { code = 500 }, JsonRequestBehavior.AllowGet);
+            }
+        }
     }
 }
