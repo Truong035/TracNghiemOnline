@@ -176,7 +176,7 @@
                                                 <th>Nhận Xét</th>
                                             </tr>
 
-                                            @{ foreach (var item in Model.ketQuaThi.De_Thi.Danh_Gia)
+                                            @{ foreach (var item in Model.ketQuaThi.De_Thi.Danh_Gia.Where(x=>x.NhanXet!=null))
                                                 {
                                                     <tr>
                                                         <td>@item.Chuong_Hoc.TenChuong</td>

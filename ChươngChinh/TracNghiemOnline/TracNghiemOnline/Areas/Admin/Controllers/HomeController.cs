@@ -12,18 +12,21 @@ using System.Drawing;
 using System.Net;
 using System.Web.Script.Serialization;
 using EXCELL = Microsoft.Office.Interop.Excel;
-using TracNghiemOnline.Controllers;
+using Spire.Doc;
+using Spire.Doc.Documents;
+using Spire.Doc.Fields.OMath;
+using Spire.Doc.Fields;
 using System.IO;
-
+using System.Data;
 
 namespace TracNghiemOnline.Areas.Admin.Controllers
 {
     public class HomeController : BaseController
     {
+
+       
         // GET: Admin/Home
         [HttpGet]
-    
-
         public ActionResult Index()
         {
             reseach();
@@ -32,88 +35,144 @@ namespace TracNghiemOnline.Areas.Admin.Controllers
         }
         public ActionResult Save()
         {
+            string maphong ="";
             List<DS_SVThi> dssv = ((List<DS_SVThi>)Session["Sinhvien"]);
             foreach (var item in dssv)
             {
+
+
                 TracNghiemOnlineDB db = new TracNghiemOnlineDB();
-                if(!db.DS_SVThi.ToList().Exists(x=>x.Ma_SV.Equals(item.Ma_SV)&& x.MaPhong.Equals(item.MaPhong)))
+                var LopHP = db.LopHocPhans.Find(item.MaPhong);
+
+                if (LopHP != null)
                 {
-                    db.DS_SVThi.Add(item);
-                    db.SaveChanges();
+                    maphong = LopHP.MaLop;
+                    if(!db.DS_LopHP.ToList().Exists(x=>x.MA_SV.Equals(item.Ma_SV) && x.TrangThai != false && x.Ma_LOP.Equals(LopHP.MaLop)))
+                    {
+                        DS_LopHP DS = new DS_LopHP();
+                        DS.MA_SV = item.Ma_SV;
+                        DS.Ma_LOP = LopHP.MaLop;
+                        DS.TrangThai = true;
+                        db.DS_LopHP.Add(DS);
+                       
+                        db.SaveChanges();
+                    }
+
+                }
+                else
+                {
+                    try
+                    {
+                        var phong = db.Phong_Thi.Find(item.MaPhong);
+                        if(db.DS_LopHP.ToList().Exists(x => x.MA_SV.Equals(item.Ma_SV) && !x.TrangThai == false && x.Ma_LOP.Equals(phong.MaLopHP))){
+
+                            if (!db.DS_SVThi.ToList().Exists(x => x.Ma_SV.Equals(item.Ma_SV) && x.MaPhong.Equals(item.MaPhong)))
+                            {
+                                db.DS_SVThi.Add(item);
+                                db.SaveChanges();
+                            }
+                        }
+
+                    }
+                    catch
+                    {
+
+                    }
+
                 }
 
+                Session["Sinhvien"]=null;
+
             }
-            return Redirect("/Admin/QuanLyThi/PhongThi");
+            Session["Maphong"] = "";
+            if (maphong.Length > 0)
+            {
+                return Redirect("/Admin/QuanLyThi/DSSinhVen/" + maphong.Trim());
+            }
+            else
+            {
+                var session = (TaiKhoan)Session[ComMon.ComMonStants.UserLogin];
+                return Redirect("/Admin/Home/DSSVThi/" +dssv.ToList()[0].MaPhong);
+                
+
+            }
+
+           
+        }
+        public ActionResult Delete(long made)
+        {
+            var session = (TaiKhoan)Session[ComMon.ComMonStants.UserLogin];
+            TracNghiemOnlineDB db = new TracNghiemOnlineDB();
+            var de = db.Shares.SingleOrDefault(x => x.MA == made && x.MaGV.Equals(session.TaiKhoan1) && x.Loai == 0);
+            db.Shares.Remove(de);
+            db.SaveChanges();
+            return RedirectToAction("DeBM");
+        }
+        public ActionResult DeBM()
+        {
+            List<Bo_De> bodes = new List<Bo_De>();
+            var session = (TaiKhoan)Session[ComMon.ComMonStants.UserLogin];
+            TracNghiemOnlineDB db = new TracNghiemOnlineDB();
+            foreach (var item in db.Shares.Where(x=>x.MaGV.Equals(session.TaiKhoan1)&&x.Loai==0))
+            {
+               
+                    var bode = db.Bo_De.Where(x => x.Ma_BoDe == item.MA).ToList();
+                if (bode.Count > 0)
+                {
+                    bodes.Add(bode[0]);
+                }
+                  
+             
+                
+            }
+            return View(bodes);
         }
 
-        public JsonResult UploadExcel(HttpPostedFileBase file)
+        public JsonResult UploadExcel(string arr)
         {
             List<DS_SVThi> sinhViens = new List<DS_SVThi>();
-            string path = Server.MapPath("~/Content/" + file.FileName);
-            try
-            {
-                if (System.IO.File.Exists(path))
-                {
-                    System.IO.File.Delete(path);
-                }
-                file.SaveAs(path);
-            }
-            catch { }
-
-            EXCELL.Application application = new EXCELL.Application();
-            EXCELL.Workbook workbook = application.Workbooks.Open(path);
-            EXCELL.Worksheet worksheet = workbook.ActiveSheet;
-
-
-            EXCELL.Range range = worksheet.UsedRange;
+            string [] mang = arr.Split('/');
 
             TracNghiemOnlineDB db = new TracNghiemOnlineDB();
-            string s="";
-            for (int i = 2; i <= range.Rows.Count; i++)
+            for (int i = 0; i < mang.Length; i++)
             {
                 try
                 {
-                  
 
-                    string msv = ((EXCELL.Range)range.Cells[i, 1]).Text;
-                    var sv = db.SinhViens.Where(x => x.MaSV.Trim().Equals(msv.Trim())).ToList();
-                    s += "/"+msv;
-                    if(sv.ToList().Count>0)    
-                        {
+                    string masv = mang[i];
+                    var sv = db.SinhViens.Where(x => x.MaSV.Trim().Equals(masv)).ToList();
+                  
+                    if (sv.ToList().Count > 0)
+                    {
                         DS_SVThi dS_SVThi = new DS_SVThi();
                         dS_SVThi.Ma_SV = sv.ToList()[0].MaSV;
-                    
+
                         sinhViens.Add(dS_SVThi);
 
-                         }
-
+                    }
                 }
                 catch
                 {
 
                 }
-                  
+
             }
+              
 
-
-
-            application.Workbooks.Close();
-            try
-            {
-                System.IO.File.Delete(path);
-            }
-            catch { }
+           
+         
             Session["Sinhvien"] = sinhViens;
             return Json(new
             {
                 status = true,
-                s,
-                sl=sinhViens.Count
-            }, JsonRequestBehavior.AllowGet) ; 
+                
+                sl = sinhViens.Count
+            }, JsonRequestBehavior.AllowGet);
         }
 
         public ActionResult LoadData(string id)
         {
+           
             List<DS_SVThi> dssv = ((List<DS_SVThi>)Session["Sinhvien"]);
             foreach (var item in dssv)
             {
@@ -129,7 +188,8 @@ namespace TracNghiemOnline.Areas.Admin.Controllers
             Session["mads"] = id;
             var session = (TaiKhoan)Session[ComMon.ComMonStants.UserLogin];
             var ds = new TracNghiemOnlineDB().DSGV_ThucHien.Find(id);
-            var dethi = new TracNghiemOnlineDB().Bo_De.Where(x=>x.Xoa==true && x.Ma_Mon==ds.LichNop.MaMon && x.Ma_NguoiTao==session.TaiKhoan1).ToList();
+
+            var dethi = new TracNghiemOnlineDB().Bo_De.Where(x => x.Ma_NguoiTao == session.TaiKhoan1 && x.Xoa == true && x.NguoiDuyet == null).ToList();
             return View(dethi);
         }
         public void save_file_from_url(string file_name, string url)
@@ -188,302 +248,279 @@ namespace TracNghiemOnline.Areas.Admin.Controllers
 
             return "/Content/Img/" + Filename; ;
         }
-        public JsonResult XuLyFile(HttpPostedFileBase file)
+
+        public List<String> tachcongthuc(string s)
         {
-            string strExtexsion = Path.GetExtension(file.FileName).Trim();
-          
-            List<Kho_CauHoi> cauHois = new List<Kho_CauHoi>(); 
-            try
+            List<String> list = new List<String>();
+            if (!s.Contains("<mml:math"))
             {
-                string path = Server.MapPath("~/Content/" + file.FileName);
-                try
-                {
-                    if (System.IO.File.Exists(path))
-                    {
-                        System.IO.File.Delete(path);
-                    }
-                    file.SaveAs(path);
-                }
-                catch { }
-
-                EXCELL.Application application = new EXCELL.Application();
-                EXCELL.Workbook workbook = application.Workbooks.Open(path);
-                EXCELL.Worksheet worksheet = workbook.ActiveSheet;
-
-
-                EXCELL.Range range = worksheet.UsedRange;
-
-                cauHois = new List<Kho_CauHoi>();
-
-                for (int i = 2; i <= range.Rows.Count; i++)
-                {
-                    try
-                    {
-                        Kho_CauHoi cauHoi = new Kho_CauHoi();
-
-                        cauHoi.NoiDung = ((EXCELL.Range)range.Cells[i, 1]).Text;
-
-                        cauHoi.HinhAnh = ((EXCELL.Range)range.Cells[i, 8]).Text;
-
-
-                        if (((EXCELL.Range)range.Cells[i, 7]).Text.Equals("1"))
-                        {
-                            cauHoi.MucDo = "Nhận Biết";
-                        }
-                        else if (((EXCELL.Range)range.Cells[i, 7]).Text.Equals("2"))
-                        {
-                            cauHoi.MucDo = "Thông Hiểu";
-                        }
-                        else if (((EXCELL.Range)range.Cells[i, 7]).Text.Equals("3"))
-                        {
-                            cauHoi.MucDo = "Vận Dụng";
-                        }
-                        else
-                        {
-                            cauHoi.MucDo = "Vận Dụng Cao";
-                        }
-
-
-                        cauHoi.Dap_AN = new List<Dap_AN>();
-                        Dap_AN dapAn = new Dap_AN();
-                        dapAn.NoiDung = ((EXCELL.Range)range.Cells[i, 2]).Text;
-                        dapAn.HinhAnh = ((EXCELL.Range)range.Cells[i, 9]).Text;
-
-                        if (((EXCELL.Range)range.Cells[i, 6]).Text.Equals("A"))
-                        {
-                            dapAn.TrangThai = true;
-                        }
-                        else { dapAn.TrangThai = false; }
-                        cauHoi.Dap_AN.Add(dapAn);
-                        dapAn = new Dap_AN();
-                        dapAn.NoiDung = ((EXCELL.Range)range.Cells[i, 3]).Text;
-                        dapAn.HinhAnh = ((EXCELL.Range)range.Cells[i, 10]).Text;
-
-                        if (((EXCELL.Range)range.Cells[i, 6]).Text.Equals("B"))
-                        {
-                            dapAn.TrangThai = true;
-                        }
-                        else { dapAn.TrangThai = false; }
-                        cauHoi.Dap_AN.Add(dapAn);
-                        dapAn = new Dap_AN();
-                        dapAn.NoiDung = ((EXCELL.Range)range.Cells[i, 4]).Text;
-                        dapAn.HinhAnh = ((EXCELL.Range)range.Cells[i, 11]).Text;
-
-                        if (((EXCELL.Range)range.Cells[i, 6]).Text.Equals("C"))
-                        {
-                            dapAn.TrangThai = true;
-                        }
-                        else { dapAn.TrangThai = false; }
-                        cauHoi.Dap_AN.Add(dapAn);
-
-                        dapAn = new Dap_AN();
-                        dapAn.NoiDung = ((EXCELL.Range)range.Cells[i, 5]).Text;
-                        dapAn.HinhAnh = ((EXCELL.Range)range.Cells[i, 12]).Text;
-
-                        if (((EXCELL.Range)range.Cells[i, 6]).Text.Equals("D"))
-                        {
-                            dapAn.TrangThai = true;
-                        }
-                        else { dapAn.TrangThai = false; }
-                        cauHoi.Dap_AN.Add(dapAn);
-
-                        cauHois.Add(cauHoi);
-                    }
-                    catch
-                    {
-
-                    }
-                }
-
-
-                application.Workbooks.Close();
-                try
-                {
-                    System.IO.File.Delete(path);
-                }
-                catch { }
-
-                foreach (var item in cauHois)
-                {
-                    try
-                    {
-                        if (item.HinhAnh.Length > 0)
-                        {
-                            item.HinhAnh = copyanh(item.HinhAnh.Trim());
-                        }
-                        foreach (var item1 in item.Dap_AN)
-                        {
-
-                            if (item1.HinhAnh.Length > 0)
-                            {
-                                item1.HinhAnh = copyanh(item1.HinhAnh.Trim());
-
-                            }
-                        }
-                    }
-                    catch (Exception e)
-                    {
-                     
-                    }
-                }
-                Session[ComMon.ComMonStants.Cauhoi] = cauHois;
-                return Json(new
-                {
-                    status = true
-                    
-                },JsonRequestBehavior.AllowGet);
-
-
+                list.Add(s);
+                return list;
             }
-            catch
+            while (true)
             {
-                return Json(new
+                if (!s.Contains("<mml:math"))
                 {
-                    status = false
-                }, JsonRequestBehavior.AllowGet);
+                    list.Add(s);
+                    break;
+                }
+                else
+                {
+                    if (s.IndexOf("<mml:math") != 0)
+                    {
+                        var s1 = s.Substring(0, s.IndexOf("<mml:math"));
+                        if (s1.Length > 0)
+                        {
+                            list.Add(s1);
+
+
+                        }
+
+                        var a = s.Remove(0, s1.Length);
+                        s = a;
+
+
+                    }
+                    else
+                    {
+                        var s1 = s.Substring(0, s.IndexOf("/mml:math>") + 10);
+                        list.Add(s1);
+                        var a = s.Remove(0, s1.Length);
+                        s = a;
+
+                    }
+                }
             }
+            return list;
         }
+
         public string xuatpdf(long id, string tenmon)
         {
-            PdfDocument pdf = new PdfDocument();
-            PdfPageBase page = pdf.Pages.Add();
-            PdfTrueTypeFont font1 = new PdfTrueTypeFont(new Font("Arial Unicode MS", 24f, FontStyle.Bold), true);
-            PdfStringFormat centerAlignment = new PdfStringFormat(PdfTextAlignment.Center);
-            PdfTrueTypeFont font2 = new PdfTrueTypeFont(new Font("Arial Unicode MS", 13f, FontStyle.Regular), true);
+            Document doc = new Document();
+            Section section = doc.AddSection();
+            section.PageSetup.Borders.BorderType = BorderStyle.DoubleWave;
 
-            PdfPen pen1 = new PdfPen(Color.Black, 1f);
-            page.Canvas.DrawRectangle(pen1, new Rectangle(new Point(390, 150), new Size(120, 40)));
-            PdfPen pen2 = new PdfPen(Color.Black, 1f);
+            section.PageSetup.Borders.Color = Color.Black;
+
+            section.PageSetup.Borders.Left.Space = 50;
+
+            section.PageSetup.Borders.Right.Space = 50;
+            section.PageSetup.Borders.Top.Space = 20;
+            section.PageSetup.Borders.Bottom.Space = 20;
+
+            //title
+            Paragraph paratitle = section.AddParagraph();
+            paratitle.Format.HorizontalAlignment = HorizontalAlignment.Center;
+            paratitle.AppendText("TRƯỜNG ĐẠI HỌC GIAO THÔNG VẬN TẢI PHÂN HIỆU TẠI TP HỒ CHÍ MINH");
+            ParagraphStyle styletitle = new ParagraphStyle(doc);
+            styletitle.Name = "titleStyle";
+            styletitle.CharacterFormat.Bold = true;
+            styletitle.CharacterFormat.TextColor = Color.Black;
+            styletitle.CharacterFormat.FontName = "Arial";
+            styletitle.CharacterFormat.FontSize = 16f;
+            doc.Styles.Add(styletitle);
+            paratitle.ApplyStyle("titleStyle");
 
 
-            page.Canvas.DrawRectangle(pen1, new Rectangle(new Point(0, 0), new Size((int)page.GetClientSize().Width, (int)page.GetClientSize().Height)));
-            page.Canvas.DrawString("TRƯỜNG ĐẠI HỌC GIAO THÔNG VẬN TẢI PHÂN HIỆU TẠI TP HỒ CHÍ MINH", font1, new PdfSolidBrush(Color.Black), new RectangleF(10, 50, page.GetClientSize().Width - 10, page.GetClientSize().Height), centerAlignment);
-            page.Canvas.DrawString("Đề thi môn:" + tenmon, new PdfTrueTypeFont(new Font("Arial Unicode MS", 15f, FontStyle.Bold), true), new PdfSolidBrush(Color.Black), new RectangleF(40, 160, page.GetClientSize().Width / 2 - 40 - 10, page.GetClientSize().Height), new PdfStringFormat() { LineLimit = true });
-            page.Canvas.DrawString("Mã đề:" + id, new PdfTrueTypeFont(new Font("Arial Unicode MS", 15f, FontStyle.Bold), true), new PdfSolidBrush(Color.Black), new RectangleF(400, 160, page.GetClientSize().Width / 2 - 400 - 10, page.GetClientSize().Height), new PdfStringFormat() { LineLimit = true });
-            var khoch = new Bode().listkhocauhoi(id);
-            int vitridong = 220;
+            // tne  mon de thi
+            Paragraph paratenmon = section.AddParagraph();
+
+            paratenmon.Format.HorizontalAlignment = HorizontalAlignment.Left;
+            paratenmon.AppendText("\n\nĐề thi môn:" + tenmon);
+
+            ParagraphStyle styleleft = new ParagraphStyle(doc);
+            styleleft.Name = "left";
+            styleleft.CharacterFormat.Bold = true;
+            styleleft.CharacterFormat.TextColor = Color.Black;
+            styleleft.CharacterFormat.FontName = "Arial";
+            styleleft.CharacterFormat.FontSize = 12f;
+            doc.Styles.Add(styleleft);
+            paratenmon.ApplyStyle("left");
+
+
+            // ma de thi
+            Paragraph paramade = section.AddParagraph();
+
+            paramade.Format.HorizontalAlignment = HorizontalAlignment.Right;
+            paramade.AppendText("\tMã đề:" + id + "\n\n\n");
+
+            ParagraphStyle styleright = new ParagraphStyle(doc);
+            styleright.Name = "right";
+            styleright.CharacterFormat.Bold = true;
+            styleright.CharacterFormat.TextColor = Color.Black;
+            styleright.CharacterFormat.FontName = "Arial";
+            styleright.CharacterFormat.FontSize = 12f;
+
+            doc.Styles.Add(styleright);
+            paramade.ApplyStyle("right");
+
             int slcau = 0;
-            int x = 50;
-            int y = (int)(page.GetClientSize().Width) / 2 + 50;
-            string[] cau = { "A", "B", "C", "D" };
+            var khoch = new Bode().listkhocauhoi(id);
+          
+
+
+
 
             foreach (var item in khoch)
             {
-
+                Paragraph para1 = section.AddParagraph();
                 slcau++;
-                vitridong += 13;
-                page.Canvas.DrawString("Câu " + slcau + ":", font2, new PdfSolidBrush(Color.Blue), new RectangleF(20, vitridong, page.GetClientSize().Width - 90, page.GetClientSize().Height), new PdfStringFormat() { LineLimit = true });
-                page.Canvas.DrawString(item.NoiDung, font2, new PdfSolidBrush(Color.Black), new RectangleF(20 + 55, vitridong, page.GetClientSize().Width - 90, page.GetClientSize().Height), new PdfStringFormat() { LineLimit = true });
-                vitridong += (int)((("Câu " + slcau + ":" + item.NoiDung).Length * 13) / (page.GetClientSize().Width - 40)) * 13;
                 int slda = 0;
-                int z = 0;
-                int k = 0;
-                int[] vtdongdapan = new int[4];
-                if (item.HinhAnh != null)
+                var s = tachcongthuc(item.NoiDung);
+                para1.AppendText("\n");
+                para1.AppendText("Câu " + slcau + ":");
+                foreach (var item2 in s)
                 {
-                    try
+                    if (item2.Contains("<mml:math"))
                     {
-                        Image image = Image.FromFile(Server.MapPath(item.HinhAnh));
-                        int width = image.Width;
-                        int height = image.Height;
-                        float schale = 1.5f;
-                        Size size = new Size((int)(width * schale), (int)(height * schale));
-                        Bitmap schaleImage = new Bitmap(image, size);
-                        PdfImage pdfImage = PdfImage.FromImage(schaleImage);
-                        page.Canvas.DrawImage(pdfImage, new RectangleF((page.GetClientSize().Width - 150) / 2, vitridong, 150, 150));
 
-                        vitridong += 150;
-                    }
-                    catch { }
-
-                }
-                vitridong += 13;
-                foreach (var da in item.Dap_AN)
-                {
-                    if (slda == 0 || slda == 2)
-                    {
-                        z = x;
-                    }
-                    else z = y;
-                    vtdongdapan[slda] = (int)(((cau[slda] + ":" + da.NoiDung).Length * 13) / (page.GetClientSize().Width / 2)) * 13;
-                    if (vtdongdapan[slda] <= 1) vtdongdapan[slda] = 13;
-
-                    if (da.HinhAnh != null)
-                    {
-                        if (13 + vtdongdapan[slda] + vitridong + 150 > page.GetClientSize().Height - 20)
-                        {
-                            vitridong = 20;
-                            page = pdf.Pages.Add();
-                            page.Canvas.DrawRectangle(pen1, new Rectangle(new Point(0, 0), new Size((int)page.GetClientSize().Width, (int)page.GetClientSize().Height)));
-                        }
-                    }
-                    if (da.TrangThai == false) { page.Canvas.DrawString(cau[slda] + ":", font2, new PdfSolidBrush(Color.Blue), new RectangleF(z - 10, vitridong, page.GetClientSize().Width / 2 - 20, page.GetClientSize().Height - 80), new PdfStringFormat() { LineLimit = true }); }
-                    else { page.Canvas.DrawString(cau[slda] + ":", font2, new PdfSolidBrush(Color.Red), new RectangleF(z - 10, vitridong, page.GetClientSize().Width / 2 - 20, page.GetClientSize().Height - 80), new PdfStringFormat() { LineLimit = true }); }
-
-                    page.Canvas.DrawString(da.NoiDung, font2, new PdfSolidBrush(Color.Black), new RectangleF(z + 5, vitridong, page.GetClientSize().Width / 2 - 20, page.GetClientSize().Height - 80), new PdfStringFormat() { LineLimit = true });
-
-
-                    if (da.HinhAnh != null)
-                    {
-                        if (13 + vtdongdapan[slda] + vitridong + 150 > page.GetClientSize().Height - 20)
-                        {
-                            vitridong = 20;
-                            page = pdf.Pages.Add();
-                            page.Canvas.DrawRectangle(pen1, new Rectangle(new Point(0, 0), new Size((int)page.GetClientSize().Width, (int)page.GetClientSize().Height)));
-                        }
                         try
                         {
-                            Image image = Image.FromFile(Server.MapPath(item.HinhAnh));
-                            int width = image.Width;
-                            int height = image.Height;
-                            float schale = 1.5f;
-                            Size size = new Size((int)(width * schale), (int)(height * schale));
-                            Bitmap schaleImage = new Bitmap(image, size);
-                            PdfImage pdfImage = PdfImage.FromImage(schaleImage);
-                            page.Canvas.DrawImage(pdfImage, new RectangleF(z + 10, 30 + vtdongdapan[slda] + vitridong, 150, 150));
-                            k = 163;
+                            OfficeMath officeMath;
+                            officeMath = new OfficeMath(doc);
+                            officeMath.FromMathMLCode(item2);
+                            para1.Items.Add(officeMath);
                         }
                         catch
                         {
 
                         }
 
+
                     }
-                    if (slda == 1)
+                    else
                     {
-                        if ((int)(((cau[slda] + ":" + da.NoiDung).Length * 13) / page.GetClientSize().Width) * 13 < 1) vitridong += 13;
-                        if (vtdongdapan[0] > vtdongdapan[1])
-                            vitridong += vtdongdapan[0];
-                        else vitridong += vtdongdapan[1];
-                        vitridong += k;
-                        k = 0;
+                        para1.AppendHTML(item2);
+
                     }
-                    else if (slda == 3)
+
+                }
+                para1.AppendText("\n\n");
+
+                if (item.HinhAnh.Length > 0)
+                {
+                    try
                     {
-                        if ((int)(((cau[slda] + ":" + da.NoiDung).Length * 13) / page.GetClientSize().Width) * 13 < 1) vitridong += 13;
-                        if (vtdongdapan[2] > vtdongdapan[3])
-                            vitridong += vtdongdapan[2];
-                        else vitridong += vtdongdapan[3];
-                        vitridong += k;
-                    }
+
+
+                        Image image = Image.FromFile(Server.MapPath(item.HinhAnh));
+
+
+                        DocPicture pic = para1.AppendPicture(image);
+
+                        pic.Height = pic.Height;
+                        if (pic.Height > pic.Width)
+                        {
+                            pic.Height = 180;
+                            pic.Width = 120;
+                        }
+                        else if (pic.Height < pic.Width)
+                        {
+                            pic.Height = 120;
+                            pic.Width = 150;
+                        }
+                        else if (pic.Height == pic.Width)
+                        {
+                            pic.Height = 150;
+                            pic.Width = 150;
+                        }
 
 
 
-                    if (vitridong > page.GetClientSize().Height - 20)
+                        para1.AppendText("\n");
+                    }
+                    catch { }
+
+                }
+
+
+                foreach (var da in item.Dap_AN)
+                {
+                    var s1 = tachcongthuc(da.NoiDung);
+                    para1.AppendText("\n");
+                    if (da.TrangThai == true)
                     {
-                        vitridong = 20;
-                        page = pdf.Pages.Add();
-                        page.Canvas.DrawRectangle(pen1, new Rectangle(new Point(0, 0), new Size((int)page.GetClientSize().Width, (int)page.GetClientSize().Height)));
+                        para1.AppendText("*");
+
+                    }
+                    else
+                    {
+                        para1.AppendText("");
+
                     }
                     slda++;
+                    foreach (var item2 in s1)
+                    {
+                        if (item2.Contains("<mml:math"))
+                        {
+
+                            try
+                            {
+                                OfficeMath officeMath;
+                                officeMath = new OfficeMath(doc);
+                                officeMath.FromMathMLCode(item2);
+                                para1.Items.Add(officeMath);
+                            }
+                            catch
+                            {
+
+                            }
+
+
+                        }
+                        else
+                        {
+                            para1.AppendHTML(item2);
+
+                        }
+
+                    }
+
+                    if (da.HinhAnh.Length > 0)
+                    {
+                        try
+                        {
+                            para1.AppendText("\n\n");
+                            Image image = Image.FromFile(Server.MapPath(da.HinhAnh));
+
+
+                            DocPicture pic = para1.AppendPicture(image);
+
+                            if (pic.Height > pic.Width)
+                            {
+                                pic.Height = 120;
+                                pic.Width = 100;
+                            }
+                            else if (pic.Height < pic.Width)
+                            {
+                                pic.Height = 100;
+                                pic.Width = 120;
+                            }
+                            else if (pic.Height == pic.Width)
+                            {
+                                pic.Height = 120;
+                                pic.Width = 120;
+                            }
+
+                            para1.AppendText("\n");
+                        }
+                        catch { }
+
+                    }
+
+
                 }
 
             }
-            page.Canvas.SetTransparency(0.2f);
-            page.Canvas.DrawString("Hết", font1, new PdfSolidBrush(Color.Black), new RectangleF(20, page.GetClientSize().Height - 30, page.GetClientSize().Width, page.GetClientSize().Height), centerAlignment);
-            page.Canvas.SetTransparency(1f);
-            pdf.SaveToFile(Server.MapPath("~/Content/" + "De_" + id + ".pdf"));
-            pdf.Close();
+            Paragraph paragraph = section.Paragraphs[section.Count - 1];
+            Footnote footnote = paragraph.AppendFootnote(FootnoteType.Footnote);
+            TextRange text = footnote.TextBody.AddParagraph().AppendText("HẾT");
+            text.CharacterFormat.FontName = "Arial Black";
+            text.CharacterFormat.FontSize = 12;
+            text.CharacterFormat.TextColor = Color.SlateGray;
+
+            doc.SaveToFile(Server.MapPath("~/Content/" + "De_" + id + ".docx"));
+            doc.SaveToFile(Server.MapPath("~/Content/" + "De_" + id + ".pdf"));
 
             return "/Content/" + "De_" + id + ".pdf";
 
@@ -515,7 +552,8 @@ namespace TracNghiemOnline.Areas.Admin.Controllers
             var session = (TaiKhoan)Session[ComMon.ComMonStants.UserLogin];
 
             var ds = new TracNghiemOnlineDB();
-            foreach (var item in new TracNghiemOnlineDB().LichNops.Where(x=>x.ThoiGian<DateTime.Now))
+            DateTime dateTime = (DateTime)Session["Gio"];
+            foreach (var item in new TracNghiemOnlineDB().LichNops.Where(x=>x.ThoiGian<dateTime&&x.ThoiGian!=null))
             {
                 var lich = ds.LichNops.Find(item.id);
               
@@ -530,70 +568,25 @@ namespace TracNghiemOnline.Areas.Admin.Controllers
             }
             return View();
         }
-
-        public JsonResult DanhGia(string id)
+     
+       public ActionResult DeleteSV(int id)
         {
-            var Ketqua = (List<DanhGia>)(new QuanLyThiDAO().ListALLexam(id));
-
-            var DanhGia = new List<Danh_Gia>();
-            foreach (var item in Ketqua)
-            {
-                foreach (var item1 in item.ketQuaThi.De_Thi.Danh_Gia)
-                {
-                    Danh_Gia danh_Gia = new Danh_Gia();
-                    danh_Gia.MaChuong = item1.MaChuong;
-                   danh_Gia.Chuong_Hoc = item1.Chuong_Hoc;
-                  //  danh_Gia.SoCauDung = item1.SoCauDung;
-                  //  danh_Gia.TongCau += item1.TongCau; ;
-                  //  danh_Gia.DanhGia = "" + ((double)(item1.SoCauDung / item1.TongCau) * (double)100);
-                    DanhGia.Add(danh_Gia);
-                }
-                break;
-            }
-            for (int i = 0; i < Ketqua.Count; i++)
-            {
-                foreach (var item1 in DanhGia)
-                {
-                    foreach (var item in Ketqua[i].ketQuaThi.De_Thi.Danh_Gia)
-                    {
-                        if (item1.MaChuong == item.MaChuong)
-                        {
-                            item1.SoCauDung += item.SoCauDung;
-                            item1.TongCau += item.TongCau;
-                            item1.DanhGia = "" + ((double)(item1.SoCauDung / item1.TongCau) * (double)100);
-                        }
-
-                    }
-
-                }
-
-            }
-           
-            ViewBag.DanhGia = DanhGia;
-
-
-            var arr = from c in DanhGia
-                      select new{ 
-                    ten=  c.Chuong_Hoc.TenChuong,
-                    gt=  c.DanhGia
-
-                      } ;
-            
-            return Json(new
-            {
-                mang=arr
-        
-            },JsonRequestBehavior.AllowGet);
-
+            List<DS_SVThi> dssv = ((List<DS_SVThi>)Session["Sinhvien"]);
+            var sinhvien = dssv[id];
+            dssv.Remove(sinhvien);
+            Session["Sinhvien"]= dssv;
+            return RedirectToAction("LoadData/" + sinhvien.MaPhong);
         }
         public ActionResult PhongThi()
         {
+            var ds = new TracNghiemOnlineDB();
+            DateTime dateTime = (DateTime)Session["Gio"];
             TracNghiemOnlineDB db = new TracNghiemOnlineDB();
             var session = (TaiKhoan)Session[ComMon.ComMonStants.UserLogin];
             var phong = db.Phong_Thi.Where(x => !x.TrangThai.Equals("Đã Đóng") && x.Xoa == true && (x.MaCanBo1==session.TaiKhoan1|| x.MaCanBo2==session.TaiKhoan1) && x.MaBoDe!=null).ToList();
             foreach (var item in phong)
             {
-             if (item.ThoiGianDong <= DateTime.Now)
+             if (item.ThoiGianDong <= dateTime)
                 {
                     var p = db.Phong_Thi.Find(item.MaPhong);
                     p.TrangThai = "Đã Đóng";
@@ -613,12 +606,15 @@ namespace TracNghiemOnline.Areas.Admin.Controllers
             Bode.TrangThai = false;
             db.SaveChanges();
             var session = (TaiKhoan)Session[ComMon.ComMonStants.UserLogin];
-            List<Bo_De> bo_Des = new BoDeDao().ListALLChapterStudy();
-          //  if (session.ChưcVu.Equals("Cán Bộ"))
-          //  {
-                bo_Des = new TracNghiemOnlineDB().Bo_De.Where(x => x.Ma_NguoiTao == session.TaiKhoan1 && x.Xoa == true).ToList();
-          //  }
-            
+           
+            List<Bo_De> bo_Des = new TracNghiemOnlineDB().Bo_De.Where(x => x.Ma_NguoiTao.Equals(session.TaiKhoan1) && x.Xoa == true && x.TrangThai == false || (x.TrangThai == true && x.NguoiDuyet.Equals(session.TaiKhoan1))).ToList();
+
+
+            if (session.ChưcVu.Equals("Cán Bộ"))
+            {
+                bo_Des = new TracNghiemOnlineDB().Bo_De.Where(x => x.Ma_NguoiTao == session.TaiKhoan1 && x.Xoa == true && x.NguoiDuyet == null).ToList();
+            }
+
             var bode1 = (from n in bo_Des
                          select new
                          {
@@ -639,20 +635,24 @@ namespace TracNghiemOnline.Areas.Admin.Controllers
 
         public JsonResult UpdateDethi(long maDe ,string nd,string tg,bool xoa )
         {
-            
-        
+  
+          
+
             TracNghiemOnlineDB db = new TracNghiemOnlineDB();
             var Bode = db.Bo_De.Find(maDe); 
             Bode.ThoiGianThi = tg;
             Bode.NoiDung = nd;
             Bode.Xoa = xoa;
             db.SaveChanges();
-                    var session = (TaiKhoan)Session[ComMon.ComMonStants.UserLogin];
-            List<Bo_De> bo_Des = new BoDeDao().ListALLChapterStudy();
-          //  if (session.ChưcVu.Equals("Cán Bộ"))
-          //  {
-                bo_Des = new TracNghiemOnlineDB().Bo_De.Where(x => x.Ma_NguoiTao == session.TaiKhoan1 && x.Xoa==true).ToList();
-          //  }
+             var session = (TaiKhoan)Session[ComMon.ComMonStants.UserLogin];
+
+            List<Bo_De> bo_Des = new TracNghiemOnlineDB().Bo_De.Where(x => x.Ma_NguoiTao.Equals(session.TaiKhoan1) && x.Xoa == true && x.TrangThai == false || (x.Xoa == true && x.NguoiDuyet.Equals(session.TaiKhoan1))).ToList();
+
+
+            if (session.ChưcVu.Equals("Cán Bộ"))
+           {
+                bo_Des = new TracNghiemOnlineDB().Bo_De.Where(x => x.Ma_NguoiTao == session.TaiKhoan1 && x.Xoa==true && x.NguoiDuyet==null).ToList();
+          }
             
             var bode1 = (from n in bo_Des
                          select new
@@ -675,9 +675,9 @@ namespace TracNghiemOnline.Areas.Admin.Controllers
 
         public ActionResult DSSVThi(string id)
         {
-            
 
-            Phong_Thi phong_Thi = new QuanLyThiDAO().ExamitionRoom(id);
+            Session["Maphong"] = id;
+            Phong_Thi phong_Thi = new TracNghiemOnlineDB().Phong_Thi.Where(x=>x.MaPhong.Equals(id)).ToList().First();
             return View(phong_Thi);
 
         }
@@ -698,9 +698,10 @@ namespace TracNghiemOnline.Areas.Admin.Controllers
             reseach();
             var session = (TaiKhoan)Session[ComMon.ComMonStants.UserLogin];
            List<Bo_De> bo_Des = new BoDeDao().ListALLChapterStudy();
-        
-            bo_Des = new TracNghiemOnlineDB().Bo_De.Where(x =>x.Ma_NguoiTao == session.TaiKhoan1 && x.Xoa == true).ToList();
 
+                bo_Des = new TracNghiemOnlineDB().Bo_De.Where(x => x.Ma_NguoiTao == session.TaiKhoan1 && x.Xoa == true && x.NguoiDuyet == null).ToList();
+
+            Session["mads"]=null;
             return View(bo_Des);
         }
       
@@ -773,6 +774,7 @@ namespace TracNghiemOnline.Areas.Admin.Controllers
         [HttpPost]
         public ActionResult MonHoc(Bo_De bo_De)
         {
+            var session = (TaiKhoan)Session[ComMon.ComMonStants.UserLogin];
             var dethi = (Model.BoDeThi)Session[ComMon.ComMonStants.ChapterStudy];
             if (ModelState.IsValid && dethi.BoDeThi1.ThoiGianThi.Length>0 && dethi.LoaiDe1.Length>0 && dethi.BoDeThi1.Ma_Mon>0)
             {
@@ -780,31 +782,58 @@ namespace TracNghiemOnline.Areas.Admin.Controllers
                 bo_De.Ma_Mon = dethi.BoDeThi1.Ma_Mon;
 
                 bo_De.MonHoc = new MonHocDao().Subject(long.Parse(bo_De.Ma_Mon.ToString()));
+              
                 dethi.BoDeThi1 = bo_De;
+
                 Session[ComMon.ComMonStants.ChapterStudy] = dethi;
-                
-               if(dethi.LoaiDe1.Equals("Tự Chọn"))
+                if (session.ChưcVu.Equals("BoMon") || (bo_De.LoaiDe == true))
                 {
-                    List<Kho_CauHoi> kho_CauHois = new List<Kho_CauHoi>();
-                    foreach (var item in new MonHocDao().ListChapterStudy(long.Parse(dethi.BoDeThi1.Ma_Mon.ToString()))) 
+                    if (dethi.LoaiDe1.Equals("Tự Chọn"))
                     {
-                        kho_CauHois.AddRange(new CauHoiDao().ListQuestion(long.Parse(item.Ma_Chuong.ToString())));
+                        List<Kho_CauHoi> kho_CauHois = new List<Kho_CauHoi>();
+                        foreach (var item in new MonHocDao().ListChapterStudy(long.Parse(dethi.BoDeThi1.Ma_Mon.ToString())))
+                        {
+                            kho_CauHois.AddRange(new CauHoiDao().ListQuestion(long.Parse(item.Ma_Chuong.ToString())));
+                        }
+                        ViewBag.Question = kho_CauHois;
+                        return View("ChonCauhoi");
+
                     }
-                    ViewBag.Question = kho_CauHois;
-                    return View("ChonCauhoi");
+                    else
+                    {
+
+                        var chuong = new TracNghiemOnlineDB().Chuong_Hoc.Where(x => x.Ma_Mon == bo_De.Ma_Mon).ToList();
+                        ViewBag.Chuong = chuong;
+
+                        return View(bo_De);
+
+                    }
 
                 }
-                else {
-                 
-                    var chuong = new TracNghiemOnlineDB().Chuong_Hoc.Where(x=>x.Ma_Mon==bo_De.Ma_Mon).ToList();
-                    ViewBag.Chuong = chuong;
+                else
+                {
+                    if (dethi.LoaiDe1.Equals("Tự Chọn"))
+                    {
+                        List<Kho_CauHoi> kho_CauHois = new List<Kho_CauHoi>();
+                        foreach (var item in new MonHocDao().ListChapterStudy(long.Parse(dethi.BoDeThi1.Ma_Mon.ToString())))
+                        {
+                            kho_CauHois.AddRange(new CauHoiDao().ListQuestion(long.Parse(item.Ma_Chuong.ToString())));
+                        }
+                        ViewBag.Question = kho_CauHois;
+                        return View("TuChon");
 
+                    }
+                    else
+                    {
+                        var chuong = new TracNghiemOnlineDB().Chuong_Hoc.Where(x => x.Ma_Mon == bo_De.Ma_Mon).ToList();
+                        ViewBag.Chuong = chuong;
+                        ViewBag.bode = bo_De;
+                        return View("TaoCau");
 
-                    return View(bo_De);
+                    }
 
                 }
-             
-            
+
             }
             else
             {
@@ -838,17 +867,18 @@ namespace TracNghiemOnline.Areas.Admin.Controllers
       
         }
 
-        public void GuiboMon(long id)
+        public void GuiboMon(long id,string tgbd)
         {
-
+            string[] ngay = tgbd.Split('/');
             long id1 = (long)Session["mads"];
             TracNghiemOnlineDB db = new TracNghiemOnlineDB();
             var bode = db.DSGV_ThucHien.Find(id1);
+         DateTime date=   new DateTime(int.Parse(ngay[0]), int.Parse(ngay[1]), int.Parse(ngay[2]), int.Parse(ngay[3]), int.Parse(ngay[4]), int.Parse(ngay[5]));
             bode.MaDE = id;
             var lich = db.LichNops.Find(bode.MaLich);
             try
             {
-                if (DateTime.UtcNow > lich.ThoiGian)
+                if (date > lich.ThoiGian)
                 {
                     bode.trangthai = "Nộp Muộn";
                 }
@@ -861,7 +891,7 @@ namespace TracNghiemOnline.Areas.Admin.Controllers
                 bode.trangthai = "Đang xử lý";
             }
 
-            bode.NgayNop = DateTime.Now;
+            bode.NgayNop = date;
             Session["mads"]=null;
             db.SaveChanges();
         }
@@ -880,177 +910,74 @@ namespace TracNghiemOnline.Areas.Admin.Controllers
 
         public ActionResult LoadDeThi(string id)
         {
-            try
-            {
+            try { 
                 if (id.Length > 0)
                 {
                     var BODETHI = new BoDeThi();
                     BODETHI.BoDeThi1 = new BoDeDao().ChapterStudy(long.Parse(id));
                     Session[ComMon.ComMonStants.ChapterStudy] = BODETHI;
-                  
                     ViewBag.Mess = id;
-                    ViewBag.linkpdf = xuatpdf(long.Parse(id), Request["tenmon"]);
+                   ViewBag.linkpdf = xuatpdf(long.Parse(id), BODETHI.BoDeThi1.MonHoc.TenMon);
                     //var de = new TracNghiemOnlineDB().Bo_De.Where(x => x.Ma_BoDe == long.Parse(id)).FirstOrDefault();
                     
                 }
                 else
                 {
                     ViewBag.Mess = "";
-
                 }
             }
-
             catch
             {
                 ViewBag.Mess = "";
             }
-            ViewBag.Mess = id;
-               var dethi = (Model.BoDeThi)Session[ComMon.ComMonStants.ChapterStudy];
+           var dethi = (Model.BoDeThi)Session[ComMon.ComMonStants.ChapterStudy];
             ViewBag.TenDe = dethi.BoDeThi1.NoiDung;
             ViewBag.MonThi = dethi.BoDeThi1.MonHoc.TenMon;
             ViewBag.ThoiGianThi = dethi.BoDeThi1.ThoiGianThi;
             return View(dethi.BoDeThi1);
         }
-        public ActionResult DeOnTap(long id)
+       
+        public void ChiaSeDe(bool s,long dethi)
         {
-            var bodeontap = (BoDeOnTap)Session[ComMon.ComMonStants.OnTap];
-            bodeontap.MaBoDe = id;
-            Session[ComMon.ComMonStants.OnTap] = bodeontap;
-            var bode = new TracNghiemOnlineDB().Bo_De.Where(x => x.Ma_BoDe == id).ToList()[0];
-            ViewBag.MaLop = bodeontap.MaLopHP;
-            return View(bode);
-        }
-
-
-        public void ThemDeOn1(string nd, string tg, string malop, DateTime bd)
-        {
-
-            var Lop = new TracNghiemOnlineDB().LopHocPhans.Find(malop);
-            TracNghiemOnlineDB db = new TracNghiemOnlineDB();
-            List<Kho_CauHoi> cauHois = (List<Kho_CauHoi>)Session[ComMon.ComMonStants.Cauhoi];
-            foreach (var item in cauHois)
-            {
-                item.Ma_CauHoi = new CauHoiDao().CreatrQuestion(item);
-            }
             var session = (TaiKhoan)Session[ComMon.ComMonStants.UserLogin];
-            Bo_De bode = new Bo_De();
-            bode.NoiDung = nd;
-            bode.TrangThai = false;
-            bode.ThoiGianThi = tg;
-            bode.Ma_Mon = Lop.MaMon;
-            bode.Ma_NguoiTao = session.TaiKhoan1;
-            db.Bo_De.Add(bode);
-            db.SaveChanges();
-
-
-            db = new TracNghiemOnlineDB();
-            var Bode = new TracNghiemOnlineDB().Bo_De.Where(x => x.TrangThai == false && x.Ma_NguoiTao.Equals(session.TaiKhoan1)).ToList().Last();
-            BoDeOnTap boDeOn = new BoDeOnTap();
-            boDeOn.MaLopHP = malop;
-            boDeOn.MaBoDe = Bode.Ma_BoDe;
-            boDeOn.ThoiGianDong = bd;
-            db.BoDeOnTaps.Add(boDeOn);
-            db.SaveChanges();
-            foreach (var item in cauHois)
-            {
-                Modell.CauHoi cauHoi = new Modell.CauHoi();
-                cauHoi.Ma_BoDe = Bode.Ma_BoDe;
-                cauHoi.Ma_CauHoi = item.Ma_CauHoi;
-                db.CauHois.Add(cauHoi);
-                db.SaveChanges();
-            }
-
-            cauHois = new List<Kho_CauHoi>();
-            Session[ComMon.ComMonStants.Cauhoi] = cauHois;
-            //  db.BoDeOnTaps.Add(deontap);
-        }
-        public void ThemDeOn(string nd,string tg,string malop)
-        {
-            var Lop = new TracNghiemOnlineDB().LopHocPhans.Find(malop);
-
             TracNghiemOnlineDB db = new TracNghiemOnlineDB();
-            List<Kho_CauHoi> cauHois = (List<Kho_CauHoi>)Session[ComMon.ComMonStants.Cauhoi];
-            foreach (var item in cauHois)
-            {
-              item.Ma_CauHoi=new CauHoiDao().CreatrQuestion(item);
-            }
-            var session = (TaiKhoan)Session[ComMon.ComMonStants.UserLogin];
-            Bo_De  bode = new Bo_De();
-            bode.NoiDung = nd;
-            bode.TrangThai = false;
-            bode.ThoiGianThi = tg;
-            bode.Ma_Mon = Lop.MaMon;
-            bode.Ma_NguoiTao = session.TaiKhoan1;
-            db.Bo_De.Add(bode);
+            var GV = db.GiaoViens.Find(session.TaiKhoan1);
+            var Bode = db.Bo_De.Find(dethi);
+            Bode.Share = s;
             db.SaveChanges();
 
+            if (s == true)
+            {
+                DateTime dateTime = (DateTime)Session["Gio"];
+                foreach (var item in db.GiaoViens.Where(x => x.MaBoMon.Equals(GV.MaBoMon) && 
+                !x.MaGV.Equals(GV.MaGV)))
+                {
+                    TracNghiemOnlineDB db1 = new TracNghiemOnlineDB();
+                    Share share = new Share();
+                    share.MA = dethi;
+                    share.MaGV = item.MaGV;
+                    share.Loai = 0;
+                    share.NgayDang = dateTime;
+                    db1.Shares.Add(share);
+                    db1.SaveChanges();
+
+                }
+            }
+            else
+            {
+                foreach (var item in db.Shares.Where(x=>x.MA==dethi&&x.Loai==0))
+                {
+                    TracNghiemOnlineDB db1 = new TracNghiemOnlineDB();
+                    var s1 = db1.Shares.Find(item.id);
+                    db1.Shares.Remove(s1);
+                    db1.SaveChanges();
+
+                }
+            }
           
-            db = new TracNghiemOnlineDB();
-            var Bode = new TracNghiemOnlineDB().Bo_De.Where(x => x.TrangThai==false && x.Ma_NguoiTao.Equals(session.TaiKhoan1)).ToList().Last();
-            BoDeOnTap boDeOn = new BoDeOnTap();
-            boDeOn.MaLopHP = malop;
-            boDeOn.MaBoDe = Bode.Ma_BoDe;
-            db.BoDeOnTaps.Add(boDeOn);
-            db.SaveChanges();
-            foreach (var item in cauHois)
-            {          
-                Modell.CauHoi cauHoi = new Modell.CauHoi();
-                cauHoi.Ma_BoDe = Bode.Ma_BoDe;
-                cauHoi.Ma_CauHoi = item.Ma_CauHoi;
-                db.CauHois.Add(cauHoi);
-                db.SaveChanges();
-            }
-            
-            cauHois = new List<Kho_CauHoi>();
-            Session[ComMon.ComMonStants.Cauhoi] = cauHois;
-          //  db.BoDeOnTaps.Add(deontap);
         }
-        public void TaoDeOn(string nd, string tg, string malop, DateTime TGBD ,DateTime TGKT)
-        {
-            var Lop = new TracNghiemOnlineDB().LopHocPhans.Find(malop);
-            TracNghiemOnlineDB db = new TracNghiemOnlineDB();
-            List<Kho_CauHoi> cauHois = (List<Kho_CauHoi>)Session[ComMon.ComMonStants.Cauhoi];
-            foreach (var item in cauHois)
-            {
-                item.Ma_CauHoi = new CauHoiDao().CreatrQuestion(item);
-            }
-            var session = (TaiKhoan)Session[ComMon.ComMonStants.UserLogin];
-            Bo_De bode = new Bo_De();
-            bode.NoiDung = nd;
-            bode.TrangThai = false;
-            bode.ThoiGianThi = tg;
-            bode.Ma_Mon = Lop.MaMon;
-            bode.Ma_NguoiTao = session.TaiKhoan1;
-            db.Bo_De.Add(bode);
-            db.SaveChanges();
 
 
-            db = new TracNghiemOnlineDB();
-            var Bode = new TracNghiemOnlineDB().Bo_De.Where(x => x.TrangThai == false && x.Ma_NguoiTao.Equals(session.TaiKhoan1)).ToList().Last();
-            BoDeOnTap boDeOn = new BoDeOnTap();
-            boDeOn.MaLopHP = malop;
-            boDeOn.MaBoDe = Bode.Ma_BoDe;
-            boDeOn.ThoiGianMo = TGBD;
-            boDeOn.ThoiGianDong = TGKT;
-            db.BoDeOnTaps.Add(boDeOn);
-            db.SaveChanges();
-            
-
-
-
-            foreach (var item in cauHois)
-            {
-                Modell.CauHoi cauHoi = new Modell.CauHoi();
-                cauHoi.Ma_BoDe = Bode.Ma_BoDe;
-                cauHoi.Ma_CauHoi = item.Ma_CauHoi;
-                db.CauHois.Add(cauHoi);
-                db.SaveChanges();
-            }
-
-            cauHois = new List<Kho_CauHoi>();
-            Session[ComMon.ComMonStants.Cauhoi] = cauHois;
-
-        }
 
         public ActionResult AddChapterStudy()
         {
@@ -1067,26 +994,10 @@ namespace TracNghiemOnline.Areas.Admin.Controllers
             return RedirectToAction("DSDETHI","Home");
         }
 
-        public ActionResult DSDeOn(string id)
-        {
-            TracNghiemOnlineDB db = new TracNghiemOnlineDB();
-           var bode = db.BoDeOnTaps.Where(x => x.MaLopHP.Equals(id)).ToList();
-            ViewBag.Malop = id;
-            List<Kho_CauHoi> cauHois = (List<Kho_CauHoi>)Session[ComMon.ComMonStants.Cauhoi];
-            try
-            {
-                if (cauHois.Count == 0)
-                {
-                    cauHois = new List<Kho_CauHoi>();
-                }
-            }
-            catch { cauHois = new List<Kho_CauHoi>(); }
-            ViewBag.DeOn = cauHois;
-            return View(bode);
-        }
-
+      
         public ActionResult NgânHangCauHoi(string id)
         {
+            Session["Kho"] = id;
             var session = (TaiKhoan)Session[ComMon.ComMonStants.UserLogin];
             var canbo = new TracNghiemOnlineDB().GiaoViens.Find(session.TaiKhoan1);
 
@@ -1109,14 +1020,26 @@ namespace TracNghiemOnline.Areas.Admin.Controllers
             List<Chuong_Hoc> chuong_Hocs = new MonHocDao().ListChapterStudy(long.Parse(id));
             return View(chuong_Hocs);
         }
+
+       
+
         public JsonResult TaoDe( string SoLuong)
         {
             var session = (TaiKhoan)Session[ComMon.ComMonStants.UserLogin];
             var soluong = new JavaScriptSerializer().Deserialize<List<SoLuongChuong>>(SoLuong);
             var bode = (BoDeThi)Session[ComMon.ComMonStants.ChapterStudy];
           var  bo_De1 = bode.BoDeThi1;
-            var gv = new TracNghiemOnlineDB().GiaoViens.Find(session.TaiKhoan1);
-            new CauHoiDao().CreateTopic(bo_De1,soluong,gv.MaBoMon);
+            if (session.ChưcVu.Equals("BoMon") || (bo_De1.LoaiDe == true))
+            {
+                var gv = new TracNghiemOnlineDB().GiaoViens.Find(session.TaiKhoan1);
+                new CauHoiDao().CreateTopic(bo_De1, soluong, gv.MaBoMon);
+            }
+            else
+            {
+              
+                new CauHoiDao().CreateTopic(bo_De1, soluong, session.TaiKhoan1);
+            }
+               
             return Json(new
             {
                 status = true
@@ -1145,7 +1068,7 @@ namespace TracNghiemOnline.Areas.Admin.Controllers
                 }
                 return Json(new { code = 200, trangthai = trangthai }, JsonRequestBehavior.AllowGet);
             }
-            catch (Exception ex)
+            catch (Exception e)
             {
                 return Json(new { code = 500 }, JsonRequestBehavior.AllowGet);
             }

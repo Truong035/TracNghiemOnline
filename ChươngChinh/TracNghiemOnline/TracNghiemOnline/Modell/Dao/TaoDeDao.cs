@@ -162,7 +162,7 @@ namespace TracNghiemOnline.Modell.Dao
 
         internal List<Kho_CauHoi> Nuberofquestion(long ma_Chuong, string v, LopHocPhan lopHocPhan)
         {
-            List<Kho_CauHoi> kho_CauHois = new TracNghiemOnlineDB().Kho_CauHoi.Where(x => x.Ma_Chuong == ma_Chuong && x.MucDo.Equals(v)&&(x.NguoiTao.Equals(lopHocPhan.MaGV)||x.TrangThai==false)&& x.Xoa==true).ToList();
+            List<Kho_CauHoi> kho_CauHois = new TracNghiemOnlineDB().Kho_CauHoi.Where(x => x.Ma_Chuong == ma_Chuong && x.MucDo.Equals(v)&&(x.NguoiTao.Equals(lopHocPhan.MaGV) && x.TrangThai==false)&& x.Xoa==true).ToList();
         
             return kho_CauHois;
         }

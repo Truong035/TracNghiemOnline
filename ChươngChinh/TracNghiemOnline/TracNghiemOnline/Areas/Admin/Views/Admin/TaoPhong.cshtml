@@ -18,9 +18,6 @@
 
             $(document).on('click', 'button[name=btnSua]', function () {
                 let ma = $(this).closest('tr').find("td:eq(0)").text().trim();
-
-
-
                 $.ajax({
                     type: "POST",
                     data: {
@@ -63,6 +60,8 @@
 
                 else {
                     var arr = [];
+                    $('Lop').modal('hide');
+                    $('#particles1').show();
                     $.ajax({
                         type: 'POST',
                         url: '/Admin/Admin/CreatePhongThi/',
@@ -71,8 +70,10 @@
                             GV2: text2, Ngay: NgayBD
                         },
                         success: function (res) {
-                            $('Lop').modal('hide');
+                           
+
                             document.location = "/Admin/Admin/TaoPhong";
+                            $('#particles1').hide();
                         }
                     });
 
@@ -158,7 +159,7 @@
             });
             function LoadDe(E) {
                 var TrangThai = $(E).closest('tr').find("td:eq(5)").text().trim();
-
+                $('#particles1').show();
                 var maPhong = $(E).closest('tr').attr('id');
                 if (TrangThai == "Chưa Thi") {
                     $.ajax({
@@ -199,6 +200,7 @@
                             $('#ChonDe').show();
 
                             $('#DsPhong').hide();
+                            $('#particles1').hide();
                         }
 
                     });
@@ -231,7 +233,7 @@
         <div class="card-body">
             <div class="table-responsive">
                 <div id="add-row_wrapper" class="dataTables_wrapper container-fluid dt-bootstrap4">
-                    <div class="col-sm-12">
+                    
                         <table id="dataTable" class="display table table-striped table-hover dataTable" role="grid" aria-describedby="add-row_info">
 
                             <thead>
@@ -295,7 +297,7 @@
             </div>
         </div>
     </div>
-</div>
+
 
 <div class="container-fluid" id="ChonDe">
     <div class="card">

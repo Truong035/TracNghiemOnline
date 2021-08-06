@@ -55,12 +55,44 @@
                 });
             });
         });
+
+        function Soluon(){
+            var NhanBiet = $('.txtNhanBiet');
+            var ThongHieu = $('.txtThongHieu');
+            var VanDung = $('.txtVanDung');
+            var VanDungCao = $('.txtVanDungCao');
+            let socau = 0;
+            $.each(NhanBiet, function (i, item) {
+                
+                socau = socau + Number($(item).val()); 
+                 
+
+            });
+            $.each(ThongHieu, function (i, item) {
+                socau = socau + Number($(item).val()); 
+
+            });
+            $.each(VanDung, function (i, item) {
+                socau = socau + Number($(item).val()); 
+
+            });
+            $.each(VanDungCao, function (i, item) {
+                socau = socau + Number($(item).val()); 
+
+            });
+            $('#txtsocau').text(`Số câu hỏi : ` + socau + ` Câu`)
+        }
     </script>
 }
 
 <div class="container-fluid">
     <form>
         <div class="card">
+            <div class="card-body card-header ">
+                <div class="mt-lg-2">
+                    THÔNG TIN ĐỀ THI
+                </div>
+            </div>
 
             <div class="row">
                 <div class="col-2 ">
@@ -97,9 +129,18 @@
                         <label> @Model.ThoiGianThi Phút  </label>
                     </div>
                 </div>
+
             </div>
-            <div class="card-body  ">
-                <h5> Danh Sách Chương </h5>
+            <div class="card-body row ">
+
+                <div class="col">
+                    <h5> Danh Sách Chương </h5>
+                </div>
+                <div class="col">
+
+                    <label id="txtsocau"> Số câu hỏi : 0 Câu  </label>
+
+                </div>
             </div>
             <div class="card">
                 <div class="row">
@@ -140,25 +181,25 @@
                             </div>
                             <div class="col-2 ">
                                 <div class="col-10">
-                                    <input type="number" value="0" style="width:60px" class="txtNhanBiet" min="0" max="@item.Kho_CauHoi.Where(x=>x.Ma_Chuong==item.Ma_Chuong && x.MucDo.Contains("Nhận Biết") && x.NguoiTao.Equals(gv.MaBoMon)).ToList().Count" data-id="@item.Ma_Chuong" />
+                                    <input type="number" value="0" onchange="Soluon()" style="width:60px" class="txtNhanBiet" min="0" max="@item.Kho_CauHoi.Where(x=>x.Ma_Chuong==item.Ma_Chuong && x.MucDo.Contains("Nhận Biết") && x.NguoiTao.Equals(gv.MaBoMon)).ToList().Count" data-id="@item.Ma_Chuong" />
                                 </div>
 
                             </div>
                             <div class="col-2 ">
                                 <div class="col-10">
-                                    <input type="number" value="0" style="width:60px" class="txtThongHieu" min="0" max="@item.Kho_CauHoi.Where(x=>x.Ma_Chuong==item.Ma_Chuong && x.MucDo.Contains("Thông Hiểu") && x.NguoiTao.Equals(gv.MaBoMon)).ToList().Count" data-id="@item.Ma_Chuong" />
+                                    <input type="number" onchange="Soluon()" value="0" style="width:60px" class="txtThongHieu" min="0" max="@item.Kho_CauHoi.Where(x=>x.Ma_Chuong==item.Ma_Chuong && x.MucDo.Contains("Thông Hiểu") && x.NguoiTao.Equals(gv.MaBoMon)).ToList().Count" data-id="@item.Ma_Chuong" />
                                 </div>
 
                             </div>
                             <div class="col-2 ">
                                 <div class="col-10">
-                                    <input type="number" value="0" style="width:60px" class="txtVanDung" min="0" max="@item.Kho_CauHoi.Where(x=>x.Ma_Chuong==item.Ma_Chuong && x.MucDo.Equals("Vận Dụng") &&  x.NguoiTao.Equals(gv.MaBoMon)).ToList().Count" data-id="@item.Ma_Chuong" />
+                                    <input type="number" onchange="Soluon()" value="0" style="width:60px" class="txtVanDung" min="0" max="@item.Kho_CauHoi.Where(x=>x.Ma_Chuong==item.Ma_Chuong && x.MucDo.Equals("Vận Dụng") &&  x.NguoiTao.Equals(gv.MaBoMon)).ToList().Count" data-id="@item.Ma_Chuong" />
                                 </div>
 
                             </div>
                             <div class="col-2 ">
                                 <div class="col-10">
-                                    <input type="number" value="0" style="width:60px" class="txtVanDungCao" min="0" max="@item.Kho_CauHoi.Where(x=>x.Ma_Chuong==item.Ma_Chuong && x.MucDo.Equals("Vận Dụng Cao") &&  x.NguoiTao.Equals(gv.MaBoMon)).ToList().Count" data-id="@item.Ma_Chuong" />
+                                    <input type="number" onchange="Soluon()" value="0" style="width:60px" class="txtVanDungCao" min="0" max="@item.Kho_CauHoi.Where(x=>x.Ma_Chuong==item.Ma_Chuong && x.MucDo.Equals("Vận Dụng Cao") &&  x.NguoiTao.Equals(gv.MaBoMon)).ToList().Count" data-id="@item.Ma_Chuong" />
                                 </div>
 
                             </div>

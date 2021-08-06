@@ -15,6 +15,20 @@ namespace TracNghiemOnline.Controllers
     public class TrangChuController : BaseController
     {
         // GET: TrangChu
+        public void CapNhatDuLieu(string tgbd)
+        {
+            try {
+                string[] ngay = tgbd.Split('/');
+                DateTime dateTime = new DateTime(int.Parse(ngay[0]), int.Parse(ngay[1]), int.Parse(ngay[2]), int.Parse(ngay[3]), int.Parse(ngay[4]), int.Parse(ngay[5]));
+                Session["Gio"] = dateTime;
+            }
+            catch
+            {
+
+            }
+          
+           
+        }
         public ActionResult Index(string id)
         {
 
@@ -124,26 +138,88 @@ namespace TracNghiemOnline.Controllers
         }
         public ActionResult DSDETHI() {
 
+            List<DanhGia> ketQuas = new List<DanhGia>();
             TracNghiemOnlineDB db = new TracNghiemOnlineDB();
             var session = (TaiKhoan)Session[ComMon.ComMonStants.UserLogin];
           
             var dssv = db.DS_SVThi.Where(x => x.Ma_SV.Equals(session.TaiKhoan1));
 
             List<Phong_Thi> phong_This = new List<Phong_Thi>();
-        
+
             foreach (var item in dssv)
             {
-                var phong = new TracNghiemOnlineDB().Phong_Thi.Where(x => x.MaPhong.Equals(item.MaPhong) && x.TrangThai.Equals("Đã Đóng"));
-                if (phong != null)
+                try
                 {
-                    phong_This.AddRange(phong);
-                             
-                }
 
+                    var phong = new TracNghiemOnlineDB().Phong_Thi.Where(x => x.MaPhong.Equals(item.MaPhong) && x.TrangThai.Equals("Đã Đóng"));
+                    if (phong != null)
+                    {
+                        var DeThi = db.De_Thi.Where(x => x.MaDeThi == item.MaDeThi).ToList().First();
+                        if (DeThi != null)
+                        {
+                            if (DeThi.KetQuaThis.Count == 0)
+                            {
+                                TracNghiemOnlineDB tb1 = new TracNghiemOnlineDB();
+                                DanhGia danhGia = new DanhGia();
+                                danhGia = new QuanLyThiDAO().Mark(DeThi);
+
+                                KetQuaThi ketQuaThi = new KetQuaThi();
+                                ketQuaThi.Ma_DeThi = DeThi.MaDeThi;
+
+                                ketQuaThi.NgayThi = phong.ToList()[0].ThoiGianDong;
+                                ketQuaThi.SoCauDung = danhGia.ketQuaThi.SoCauDung;
+                                ketQuaThi.SoCauSai = danhGia.ketQuaThi.SoCauSai;
+                                ketQuaThi.DiemSo = danhGia.ketQuaThi.DiemSo;
+                                tb1.KetQuaThis.Add(ketQuaThi);
+                                tb1.SaveChanges();
+
+                                foreach (var item1 in danhGia.ketQuaThi.De_Thi.Danh_Gia)
+                                {
+                                    Danh_Gia danh_Gia = new Danh_Gia();
+
+                                    danh_Gia.MaChuong = item1.MaChuong;
+                                    danh_Gia.MaDeThi = item1.MaDeThi;
+                                    danh_Gia.SoCauDung = item1.SoCauDung;
+                                    danh_Gia.TongCau = item1.TongCau;
+                                    //  danh_Gia.NhanXet = item1.NhanXet;
+                                    danh_Gia.DanhGia = item1.DanhGia;
+                                    tb1.Danh_Gia.Add(danh_Gia);
+
+                                    tb1.SaveChanges();
+                                }
+
+                                ketQuas.Add(danhGia);
+                            }
+                            else
+                            {
+                                DanhGia danhGia = new DanhGia();
+                                danhGia.ketQuaThi = DeThi.KetQuaThis.ToList().First();
+                                danhGia.ketQuaThi.NgayThi = phong.ToList()[0].ThoiGianDong;
+                                danhGia.ketQuaThi.De_Thi = DeThi;
+                                ketQuas.Add(danhGia);
+
+                            }
+                            phong_This.Add(phong.ToList()[0]);
+
+                        }
+                    }
+                }
+                catch { }
             }
+
+                
+            
+            ViewBag.phong=phong_This;
            
-            return View(phong_This);
+            return View(ketQuas);
         }
+       
+        public ActionResult TinhDiem(long id)
+        {
+            ViewBag.id = id;
+            return View();
+        }
+
         public ActionResult LopHocPhan() {
             TracNghiemOnlineDB db = new TracNghiemOnlineDB();
             var session = (TaiKhoan)Session[ComMon.ComMonStants.UserLogin];
@@ -164,38 +240,7 @@ namespace TracNghiemOnline.Controllers
             
             return View(lop);
         }
-        public ActionResult Bode(string  id)
-        {
-            
-            var Bodeom = new TracNghiemOnlineDB().BoDeOnTaps.Where(x => x.MaLopHP.Equals(id)).ToList();
-
-           List<Bo_De> list = new List<Bo_De>();
-            foreach (var item in Bodeom)
-            {
-                if (item.ThoiGianMo == null && item.ThoiGianDong == null)
-                {
-                    list.Add(item.Bo_De);
-                }
-                else if (item.ThoiGianMo <= DateTime.Now && item.ThoiGianDong >= DateTime.Now)
-                {
-                    list.Add(item.Bo_De);
-                }
-                else if (item.ThoiGianMo >= DateTime.Now && item.ThoiGianDong == null)
-                {
-                    list.Add(item.Bo_De);
-                }
-                else if (item.ThoiGianDong <= DateTime.Now)
-                {
-                    list.Add(item.Bo_De);
-                }
-                else if (item.ThoiGianDong == null)
-                {
-                    list.Add(item.Bo_De);
-                }
-
-            }
-            return View(list);
-        }
+     
         public ActionResult Loald(string id)
         {
             string tgbd = (string)Session["TGTHI"];
@@ -290,12 +335,12 @@ namespace TracNghiemOnline.Controllers
             DateTime dateTime =DateTime.Parse(phong.ThoiGianDong.ToString());
             CT_Dethi cT_Dethi = new CT_Dethi();
             cT_Dethi.MADETHI = DeThi.MaDeThi;
-            cT_Dethi.LYDO = "Sinh viên đã vào phòng ";
+            cT_Dethi.LYDO = "Sinh viên đã vào phòng";
             TracNghiemOnlineDB db = new TracNghiemOnlineDB();
             db.CT_Dethi.Add(cT_Dethi);
             db.SaveChanges();
-            ViewBag.GioThi = dateTime.ToString("yyyy/MM/dd HH:mm:ss");
-          
+            ViewBag.GioThi = dateTime.AddMinutes(5).ToString("yyyy/MM/dd HH:mm:ss");
+ 
             ViewBag.DeThi = DeThi;
             return View(phong);
          
@@ -378,9 +423,10 @@ namespace TracNghiemOnline.Controllers
 
         public JsonResult PhongThi(string MaPhong)
         {
+            DateTime dateTime = (DateTime)Session["Gio"];
             var Phong = new QuanLyThiDAO().ExamitionRoom(MaPhong);
             try {
-                if (Phong.ThoiGianDong <= DateTime.Now) {
+                if (Phong.ThoiGianDong <= dateTime) {
                     Phong.TrangThai = "Đã Đóng";
                     new QuanLyThiDAO().UpDatePhongThi(Phong);
                 } }
@@ -503,26 +549,25 @@ namespace TracNghiemOnline.Controllers
         {
             TracNghiemOnlineDB db = new TracNghiemOnlineDB();
             var de = db.De_Thi.Find(id);
-     
             var exam = new QuanLyThiDAO().SearDethi(id);
             var mark = new QuanLyThiDAO().Mark(exam);
             Session[ComMon.ComMonStants.ExamQuesTion] = null;
             de.TrangThai = true;
             de.DiêmSo = mark.ketQuaThi.DiemSo;
-           
             db.SaveChanges();
-           
             var SV = db.DS_SVThi.SingleOrDefault(x => x.MaDeThi == de.MaDeThi);
             try
             {
                 if (SV != null)
                 {
+                    DateTime dateTime = (DateTime)Session["Gio"];
                     if (!SV.TrangThai.Equals("Đã Nộp")) {
                         SV.TrangThai = "Đã Nộp";
                         CT_Dethi cT_Dethi = new CT_Dethi();
                         cT_Dethi.MADETHI = id;
-                        cT_Dethi.LYDO = "Sinh viên đã nộp bài";
+                        cT_Dethi.LYDO = "Sinh viên đã nộp bài"+dateTime.ToString();
                         db.CT_Dethi.Add(cT_Dethi);
+                        
                         db.SaveChanges();
                     }
 

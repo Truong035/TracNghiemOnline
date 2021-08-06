@@ -1,0 +1,21 @@
+﻿
+@{
+    ViewBag.Title = "TinhDiem";
+    Layout = "~/Views/Share/LayOutHome.cshtml";
+}
+
+
+@section scripts {
+
+    <script>
+        $(document).ready(function () {
+            $('#particles1').show();
+            window.location = '/Diemthi/' +@ViewBag.id;
+            $('#particles1').show();
+        });
+    </script>
+    }
+<div class="col-12 text-center pt-11">
+
+    <h2> Đang tính điểm.....................</h2>
+</div>

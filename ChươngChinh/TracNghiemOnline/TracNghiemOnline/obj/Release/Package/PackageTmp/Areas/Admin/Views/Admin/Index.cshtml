@@ -2,10 +2,13 @@
 @{
     ViewBag.Title = "NgânHangCauHoi";
     Layout = "~/Areas/Admin/Views/Shared/LaoutShare.cshtml";
+    var session = (TaiKhoan)Session[ComMonStants.UserLogin];
 }
+@using TracNghiemOnline.Modell;
+@using TracNghiemOnline.ComMon;
 
 <div class="col-md-12">
-    <div class="card">
+    <div class="card" id="frmmon">
         <div class="card-header">
             <div class="d-flex align-items-center">
                 <h4 class="card-title">DANH SÁCH MÔN HỌC</h4>
@@ -17,49 +20,111 @@
         </div>
         <div style="width:auto; height:3px; background-color:rgb(248,249,250);"></div>
 
-            <div class="card-body">
-                <div class="table-responsive">
-                    <div id="add-row_wrapper" class="dataTables_wrapper container-fluid dt-bootstrap4">
-                        <div class="col-sm-12">
-                            <table id="dataTable" class="display table table-striped table-hover dataTable" role="grid" aria-describedby="add-row_info">
-                                <thead>
-                                    <tr>
-                                        <th>Mã Môn </th>
-                                        <th>Tên Môn Học</th>
+        <div class="card-body">
+            <div class="table-responsive">
+                <div id="add-row_wrapper" class="dataTables_wrapper container-fluid dt-bootstrap4">
+                    <div class="col-sm-12">
+                        <table id="dataTable" class="display table table-striped table-hover dataTable" role="grid" aria-describedby="add-row_info">
+                            <thead>
+                                <tr>
+                                    <th>Mã Môn </th>
+                                    <th>Tên Môn Học</th>
+                                    <th>Trạng Thái</th>
+                                    <th></th>
+                                </tr>
+                            </thead>
 
-                                        <th></th>
+                            <tbody id="tblMon">
+                                @foreach (var item in Model.Where(x => x.TrangThai == true))
+                                {
+                                    <tr id="@item.Ma_Mon">
+                                        <td> @item.Ma_Mon </td>
+                                        <td> @item.TenMon</td>
+                                        
+                                            @{ if (item.CheDo == true)
+                                                {
+                                                <td id="false">  <button name="btnTrangThai" class="btn btn-xs btn-danger "> Đóng </button></td>
+                                            }
+                                            else
+                                            {
+                                                <td id="true"> <button name="btnTrangThai" class="btn btn-xs btn-success "> Mở </button></td>
+                                            }
+                                            }
 
-                                    </tr>
-                                </thead>
 
-                                <tbody id="tblMon">
-                                    @foreach (var item in Model)
-                                    {
-                                        <tr>
-                                            <td> @item.Ma_Mon </td>
-                                            <td> @item.TenMon</td>
 
                                             <td>
                                                 <a href="/Admin/Home/ChuongHoc/@item.Ma_Mon" class="btn btn-xs btn-primary">
                                                     <span><i class="far fa-eye"></i></span>
                                                 </a>&ensp;
-                                                <a href="#" class="btn btn-xs btn-success">
-                                                    <span><i class="far fa-edit"></i></span>
-                                                </a>&ensp;
-                                                <a href="#" class="btn btn-xs btn-danger">
-                                                    <span><i class="far fa-trash-alt"></i></span>
-                                                </a>
+                                                <button name="Update" class="btn btn-xs btn-success"><i class="far fa-edit" aria-hidden="true"></i></button>&ensp;
+                                                <button name="Delete" class="btn btn-xs  btn-danger"><i class="far fa-trash-alt" aria-hidden="true" style="color:white"></i></button>
+
+
                                             </td>
 
                                         </tr>
 
                                     }
 
-                                </tbody>
-                            </table>
-                        </div>
-
+                            </tbody>
+                        </table>
                     </div>
+
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="card-body card py-4" id="frmGV">
+        <div class="card-header">
+            <div class="d-flex align-items-center">
+                <h4 class="card-title">DANH SÁCH GIÁO VIÊN</h4>
+                <button class="btn btn-primary btn-round ml-auto" data-toggle="modal" id="btnLuu" data-target="#addRowModal">
+                    <i class="fa fa-plus"></i>
+                    Lưu
+                </button>&ensp;
+                <button class="btn btn-primary btn-round " data-toggle="modal" id="btnquay" data-target="#addRowModal">
+                    <i class="icon-action-undo"></i>
+                    Quay Lại
+                </button>
+            </div>
+        </div>
+        <div class="table-responsive">
+            <div id="add-row_wrapper" class="dataTables_wrapper container-fluid dt-bootstrap4">
+
+                <div class="col-sm-12">
+                    <table id="dataTable" class="display table table-striped table-hover dataTable" role="grid" aria-describedby="add-row_info">
+                        <thead>
+                            <tr role="row">
+                                <th style="width: 15%;" class="sorting" tabindex="0" aria-controls="add-row" rowspan="1" colspan="1" aria-label="Action: activate to sort column ascending"><input type="checkbox"  id="CheckChon" /></th>
+                                <th class="sorting_asc" tabindex="0" aria-controls="add-row" rowspan="1" colspan="1" aria-sort="ascending" aria-label="Name: activate to sort column descending">Mã giáo viên</th>
+                                <th class="sorting" tabindex="0" aria-controls="add-row" rowspan="1" colspan="1" aria-label="Position: activate to sort column ascending">Tên giáo viên</th>
+
+
+                            </tr>
+                        </thead>
+
+                        <tbody id="tblGiaoVien">
+
+
+                            @foreach (var item in new TracNghiemOnlineDB().GiaoViens.Where(x => x.TrangThai == true && x.MaBoMon.Equals(session.TaiKhoan1)).ToList())
+                            {
+                                <tr id="@item.MaGV">
+
+                                    <td><input type="checkbox"  value="@item.MaGV" class="txtCheckBox" /></td>
+                                    <td>@item.MaGV</td>
+
+                                    <td>@item.TenGV</td>
+
+
+
+
+                                </tr>
+                            }
+
+                        </tbody>
+                    </table>
                 </div>
             </div>
         </div>
@@ -67,10 +132,15 @@
 
 
 
+
+</div>
+
+
+
 <div class="modal" tabindex="-1" role="dialog" id="modalBoMon">
     <div class="modal-dialog" role="document">
         <div class="modal-content">
-            <div class="modal-header bg-info" style="color:white">
+            <div class="modal-header">
                 <h5 class="modal-title">THÔNG TIN MÔN HỌC</h5>
 
             </div>
@@ -94,7 +164,7 @@
 <div class="modal" tabindex="-1" role="dialog" id="modalConfirm">
     <div class="modal-dialog" role="document">
         <div class="modal-content">
-            <div class="modal-header bg-info">
+            <div class="modal-header">
                 <h5 class="modal-title">CẢNH BÁO</h5>
 
             </div>
@@ -113,8 +183,46 @@
 @section scripts{
     <script>
 
+        let ma = "";
         $(document).ready(function () {
+            $('#frmGV').hide();
             loadDSGV();
+         
+            $(document).on('click', 'button[name=btnTrangThai]', function () {
+
+              
+                $('#thongbao').empty();
+                var trangthai = $(this).closest('tr').find("td:eq(2)").attr('id');
+
+                 ma = $(this).closest('tr').attr('id');
+                if (trangthai == 'false') {
+                    $('#particles1').show();
+
+                    $.ajax({
+                        url: '/Admin/Monhoc/UpdateTrangThai', type: 'post',
+                        data: {
+                            ma: ma,
+                            s: trangthai,
+                            chuoi: ''
+                        },
+                        success: function (data) {
+                            if (data.code == 200) {
+
+                                loadDSGV();
+                                $('#particles1').hide();
+                            } else {
+                                alert(data.msg);
+                                $('#particles1').hide();
+                            }
+                        }
+                    });
+                }
+                else {
+                    $('#frmmon').hide();
+                    $('#frmGV').slideDown();
+                }
+
+            });
         });
         //load du lieu
         function loadDSGV() {
@@ -129,12 +237,21 @@
                             let tr = '<tr id = "' + v.MaNganh + '">';
                             tr += '<td>' + v.MaNganh + '</td>';
                             tr += '<td>' + v.TenNganh + '</td>';
+
+                            if (v.trangThai == false) {
+                                tr += '<td id="true"><button  name="btnTrangThai" class="btn btn-xs btn-success "> Mở </button></td>'
+                            } else {
+                                tr += '<td id="false"><button name="btnTrangThai" class="btn btn-xs btn-danger "> Đóng </button></td>'
+                            }
                             tr += '<td>';
                             tr += ' <a href="/Admin/Home/ChuongHoc/' + v.MaNganh + '" class="btn btn-xs btn-primary">';
                             tr += '<span><i class="far fa-eye"></i></span></a>&ensp;';
 
                             tr += '<button name="Update" class="btn btn-xs btn-success"><i class="far fa-edit" aria-hidden="true"></i></button>&ensp;';
                             tr += '<button name="Delete" class="btn btn-xs  btn-danger"><i class="far fa-trash-alt" aria-hidden="true" style="color:white"></i></button>';
+
+
+
                             tr += '</td > ';
                             tr += '</tr > ';
                             $('#tblMon').append(tr);
@@ -151,6 +268,82 @@
             $('#modalBoMon').modal();
             $('#idNganh').val('');
         })
+        $('#btnquay').click(function () {
+            var Check = document.getElementsByClassName('txtCheckBox');
+            for (var i = 0; i < Check.length; i++) {
+                Check[i].checked = false;
+
+            }
+            $('#CheckChon').prop("checked",false);
+            chuoi = "";
+            $('#frmmon').slideDown();
+            $('#frmGV').hide();
+        })
+        $('#CheckChon').click(function () {
+
+            if ($(this).prop("checked") == true) {
+                var Check = document.getElementsByClassName('txtCheckBox');
+                for (var i = 0; i < Check.length; i++) {
+                    Check[i].checked = true;
+
+                }
+              
+            }
+            else {
+                var Check = document.getElementsByClassName('txtCheckBox');
+                for (var i = 0; i < Check.length; i++) {
+                    Check[i].checked = false;
+
+
+                }
+                chuoi = "";
+            }
+        });
+        $('#btnLuu').click(function () {
+            $('#particles1').show();
+            var CheckBox = $('.txtCheckBox');
+            chuoi = "";
+            $.each(CheckBox, function (k, v) {
+                if ($(this).prop("checked") == true) {
+
+                    chuoi += $(this).val() + "/";
+
+                }
+            });
+            
+            if (chuoi.length > 0) {
+                $.ajax({
+                    url: '/Admin/Monhoc/UpdateTrangThai', type: 'post',
+                    data: {
+                        ma: ma,
+                        s: true,
+                        chuoi: chuoi
+                    },
+                    success: function (data) {
+                        if (data.code == 200) {
+                            $('#CheckChon').prop("checked", false);
+                            loadDSGV();
+                            $('#frmmon').slideDown();
+                            $('#frmGV').hide();
+                            $('#particles1').hide();
+                            var Check = document.getElementsByClassName('txtCheckBox');
+                            for (var i = 0; i < Check.length; i++) {
+                                Check[i].checked = false;
+
+                            }
+                            chuoi = "";
+                        } else {
+                            alert(data.msg);
+                            $('#particles1').hide();
+                        }
+                    }
+                });
+            }
+            else {
+                alert("Vui lòng chọn giáo viên sử dụng")
+            }
+            
+        })
         //them nganh
         $('#btnSubmit').click(function () {
 
@@ -160,7 +353,8 @@
                 alert("Vui lòng nhập đầy đủ thông tin");
                 return;
             }
-            let idNganh = $('#idNganh').val().trim()
+            var idNganh = $('#idNganh').val().trim()
+
             if (idNganh.length == 0) {
                 //Add
                 $.ajax({
@@ -260,6 +454,8 @@
 
 
         });
+        var chuoi = "";
+      
     </script>
 
 }

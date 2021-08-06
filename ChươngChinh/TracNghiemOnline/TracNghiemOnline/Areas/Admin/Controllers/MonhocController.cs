@@ -138,7 +138,8 @@ namespace TracNghiemOnline.Areas.Admin.Controllers
                                select new
                                {
                                    MaNganh = n.Ma_Mon,
-                                   TenNganh = n.TenMon
+                                   TenNganh = n.TenMon,
+                                   trangThai=n.CheDo,
                                }).ToList();
 
 
@@ -150,6 +151,61 @@ namespace TracNghiemOnline.Areas.Admin.Controllers
                 return Json(new { code = 500, msg = "Không thành công" + e.Message }, JsonRequestBehavior.AllowGet);
             }
         }
+        public JsonResult UpdateTrangThai(long ma,bool s,string chuoi)
+        {
+
+          //  var session = (TaiKhoan)Session[ComMon.ComMonStants.UserLogin];
+          //  List<Modell.MonHoc> monHocs = new MonHocDao().lisALL(session.TaiKhoan1);
+            try
+            {
+                var session = (TaiKhoan)Session[ComMon.ComMonStants.UserLogin];
+                TracNghiemOnlineDB db = new TracNghiemOnlineDB();
+                var GV = db.GiaoViens.Find(session.TaiKhoan1);
+                var mon = db.MonHocs.Find(ma);
+                mon.CheDo = s;
+
+                if (s == true)
+                {
+                    DateTime dateTime = (DateTime)Session["Gio"];
+                    db.SaveChanges();
+                    string[] arr = chuoi.Split('/');
+                    for (int i = 0; i < arr.Length-1; i++)
+                    {
+                        var mgv = arr[i];
+                        TracNghiemOnlineDB db1 = new TracNghiemOnlineDB();
+                        Share share = new Share();
+                        share.MA = mon.Ma_Mon;
+                        share.MaGV = mgv;
+                        share.Loai = 1;
+                        share.NgayDang = dateTime;
+                        db1.Shares.Add(share);
+                        db1.SaveChanges();
+                    }
+                
+                }
+                else
+                {
+                 
+                    db.SaveChanges();
+                    foreach (var item in db.Shares.Where(x => x.MA == ma && x.Loai==1))
+                    {
+                        TracNghiemOnlineDB db1 = new TracNghiemOnlineDB();
+                        var s1 = db1.Shares.Find(item.id);
+                        db1.Shares.Remove(s1);
+                        db1.SaveChanges();
+
+                    }
+                }
+
+
+                return Json(new { code = 200, msg = "Lấy danh sách thành công" }, JsonRequestBehavior.AllowGet);
+            }
+            catch (Exception e)
+            {
+                return Json(new { code = 500, msg = "Không thành công" + e.Message }, JsonRequestBehavior.AllowGet);
+            }
+        }
+
         public JsonResult dsChuong(string ma)
         {            
             try

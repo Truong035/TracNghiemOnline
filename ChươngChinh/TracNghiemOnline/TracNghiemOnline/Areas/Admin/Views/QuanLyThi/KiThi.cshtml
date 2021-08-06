@@ -34,6 +34,7 @@
 
             $('#btnYes').click(function () {
                 let ma = $('#ma').val();
+                $('#particles1').show();
                 $.ajax({
                     url: '/Admin/QuanLyThi/DeleteKiThi', type: 'post',
                     data: {
@@ -62,7 +63,7 @@
 
             $(document).on('click', 'button[name=btnTrangThai]', function () {
 
-
+                $('#particles1').show();
                 $('#thongbao').empty();
                 var trangthai = $(this).closest('tr').find("td:eq(2)").attr('id');
                 let ten = $(this).closest('tr').find("td:eq(1)").text();
@@ -96,6 +97,7 @@
                     $('#thongbao').append("Bạn Vui Lòng Điền Tên Kì Học");
                 }
                 else {
+                    $('#particles1').show();
                     if (ma.length == 0) {
                         $.ajax({
                             url: '/Admin/QuanLyThi/AddKiThi',
@@ -112,6 +114,7 @@
                         $('#modalLop').modal('hide');
                     }
                     else {
+                        $('#particles1').show();
                         var trangthai = $(ki).find("td:eq(2)").attr('id');
 
                         if (trangthai == 'true') {
@@ -143,12 +146,14 @@
             });
             LoadData();
             function LoadData() {
+             
                 $('#ma').val('');
                 $.ajax({
                     url: '/Admin/QuanLyThi/LoadKiThi',
                     type: 'Get',
                     success: function (data) {
                         $('#Kithi').empty();
+                        $('#particles1').hide();
                         $.each(data.Kithi, function (k, v) {
 
                             var let = '<tr id="' + v.MAKI + '">';

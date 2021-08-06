@@ -311,6 +311,7 @@ namespace TracNghiemOnline.Areas.Admin.Controllers
                                 MaGV = n.MaGV,
                                 TenGV = n.TenGV,
                                 TenNganh = n.BoMon.Ten,
+                                Email = n.Email,
                                 MaNganh = n.BoMon.Ma_BoMon
                                
                             }).ToList();
@@ -322,8 +323,8 @@ namespace TracNghiemOnline.Areas.Admin.Controllers
                 return Json(new { code = 500, msg = "Không thành công" + e.Message }, JsonRequestBehavior.AllowGet);
             }
         }
-        [HttpPost]
-        public JsonResult AddGiaoVien(string maGV, string tenGV, string maNganh)
+        
+        public JsonResult AddGiaoVien(string maGV, string tenGV, string maNganh, string email)
         {
             try
             {
@@ -331,6 +332,7 @@ namespace TracNghiemOnline.Areas.Admin.Controllers
                 n.MaGV = maGV;
                 n.TenGV = tenGV;
                 n.MaBoMon = maNganh;
+                n.Email = email;
                 n.TrangThai = true;
                 db.GiaoViens.Add(n);
                 db.SaveChanges();
@@ -350,14 +352,15 @@ namespace TracNghiemOnline.Areas.Admin.Controllers
             }
         }
 
-        [HttpPost]
-        public JsonResult UpdateGiaoVien(long maGV, string tenGV, long maNganh)
+       
+        public JsonResult UpdateGiaoVien(string maGV, string tenGV, string maNganh, string email)
         {
             try
             {
                 var n = db.GiaoViens.SingleOrDefault(x => x.MaGV.Equals(maGV));
                 n.TenGV = tenGV;
-                n.Ma_Nganh = maNganh;
+                n.MaBoMon = maNganh;
+                n.Email = email;
                 db.SaveChanges();
                 return Json(new { code = 200, msg = "Cập nhật thành công" }, JsonRequestBehavior.AllowGet);
             }
@@ -366,7 +369,7 @@ namespace TracNghiemOnline.Areas.Admin.Controllers
                 return Json(new { code = 500, msg = "Không thành công" + e.Message }, JsonRequestBehavior.AllowGet);
             }
         }
-        [HttpPost]
+        
         public JsonResult DeleteGiaoVien(string maGV)
         {
             try

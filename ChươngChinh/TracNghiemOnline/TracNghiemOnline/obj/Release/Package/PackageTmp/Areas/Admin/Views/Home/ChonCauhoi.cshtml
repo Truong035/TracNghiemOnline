@@ -3,8 +3,11 @@
     ViewBag.Title = "ChonCauhoi";
     Layout = "~/Areas/Admin/Views/Shared/LaoutShare.cshtml";
     List<TracNghiemOnline.Modell.Kho_CauHoi> cauhoi = (List<TracNghiemOnline.Modell.Kho_CauHoi>)ViewBag.Question;
+    var session = (TaiKhoan)Session[ComMonStants.UserLogin];
+    var gv = new TracNghiemOnlineDB().GiaoViens.Find(session.TaiKhoan1);
 }
-
+@using TracNghiemOnline.ComMon;
+@using TracNghiemOnline.Modell;
 @section Jsfooter{
     <script>
 
@@ -77,10 +80,11 @@
 
 <div class="col-md-12">
     <div class="card">
+
         <div class="card-header">
             <div class="d-flex align-items-center">
                 <h4 class="card-title">DANH SÁCH CÂU HỎI</h4>
-             
+
 
             </div>
             <div style="width:auto; height:3px; background-color:rgb(248,249,250);">
@@ -101,9 +105,9 @@
 
                                     </tr>
                                 </thead>
-                               
+
                                 <tbody>
-                                    @foreach (var item in cauhoi)
+                                    @foreach (var item in cauhoi.Where(x=>x.NguoiTao.Equals(gv.MaBoMon) && x.Xoa==true ))
                                     {
                                         <tr>
                                             <td> <input class="txtcheck" type="checkbox" value="@item.Ma_CauHoi" /> </td>
@@ -127,7 +131,7 @@
 
                         <div class="card-body" style="text-align:center">
                             <button class="badge-success btn-round btn" id="btnTao" type="button"> Hoàn Thành  </button>
-                            <a href="/Admin/Home/TaoDeThi"   class="badge-dark btn-round btn"  type="reset"> Quay Lại </a>
+                            <a href="/Admin/Home/TaoDeThi" class="badge-dark btn-round btn" type="reset"> Quay Lại </a>
                         </div>
 
                     </div>
@@ -137,4 +141,6 @@
 
             </div>
 
+        </div>
+    </div>
 </div>

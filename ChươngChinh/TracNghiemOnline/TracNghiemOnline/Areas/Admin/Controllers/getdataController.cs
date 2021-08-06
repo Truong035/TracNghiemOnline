@@ -182,7 +182,7 @@ namespace TracNghiemOnline.Areas.Admin.Controllers
             {
                 if (j.Text.Equals("Tất cả")) continue;
                 else if (j.Text.Equals("All")) continue;
-                else if (j.Text.Equals("Khóa 59") || j.Text.Equals("Khóa 60"))
+                else if (j.Text.Equals("Khóa 59"))
                 {
                     selectkhoa.SelectByText(j.Text);
                     var lop = webDriver.FindElement(By.Name("DropDownList3"));
@@ -198,8 +198,8 @@ namespace TracNghiemOnline.Areas.Admin.Controllers
 
                             if (db.Lops.Where(x => x.TenLop.Equals(i.Text)).ToList().Count <= 0)
                             {
-                                try
-                                 {
+                                /* try
+                                 {*/
 
 
                                 Lop lop1 = new Lop();
@@ -212,6 +212,7 @@ namespace TracNghiemOnline.Areas.Admin.Controllers
                                 {
                                     s = i.Text.ToString().Substring(0, i.Text.IndexOf("Quận") - 1);
                                 }
+
 
                                 foreach (var c in s)
                                 {
@@ -228,33 +229,42 @@ namespace TracNghiemOnline.Areas.Admin.Controllers
                                     }
                                     z++;
                                 }
-                                if (i.Text.ToString().Contains("Quận"))
+                                try
                                 {
-                                    lop1.Ma_Lop = (malop.Substring(0, malop.Length - 1) + i.Text.ToString().Substring(vtt + 4, i.Text.Length - vtt - 4)).ToUpper();
-                                }
-                                else
-                                    lop1.Ma_Lop = (malop.Substring(0, malop.Length - 1) + i.Text.ToString().Substring(vtt, i.Text.Length - vtt)).ToUpper();
+                                    if (i.Text.ToString().Contains("Quận"))
+                                    {
+                                        lop1.Ma_Lop = (malop.Substring(0, malop.Length - 1) + i.Text.ToString().Substring(vtt + 4, i.Text.Length - vtt - 4)).ToUpper();
+                                    }
+                                    else
+                                        lop1.Ma_Lop = (malop.Substring(0, malop.Length - 1) + i.Text.ToString().Substring(vtt, i.Text.Length - vtt)).ToUpper();
 
-                                lop1.TenLop = i.Text.ToString();
-                                if (db.Nganhs.Where(x => s.ToUpper().Contains(x.TenNganh.ToUpper())).ToList().Count <= 0)
+                                    lop1.TenLop = i.Text.ToString();
+                                    if (db.Nganhs.Where(x => s.ToUpper().Contains(x.TenNganh.ToUpper())).ToList().Count <= 0)
+                                    {
+                                        lop1.Ma_Nganh = null;
+
+                                    }
+                                    else lop1.Ma_Nganh = db.Nganhs.SingleOrDefault(x => s.ToUpper().Contains(x.TenNganh.ToUpper())).Ma_Nganh;
+
+                                    db.Lops.Add(lop1);
+                                    db.SaveChanges();
+                                }
+                                catch
                                 {
-                                    lop1.Ma_Nganh = null;
 
                                 }
-                                else lop1.Ma_Nganh = db.Nganhs.SingleOrDefault(x => s.ToUpper().Contains(x.TenNganh.ToUpper())).Ma_Nganh;
-                                db.Lops.Add(lop1);
-                                db.SaveChanges();
-                                 }
+
+                                /*   }
                                catch (Exception e)
                                    {
 
-                                   }
+                                   }*/
 
 
 
                             }
-                            
-                            if ( new TracNghiemOnlineDB().Lops.ToList().Exists(x=>x.Ma_Lop.Contains(i.Text)))
+
+                            if (i.Text.Equals("Công nghệ thông tin K59"))
                             {
 
 
@@ -275,6 +285,8 @@ namespace TracNghiemOnline.Areas.Admin.Controllers
                                     else
                                     {
                                         var tablesv = item.FindElements(By.TagName("td"));
+
+
                                         SinhVien sv = new SinhVien();
                                         sv.MaSV = tablesv[2].Text;
                                         sv.Ten = tablesv[3].Text;
@@ -299,21 +311,18 @@ namespace TracNghiemOnline.Areas.Admin.Controllers
                                                 {
 
                                                 }
-                                                
+                                                if (db.TaiKhoans.Where(x => x.TaiKhoan1.Equals(sv.MaSV) && x.TenDangNhap.Equals(sv.MaSV)).ToList().Count <= 0)
+                                                {
+                                                    TaiKhoan tk = new TaiKhoan();
+                                                    tk.TenDangNhap = sv.MaSV;
+                                                    tk.TaiKhoan1 = sv.MaSV;
+                                                    tk.MatKhau = "1";
+                                                    tk.TrangThai = true;
+                                                    tk.ChưcVu = "SinhViên";
+                                                    db.TaiKhoans.Add(tk);
+                                                    db.SaveChanges();
+                                                }
                                             }
-                                            if (db.TaiKhoans.Where(x => x.TaiKhoan1.Equals(sv.MaSV) && x.TenDangNhap.Equals(sv.MaSV)).ToList().Count <= 0)
-                                            {
-                                                TaiKhoan tk = new TaiKhoan();
-                                                tk.TenDangNhap = sv.MaSV;
-                                                tk.TaiKhoan1 = sv.MaSV;
-                                                tk.MatKhau = "1";
-                                                tk.TrangThai = true;
-                                                tk.ChưcVu = "SinhViên";
-                                                db.TaiKhoans.Add(tk);
-                                                db.SaveChanges();
-                                            }
-
-
                                         }
 
 

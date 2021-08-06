@@ -39,7 +39,7 @@
                                 </thead>
 
                                 <tbody id="tblSinhVien">
-                             @foreach (var item in new TracNghiemOnlineDB().SinhViens.Where(x=>x.DaXoa==null).ToList())
+                             @foreach (var item in new TracNghiemOnlineDB().SinhViens.Where(x=>x.DaXoa==null||x.DaXoa==1).ToList())
                              {
                                     <tr id="@item.MaSV">
                                         <td>@item.MaSV</td>
@@ -104,8 +104,8 @@
                 </p>
             </div>
             <div class="modal-footer">
-                <button type="button" class="btn btn-primary" id="btnSubmit">Xác nhận</button>
-                <button type="button" class="btn btn-danger" data-dismiss="modal" id="btnDong">Đóng</button>
+                <button type="button" class="btn btn-primary btn-sm" id="btnSubmit">Xác nhận</button>
+                <button type="button" class="btn btn-danger btn-sm" data-dismiss="modal" id="btnDong">Đóng</button>
             </div>
         </div>
     </div>
@@ -134,16 +134,13 @@
     <script>
 
         $(document).ready(function () {
-            loadDSSV();
+            //loadDSSV();
 
-            dtp();
+          
 
 
         });
-        //picker
-        function dtp() {
-            $("#ngaySinh").datepicker();
-        };
+      
         //load du lieu
         function loadDSSV() {
             $.ajax({
@@ -168,24 +165,7 @@
                             $('#tblSinhVien').append(tr);
 
                         });
-                        $('#Table').DataTable({
-                            dom: 'Bfrtip',
-                            buttons: [
-                                {
-                                    extend: 'excel',
-                                    oriented: 'potrait',
-                                    pageSize: 'Legal',
-                                    title: ' Data Pasien',
-                                    download: 'open'
-
-                                },
-                                'copy',
-                                'excel',
-                                'csv',
-                                'pdf'
-                            ]
-                        });
-
+                      
                     }
                 }
             });

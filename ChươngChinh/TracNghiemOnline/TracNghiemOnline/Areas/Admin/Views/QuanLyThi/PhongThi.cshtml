@@ -21,7 +21,7 @@
             $('#btnSubmit').click(function () {
                 var text = $('#lop').val();
                 var Ten = $('#tenPhong').val();
-
+             
                 if (Ten.length == 0) {
                     alert("Bạn Vui Nhập Tên Phòng Thi");
 
@@ -32,6 +32,9 @@
 
                 if (text.length > 0) {
                     var arr = [];
+                    $('#particles1').show();
+
+                    $('Lop').modal('hide');
                     $.ajax({
                         type: 'POST',
                         url: '/Admin/QuanLyThi/CreatePhongThi/',
@@ -52,6 +55,7 @@
             });
 
             $('#btnThem').click(function () {
+                $('#particles1').show();
                 $.ajax({
                     type: 'post',
                     url: '/Admin/QuanLyThi/ListALLClassRoom',
@@ -71,9 +75,9 @@
                             $('#modalLopHP').modal();
                         }
                         else {
-                            alert("Bạn Không Có Lóp Học Phần");
+                            alert("Bạn Không Có Lớp Học Phần");
                         }
-
+                        $('#particles1').hide();
                     }
 
 
@@ -116,7 +120,7 @@
                 var mabode = $(E).closest('tr').find("td:eq(5)").attr('id');
                 var maPhong = $(E).closest('tr').attr('id');
                 if (mabode == null) {
-
+                    $('#particles1').show();
                     $.ajax({
                         type: 'Get',
                         url: '/Admin/QuanLyThi/VaoThi/' + maPhong,
@@ -131,7 +135,7 @@
                                 let += '<td>' + v.SoCau + '</td>';
                                 let += '<td>' + v.ThoiGian + '</td>';
 
-                                /*        let += '<td>' + v.Giaovien + '</td>';*/
+                                let += '<td>' + v.NguoiTao + '</td>';
                                 let += '<td> <a href="/Admin/QuanLyThi/ChonDe/' + v.MaDe + '" name="btnSua" class="btn btn-xs btn-success"><i class="far fa-edit" aria-hidden="true" style="color:white"></i></a></td>';
                                 let += '</tr>'
                                 $('#bodeid').append(let);
@@ -139,13 +143,13 @@
                             });
 
                             $('#ChonDe').show();
-
+                            $('#particles1').hide();
                             $('#DsPhong').hide();
                         }
 
                     });
                 } else {
-
+                    $('#particles1').show();
                     window.location = '/Admin/QuanLyThi/ToChucThi/' + maPhong;
 
                 }
@@ -169,7 +173,7 @@
 
             <div class="table-responsive">
                 <div id="add-row_wrapper" class="dataTables_wrapper container-fluid dt-bootstrap4">
-                    <div class="col-sm-12">
+                
                         <table id="dataTable" class="display table table-striped table-hover dataTable" role="grid" aria-describedby="add-row_info">
                             <thead>
                                 <tr>
@@ -212,7 +216,7 @@
             </div>
         </div>
     </div>
-</div>
+
 
 <div class="container-fluid" id="ChonDe">
     <div class="card">

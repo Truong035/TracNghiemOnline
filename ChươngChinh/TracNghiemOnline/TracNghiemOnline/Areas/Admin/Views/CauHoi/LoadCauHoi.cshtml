@@ -20,7 +20,7 @@
                                 <div class="card-body">
 
                                     <div class="form-group">
-                                        <h5 style="width:710px;">  <a href="/Admin/CauHoi/EditCH/@i"> <i class="bi bi-pencil"></i> </a>     Câu @(i = i + 1) :  @Html.Raw(item.NoiDung) </h5>
+                                                        <label class="custom-control-inline" style="width:710px;">       Câu @(i = i + 1) :  @Html.Raw(item.NoiDung) </label>
 
                                         @if (item.HinhAnh.Length > 0)
                                         {
@@ -43,7 +43,7 @@
 
                                                 @if (item1.TrangThai == true)
                                                 {
-                                                    <label class="custom-control-inline text-danger" style="width:700px" ; for="@item1.MA_DAN">
+                                                    <label class="text-danger" style="width:700px" ; for="@item1.MA_DAN">
                                                         @Html.Raw(item1.NoiDung)
                                                     </label>
                                                 }
@@ -69,11 +69,8 @@
                                         </div>
                                     }
                                    
-                                <label class="text-danger"> Mức độ :  @item.MucDo   </label>
-                                    
-
-
-
+                                <label class="custom-control-inline"> Mức độ :  @item.MucDo   <a href="/Admin/CauHoi/EditCH/@(i-1)" class="ml-3"> <i class="bi bi-pencil"></i> </a>   </label>
+                                   
                                 </div>
 
                         }

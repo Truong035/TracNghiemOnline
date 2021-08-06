@@ -117,9 +117,9 @@
                    
                 
 
-                 let += '<td><a href="/Admin/Home/LoadDeThi/' + v.MaDe + '?tenmon='+v.TenMon+'" class="btn btn-xs btn-primary"><span><i class="far fa-eye"></i></span></a>';
-                    let += '<button name="btnSua" class="btn btn-xs btn-success"><i class="far fa-edit" aria-hidden="true" style="color:white"></i></button>';
-                    let += '<button  name="btnTrangThai" class="btn badge-success "> Gửi Bộ Môn </button>'
+                    let += '<td><a href="/Admin/Home/LoadDeThi/' + v.MaDe + '?tenmon=' + v.TenMon +'" class="btn btn-xs btn-primary"><span><i class="far fa-eye"></i></span></a>&ensp;';
+                    let += '<button name="btnSua" class="btn btn-xs btn-success"><i class="far fa-edit" aria-hidden="true" style="color:white"></i></button> &ensp;';
+
                     let += '<button name="Delete" class="btn btn-xs btn-danger"><i class="far fa-trash-alt" aria-hidden="true"></i></button></td>';
 
 
@@ -134,6 +134,12 @@
             }
 
         })
+        function Close(check) {
+
+            alert(check.checked + "/" + check.id);
+
+           
+        }
 
 
     </script>
@@ -142,7 +148,7 @@
 <div class="modal" tabindex="-1" role="dialog" id="modalConfirm">
     <div class="modal-dialog" role="document">
         <div class="modal-content">
-            <div class="modal-header bg-dark">
+            <div class="modal-header">
                 <h5 class="modal-title">CẢNH BÁO</h5>
 
             </div>
@@ -168,7 +174,13 @@
                     <i class="fa fa-plus"></i>
                     <span>Thêm đề thi</span>
                 </a>
-
+                &ensp;
+                <a href="/Admin/Home/DeBM" class="btn btn-primary btn-round " style="float:right">
+                    <i class="fas fa-file-alt"></i> 
+                    <span>Đề Bộ Môn</span>
+                </a>
+             
+              
             </div>
             <div style="width:auto; height:3px; background-color:rgb(248,249,250);"></div>
             <div class="card-body">
@@ -185,14 +197,14 @@
                                         <th>Tên Môn Học</th>
                                         <th>Số Câu</th>
                                         <th>Thời Gian Thi</th>
-                                        <th>Người Tạo</th>
+                                        <th >Người Tạo</th>
 
-                                        <th></th>
+                                        <th width="20%"></th>
                                     </tr>
                                 </thead>
                                
                                 <tbody id="bodeid">
-                                    @foreach (var item in Model)
+                                    @foreach (var item in Model.Where(X=>X.Xoa==true))
                                     {
                                         <tr>
                                             <td> @item.Ma_BoDe </td>
@@ -213,8 +225,9 @@
                                                 </a>
 
                                                 <button name="btnSua" class="btn btn-xs btn-success"><i class="far fa-edit" aria-hidden="true" style="color:white"></i></button>
-                                                <button name="btnTrangThai" class="btn btn-xs badge-success "> Gửi Bộ Môn </button>
+
                                                 <button name="Delete" class="btn btn-xs btn-danger"><i class="far fa-trash-alt" aria-hidden="true"></i></button>
+                                              
                                             </td>
 
                                         </tr>
@@ -238,7 +251,7 @@
     <div class="modal" tabindex="-1" role="dialog" id="modalSinhVien">
         <div class="modal-dialog" role="document">
             <div class="modal-content">
-                <div class="modal-header bg-dark" style="color:white">
+                <div class="modal-header">
                     <h5 class="modal-title">THÔNG TIN ĐỀ THI</h5>
                 </div>
                 <div class="modal-body">
@@ -260,9 +273,6 @@
                                 </select>
 
                             </div>
-
-
-
                         </div>
                     </p>
                 </div>

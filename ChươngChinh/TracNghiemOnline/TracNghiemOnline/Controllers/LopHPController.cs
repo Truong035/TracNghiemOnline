@@ -139,7 +139,7 @@ namespace TracNghiemOnline.Controllers
                 De_Thi thi = new De_Thi();
                 var danhgia = new TracNghiemOnlineDB().DS_BaiHoc.SingleOrDefault(x => x.Ma_Bai == id && x.MaSV.Equals(session.TaiKhoan1));
                 string[] ListCH = danhgia.ListCauHoi.Split('/');
-                if (new TracNghiemOnlineDB().Kho_CauHoi.Where(x => x.Ma_Chuong == id && (x.NguoiTao.Equals(lopHocPhan.MaGV) || x.TrangThai == false) && x.Xoa == true).ToList().Count - ListCH.Length < 6) {
+                if (new TracNghiemOnlineDB().Kho_CauHoi.Where(x => x.Ma_Chuong == id && (x.NguoiTao.Equals(lopHocPhan.MaGV) && x.TrangThai == false) && x.Xoa == true).ToList().Count - ListCH.Length < 6) {
                     return Json(new { code = 200 }, JsonRequestBehavior.AllowGet);
                 };
 

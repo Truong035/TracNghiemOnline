@@ -18,6 +18,7 @@
 
                 let tg = $(this).closest('tr').find("td:eq(4)").text();
                 $('#MaDe').val(ma.trim());
+                
                 $('#NoiDung').val(ten.trim());
                 $('#txtTG').val(tg.trim());
                 $('#modalSinhVien').modal();
@@ -119,15 +120,15 @@
                 let += '<td>' + v.SoCau + '</td>';
                 let += '<td>' + v.ThoiGian + '</td>';
 
-                /*        let += '<td>' + v.Giaovien + '</td>';*/
+                       let += '<td>' + v.Giaovien + '</td>';
 
-                let += '<td><a href="/Admin/Home/LoadDeThi/' + v.MaDe + '" class="btn btn-xs btn-primary"><span><i class="far fa-eye"></i></span></a>';
+                let += '<td><a href="/Admin/Home/LoadDeThi/' + v.MaDe + '" class="btn btn-xs btn-primary"><span><i class="far fa-eye"></i></span></a>&ensp; ';
 
 
 
-                let += '<button name="btnSua" class="btn btn-xs btn-success"><i class="far fa-edit" aria-hidden="true" style="color:white"></i></button>';
-                let += '<button name="Delete" class="btn btn-xs btn-danger"><i class="far fa-trash-alt" aria-hidden="true"></i></button>'; 
-                let += '<button name="btngui" class="btn btn-xs  btn-info"><i class="fas fa-upload"></i></button> </td>';
+                let += '<button name="btnSua" class="btn btn-xs btn-success"><i class="far fa-edit" aria-hidden="true" style="color:white"></i></button>&ensp;';
+                let += '<button name="Delete" class="btn btn-xs btn-danger"><i class="far fa-trash-alt" aria-hidden="true"></i></button>&ensp;'; 
+                let += '<button name="btngui" class="btn btn-xs btn-secondary"><i class="fas fa-upload"></i></button> </td>';
 
 
 
@@ -198,7 +199,7 @@
                                     <th>Tên Môn Học</th>
                                     <th>Số Câu</th>
                                     <th>Thời Gian Thi</th>
-                                    @*<th>Người Tạo</th>*@
+                                    <th>Người Tạo</th>
 
                                     <th></th>
                                 </tr>
@@ -212,8 +213,8 @@
                                         <td>  @item.NoiDung </td>
                                         <td> @item.MonHoc.TenMon</td>
                                         <td> @item.CauHois.Count</td>
-                                        <td id="sad"> @item.ThoiGianThi phút</td>
-                                        @*<td>  @item.GiaoVien.TenGV </td>*@
+                                        <td id="sad"> @item.ThoiGianThi</td>
+                                        <td>  @item.GiaoVien.TenGV </td>
                                     <td>
                                         <a href="/Admin/Bomon/xemde/@item.Ma_BoDe?tenmon=@item.MonHoc.TenMon" class="btn btn-xs btn-primary">
                                             <span><i class="far fa-eye"></i></span>

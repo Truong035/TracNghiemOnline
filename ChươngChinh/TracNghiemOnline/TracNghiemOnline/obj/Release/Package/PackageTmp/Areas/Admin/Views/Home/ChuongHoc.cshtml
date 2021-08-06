@@ -11,7 +11,7 @@
     <div class="card">
         <div class="card-header">
             <div class="d-flex align-items-center">
-                <h4 class="card-title">DANH SÁCH MÔN HỌC</h4>
+                <h4 class="card-title">DANH SÁCH CHƯƠNG HỌC </h4>
                 @{
                     var session = (TaiKhoan)Session[ComMonStants.UserLogin];
                     if (session.ChưcVu.Equals("BoMon"))
@@ -39,9 +39,7 @@
                     <div class="col-sm-12">
                         <table id="dataTable" class="display table table-striped table-hover dataTable" role="grid" aria-describedby="add-row_info">
                             <thead>
-                                <table id="dataTable" class="display table table-striped table-hover dataTable" role="grid" aria-describedby="add-row_info">
-                                    <thead>
-
+                              
                                         <tr>
                                             <th>Mã Chương</th>
                                             <th>Tên Chương</th>
@@ -51,17 +49,18 @@
                                         </tr>
                                     </thead>
                                     <tbody id="tblchuong">
-                                        @foreach (var item in Model)
+                                        @foreach (var item in Model.Where(x=>x.TrangThai==1))
                                         {
                                             <tr id="@item.Ma_Chuong">
                                                 <td>   @item.Ma_Chuong </td>
 
                                                 <td>   @item.TenChuong</td>
-                                                <td>  @item.Kho_CauHoi.Count </td>
+                                                <td>  @(item.Kho_CauHoi.Where(x=>x.NguoiTao.Equals(session.TaiKhoan1)).ToList().Count) </td>
                                                 <td>
                                                     <a href="/Admin/CauHoi/Index/@item.Ma_Chuong" class="btn btn-xs btn-primary">
                                                         <span><i class="far fa-eye"></i></span>
-                                                    </a>&ensp;
+                                                    </a>
+                                                    
                                                     @{
                                                         // var session = (TaiKhoan)Session[ComMonStants.UserLogin];
                                                         if (session.ChưcVu.Equals("BoMon"))
@@ -69,6 +68,7 @@
                                                             <button name="Update" class="btn btn-xs btn-success">
                                                                 <span><i class="far fa-edit"></i></span>
                                                             </button>
+
                                                             <button name="Delete" class="btn btn-xs btn-danger">
                                                                 <span><i class="far fa-trash-alt"></i></span>
                                                             </button>
@@ -97,7 +97,7 @@
 <div class="modal" tabindex="-1" role="dialog" id="modalBoMon">
     <div class="modal-dialog" role="document">
         <div class="modal-content">
-            <div class="modal-header bg-dark" style="color:white">
+            <div class="modal-header">
                 <h5 class="modal-title">THÔNG TIN CHƯƠNG</h5>
 
             </div>
@@ -121,7 +121,7 @@
 <div class="modal" tabindex="-1" role="dialog" id="modalConfirm">
     <div class="modal-dialog" role="document">
         <div class="modal-content">
-            <div class="modal-header bg-dark">
+            <div class="modal-header">
                 <h5 class="modal-title">CẢNH BÁO</h5>
 
             </div>
@@ -141,7 +141,7 @@
     <script>
 
         $(document).ready(function () {
-            loadDSGV();
+           loadDSGV();
             $('#btnAdd').click(function () {
                 $('#modalBoMon').modal();
                 $('#idNganh').val('');
@@ -259,14 +259,14 @@
                             tr += '<td>' + v.SoCau + '</td>';
                             tr += '<td>';
                             tr += ' <a href="/Admin/CauHoi/Index/' + v.Ma + '" class="btn btn-xs btn-primary">';
-                            tr += '<span><i class="far fa-eye"></i></span></a>&ensp;';
+                            tr += '<span><i class="far fa-eye"></i></span></a> &ensp;';
                             if (quyen == 1) {
-                                tr += '<button name="Update" class="btn btn-xs btn-success"><i class="far fa-edit" aria-hidden="true"></i></button> &ensp;';
-                                tr += '<button name="Delete" class="btn btn-xs btn-danger"><i class="far fa-trash-alt" aria-hidden="true" style="color:white"></i></button>';
+                                tr += '<button name="Update" class="btn btn-xs btn-success"><span><i class="far fa-edit"></i></span></button> &ensp;';
+                                tr += '<button name="Delete" class="btn btn-xs btn-danger"><span><i class="far fa-trash-alt"></i></span></button>';
                             }
                            
-                            tr += '</td > ';
-                            tr += '</tr > ';
+                            tr += '</td >';
+                            tr += '</tr >';
                             $('#tblchuong').append(tr);
 
                         });

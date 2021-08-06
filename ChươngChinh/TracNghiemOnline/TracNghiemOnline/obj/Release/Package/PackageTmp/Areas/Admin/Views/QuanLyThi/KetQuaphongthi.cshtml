@@ -2,74 +2,129 @@
 @{
     ViewBag.Title = "KetQuaphongthi";
     Layout = "~/Areas/Admin/Views/Shared/LaoutShare.cshtml";
-    var danhgia = (List<TracNghiemOnline.Modell.Danh_Gia>)ViewBag.DanhGia;
+   
 }
 
-@section scripts{
-    <script>
-        $(document).ready(function () {
-                var ctx = document.getElementById('myChart').getContext('2d');
-            var c = [];
-            var ten = [];
-            $('#frmdiem').slideDown();
-            $('#frmbieudo').hide();
-            var maphong = $('#txtmaphong').val();
-                $.ajax({
-                    type: 'Post',
-                    url: "/Admin/Home/DanhGia/"+maphong,
-                    dataType: 'json',
-                    success: function (res) {
+<script>
+   
+    google.charts.load('current', {'packages': ['bar'] });
+   google.charts.setOnLoadCallback(drawChart);
+    function drawChart() {
+        var c = [];
+        $('#particles1').show();
+        var ten = [];
+        $('#frmdiem').hide();
+        $('#frmbieudo').slideDown();
+        var maphong = $('#txtmaphong').val();
+        $.ajax({
+            type: 'Post',
+            url: "/Admin/QuanLyThi/DanhGia/" + maphong,
+            dataType: 'json',
+            success: function (res) {
+                console.log(res.arr1);
+                $('#particles1').hide();
+                var data = google.visualization.arrayToDataTable([
+                    ['Biểu đồ thống kê các chương', 'Yếu/Kém', 'Trung bình', 'Khá', 'Giỏi'],
 
-                        $.each(res.mang, function (k, v) {
+                    [res.arr1[0].TenChuong, res.arr1[0].Yeu, res.arr1[0].tb, res.arr1[0].kha, res.arr1[0].gioi]
+                ]);
 
-                            c.push(v.gt)
-                            ten.push(v.ten);
-
-                        })
-
-                        var chart = new Chart(ctx, {
-                            // The type of chart we want to create
-                            type: 'bar',
-
-                            // The data for our dataset
-                            data: {
-                                labels: ten,
-                                datasets: [{
-                                    label: 'Biểu Đồ Thống Kê',
-                                    backgroundColor: [
-                                        'rgba(255, 99, 132, 0.2)',
-                                        'rgba(54, 162, 235, 0.2)',
-                                        'rgba(255, 206, 86, 0.2)',
-                                        'rgba(75, 192, 192, 0.2)',
-                                        'rgba(153, 102, 255, 0.2)',
-                                        'rgba(255, 159, 64, 0.2)'
-                                    ],
-                                    borderColor: [
-                                        'rgba(255, 99, 132, 1)',
-                                        'rgba(54, 162, 235, 1)',
-                                        'rgba(255, 206, 86, 1)',
-                                        'rgba(75, 192, 192, 1)',
-                                        'rgba(153, 102, 255, 1)',
-                                        'rgba(255, 159, 64, 1)'
-                                    ],
-                                 //   borderWidth: 1,
-                                    data: c
-                                }]
-                            },
-
-                            // Configuration options go here
-                            options: {}
-                        });
+                $.each(res.arr1, function (k, v) {
+                    if (k > 0) {
+                        data.addRows([[v.TenChuong, v.Yeu, v.tb, v.kha, v.gioi]]);
                     }
 
+                })
 
 
-                });
+                var options = {
+                    // width: 1100,
+                    chart: {
+                        title: 'Biểu đồ thống kê',
+
+                    },
+                    @* axes: {
+                    y: {
+                        distance: { label: 'parsecs' }, // Left y-axis.
+                        brightness: { side: 'right', label: 'apparent magnitude' } // Right y-axis.
+                    }
+                }*@
+                };
+
+            var chart = new google.charts.Bar(document.getElementById('columnchart_material'));
+
+                chart.draw(data, google.charts.Bar.convertOptions(options))
+                
+
+        }
+        })
+
+    ;
+    }
+</script>
+@section scripts{
+    <script>
+ 
+        $(document).ready(function () {
+         
+            var ctx = document.getElementById('myChart').getContext('2d');
+            var c = [];
+            var ten = [];
+         
+            var maphong = $('#txtmaphong').val();
+            $.ajax({
+                type: 'Post',
+                url: "/Admin/QuanLyThi/DanhGia/" + maphong,
+                dataType: 'json',
+                success: function (res) {
+
+                    $.each(res.mang, function (k, v) {
+
+                        c.push(v.gt)
+                        ten.push(v.ten);
+
+                    })
+
+                    var chart = new Chart(ctx, {
+                        // The type of chart we want to create
+                        type: 'bar',
+
+                        // The data for our dataset
+                        data: {
+                            labels: ten,
+                            datasets: [{
+                                label: 'Biểu Đồ Thống Kê',
+                                backgroundColor: [
+                                    'rgba(255, 99, 132, 0.2)',
+                                    'rgba(54, 162, 235, 0.2)',
+                                    'rgba(255, 206, 86, 0.2)',
+                                    'rgba(75, 192, 192, 0.2)',
+                                    'rgba(153, 102, 255, 0.2)',
+                                    'rgba(255, 159, 64, 0.2)'
+                                ],
+                                borderColor: [
+                                    'rgba(255, 99, 132, 1)',
+                                    'rgba(54, 162, 235, 1)',
+                                    'rgba(255, 206, 86, 1)',
+                                    'rgba(75, 192, 192, 1)',
+                                    'rgba(153, 102, 255, 1)',
+                                    'rgba(255, 159, 64, 1)'
+                                ],
+                                //   borderWidth: 1,
+                                data: c
+                            }]
+                        },
+
+                        // Configuration options go here
+                        options: {}
+                    });
+                }
+           });
 
             $('#example').DataTable({
                 dom: 'Bfrtip',
                 buttons: [
-                    'copy', 'csv', 'excel', 'pdf', 'print'
+                    'copy', 'excel', 'pdf', 'print'
                 ]
             });
             $('#bntnhanxet').click(function () {
@@ -86,35 +141,54 @@
             });
         });
 
-    </script>
-
-}
-
+      
+  
+</script>
+    }
+<div class="modal" tabindex="-1" role="dialog" id="modalConfirm">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header header-title card-header-info btn-info">
+                <h5 class="modal-title text-center">LÝ DO</h5>
+            </div>
+            <div class="modal-body">
+                <div class="form-group">
+                    <label>Lý do </label>
+                    <textarea class="form-control" id="txtlydo" rows="5"></textarea>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-primary btn-sm" id="btnSubmit">Xác nhận</button>
+                <button type="button" class="btn btn-danger btn-sm" id="btnDong">Đóng</button>
+            </div>
+        </div>
+    </div>
+</div>
 
 
 <div class="col-md-12">
-    <input hidden="hidden" id="txtmon" value="@ViewBag.id" />
+
     <div class="card">
         <div class="card-header">
             <div class="d-flex align-items-center">
                 <h4 class="card-title">KẾT QUẢ PHÒNG THI</h4>
                 <div class="ml-auto ">
                     <button id="bntnhanxet" class="btn btn-primary btn-round" style="float:right">
-                        <i class="fa fa-plus"></i>
+                        <i class="far fa-eye"></i>
                         <span>Xem kết quả </span>
                     </button>
                     <button id="bntthongke" class="btn btn-primary btn-round ml-auto " style="float:right">
-                        <i class="fa fa-plus"></i>
+                        <i class="far fa-eye"></i>
                         <span>Xem thống kê </span>
                     </button>
 
-</div>
-                    <input id="txtmaphong" value="@ViewBag.Maphong" hidden />
                 </div>
-            
+                <input id="txtmaphong" value="@ViewBag.Maphong" hidden />
+            </div>
+
         </div>
-        <div class="card-body " >
-            <div class="container-fluid"  id="frmdiem">
+        <div class="card-body ">
+            <div class="container-fluid" id="frmdiem">
                 <div class="card-body">
                     <div class="navbar-collapse" id="XemDanhgia">
                         <div class="table-responsive">
@@ -133,16 +207,7 @@
 
                                             </tr>
                                         </thead>
-                                        <tfoot>
-                                            <tr>
-                                                <th>Mã Đề</th>
-                                                <th>Mã SV  </th>
-                                                <th> Họ Tên </th>
-                                                <th> Số Câu sai  </th>
-                                                <th> Số Câu đúng  </th>
-                                                <th>  </th>
-                                            </tr>
-                                        </tfoot>
+
                                         <tbody>
                                             @foreach (var item in Model)
                                             {
@@ -154,19 +219,19 @@
                                                     <td>  @item.ketQuaThi.SoCauDung </td>
                                                     <td>  @item.ketQuaThi.DiemSo </td>
                                                     <td>
-                                                        <a href="/Admin/QuanLyThi/DiemSo/@item.ketQuaThi.Ma_DeThi" class="btn btn-sm btn-success"><span>Xem kết quả</span></a>
+                                                        <a href="/Admin/QuanLyThi/DiemSo/@item.ketQuaThi.Ma_DeThi"><span>  <i class="far fa-eye"></i></span></a>
                                                     </td>
                                                 </tr>
                                             }
                                         </tbody>
 
                                     </table>
-                                    </ul>
+
                                 </div>
 
 
 
-                                </ul>
+
                             </div>
                         </div>
 
@@ -175,22 +240,28 @@
 
 
                     </div>
+                </div>
+
+
+
             </div>
 
+            <div class="container-fluid" id="frmbieudo1">
+                <div id="columnchart_material" class="col-12" style=" height: 500px"></div>
+               
 
+            </div>
 
-        </div>
+            <div class="container-fluid" id="frmbieudo">
+                
+                <div class="card mb-4">
+                    <canvas id="myChart" width="100" height="50">
+                    </canvas>
+                </div>
 
-        <div class="container-fluid" id="frmbieudo">
-            <div class="card mb-4">
-                <canvas id="myChart" width="100" height="50">
-                </canvas>
             </div>
 
         </div>
-
 
     </div>
-
-</div>
 </div>

@@ -33,15 +33,105 @@ namespace TracNghiemOnline.Areas.Admin.Controllers
         {
             Session[ComMon.ComMonStants.Cauhoi] = null;
             var session = (TaiKhoan)Session[ComMon.ComMonStants.UserLogin];
-            
+           
             ViewBag.MaChuong = id;
             List<Kho_CauHoi> kho_CauHois = new TracNghiemOnlineDB().Kho_CauHoi.Where(x => x.NguoiTao.Equals(session.TaiKhoan1) && x.Xoa == true && x.Ma_Chuong==id).ToList();
            
             return View(kho_CauHois);
 
         }
-  
+
+
+        public ActionResult KhoCH(long id)
+        {
+            var session = (TaiKhoan)Session[ComMon.ComMonStants.UserLogin];
+            var gv =new TracNghiemOnlineDB().GiaoViens.Find(session.TaiKhoan1);
+            ViewBag.Kho = "KHO GIÁO VIÊN";
+          List<Kho_CauHoi> kho_CauHois = new TracNghiemOnlineDB().Kho_CauHoi.Where(x => x.NguoiTao.Equals(session.TaiKhoan1) && x.Xoa == true && x.TrangThai==true && x.Ma_Chuong == id).ToList();
+            string loai=  (string)Session["Kho"];
+
+            if (loai.Equals("BM"))
+            {
+                kho_CauHois = new TracNghiemOnlineDB().Kho_CauHoi.Where(x => x.NguoiTao.Equals(gv.MaBoMon) && x.Xoa == true && x.Ma_Chuong == id).ToList();
+                ViewBag.Kho = "KHO BỘ MÔN";
+            }
+            
+            if (loai.Equals("ON"))
+            {
+               kho_CauHois= new TracNghiemOnlineDB().Kho_CauHoi.Where(x => x.NguoiTao.Equals(session.TaiKhoan1) && x.Xoa == true && x.TrangThai == false && x.Ma_Chuong == id).ToList();
+                ViewBag.Kho = "KHO ÔN TẬP";
+            }
+          
+            Session[ComMon.ComMonStants.Cauhoi] = null;
+        
+
+            ViewBag.MaChuong = id;
+            //  List<Kho_CauHoi> kho_CauHois = new TracNghiemOnlineDB().Kho_CauHoi.Where(x => x.NguoiTao.Equals(session.TaiKhoan1) && x.Xoa == true && x.Ma_Chuong == id).ToList();
+            ViewBag.kho = "";
+     
+            return View(kho_CauHois);
+
+        }
+        public ActionResult KhoCauHoi()
+        {
+            Session["Kho"] = "BM";
+            var session = (TaiKhoan)Session[ComMon.ComMonStants.UserLogin];
+            List<MonHoc> monHocs = new List<MonHoc>();
+            TracNghiemOnlineDB db =new TracNghiemOnlineDB();
+
+            foreach (var item in db.Shares.Where(x=>x.MaGV.Equals(session.TaiKhoan1)&& x.Loai==1))
+            {
+                var Mon = db.MonHocs.Find(item.MA);
+                monHocs.Add(Mon);
+            }
+
+            return View(monHocs);
+        }
+        public ActionResult DSchuong(long? id)
+        {
+            TracNghiemOnlineDB db = new TracNghiemOnlineDB();
+            
+            List<Chuong_Hoc> chuong_Hocs = db.Chuong_Hoc.Where(x => x.Ma_Mon == id && x.TrangThai !=0).ToList();
+            var session = (TaiKhoan)Session[ComMon.ComMonStants.UserLogin];
+            string loai = (string)Session["Kho"];
+            var gv = db.GiaoViens.Find(session.TaiKhoan1);
+            foreach (var item in chuong_Hocs)
+            {
+                item.Kho_CauHoi=new List<Kho_CauHoi>();
+                ViewBag.Kho = "KHO GIÁO VIÊN";
+            
+                if (loai.Equals("BM"))
+                {
+                 
+                   item.Kho_CauHoi = item.Kho_CauHoi.Where(x => x.NguoiTao.Equals(gv.MaBoMon.Trim()) && x.Xoa == true).ToList();
+
+                    ViewBag.Kho = "NGÂN HÀNG CÂU HỎI BỘ MÔN";
+                }
+             else    if (loai.Equals("ON"))
+                {
+                    item.Kho_CauHoi = item.Kho_CauHoi.Where(x => x.NguoiTao.Equals(session.TaiKhoan1) && x.Xoa == true && x.TrangThai==false).ToList();
+
+                    ViewBag.Kho = "KHO ÔN TẬP";
+                }
+
+                else
+                {
+                    item.Kho_CauHoi = item.Kho_CauHoi.Where(x => x.NguoiTao.Equals(session.TaiKhoan1) && x.Xoa == true&& x.TrangThai == true).ToList();
+
+                }
+
+            }
+        
+            Session[ComMon.ComMonStants.Cauhoi] = null;
+
       
+            //  List<Kho_CauHoi> kho_CauHois = new TracNghiemOnlineDB().Kho_CauHoi.Where(x => x.NguoiTao.Equals(session.TaiKhoan1) && x.Xoa == true && x.Ma_Chuong == id).ToList();
+         
+            return View(chuong_Hocs);
+
+        }
+
+
 
         public ActionResult DapAn(long? id)
         {
@@ -73,16 +163,69 @@ namespace TracNghiemOnline.Areas.Admin.Controllers
         {
             var session = (TaiKhoan)Session[ComMon.ComMonStants.UserLogin];
             List<Kho_CauHoi> cauHois = (List<Kho_CauHoi>)Session[ComMon.ComMonStants.Cauhoi];
-            foreach (var item in cauHois)
+
+            if (session.ChưcVu.Equals("BoMon"))
             {
-                item.Xoa = true;
-                item.TrangThai = true;
-                item.NguoiTao = session.TaiKhoan1;
-                new CauHoiDao().CreatrQuestion(item);
+                foreach (var item in cauHois)
+                {
+
+                    item.Xoa = true;
+                    item.TrangThai = true;
+                    item.NguoiTao = session.TaiKhoan1;
+                    new CauHoiDao().CreatrQuestion(item);
+                }
+                Session[ComMon.ComMonStants.Cauhoi] = null;
+                return RedirectToAction("Index/" + cauHois[0].Ma_Chuong, "CauHoi");
+
             }
+            else
+            {
+                string loai = (string)Session["Kho"];
+
+                if (loai.Equals("BM"))
+                {
+                    TracNghiemOnlineDB db = new TracNghiemOnlineDB();
+                    var gv = db.GiaoViens.Find(session.TaiKhoan1);
+                    foreach (var item in cauHois)
+                    {
+
+                        item.Xoa = true;
+                        item.TrangThai = true;
+                        item.NguoiTao = gv.MaBoMon;
+                        new CauHoiDao().CreatrQuestion(item);
+                    }
+                }
+              else  if (loai.Equals("ON"))
+                {
+
+                    foreach (var item in cauHois)
+                    {
+
+                        item.Xoa = true;
+                        item.TrangThai = false;
+                        item.NguoiTao = session.TaiKhoan1;
+                        new CauHoiDao().CreatrQuestion(item);
+                    }
+
+                }
+                else
+                {
+                    foreach (var item in cauHois)
+                    {
+
+                        item.Xoa = true;
+                        item.TrangThai = true;
+                        item.NguoiTao = session.TaiKhoan1;
+                        new CauHoiDao().CreatrQuestion(item);
+                    }
+
+                }
+            }
+
+              return RedirectToAction("KhoCH/" + cauHois[0].Ma_Chuong, "CauHoi");
             //cauHois = new List<Kho_CauHoi>();
-            Session[ComMon.ComMonStants.Cauhoi] = null;
-            return RedirectToAction("Index/" + cauHois[0].Ma_Chuong, "CauHoi");
+           
+          
         }
         public void save_file_from_url(string file_name, string url)
         {
@@ -295,17 +438,20 @@ namespace TracNghiemOnline.Areas.Admin.Controllers
         public ActionResult deleteCauHoi(long? id)
         {
             TracNghiemOnlineDB db = new TracNghiemOnlineDB();
-            var s = db.Kho_CauHoi.SingleOrDefault(x => x.Ma_CauHoi == id);
+            var s = db.Kho_CauHoi.Find(id);
             var machuong = s.Ma_Chuong;
-            foreach (var da in s.Dap_AN.ToList())
-            {
-                db.Dap_AN.Remove(da);
-                db.SaveChanges();
-            }
-            db.Kho_CauHoi.Remove(s);
-            db.SaveChanges();
+            var session = (TaiKhoan)Session[ComMon.ComMonStants.UserLogin];
 
-            return RedirectToAction("Index/" + machuong, "CauHoi");
+            s.Xoa = false;
+
+             db.SaveChanges() ;
+            db.SaveChanges();
+               if (session.ChưcVu.Equals("BoMon"))
+            {
+                return RedirectToAction("Index/" + machuong, "CauHoi");
+            }
+            return RedirectToAction("KhoCH/" + machuong, "CauHoi");
+          
         }
         public ActionResult EditCH(int id)
         {
@@ -321,7 +467,7 @@ namespace TracNghiemOnline.Areas.Admin.Controllers
             int vt = (int)Session["vt"];
            
             List<Kho_CauHoi> cauHois = (List<Kho_CauHoi>)Session[ComMon.ComMonStants.Cauhoi];
-            cauHois.RemoveAt(vt);
+            cauHois.Remove(cauHois[vt]);
             Session[ComMon.ComMonStants.Cauhoi] = cauHois;
             return RedirectToAction("LoadCauHoi/"+id);
         }
@@ -364,151 +510,7 @@ namespace TracNghiemOnline.Areas.Admin.Controllers
             path = "/Content/" + file.FileName;
             return Json(new { path }, JsonRequestBehavior.AllowGet);
         }
-        //public JsonResult XuLyFile(HttpPostedFileBase file)
-        //{
-        //    List<Kho_CauHoi> cauHois = new List<Kho_CauHoi>();
-        //    var session = (TaiKhoan)Session[ComMon.ComMonStants.UserLogin];
-
-
-        //    object path = Server.MapPath("~/Content/" + file.FileName);
-        //    if (System.IO.File.Exists(path.ToString()))
-        //    {
-        //        System.IO.File.Delete(path.ToString());
-        //    }
-
-        //    file.SaveAs(path.ToString());
-        //    List<Kho_CauHoi> cauhoi = new List<Kho_CauHoi>();
-
-
-        //    Document document = new Document(path.ToString());
-
-        //    int sas = 1;
-        //    Section section = document.Sections[0];
-        //    if (section.Tables.Count > 0)
-        //    {
-        //        Table table = section.Tables[0] as Table;
-        //        for (int i = 0; i < table.Rows.Count; i++)
-        //        {
-        //            Kho_CauHoi cau = new Kho_CauHoi();
-
-        //            for (int j = 0; j < table.Rows[i].Cells.Count; j++)
-        //            {
-
-        //                foreach (Paragraph paragraph in table.Rows[i].Cells[j].Paragraphs)
-        //                {
-        //                    string noidung = "";
-        //                    Dap_AN da = new Dap_AN();
-        //                    //Get Each Document Object of Paragraph Items
-
-        //                    foreach (DocumentObject docObject in paragraph.ChildObjects)
-        //                    {
-
-        //                        //If Type of Document Object is Picture, Extract.  
-        //                        if (docObject.DocumentObjectType == DocumentObjectType.Picture)
-        //                        {
-        //                            String anh1 = null;
-        //                            string s = session.TaiKhoan1 + "-" + sas + DateTime.Now.ToString("yyyyMMddHHmmss") + ".png";
-        //                            DocPicture pic = docObject as DocPicture;
-        //                            String imgName = Server.MapPath("~/Content/Img/" + s);
-        //                            anh1 = "/Content/Img/" + s;
-        //                            //Save Image  
-        //                            pic.Image.Save(imgName, System.Drawing.Imaging.ImageFormat.Png);
-        //                            noidung = noidung + "   <img src='" + anh1 + "'>  ";
-
-        //                            sas++;
-        //                        }
-        //                        else if (docObject.DocumentObjectType == DocumentObjectType.TextRange)
-        //                        {
-
-        //                            TextRange nd = docObject as TextRange;
-
-        //                            noidung = noidung + nd.Text;
-
-
-
-
-        //                        }
-        //                        else if (docObject.DocumentObjectType == DocumentObjectType.OfficeMath)
-        //                        {
-
-        //                            noidung = noidung + (docObject as OfficeMath).ToMathMLCode().Replace("mml:", "");
-
-        //                        }
-
-
-
-
-        //                    }
-        //                    if (j == 0)
-        //                    {
-        //                        cau.NoiDung = noidung;
-
-        //                    }
-        //                    else if (j == 1)
-        //                    {
-        //                        if (noidung.Contains(1.ToString()))
-        //                        {
-        //                            cau.MucDo = "Nhận Biết";
-        //                        }
-        //                        else if (noidung.Contains(2.ToString()))
-        //                        {
-        //                            cau.MucDo = "Thông Hiểu";
-        //                        }
-        //                        else if (noidung.Contains(3.ToString()))
-        //                        {
-        //                            cau.MucDo = "Vận Dụng";
-
-        //                        }
-        //                        else if (noidung.Contains(4.ToString()))
-        //                        {
-        //                            cau.MucDo = "Vận Dụng Cao";
-        //                        }
-
-
-        //                    }
-        //                    else if (j > 1)
-        //                    {
-        //                        if (!noidung.ToString().Equals(""))
-        //                        {
-        //                            da.NoiDung = noidung.ToString();
-
-
-        //                            if (noidung.Substring(0, noidung.ToString().IndexOf("*") + 1).Replace(" ", "").Equals("*"))
-        //                            {
-        //                                da.NoiDung = noidung.ToString().Substring(noidung.ToString().IndexOf("*") + 1, noidung.ToString().Length - noidung.ToString().IndexOf("*") - 1);
-        //                                da.TrangThai = true;
-        //                            }
-        //                            else
-        //                            {
-
-        //                                da.TrangThai = false;
-        //                            }
-
-
-        //                            cau.Dap_AN.Add(da);
-        //                        }
-
-        //                    }
-
-        //                }
-
-        //            }
-        //            cauhoi.Add(cau);
-
-
-        //        }
-        //    }
-
-        //    Session[ComMon.ComMonStants.Cauhoi] = cauhoi;
-
-        //    System.IO.File.Delete(path.ToString());
-        //    return Json(new
-        //    {
-        //        status = true
-        //    });
-
-        //}
-        // }
+    
         public JsonResult XuLyFile(HttpPostedFileBase file)
         {
             List<Kho_CauHoi> cauHois = new List<Kho_CauHoi>();
@@ -558,8 +560,6 @@ namespace TracNghiemOnline.Areas.Admin.Controllers
                                 TextRange nd = docObject as TextRange;
 
                                 totalText +=  nd.Text;
-
-
 
 
                             }

@@ -177,7 +177,7 @@
                     var formdata = new FormData();
                     formdata.append('file', file[0]);
                     var machuong = this.title;
-                  
+                    $('#particles1').show();
                     $.ajax({
                         type: 'POST',
                         url: '/Admin/CauHoi/XuLyFile ',
@@ -185,6 +185,7 @@
                         processData: false,//Khong Xu Ly Du Lieu
                         data: formdata,
                         success: function (urlImage) {
+                            $('#particles1').hide();
                             if (urlImage.status == true) {
                                 @*window.location = "/Admin/CauHoi/CreateCauHoi/" + machuong;*@
                                 window.location = "/Admin/CauHoi/LoadCauHoi/" + machuong;

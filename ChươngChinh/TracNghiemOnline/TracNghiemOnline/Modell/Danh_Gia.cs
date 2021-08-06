@@ -14,9 +14,9 @@ namespace TracNghiemOnline.Modell
 
         public long? MaChuong { get; set; }
 
-        public double SoCauDung { get; set; }
+        public double? SoCauDung { get; set; }
 
-        public double TongCau { get; set; }
+        public double? TongCau { get; set; }
 
         [StringLength(200)]
         public string NhanXet { get; set; }

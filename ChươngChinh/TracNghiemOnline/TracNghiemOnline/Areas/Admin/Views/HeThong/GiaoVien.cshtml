@@ -29,6 +29,7 @@
                                 <tr role="row">
                                     <th class="sorting_asc" tabindex="0" aria-controls="add-row" rowspan="1" colspan="1" aria-sort="ascending" aria-label="Name: activate to sort column descending">Mã giáo viên</th>
                                     <th class="sorting" tabindex="0" aria-controls="add-row" rowspan="1" colspan="1" aria-label="Position: activate to sort column ascending">Tên giáo viên</th>
+                                    <th class="sorting" tabindex="0" aria-controls="add-row" rowspan="1" colspan="1" aria-label="Position: activate to sort column ascending">Email</th>
                                     <th class="sorting" tabindex="0" aria-controls="add-row" rowspan="1" colspan="1" aria-label="Position: activate to sort column ascending">Bộ Môn</th>
                                     <th style="width: 15%;" class="sorting" tabindex="0" aria-controls="add-row" rowspan="1" colspan="1" aria-label="Action: activate to sort column ascending"></th>
                                 </tr>
@@ -44,7 +45,7 @@
                                     <td>@item.MaGV</td>
 
                                     <td>@item.TenGV</td>
-
+                                    <td>@item.Email</td>
                                     <td>@{ 
                                         try { @item.BoMon.Ten}
 
@@ -88,7 +89,8 @@
                         <input type="text" class="form-control" id="maGV" placeholder="Mã giáo viên">
                         <label for="exampleFormControlInput1">Tên giáo viên</label>
                         <input type="text" class="form-control" id="tenGV" placeholder="Tên giáo viên">
-
+                        <label for="exampleFormControlInput1">Email</label>
+                        <input type="email" class="form-control" id="email" placeholder="Email">
                         <label>Chọn ngành</label>
                         <div>
                             @if (ViewBag.lstNganh != null)
@@ -107,6 +109,7 @@
         </div>
     </div>
 </div>
+</br>
 @*Modal Xóa*@
 <div class="modal" tabindex="-1" role="dialog" id="modalConfirm">
     <div class="modal-dialog" role="document">
@@ -144,6 +147,7 @@
                             let tr = '<tr id = "' + v.MaGV + '">';
                             tr += '<td>' + v.MaGV + '</td>';
                             tr += '<td>' + v.TenGV + '</td>';
+                            tr += '<td>' + v.Email + '</td>';
                             tr += '<td id = "' + v.MaNganh + '">' + v.TenNganh + '</td>';
                             tr += '<td>';
                             tr += '<button name="Update" class="btn btn-xs btn-primary"><i class="far fa-edit" aria-hidden="true"></i></button>&ensp;';
@@ -186,7 +190,8 @@
                     data: {
                         maGV: maGV,
                         tenGV: tenGV,
-                        maNganh: maNganh
+                        maNganh: maNganh,
+                        email: $('#email').val()
                     },
                     success: function (data) {
                         if (data.code == 200) {
@@ -204,7 +209,8 @@
                     data: {
                         maGV: maGV,
                         tenGV: tenGV,
-                        maNganh: maNganh
+                        maNganh: maNganh,
+                        email: $('#email').val()
                     },
                     success: function (data) {
                         if (data.code == 200) {

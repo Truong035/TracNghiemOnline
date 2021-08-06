@@ -9,7 +9,8 @@
     <script>
 
         function BoDe(ID) {
-            document.location = '/Bode/' + ID;
+         //   document.location = '/Bode/' + ID;
+            document.location = '/LopHoc/' + ID;
 
         }
 
@@ -20,14 +21,22 @@
 
 <section class="py-8">
     <div class="container-fluid">
+        @if (Model.Count == 0)
+        {
+            <div class="card-body text-center">
+
+                <img src="~/assets/img/inbox_100px.png" />
+                <h4 style="font-family:Arial">Bạn chưa có lớp học phần nào</h4>
+            </div>
+        }
         <div class="row" style="padding:0% 5%">
 
-            @foreach (var item in Model)
+            @foreach (var item in Model.Where(x=>x.TrangThai==1))
             {
 
                 <div class="col-md-3" onclick="BoDe(id)" id="@item.MaLop.Trim()" style="margin-bottom:3%">
                     <div class="card" style="width: 18rem;border:solid 1px rgb(218,220,224); cursor:pointer">
-                        <div class="caption" style=" height:100px; border-top-left-radius:9px;border-top-right-radius:9px; padding:20px 10px;background-image: url('https://www.gstatic.com/classroom/themes/img_read.jpg');background-size: cover;">
+                        <div class="caption" style=" height: 100px; border-top-left-radius: 9px; border-top-right-radius: 9px; padding: 20px 10px; background-image: url('https://www.gstatic.com/classroom/themes/img_backtoschool.jpg'); background-size: cover;">
                             <h4 class="text-uppercase text-white" style="font-family:Arial">@item.TenLop</h4>
                         </div>
                         <div class="card-body">
@@ -36,11 +45,11 @@
                             <p>Học kỳ: @item.KiThi.TenKi </p>
                         </div>
                         @*<div class="card-body"> Kỳ Học : @item.KiThi.TenKi </div>
-                    <div class="card-body"> Môn :  @item.MonHoc.TenMon </div>*@
+                        <div class="card-body"> Môn :  @item.MonHoc.TenMon </div>*@
                     </div>
                 </div>
 
-               
+
 
             }
         </div>

@@ -32,7 +32,7 @@
                         </thead>
 
                         <tbody>
-                            @foreach (var item in Model)
+                            @foreach (var item in Model.Where(x=>x.Xoa==true))
                             {
                                 <tr>
                                     <td> @item.MaPhong </td>

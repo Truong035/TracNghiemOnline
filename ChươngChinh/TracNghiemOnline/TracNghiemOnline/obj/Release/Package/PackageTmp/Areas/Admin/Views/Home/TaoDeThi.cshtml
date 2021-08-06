@@ -61,16 +61,22 @@
             {
                 <h1 id="ThongBao" style="color:azure"></h1>
                 <div class="form-group">
+                    <label>Nội dung</label>
+                    @Html.EditorFor(model => model.NoiDung, new { htmlAttributes = new { @class = "form-control col-12" } })
+                    @Html.ValidationMessageFor(model => model.NoiDung, "", new { @class = "text-danger" })
+
+                </div>
+
+                <div class="form-group">
                     <label>Môn Học:</label>
                     <select class=" form-control col-12" id="TxtMonHoc" onchange="Show()">
                         <option value=" ">--Chọn môn học--</option>
-                        @foreach (var item in monHoc)
+                        @foreach (var item in monHoc.Where(x=>x.TrangThai==true))
                         {
 
                             <option value="@item.Ma_Mon"> @item.TenMon </option>
 
                         }
-
                     </select>
                     @if (thongbao1.Length > 0)
                     {
@@ -80,50 +86,53 @@
 
                     }
                 </div>
-                <div class="form-group">
-                    <label>Nội dung</label>
-
-                    @Html.EditorFor(model => model.NoiDung, new { htmlAttributes = new { @class = "form-control col-12" } })
-                    @Html.ValidationMessageFor(model => model.NoiDung, "", new { @class = "text-danger" })
-
-                </div>
 
 
-                <div class="form-group">
-                    <label>Thời gian làm bài</label>
+            
+                <div class="row pl-2">
+                    <div class="form-group col">
+                        <label>Thời gian làm bài</label>
 
-                    <select class=" form-control col-12" id="txtTG" onchange="SHOWTG()">
-                        <option value="">--Chọn thời gian--</option>
-                        @for (int i = 10; i <= 180; i += 10)
+                        <select class=" form-control col-12" id="txtTG" onchange="SHOWTG()">
+                            <option value="">--Chọn thời gian--</option>
+                            @for (int i = 10; i <= 180; i += 10)
+                            {
+                                <option value="@i"> @i Phút </option>
+
+                            }
+                        </select>
+                        @if (thongbao.Length > 0)
                         {
-                            <option value="@i"> @i Phút </option>
+
+                            <p class="text-danger">@thongbao</p>
 
                         }
-                    </select>
-                    @if (thongbao.Length > 0)
-                    {
 
-                        <p class="text-danger">@thongbao</p>
+                    </div>
+                    <div class="form-group col">
+                        <label>Cách chọn câu hỏi:</label>
+                        <select class=" form-control col-12" id="txtchon" onchange="showoption()">
+                            <option value="">--Cách Thức Tạo Đề--</option>
+                            <option value="Ngẫu Nhiên">Ngẫu Nhiên </option>
+                            <option value="Tự Chọn">Tự Chọn</option>
+                        </select>
+                        @if (thongbao2.Length > 0)
+                        {
 
-                    }
+                            <p class="text-danger">@thongbao2</p>
 
+
+                        }
+                    </div>
                 </div>
+               
                 <div class="form-group">
-                    <label>Cách chọn câu hỏi:</label>
-                    <select class=" form-control col-12" id="txtchon" onchange="showoption()">
-                        <option value="">--Cách Thức Tạo Đề--</option>
-                        <option value="Ngẫu Nhiên">Ngẫu Nhiên </option>
-                        <option value="Tự Chọn">Tự Chọn</option>
-                    </select>
-                    @if (thongbao2.Length > 0)
-                    {
 
-                        <p class="text-danger">@thongbao2</p>
+                    <label class="pr-4">Đề Bộ Môn</label>
+                    @Html.CheckBoxFor(model => model.LoaiDe, new { @class = "control-label" })
+                    @Html.ValidationMessageFor(model => model.LoaiDe, "", new { @class = "text-danger" })
 
-
-                    }
                 </div>
-
                 <div class="row">
                     <div class="mt-lg-2" style="margin-left:450px;">
                         <button class=" btn-round btn btn-success"> Hoàn Thành </button>
@@ -132,6 +141,7 @@
                         <a class=" btn-round btn btn-primary" href="/Admin/Home/DSDETHI"> Quay Lai </a>
                     </div>
                 </div>
+
 
             }
 

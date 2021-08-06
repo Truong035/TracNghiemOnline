@@ -136,29 +136,8 @@
             });
             function Loaddata(data) {
 
-                $('#bodeid').empty();
-                $('#modalSinhVien').hide();
-                $('#modalConfirm').modal('hide');
-                $.each(data.Bode, function (k, v) {
-                    let = '<tr>'
 
-                    let += '<td>' + v.MaDe + '</td>';
-                    let += '<td>' + v.Ten + '</td>';
-                    let += '<td>' + v.TenMon + '</td>';
-                    let += '<td>' + v.SoCau + '</td>';
-                    let += '<td>' + v.ThoiGian + '</td>';
-
-                    let += '<td>' + v.Giaovien + '</td>';
-                    let += '<td id="Đã phê duyệt"><button name="btnpheduyet" class="btn btn-sm badge-success ">   Duyệt </button> ';
-                    let += '<button  name="btnhuyduyet" class="btn btn-sm badge-success "> Hủy </button>';
-                    let += '<a href="/Admin/Home/LoadDeThi/' + v.MaDe + '" class="btn btn-sm btn-primary"><span><i class="far fa-eye"></i></span></a> </td> ';
-
-                    let += '</tr>'
-                    $('#bodeid').append(let);
-
-                });
-
-
+                window.location = "/Admin/BoMon/DSDethitheobm";
 
             }
 
@@ -199,10 +178,11 @@
                     var session = (TaiKhoan)Session[ComMonStants.UserLogin];
                     if (!session.ChưcVu.Equals("Admin"))
                     {
-                        <a href="/Admin/Bomon/Taodethi" class="btn btn-primary btn-round ml-auto" style="float:right">
+                        <a href="/Admin/Home/TaoDeThi" class="btn btn-primary btn-round ml-auto" style="float:right">
                             <i class="fa fa-plus"></i>
                             <span>Thêm đề thi</span>
                         </a>
+
                     }
                 }
 
@@ -220,32 +200,41 @@
                                 <th class="sorting" tabindex="0" aria-controls="add-row" rowspan="1" colspan="1" aria-label="Position: activate to sort column ascending">Tên môn học</th>
                                 <th class="sorting" tabindex="0" aria-controls="add-row" rowspan="1" colspan="1" aria-label="Position: activate to sort column ascending">Số câu</th>
                                 <th class="sorting" tabindex="0" aria-controls="add-row" rowspan="1" colspan="1" aria-label="Position: activate to sort column ascending">Thời gian thi</th>
+                                <th class="sorting" tabindex="0" aria-controls="add-row" rowspan="1" colspan="1" aria-label="Position: activate to sort column ascending">Ngày gửi</th>
                                 <th class="sorting" tabindex="0" aria-controls="add-row" rowspan="1" colspan="1" aria-label="Position: activate to sort column ascending">Người tạo</th>
                                 <th style="width: 15%;" class="sorting" tabindex="0" aria-controls="add-row" rowspan="1" colspan="1" aria-label="Action: activate to sort column ascending"></th>
-                                </tr>
+                            </tr>
 
 
 <tbody id="bodeid">
                                 @foreach (var item in Model)
                                 {
-                                    <tr>
-                                        <td> @item.Ma_BoDe </td>
-                                        <td>  @item.NoiDung </td>
-                                        <td> @item.MonHoc.TenMon</td>
-                                        <td> @item.SoCau</td>
-                                        <td> @item.ThoiGianThi</td>
-                                        <td>  @item.GiaoVien.TenGV </td>
+    <tr>
+        <td> @item.Ma_BoDe </td>
+        <td>  @item.NoiDung </td>
+        <td> @item.MonHoc.TenMon</td>
+        <td> @item.SoCau</td>
+        <td> @item.ThoiGianThi</td>
+        <td>  @item.ThoiGianMo </td>
+        <td>  @item.GiaoVien.TenGV </td>
 
-                                        <td>
-                                            <button name="btnpheduyet" class="btn btn-sm badge-success "> Duyệt </button>
+        <td>
+            <button name="btnpheduyet" class="btn btn-sm badge-success "> Duyệt </button>
 
-                                            <button name="btnhuyduyet" class="btn btn-sm badge-danger "> Hủy </button>
-                                            <a href="/Admin/Home/LoadDeThi/@item.Ma_BoDe" class="btn btn-xs btn-primary"><span><i class="far fa-eye"></i></span></a>
+            <button name="btnhuyduyet" class="btn btn-sm badge-danger "> Hủy </button>
+            @{
 
-                                        </td>
+                if (!session.ChưcVu.Equals("Admin"))
+                {
+                    <a href="/Admin/Home/LoadDeThi/@item.Ma_BoDe" class="btn btn-xs btn-primary"><span>Xem</span></a>
+                }
+            }
 
 
-                                    </tr>
+        </td>
+
+
+    </tr>
 
                                 }
                             </tbody>
@@ -261,41 +250,3 @@
 
 
 
-<div class="modal" tabindex="-1" role="dialog" id="modalSinhVien">
-    <div class="modal-dialog" role="document">
-        <div class="modal-content">
-            <div class="modal-header bg-dark" style="color:white">
-                <h5 class="modal-title">THÔNG TIN ĐỀ THI</h5>
-            </div>
-            <div class="modal-body">
-                <p>
-                    <div class="form-group">
-                        <label>Mã Đề</label>
-                        <input type="text" class="form-control" id="MaDe">
-                        <label>Nôi Dung</label>
-                        <input type="text" class="form-control" id="NoiDung">
-                        <div class="form-group">
-                            <label>Thời Gian</label>
-                            <select class=" form-control col-12" id="txtTG">
-                                <option value=""> ==========Thời Gian ============= </option>
-                                @for (int i = 10; i <= 180; i += 10)
-                                {
-                                    <option value="@i"> @i  Phút </option>
-
-                                }
-                            </select>
-
-                        </div>
-
-
-
-                    </div>
-                </p>
-            </div>
-            <div class="modal-footer">
-                <button type="button" class="btn btn-success" id="btnSubmit">Xác nhận</button>
-                <button type="button" class="btn btn-secondary" data-dismiss="modal" id="btnDong">Đóng</button>
-            </div>
-        </div>
-    </div>
-</div>

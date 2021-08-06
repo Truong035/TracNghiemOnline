@@ -4,18 +4,7 @@ $(document).ready(function() {
     $('#add-row').DataTable({
         dom: 'Bfrtip',
         buttons: [
-            {
-                extend: 'excel',
-                oriented: 'potrait',
-                pageSize: 'Legal',
-                title: ' Data Pasien',
-                download: 'open'
-
-            },
-            'copy',
-            'excel',
-            'csv',
-            'pdf'
+            'copy', 'excel', 'pdf', 'print'
         ]
     });
 });

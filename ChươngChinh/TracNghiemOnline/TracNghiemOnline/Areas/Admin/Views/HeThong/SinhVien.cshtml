@@ -26,7 +26,7 @@
                 <div id="add-row_wrapper" class="dataTables_wrapper container-fluid dt-bootstrap4">
                   
                         <div class="col-sm-12">
-                            <table id="dataTable" class="display table table-striped table-hover dataTable" role="grid" aria-describedby="add-row_info">
+                            <table id="add-row" class="display table table-striped table-hover dataTable" role="grid" aria-describedby="add-row_info">
                                 <thead>
                                     <tr role="row">
                                         <th class="sorting_asc" tabindex="0" aria-controls="add-row" rowspan="1" colspan="1" aria-sort="ascending" aria-label="Name: activate to sort column descending">Mã sinh viên</th>
@@ -39,7 +39,7 @@
                                 </thead>
 
                                 <tbody id="tblSinhVien">
-                             @foreach (var item in new TracNghiemOnlineDB().SinhViens.Where(x=>x.DaXoa==null).ToList())
+                             @foreach (var item in new TracNghiemOnlineDB().SinhViens.Where(x=>x.DaXoa==null||x.DaXoa==1).ToList())
                              {
                                     <tr id="@item.MaSV">
                                         <td>@item.MaSV</td>
@@ -134,7 +134,7 @@
     <script>
 
         $(document).ready(function () {
-            loadDSSV();
+            //loadDSSV();
 
           
 

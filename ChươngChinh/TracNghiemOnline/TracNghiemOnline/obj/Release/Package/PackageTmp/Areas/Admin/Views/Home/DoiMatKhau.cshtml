@@ -1,0 +1,76 @@
+﻿
+@{
+    ViewBag.Title = "DoiMatKhau";
+    Layout = "~/Areas/Admin/Views/Shared/LaoutShare.cshtml";
+}
+
+<div class="col-md-12">
+    <div class="card">
+        <div class="card-header">
+            <div class="d-flex align-items-center">
+                <h4 class="card-title">ĐỔI MẬT KHẨU</h4>
+
+            </div>
+        </div>
+        <div class="card-body">
+            <div class="col-md-4" style="margin-left:30%">
+                <div class="row" style="margin-bottom:10px">
+                    <label>Mật khẩu cũ</label>
+                    <input value="" id="txtMatKhauCu" type="password" class="form-control" />
+                </div>
+                <div class="row" style="margin-bottom:10px">
+                    <label>Mật khẩu mới</label>
+                    <input value="" id="txtMatKhauMoi" type="password" class="form-control" />
+                </div>
+                <div class="row" style="margin-bottom:10px">
+                    <label>Xác nhận mật khẩu</label>
+                    <input value="" id="txtXacNhan" type="password" class="form-control" />
+                </div>
+                <div class="row" style="margin-bottom:10px" id="txtMess">
+                    
+                </div>
+                <button id="btnXacNhan" class="btn btn-primary btn-round " style="margin-left:30%">
+                    <span>Lưu thay đổi</span>
+                </button>
+            </div>
+        </div>
+    </div>
+
+</div>
+@section Jsfooter{
+    <script>
+        $(document).ready(function () {
+
+            $('#btnXacNhan').click(function () {
+                if ($('#txtMatKhauMoi').val() != "" && $('#txtXacNhan').val() != "" && $('#txtMatKhauCu').val() != "") {
+                    if ($('#txtMatKhauMoi').val() != $('#txtXacNhan').val()) {
+                        $('#txtMess').empty();
+                        $('#txtMess').append('<h5 style="font-family:Arial; color:red" >Mật khẩu không khớp</h5>')
+                    } else {
+                        $.ajax({
+                            type: 'post',
+                            url: '/Admin/Home/DoiMK',
+                            data: {
+                                matkhaucu: $('#txtMatKhauCu').val(),
+                                matkhaumoi: $('#txtMatKhauMoi').val()
+                            },
+                            success: function (data) {
+                                $('#txtMess').empty();
+                                if (data.trangthai == 1) {
+                                    $('#txtMess').append('<h5 style="font-family:Arial; color:red" >Mật khẩu cũ không chính xác</h5>')
+                                } else {
+                                    alert("Đổi mật khẩu thành công!");
+                                    location.reload();
+                                }
+                            }
+                        })
+                    }
+                } else {
+                    alert("Vui lòng nhập đầy đủ thông tin!");
+                }
+
+            })
+        });
+    </script>
+    }
+

@@ -13,7 +13,6 @@ namespace TracNghiemOnline.Modell
         public LopHocPhan()
         {
             DS_LopHP = new HashSet<DS_LopHP>();
-            BoDeOnTaps = new HashSet<BoDeOnTap>();
             Phong_Thi = new HashSet<Phong_Thi>();
         }
 
@@ -41,9 +40,6 @@ namespace TracNghiemOnline.Modell
         public virtual GiaoVien GiaoVien { get; set; }
 
         public virtual KiThi KiThi { get; set; }
-
-        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<BoDeOnTap> BoDeOnTaps { get; set; }
 
         public virtual MonHoc MonHoc { get; set; }
 

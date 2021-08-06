@@ -21,10 +21,10 @@
             </a>
         </div>
         <div class="sidebar-wrapper">
-            <div class="card ">
+            @*<div class="card ">
                 <img src="https://i.ytimg.com/vi/Lom1Xn8Mw-8/mqdefault.jpg" class="rounded" alt="Responsive image" />
 
-            </div>
+            </div>*@
             <div class="col-12">
                 <div class="card col-md-12" style="margin-top:3%">
                     <input id="TxtThoiGian" hidden="hidden" value="@ViewBag.GioThi" />
@@ -48,12 +48,8 @@
         </div>
     </div>
     <div class="main-panel">
-    
         <div class="content" id="frmbailam">
-
-
-
-            <div class="container-fluid">
+          <div class="container-fluid">
                 <div class="container-fluid" style="margin-top:-5%">
                     <div class=" row card" style="width:102%">
 
@@ -279,7 +275,7 @@
                         </div>
                     </div>
                     <div class=" card-header-text text-center">
-                        <a class="btn btn-info" href="/Diemthi/`+ madethi+`">Nộp</a>
+                        <a class="btn btn-info" href="/TrangChu/TinhDiem/`+ madethi+`">Nộp</a>
                         <a class="btn btn-danger" onclick="Close2()">Đóng</a>
                     </div>
                 </div>
@@ -303,7 +299,6 @@
             var tg = $('#TxtThoiGian').val();
             var countDownDate = new Date(tg).getTime();
             // cập nhập thời gian sau mỗi 1 giây
-
             x = setInterval(function () {
                 // Lấy thời gian hiện tại
                 $.ajax({
@@ -321,7 +316,7 @@
                                         <div class="card-header">
                                             <div class="stats">
 
-                                                <h3 class="card-text">Bạn đã bị giáo viên cầm thi</h3>
+                                                <h3 class="card-text">Bạn đã bị giáo viên cấm thi</h3>
                                             </div>
                                          </div>
                                         <div class=" card-header-text text-center">
@@ -366,7 +361,7 @@
                 // Nếu thời gian kết thúc, hiển thị chuỗi thông báo
                 if (distance < 0) {
                     alert("Đã Hết Giờ Làm Bài")
-                    window.location = "/Diemthi/" + madethi;
+                    window.location = "/TrangChu/TinhDiem/" + madethi;
                     clearInterval(x);
                 }
             }, 1000);
@@ -520,7 +515,6 @@
         }
     </script>
     <script>
-
         document.getElementById("demo1").onmouseleave = function () { mouseLeave() };
 
         function mouseEnter() {
@@ -542,7 +536,6 @@
             cout = 1;
             document.getElementById("demo1").onmouseenter = function () { mouseEnter() };
             x = setInterval(function () {
-
                 cout++;
                 if (cout == 3) {
 

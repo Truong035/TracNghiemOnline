@@ -32,14 +32,14 @@
                         </thead>
 
                         <tbody>
-                            @foreach (var item in Model)
+                            @foreach (var item in Model.Where(x=>x.Xoa==true))
                             {
                                 <tr>
                                     <td> @item.MaPhong </td>
                                     <td> @item.TenPhong</td>
                                     <td> @item.LopHocPhan.TenLop </td>
                                     <td>
-                                        <a href="/Admin/QuanLyThi/KetQuaphongthi/@item.MaPhong" class="btn btn-sm btn-success">
+                                        <a href="/Admin/QuanLyThi/KetQuaphongthi/@item.MaPhong" class="btn btn-sm btn-primary">
                                             <span>Xem kết quả</span>
                                         </a>
                                     </td>

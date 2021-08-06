@@ -4,6 +4,8 @@ using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
+using System.Net;
+using System.Net.Mail;
 using System.Text;
 using System.Web;
 
@@ -18,7 +20,7 @@ namespace TracNghiemOnline.Modell.Dao
         {
             exam.Da_SVLuaChon = db.Da_SVLuaChon.Where(x => x.MaDeThi == exam.MaDeThi).ToList();
             int socauDung = 0;
-            var Bode = new BoDeDao().ChapterStudy(long.Parse(exam.Ma_BoDe.ToString()));
+            var Bode = db.Bo_De.Where(x=>x.Ma_BoDe==exam.Ma_BoDe).ToList().First();
 
             List<Kho_CauHoi> kho_CauHois = new List<Kho_CauHoi>();
             List<Chuong_Hoc> chuonghoc1 = new List<Chuong_Hoc>();
@@ -36,7 +38,7 @@ namespace TracNghiemOnline.Modell.Dao
                 chuong.Kho_CauHoi = new List<Kho_CauHoi>();
                 chuonghoc1.Add(chuong);
             }
-            db = new TracNghiemOnlineDB();
+           
             foreach (var item in db.Chuong_Hoc.Where(x => x.Ma_Mon == Bode.Ma_Mon).ToList())
             {
                 Chuong_Hoc chuong = new Chuong_Hoc();
@@ -121,7 +123,8 @@ namespace TracNghiemOnline.Modell.Dao
                     double A = a1 + a2 + a3 + a4;
                     double b = b1 + b2 + b3 + b4;
                     DG = (double)(A / b) * 10;
-                    double tile = (danh_Gia.SoCauDung / danh_Gia.TongCau) * 100;
+                    double tile = ((double)danh_Gia.SoCauDung / (double)danh_Gia.TongCau) * 100;
+                    tile= Math.Round((double)tile, 2);
                     danh_Gia.NhanXet = "Bạn làm đúng (" + soLuongChuong.TongSoCau + " đạt tỉ lệ " + tile + " %) \n                                                      ";
                     if (DG < 5)
                     {
@@ -156,17 +159,29 @@ namespace TracNghiemOnline.Modell.Dao
 
 
             double Hediem = (double)((double)10 / (double)(exam.CauHoiDeThis.Count));
+          
             KetQuaThi ketQuaThi = new KetQuaThi();
             ketQuaThi.Ma_DeThi = exam.MaDeThi;
             ketQuaThi.NgayThi = DateTime.Now;
             ketQuaThi.SoCauDung = socauDung;
-            ketQuaThi.SoCauSai = exam.Da_SVLuaChon.Count - socauDung;
-            ketQuaThi.DiemSo = Math.Round((double)((double)(socauDung) * (double)(Hediem)), 3);
+            ketQuaThi.SoCauSai = exam.CauHoiDeThis.Count - socauDung;
+            ketQuaThi.DiemSo = (double)(socauDung) * (double)(Hediem);
             exam.Bo_De = Bode;
             //    exam.Bo_De.
             ketQuaThi.De_Thi = exam;
             ketQuaThi.De_Thi.SinhVien = db.SinhViens.Find(exam.Ma_SV);
             danhGia.ketQuaThi = ketQuaThi;
+            try
+            {
+                if (ketQuaThi.DiemSo >= 1 && exam.DiemTru!=0)
+                {
+                    var pt = (ketQuaThi.DiemSo *exam.DiemTru)/(double)100;
+                    ketQuaThi.DiemSo = ketQuaThi.DiemSo - pt;
+                }
+            }
+            catch { }
+            ketQuaThi.DiemSo= Math.Round((double)ketQuaThi.DiemSo, 2);
+
             return danhGia;
 
         }
@@ -175,13 +190,50 @@ namespace TracNghiemOnline.Modell.Dao
         internal object ListALLexam(string id)
         {
             List<DanhGia> ketQuas = new List<DanhGia>();
-            Phong_Thi phong_Thi = ExamitionRoom(id);
-            foreach (var item in phong_Thi.DS_SVThi)
+            var phong = db.Phong_Thi.Where(x => x.MaPhong.Equals(id.Trim())).ToList().First();
+            foreach (var item in phong.DS_SVThi)
             {
-                var DeThi = new QuanLyThiDAO().SeachForTheExam(phong_Thi, item.Ma_SV);
+                var DeThi = db.De_Thi.Where(x=>x.MaDeThi==item.MaDeThi).ToList().First();
                 if (DeThi != null)
-                {
-                    ketQuas.Add(Mark(DeThi));
+                {   if (DeThi.KetQuaThis.Count == 0)
+                    {
+                        TracNghiemOnlineDB tb1 = new TracNghiemOnlineDB();
+                        DanhGia danhGia = new DanhGia();
+                        danhGia = Mark(DeThi);
+                        ketQuas.Add(danhGia);
+                        KetQuaThi ketQuaThi = new KetQuaThi();
+                        ketQuaThi.Ma_DeThi = DeThi.MaDeThi;
+                        ketQuaThi.NgayThi = DateTime.Now;
+                        ketQuaThi.SoCauDung = danhGia.ketQuaThi.SoCauDung;
+                        ketQuaThi.SoCauSai = danhGia.ketQuaThi.SoCauSai;
+                        ketQuaThi.DiemSo = danhGia.ketQuaThi.DiemSo;
+                        tb1.KetQuaThis.Add(ketQuaThi);
+                        tb1.SaveChanges();
+                        foreach (var item1 in danhGia.ketQuaThi.De_Thi.Danh_Gia)
+                        {
+                            Danh_Gia danh_Gia = new Danh_Gia();
+                            
+                            danh_Gia.MaChuong = item1.MaChuong;
+                            danh_Gia.MaDeThi = item1.MaDeThi;
+                            danh_Gia.SoCauDung = item1.SoCauDung;
+                            danh_Gia.TongCau = item1.TongCau;
+                          //  danh_Gia.NhanXet = item1.NhanXet;
+                            danh_Gia.DanhGia = item1.DanhGia;
+                            tb1.Danh_Gia.Add(danh_Gia);
+                           
+                            tb1.SaveChanges();
+                        }             
+                      
+                    }
+                    else
+                    {
+                        DanhGia danhGia = new DanhGia();
+                        danhGia.ketQuaThi = DeThi.KetQuaThis.ToList().First();
+                        danhGia.ketQuaThi.De_Thi = DeThi;
+                        ketQuas.Add(danhGia);
+
+                    }
+
                 }
 
 
@@ -225,15 +277,53 @@ namespace TracNghiemOnline.Modell.Dao
                 db.Phong_Thi.Add(phong_Thi);
                 db.SaveChanges();
                 CreateSinhVienRoom(phong_Thi.MaPhong, dSSV);
+                phong_Thi.LopHocPhan = new TracNghiemOnlineDB().LopHocPhans.Find(phong_Thi.MaLopHP);
+                try
+                {
+                    string content = "<p> Tên phòng thi: " + phong_Thi.TenPhong + "</p><p>Lớp học phần" + phong_Thi.LopHocPhan.TenLop + "</p><p> Thời gian mở: " + phong_Thi.ThoiGianMo + "</p> </br>  <a class='btn btn-success' href =http://truongutc2.tk/ >Truy Cập Vào WebSite</a>";
+                    var mail1 = new TracNghiemOnlineDB().GiaoViens.Where(x => x.MaGV.Equals(phong_Thi.MaCanBo1)).FirstOrDefault();
+                    var mail2 = new TracNghiemOnlineDB().GiaoViens.Where(x => x.MaGV.Equals(phong_Thi.MaCanBo2)).FirstOrDefault();
+                    if (mail1.Email != null)
+                    {
+                        SendEmail(mail1.Email, "Phân công coi thi kỳ thi " + phong_Thi.LopHocPhan.KiThi.TenKi, content);
+                    }
+                    if (mail2.Email != null)
+                    {
+                        SendEmail(mail2.Email, "Phân công coi thi kỳ thi " + phong_Thi.LopHocPhan.KiThi.TenKi, content);
+                    }
 
+                }
+                catch
+                {
 
-
+                }
+               
             }
             catch (Exception e)
             {
                 
             }
 
+        }
+        public void SendEmail(string address, string subject, string message)
+        {
+            string email = "tracnghiemonlinewebsite@gmail.com";
+            string password = "Tracnghiemonl123";
+
+            var loginInfo = new NetworkCredential(email, password);
+            var msg = new System.Net.Mail.MailMessage();
+            var smtpClient = new SmtpClient("smtp.gmail.com", 587);
+
+            msg.From = new MailAddress(email);
+            msg.To.Add(new MailAddress(address));
+            msg.Subject = subject;
+            msg.Body = message;
+            msg.IsBodyHtml = true;
+
+            smtpClient.EnableSsl = true;
+            smtpClient.UseDefaultCredentials = false;
+            smtpClient.Credentials = loginInfo;
+            smtpClient.Send(msg);
         }
         internal void CreateExamitionRoom(string malop, string id, List<DS_SVThi> dSSV, string nd)
         {
@@ -321,15 +411,18 @@ namespace TracNghiemOnline.Modell.Dao
             var ds = db.DS_SVThi.Where(x => x.MaPhong == classRoom.MaPhong).ToList();
             foreach (var item in ds)
             {
-                var list = new BoDeDao().ChapterStudy(long.Parse(classRoom.MaBoDe.ToString()));
-                var dethi = new BoDeDao().MixExemQuestion(list, item.Ma_SV);
-                new BoDeDao().UpdateDsThi(classRoom, dethi, item.Ma_SV, "Chưa Làm");
+                if (item.MaDeThi == null)
+                {
+                    var list = new BoDeDao().ChapterStudy(long.Parse(classRoom.MaBoDe.ToString()));
+                    var dethi = new BoDeDao().MixExemQuestion(list, item.Ma_SV);
+                    new BoDeDao().UpdateDsThi(classRoom, dethi, item.Ma_SV, "Chưa Làm");
+                }
+               
             }
 
         }
         internal void UpDatePhongThi1(Phong_Thi classRoom)
         {
-           
             var Room = db.Phong_Thi.Find(classRoom.MaPhong);
             Room.MaBoDe = classRoom.MaBoDe;
             Room.TrangThai = classRoom.TrangThai;
@@ -404,13 +497,13 @@ namespace TracNghiemOnline.Modell.Dao
             }
 
         }
-        internal object CoiThi(string id)
+        internal object CoiThi(string id,DateTime dateTime)
         {
             var phong = db.Phong_Thi.Where(x => !x.TrangThai.Equals("Đã Đóng") && x.Xoa == true && (x.MaCanBo1.Equals(id)|| x.MaCanBo2.Equals(id))).ToList();
 
             foreach (var item in phong)
             {
-                if (item.ThoiGianDong <= DateTime.Now)
+                if (item.ThoiGianDong <=dateTime)
                 {
                     var p = db.Phong_Thi.Find(item.MaPhong);
                     p.TrangThai = "Đã Đóng";
@@ -429,12 +522,12 @@ namespace TracNghiemOnline.Modell.Dao
         }
 
         //lay ra ds  phong thi
-        internal object ListAllClassRom(string id)
+        internal object ListAllClassRom(string id,DateTime dateTime)
         {
             var phong = db.Phong_Thi.Where(x => !x.TrangThai.Equals("Đã Đóng") && x.Xoa == true && x.NguoiTao.Equals(id)).ToList();
             foreach (var item in phong)
             {
-                if (item.ThoiGianDong <= DateTime.Now)
+                if (item.ThoiGianDong < dateTime)
                 {
                     var p = db.Phong_Thi.Find(item.MaPhong);
                     p.TrangThai = "Đã Đóng";
@@ -445,21 +538,17 @@ namespace TracNghiemOnline.Modell.Dao
             }
             phong = db.Phong_Thi.Where(x => !x.TrangThai.Equals("Đã Đóng") && x.Xoa == true && x.NguoiTao.Equals(id)).ToList();
 
-            foreach (var item in phong)
-            {
-
-                item.LopHocPhan = (LopHocPhan)ClassRom(item.MaLopHP);
-            }
+           
             return phong;
         }
-        internal object DanhGiaKetQua(string id)
+        internal object DanhGiaKetQua(string id ,DateTime dateTime)
         {
 
             var phong = db.Phong_Thi.Where(x => x.TrangThai.Equals("Đang Thi") && x.NguoiTao.Equals(id) && x.Xoa == true).ToList();
 
             foreach (var item in phong)
             {
-                if (item.ThoiGianDong <= DateTime.Now)
+                if (item.ThoiGianDong < dateTime)
                 {
 
                     var p = db.Phong_Thi.Find(item.MaPhong);
@@ -471,14 +560,6 @@ namespace TracNghiemOnline.Modell.Dao
             }
 
             phong = db.Phong_Thi.Where(x => x.TrangThai.Equals("Đã Đóng")&& x.NguoiTao.Equals(id) && x.Xoa == true).ToList();
-
-
-            foreach (var item in phong)
-            {
-                item.LopHocPhan = (LopHocPhan)ClassRom(item.MaLopHP);
-
-            }
-
             return phong;
         }
 
@@ -487,27 +568,7 @@ namespace TracNghiemOnline.Modell.Dao
         //lay ra phong thi va ds phong thi
         public Phong_Thi ExamitionRoom(string MaPhong)
         {
-            var phong = db.Phong_Thi.Find(MaPhong);
-            try
-            {
-                phong.LopHocPhan = (LopHocPhan)ClassRom(phong.MaLopHP);
-
-                phong.DS_SVThi = db.DS_SVThi.Where(x => x.MaPhong == MaPhong).ToList();
-                foreach (var item in phong.DS_SVThi)
-                {
-                    item.SinhVien = db.SinhViens.Find(item.Ma_SV);
-                    item.SinhVien.Lop = db.Lops.Find(item.SinhVien.Ma_Lop);
-                    try
-                    {
-                        item.SinhVien.De_Thi.ToList()[0] = new TracNghiemOnlineDB().De_Thi.Find(item.MaDeThi);
-
-                    }
-                    catch { }
-                }
-
-            }
-            catch { }
-
+            var phong = db.Phong_Thi.Where(x => x.MaPhong.Equals(MaPhong)).ToList().First();
 
 
             return phong;
@@ -540,7 +601,7 @@ namespace TracNghiemOnline.Modell.Dao
 
                 foreach (var item1 in de_Thi.CauHoiDeThis)
                 {
-                    item1.Kho_CauHoi = new CauHoiDao().Question(long.Parse(item1.MaCauHoi.ToString()));
+                 
                     foreach (var item2 in item1.Kho_CauHoi.Dap_AN)
                     {
                         if (de_Thi.Da_SVLuaChon.ToList().Exists(x => x.Ma_DAN == item2.MA_DAN))

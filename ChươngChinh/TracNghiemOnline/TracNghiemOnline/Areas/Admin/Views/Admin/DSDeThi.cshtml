@@ -47,7 +47,7 @@
 <div class="modal" tabindex="-1" role="dialog" id="modalConfirm">
     <div class="modal-dialog" role="document">
         <div class="modal-content">
-            <div class="modal-header bg-dark">
+            <div class="modal-header bg-info">
                 <h5 class="modal-title">CẢNH BÁO</h5>
 
             </div>
@@ -94,7 +94,7 @@
                                 </thead>
 
                                 <tbody id="bodeid">
-                                    @foreach (var item in Model)
+                                    @foreach (var item in Model.Where(x=>x.Xoa==true))
                                     {
                                         <tr>
                                             <td> @item.Ma_BoDe </td>

@@ -11,7 +11,6 @@ namespace TracNghiemOnline.Modell
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
         public Bo_De()
         {
-            BoDeOnTaps = new HashSet<BoDeOnTap>();
             CauHois = new HashSet<CauHoi>();
             De_Thi = new HashSet<De_Thi>();
             DSGV_ThucHien = new HashSet<DSGV_ThucHien>();
@@ -48,14 +47,15 @@ namespace TracNghiemOnline.Modell
         [StringLength(10)]
         public string NguoiDuyet { get; set; }
 
+        public bool? Share { get; set; }
+
+        public bool LoaiDe { get; set; }
+
         public virtual GiaoVien GiaoVien { get; set; }
 
         public virtual MonHoc MonHoc { get; set; }
 
         public virtual TaiKhoan TaiKhoan { get; set; }
-
-        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<BoDeOnTap> BoDeOnTaps { get; set; }
 
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<CauHoi> CauHois { get; set; }

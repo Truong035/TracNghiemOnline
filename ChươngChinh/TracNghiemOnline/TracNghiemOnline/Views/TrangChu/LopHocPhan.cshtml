@@ -31,7 +31,7 @@
         }
         <div class="row" style="padding:0% 5%">
 
-            @foreach (var item in Model)
+            @foreach (var item in Model.Where(x=>x.TrangThai==1))
             {
 
                 <div class="col-md-3" onclick="BoDe(id)" id="@item.MaLop.Trim()" style="margin-bottom:3%">

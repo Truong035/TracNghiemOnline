@@ -11,6 +11,7 @@
 
         $(document).ready(function () {
             $(document).on('click', 'button[name=Delete]', function () {
+                $('#particles1').show();
                 var maphong = $(this).closest('tr');
                 var masv = $(this).closest('tr').find("td:eq(0)").text();
                 $.ajax({
@@ -20,9 +21,11 @@
                     success: function (data) {
                         if (data.status == true) {
                             alert("Xóa Thành Cong")
+                            $('#particles1').hide();
                             maphong.remove();
                         } else {
                             alert(data.status);
+                            $('#particles1').hide();
                         }
                     }
 
@@ -33,35 +36,58 @@
         });
 
 
-        function readURL(input) {
-            var maphong1 = input.title;
-            alert(maphong1)
-            if (input.files && input.files[0]) {
-                var formdata = new FormData();
-                formdata.append('file', input.files[0]);
-                $.ajax({
-                    type: 'POST',
-                    url: '/Admin/Home/UploadExcel',
-                    dataType: "json",
-                    contentType: false, //Khong co hear
-                    processData: false,//Khong Xu Ly Du Lieu
-                         data: formdata,
-                        success: function (data) {
-                            if (data.status == true) {
-                                 window.location = '/Admin/Home/LoadData/'+maphong1;
-                                console.log(data.s)
-                            }
-                            else {
-                                alert("FILE không hợp lệ");
-                            }
-                        }
-                    });
-                
-                }
+        function readURL(event) {
 
-            }
-        
-        
+            var file = event.files[0];
+            var reader = new FileReader();
+            var excelData = [];
+            var maphong1 = event.title;
+            reader.onload = function (event) {
+                var data = event.target.result;
+                var workbook = XLSX.read(data, {
+                    type: 'binary'
+                });
+
+                workbook.SheetNames.forEach(function (sheetName) {
+                    // Here is your object
+                    var XL_row_object = XLSX.utils.sheet_to_row_object_array(workbook.Sheets[sheetName]);
+                    var arr = "";
+                    for (var i = 1; i < XL_row_object.length; i++) {
+                        arr += XL_row_object[i]["Trắc nghiệm online"] + "/";
+
+                    }
+
+                    if (arr.length > 0) {
+                        $('#particles1').show();
+                        $.ajax({
+                            type: 'POST',
+                            url: '/Admin/Home/UploadExcel',
+                            data: { arr: arr },
+                            success: function (data) {
+                                if (data.status == true) {
+                                    window.location = '/Admin/Home/LoadData/' + maphong1;
+                                    //  $('#particles1').hide();
+                                }
+                                else {
+                                    alert("FILE không hợp lệ");
+                                    $('#particles1').hide();
+                                }
+
+                            }
+                        })
+                    }
+
+                })
+
+            };
+
+            reader.onerror = function (ex) {
+                console.log(ex);
+            };
+
+            reader.readAsBinaryString(file);
+
+        }
 
     </script>
 
@@ -73,9 +99,9 @@
             <div class="d-flex align-items-center">
                 <h4 class="card-title">DANH SÁCH SINH VIÊN THI</h4>
                 <div class="ml-auto">
-                    <button  id="btnNhan" title="@Model.MaPhong" onclick="$('#txtFile').trigger( 'click' )" class="btn btn-primary btn-round ml-auto" data-target="#addRowModal">
-                        <i class="fa fa-plus"></i>
-                        Import file
+                    <button id="btnNhan" title="@Model.MaPhong" onclick="$('#txtFile').trigger( 'click' )" class="btn btn-primary btn-round ml-auto" data-target="#addRowModal">
+                        <i class="bi bi-arrow-bar-up"></i>
+                        Tải File
                     </button>
                     <input id="txtFile" title="@Model.MaPhong" onchange="readURL(this);" hidden type="file" accept="application/vnd.openxmlformats-officedocument.spreadsheetml.sheet" />
                     <a class="btn btn-primary btn-round ml-auto" href="/Admin/QuanLyThi/DSSVPhongThi/@Model.MaPhong" data-target="#addRowModal">

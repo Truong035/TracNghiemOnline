@@ -2,7 +2,10 @@
 @{
     ViewBag.Title = "BoMon";
     Layout = "~/Areas/Admin/Views/Shared/LaoutShare.cshtml";
+    var tk = (TaiKhoan)Session[ComMonStants.UserLogin];
 }
+@using TracNghiemOnline.Modell;
+@using TracNghiemOnline.ComMon;
 @section scripts{
     <script>
 
@@ -25,9 +28,6 @@
             });
 
         });
-
-
-
     </script>
 }
 <div class="modal" tabindex="-1" role="dialog" id="modalConfirm">
@@ -52,9 +52,9 @@
     <div class="card">
         <div class="card-header">
             <div class="d-flex align-items-center">
-                <h4 class="card-title">DANH SÁCH ĐỀ THI</h4>
+                <h4 class="card-title"> THÔNG BÁO BỘ MÔN </h4>
               
-                        <a href="/Admin/Bomon/Taodethi" class="btn btn-primary btn-round ml-auto" style="float:right">
+                        <a href="/Admin/Home/Taodethi" class="btn btn-primary btn-round ml-auto" style="float:right">
                             <i class="fa fa-plus"></i>
                             <span>Thêm đề thi</span>
                         </a>
@@ -72,38 +72,98 @@
 
                             <thead>
                                 <tr>
-                                    <th>Mã Đề </th>
+                                    <th>Mã lịch </th>
                                     <th>Nội Dung </th>
-                                    <th>Tên Môn Học</th>
-                                    <th>Số Câu</th>
-                                    <th>Thời Gian Thi</th>
-                                    @*<th>Người Tạo</th>*@
-                                    <th>Tình Trạng</th>
+                                    <th>Môn học</th>
+                                    <th>Hạn nộp</th>
+                                    <th> Trạng thái</th>
                                     <th></th>
+
+                                    
                                 </tr>
                             </thead>
                          
                             <tbody id="bodeid">
-                                @foreach (var item in Model.Where(x => x.Xoa == true && x.PheDuyet.Length>0 ))
-                                {
-                                    <tr>
-                                        <td> @item.Ma_BoDe </td>
-                                        <td>  @item.NoiDung </td>
-                                        <td> @item.MonHoc.TenMon</td>
-                                        <td> @item.SoCau</td>
-                                        <td> @item.ThoiGianThi</td>
-                                        <td>  @item.PheDuyet </td>
-                                        @{
-                                            if (!item.PheDuyet.Equals("Đã Duyệt"))
+                                @foreach (var item in new TracNghiemOnlineDB().DSGV_ThucHien.Where(x => x.MaGV.Equals(tk.TaiKhoan1)))
                                             {
+
+
+
+                                                try
+                                                {
+                                                   
+                                                    if (item.LichNop.xoa == true && item.LichNop.TrangThai==true)
+                                                    {
+                                            <tr>
+                                                <td> @item.LichNop.id </td>
+                                                <td>  @item.LichNop.NoiDung </td>
+
                                                 <td>
-                                                    <button name="Delete" class="btn btn-xs btn-danger"><i class="far fa-trash-alt" aria-hidden="true"></i></button>
+                                                    @{
+                                                            try
+                                                            {
+                                                                @item.LichNop.MonHoc.TenMon;
+                                                            }
+                                                            catch
+                                                            {
+                                                            @("Vui lòng chọn");
+                                                            }
+
+
+                                                        }
                                                 </td>
 
-                                            }
-                                        }
 
-                                    </tr>
+                                                <td> @item.LichNop.ThoiGian</td>
+                                                <td>
+                                                    @{
+                                                        try
+                                                        {
+                                                            @item.trangthai
+                                                            if (item.trangthai.Contains("Từ"))
+                                                            { 
+                                                               
+                                                               <br /> @("Lý do " +item.LyDo)
+                                                            }
+
+                                                        }
+                                                        catch
+                                                        { @item.trangthai }
+                                                    }
+                                                </td>
+                                                <td>
+
+                                                    @{
+                                                            try
+                                                            {
+                                                                if (!item.trangthai.Equals("Đã duyệt"))
+                                                                {
+                                                                <a name="Update" href="/Admin/Home/ChonDe1/@item.id" class="btn btn-xs btn-primary"><i class="far fa-edit" aria-hidden="true"></i></a>
+                                                            }
+                            
+
+                                }
+                                                        catch
+                                {
+                                                            <a name="Update" href="/Admin/Home/ChonDe1/@item.id" class="btn btn-xs btn-primary"><i class="far fa-edit" aria-hidden="true"></i></a>
+                                                        }
+
+                                                    }
+
+
+
+                                                </td>
+
+
+                                            </tr>
+
+                                        }
+                                    }
+                                    catch
+                                {
+                                }
+
+
 
                                 }
 

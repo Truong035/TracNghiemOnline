@@ -3,6 +3,9 @@
     ViewBag.Title = "ToChucThi";
     Layout = "~/Areas/Admin/Views/Shared/LaoutShare.cshtml";
 }
+@using TracNghiemOnline.Modell
+
+
 <div class="modal" tabindex="-1" role="dialog" id="modalConfirm">
     <div class="modal-dialog" role="document">
         <div class="modal-content">
@@ -60,7 +63,7 @@
 
 
             </div>
-            
+
 
             <div class="card mb-4" id="frmDanhSach">
                 <div class="card-header">
@@ -68,221 +71,265 @@
                     Danh sách sinh viên thi
                 </div>
                 <div class="card-body">
-                    <div class="table-responsive">
-                        <div id="dataTable_wrapper" class="dataTables_wrapper dt-bootstrap4">
-                            <div class="row">
-                                <div class="col-sm-11">
-                                    <table class="table table-bordered dataTable container" id="dataTable" width="100%" cellspacing="0" role="grid" aria-describedby="dataTable_info" style="width: 100%;">
-                                        <thead>
-                                            <tr role="row">
+                     
 
-                                                <th tabindex="0" aria-controls="dataTable" rowspan="1" colspan="1" aria-label="Office: activate to sort column ascending" style="width: 50px;">Mã</th>
-                                                <th tabindex="0" aria-controls="dataTable" rowspan="1" colspan="1" aria-label="Age: activate to sort column ascending" style="width: 100px;">Tên</th>
+                    <div class="row" id="frmthi">
+                        @foreach (var item in Model.DS_SVThi)
+                        {
 
-                                                <th tabindex="0" aria-controls="dataTable" rowspan="1" colspan="1" aria-label="Start date: activate to sort column ascending" style="width: 100px;">Lớp</th>
-                                                <th tabindex="0" aria-controls="dataTable" rowspan="1" colspan="1" aria-label="Start date: activate to sort column ascending" style="width: 100px;">Tình Trạng</th>
-                                                <th tabindex="0" aria-controls="dataTable" rowspan="1" colspan="1" aria-label="Start date: activate to sort column ascending" style="width: 100px;"></th>
-                                        </thead>
-                                        <tbody id="tblDeThi">
+                            <div class="col-sm-6 col-lg-3">
 
-                                            @*@foreach (var item in Model.DS_SVThi)
-                                            {
-                                                <tr id=" @item.MaDeThi">
-                                                    <td>
-                                                        @item.SinhVien.MaSV
-                                                    </td>
-                                                    <td>
-                                                        @item.SinhVien.Ten
-                                                    </td>
-                                                    <td>
-                                                        @item.SinhVien.Lop.TenLop
-                                                    </td>
-                                                    <td>
-                                                        @item.TrangThai
-                                                    </td>
-                                                    @{
+                                <div class="card p-3">
+                                    <div class="d-flex align-items-center">
 
-                                                        if (item.SinhVien.De_Thi.ToList()[0].TrangThai == true)
-                                                        {
-
-                                                                                                        <td >
-                                                                                                            <button name="TrangThai" id="true" class="btn btn-sm btn-success"> Đóng </button>
-                                                                                                            <a href="/Admin/QuanLyThi/LichSuThi/@item.MaDeThi" class="btn btn-xs btn-primary">
-                                                                                                                <span>Xem</span>
-                                                                                                            </a>
-                                                                                                        </td>
-                                                        }
-                                                        else
-                                                        {
-                                                <td>
-                                                    <button id="false" name="TrangThai" class="btn btn-sm btn-danger"> Mở  </button>
-                                                    <a href="/Admin/QuanLyThi/LichSuThi/@item.MaDeThi" class="btn btn-xs btn-primary">
-                                                        <span>Xem</span>
-                                                    </a>
-                                                </td>
-                                                        }
-
-                                                    }
+                                        <a href="/Admin/QuanLyThi/LichSuThi/@item.MaDeThi">
+                                            <span class="stamp stamp-md btn-info mr-3">
+                                                <i class="icon-user"></i>
+                                            </span>
+                                        </a>
 
 
-                                                </tr>
+                                        <div>
+                                     
+                                            <div class="d-flex">
+                                                  <h5 class="mb-1"> <small>MSV: @item.Ma_SV </small></h5>
+                                                  <div class="ml-lg-5">
+                                                      @{ var de = new TracNghiemOnlineDB().De_Thi.Find(item.MaDeThi);
+                                                          if (de.TrangThai == true)
+                                                          {
+                                                              <div class="custom-control custom-switch">
+                                                                  <input type="checkbox" onclick="Close(this)" checked="checked" class="custom-control-input" id="@item.MaDeThi">
+                                                                  <label class="custom-control-label" for="@item.MaDeThi"></label>
+                                                              </div>
+                                                          }
+                                                          else
+                                                          {
+                                                              <div class="custom-control custom-switch">
+                                                                  <input type="checkbox" onclick="Close(this)" class="custom-control-input" id="@item.MaDeThi">
+                                                                  <label class="custom-control-label" for="@item.MaDeThi"></label>
+                                                              </div>
+                                                              }
+                                                          }
+                                                      </div>
+                                                  
+                                                
 
-                                            }*@
-                                        </tbody>
-                                    </table>
+                                                
+                                            </div>
+
+                                            <h5 class="mb-1"><b> <small>Tên: @item.SinhVien.Ten</small></b></h5>
+                                            <h5 class="mb-1"><b> <small>Trạng thái : @item.TrangThai</small></b></h5>
+                                            @*<small class="text-center ml-auto"></small>*@
+                                        </div>
+                                    </div>
                                 </div>
                             </div>
-                        </div>
+
+                        }
+
                     </div>
                 </div>
             </div>
 
 
-            
+
         </div>
     </div>
 </div>
 
+
 @section  Jsfooter{
     <script>
+        var x;
+        var made;
+        var boleen;
         $(document).ready(function () {
             $('#frmGiamSat').hide();
             $('#btnDong').click(function () {
+                clearInterval(x);
+                $.ajax({
+                    type: 'POST',
+                    url: '/Admin/QuanLyThi/LoadPhongThi',
+                    success: function (res) {
+                        Loaddata(res);
+                        load();
+                    }
+
+                });
                 $('#modalConfirm').hide();
                 $('#txtlydo').val("");
 
             });
-
-            $('#btnSubmit').click(function () {
-             
-                $.ajax({
-                    type: 'POST',
-                    url: '/Admin/QuanLyThi/UpateTrangThai',
-                    data: { s: boleen, dethi: made, lydo: $('#txtlydo').val()},
-                    success: function (res) {
-                        Loaddata(res);
-                        $('#modalConfirm').hide();
-                        $('#txtlydo').val("");
-                    }
-
-                });
-              
-            });
-            // Thiết lập thời gian đích mà ta sẽ đếm
-            var tg = $('#TxtThoiGian').val();
             $.ajax({
                 type: 'POST',
                 url: '/Admin/QuanLyThi/LoadPhongThi',
                 success: function (res) {
-                   Loaddata(res);
+                  Loaddata(res);
+                    load();
                 }
 
             });
-            var boleen = "";
-            var made = "";
-            $(document).on('click', 'button[name=TrangThai]', function () {
-                boleen = $(this).attr("id");
-                //  alert(boleen);
-                //  closest('tr').find("td:eq(4)").attr('id');
-                made = $(this).closest('tr').attr('id');
-                if (boleen == 'true') {
-                    $('#modalConfirm').show();
-                }
-                else {
 
-                    $.ajax({
-                        type: 'POST',
-                        url: '/Admin/QuanLyThi/UpateTrangThai',
-                        data: { s: boleen, dethi: made, lydo: $('#txtlydo').val()},
-                        success: function (res) {
-                            Loaddata(res);
-                        }
-
-                    });
-
-                }
+            $('#btnSubmit').click(function () {
+                $('#modalConfirm').hide();
+                clearInterval(x);
               
-                
+                $.ajax({
+                    type: 'POST',
+                    url: '/Admin/QuanLyThi/UpateTrangThai',
+                    data: { s: true, dethi: made, lydo: $('#txtlydo').val() },
+                    success: function (res) {
+
+                        Loaddata(res);
+                        load();
+                        $('#txtlydo').val("");
+                    }
+
+                });
+
             });
+            // Thiết lập thời gian đích mà ta sẽ đếm
+            var tg = $('#TxtThoiGian').val();
+
+
+
             var countDownDate = new Date(tg).getTime();
 
 
             function Loaddata(res) {
                 if (res.Status == true) {
-                    $('#tblDeThi').empty();
+                    $('#frmthi').empty();
 
                     $.each(res.data, function (k, v) {
-                        var let = '<tr id=' + v.MaDe + '>';
-                        let += '<td>' + v.MaSV + '</td>';
-                        let += '<td>' + v.Ten + '</td>';
-                        let += '<td>' + v.TenLop + '</td>';
-                        let += '<td>' + v.TrangThai + '</td>';
-                        if (v.TinhTrang == false) {
-                            let += '<td> <button id="' + v.TinhTrang + '" name="TrangThai" class="btn btn-xs badge-danger"> Mở</button> ';
-                            let += '<a href="/Admin/QuanLyThi/LichSuThi/' + v.MaDe + '" class="btn btn-xs btn-primary">';
-                            let += '<span><i class="far fa-eye"></i></span>';
-                            let += '</a>';
-                            let += '</td >';
+
+                        var let = `<div class="col-sm-6 col-lg-3">
+                            <div class="card p-3">
+                                <div class="d-flex align-items-center">
+                                   <a href="/Admin/QuanLyThi/LichSuThi/`+ v.MaDe + `">`;
+
+                        if (v.TrangThai === 'Đã chuyển tab') {
+                            let += `<span class="stamp stamp-md bg-danger mr-3">
+                                <i class="icon-user"></i>
+                            </span>`;
                         }
                         else {
-                            let += '<td> <button id="' + v.TinhTrang + '" name="TrangThai" class="btn btn-xs btn-success"> Đóng </button>';
+                            let += `<span class="stamp stamp-md btn-info mr-3">
+                                <i class="icon-user"></i>
+                            </span>`;
+                        }
+                                       let+= `</a>
+                                    <div>
+                                   <div class="d-flex">
+                                                <h5 class="mb-1"><b> <small>MSV: `+ v.MaSV + `</small></b></h5>
+                                                  <div class="ml-lg-5">`;
 
-                            let += '<a href="/Admin/QuanLyThi/LichSuThi/' + v.MaDe + '" class="btn btn-xs btn-primary">';
-                            let += '<span><i class="far fa-eye"></i></span>';
-                            let += '</a>';
-                            let += '</td >';
+                        if (v.TinhTrang == false) {
+                            let+=` <div class="custom-control custom-switch">
+                                                                  <input type="checkbox" onclick="Close(this)" class="custom-control-input" id="`+ v.MaDe+`">
+                                                                  <label class="custom-control-label" for="`+ v.MaDe+`"></label>
+                                                              </div>`
+                        }
+                        else {
+                            let += ` <div class="custom-control custom-switch">
+                                                                  <input type="checkbox" onclick="Close(this)" checked="checked" class="custom-control-input" id="`+ v.MaDe + `">
+                                                                  <label class="custom-control-label" for="`+ v.MaDe + `"></label>
+                                                              </div>`
                         }
 
-                        let += '</tr>';
-                        $('#tblDeThi').append(let);
+                        let+=  `</div > </div>
 
+                                        <h5 class="mb-1"><b> <small>Tên: `+ v.Ten+`</small></b></h5>
+                                        <h5 class="mb-1"><b> <small>Trạng thái : `+ v.TrangThai+`</small></b></h5>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>`
+
+                        $('#frmthi').append(let);
                     });
                 }
             }
             // cập nhập thời gian sau mỗi 1 giây
-            var x = setInterval(function () {
-                // Lấy thời gian hiện tại
-                $.ajax({
-                    url: '/Admin/QuanLyThi/KiemTraPhongThi',
-                    type: 'get',
-                    success: function (res) {
 
-                        Loaddata(res);
 
+
+            var cou = 0;
+            function load() {
+                x = setInterval(function () {
+                    cou++;
+                    // Lấy thời gian hiện tại
+                    $.ajax({
+                        url: '/Admin/QuanLyThi/KiemTraPhongThi',
+                        type: 'get',
+                        success: function (res) {
+
+                            Loaddata(res);
+
+                        }
+
+
+
+                    });
+                    var now = new Date().getTime();
+
+                    // Lấy số thời gian chênh lệch
+                    var distance = countDownDate - now;
+
+                    // Tính toán số ngày, giờ, phút, giây từ thời gian chênh lệch
+                    var days = Math.floor(distance / (1000 * 60 * 60 * 24));
+                    var hours = Math.floor((distance % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+                    var minutes = Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60));
+                    var seconds = Math.floor((distance % (1000 * 60)) / 1000);
+
+                    // HIển thị chuỗi thời gian trong thẻ p
+                    if (hours > 0) {
+                        document.getElementById("thoigian").innerHTML = "Thời Gian Còn Lại: " + hours + " : "
+                            + minutes + " : " + seconds + " Phút ";
+                    }
+                    else {
+                        document.getElementById("thoigian").innerHTML = "Thời Gian Còn Lại: "
+                            + minutes + " : " + seconds + " Phút ";
                     }
 
-
-
-                });
-                var now = new Date().getTime();
-
-                // Lấy số thời gian chênh lệch
-                var distance = countDownDate - now;
-
-                // Tính toán số ngày, giờ, phút, giây từ thời gian chênh lệch
-                var days = Math.floor(distance / (1000 * 60 * 60 * 24));
-                var hours = Math.floor((distance % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
-                var minutes = Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60));
-                var seconds = Math.floor((distance % (1000 * 60)) / 1000);
-
-                // HIển thị chuỗi thời gian trong thẻ p
-                if (hours > 0) {
-                    document.getElementById("thoigian").innerHTML = "Thời Gian Còn Lại: " + hours + " : "
-                        + minutes + " : " + seconds + " Phút ";
-                }
-                else {
-                    document.getElementById("thoigian").innerHTML = "Thời Gian Còn Lại: "
-                        + minutes + " : " + seconds + " Phút ";
-                }
-                // Nếu thời gian kết thúc, hiển thị chuỗi thông báo
-                if (distance < 0) {
-                    alert("Đã Hết Giờ Làm Bài")
-                    window.location = "/Admin/QuanLyThi/KetQuaphongthi/" + $('#Txtmaphong').val();
-                    clearInterval(x);
-                }
-            }, 1000);
+                    // Nếu thời gian kết thúc, hiển thị chuỗi thông báo
+                    if (distance < 0) {
+                        alert("Đã Hết Giờ Làm Bài")
+                        window.location = "/Admin/QuanLyThi/KetQuaphongthi/" + $('#Txtmaphong').val();
+                        clearInterval(x);
+                    }
+                    if (cou == 3) {
+                        cou = 0;
+                        clearInterval(x);
+                        load();
+                    }
+                }, 1000);
+            }
         });
 
-        
+        function Close(check) {
+
+             boleen = check.checked
+
+            made = check.id;
+            if (boleen == false) {
+                $('#modalConfirm').show();
+            }
+            else {
+                clearInterval(x);
+                $.ajax({
+                    type: 'POST',
+                    url: '/Admin/QuanLyThi/UpateTrangThai',
+                    data: { s: false, dethi: made, lydo: $('#txtlydo').val() },
+                    success: function (res) {
+                        Loaddata(res);
+                        load();
+                    }
+
+                });
+
+            }
+        }
+
+
     </script>
 }

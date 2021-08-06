@@ -1,47 +1,73 @@
-﻿<!DOCTYPE html>
+﻿@using TracNghiemOnline.ComMon;
+@using TracNghiemOnline.Modell;
+@{
+
+    var session = (TaiKhoan)Session[ComMonStants.UserLogin];
+    var gv = new TracNghiemOnlineDB().GiaoViens.Find(session.TaiKhoan1);
+    var DB = new TracNghiemOnlineDB();
+    var share =  DB.Shares.Where(x => x.MaGV.Equals(session.TaiKhoan1)).ToList();
+
+}
+<!DOCTYPE html>
 <html lang="en" class="wf-flaticon-n4-inactive wf-fontawesome5solid-n4-active wf-fontawesome5regular-n4-active wf-fontawesome5brands-n4-active wf-simplelineicons-n4-active wf-lato-n4-active wf-lato-n3-active wf-lato-n7-active wf-lato-n9-active wf-active">
 <head>
     <meta http-equiv="X-UA-Compatible" content="IE=edge" />
     <title>Trắc nghiệm online</title>
     <meta content='width=device-width, initial-scale=1.0, shrink-to-fit=no' name='viewport' />
     <link rel="icon" href="~/assets/img/icon.ico" type="image/x-icon" />
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.6.0/dist/css/bootstrap.min.css" integrity="sha384-B0vP5xmATw1+K9KRQjQERJvTumQW0nPEzvF6L/Z6nronJ3oUOFUFpCjEUQouq2+l" crossorigin="anonymous">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.5.0/font/bootstrap-icons.css">
-    <!-- Fonts and icons -->
-    @*<script src="~/assets/js/plugin/webfont/webfont.min.js"></script>*@
-    @*<link rel="stylesheet" href="http://fonts.googleapis.com/css?family=Lato:300,400,700,900" media="all">*@
     <link rel="stylesheet" href="~/assets/css/fonts.min.css" media="all">
-    @*<script>
-            WebFont.load({
-                google: { "families": ["Lato:300,400,700,900"] },
-                custom: { "families": ["Flaticon", "Font Awesome 5 Solid", "Font Awesome 5 Regular", "Font Awesome 5 Brands", "simple-line-icons"], urls: ['~/assets/css/fonts.min.css'] },
-                active: function () {
-                    sessionStorage.fonts = true;
-                }
-            });
-        </script>*@
+    <script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jquery/1.8.3/jquery.min.js"></script>
+    <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.13.5/xlsx.full.min.js"></script>
+    <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.13.5/jszip.js"></script>
+    <script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
+    @*<link rel="stylesheet" href="~/assets/css/bootstrap.min.css">
+        <link rel="stylesheet" href="~/assets/css/atlantis.min.css">*@
+    <style>
+        #particles1 {
+            width: 100%;
+            height: 100%;
+            top: 0;
+            bottom: 0;
+            overflow: hidden;
+            left: 0;
+            right: 0;
+            z-index: 10000;
+            overflow: hidden;
+            text-align: center;
+            position: fixed;
+        }
+    </style>
 
-    <!-- CSS Files -->
-    <link rel="stylesheet" href="~/assets/css/bootstrap.min.css">
-    <link rel="stylesheet" href="~/assets/css/atlantis.min.css">
+    @Styles.Render("~/Content/css")
+    @*@Scripts.Render("~/bundles/jquery")
 
-    <!-- CSS Just for demo purpose, don't include it in your project -->
-    @*<link rel="stylesheet" href="~/assets/css/demo.css">*@
-    @Scripts.Render("~/bundles/jquery")
+        @Scripts.Render("~/bundles/bootstrap")*@
 
-    @Scripts.Render("~/bundles/bootstrap")
     <script src="https://code.jquery.com/jquery-3.5.1.js"></script>
+
+
+    <script type="text/javascript" async
+            src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.7/MathJax.js?config=TeX-MML-AM_CHTML">
+    </script>
+
+    <script src="~/Scripts/summernote/summernote.min.js"></script>
+    <link href="~/Content/summernote/summernote.css" rel="stylesheet" />
+    <link rel="stylesheet" href="https://cdn.datatables.net/buttons/1.7.1/css/buttons.dataTables.min.css" />
+
+
     <script src="~/assets/demo/JavaScript.js"></script>
     @*<script src="~/assets/js/core/jquery.3.2.1.min.js"></script>*@
 
-    <script src="//cdn.datatables.net/buttons/1.6.2/js/dataTables.buttons.min.js"></script>
-    <script src="//cdn.datatables.net/buttons/1.6.2/js/buttons.flash.min.js"></script>
-    <script src="//cdnjs.cloudflare.com/ajax/libs/jszip/3.1.3/jszip.min.js"></script>
-    <script src="//cdnjs.cloudflare.com/ajax/libs/pdfmake/0.1.53/pdfmake.min.js"></script>
-    <script src="//cdnjs.cloudflare.com/ajax/libs/pdfmake/0.1.53/vfs_fonts.js"></script>
-    <script src="//cdn.datatables.net/buttons/1.6.2/js/buttons.html5.min.js"></script>
-    <script src="//cdn.datatables.net/buttons/1.6.2/js/buttons.print.min.js"></script>
+
 </head>
-<body>
+<body class="card">
+    <div id="particles1">
+        <div style="margin-top:15%">
+            <img src="~/Content/Img/5.gif" />
+        </div>
+    </div>
     <div class="wrapper">
         <div class="main-header">
             <!-- Logo Header -->
@@ -67,24 +93,69 @@
             <nav class="navbar navbar-header navbar-expand-lg" data-background-color="blue2">
 
                 <div class="container-fluid">
-                    <div class="collapse" id="search-nav">
-                        <form class="navbar-left navbar-form nav-search mr-md-3">
-                            <div class="input-group">
-                                <div class="input-group-prepend">
-                                    <button type="submit" class="btn btn-search pr-1">
-                                        <i class="fa fa-search search-icon"></i>
-                                    </button>
-                                </div>
-                                <input type="text" placeholder="Search ..." class="form-control">
-                            </div>
-                        </form>
-                    </div>
+
                     <ul class="navbar-nav topbar-nav ml-md-auto align-items-center">
                         <li class="nav-item toggle-nav-search hidden-caret">
                             <a class="nav-link" data-toggle="collapse" href="#search-nav" role="button" aria-expanded="false" aria-controls="search-nav">
                                 <i class="fa fa-search"></i>
                             </a>
                         </li>
+                        <li class="nav-item dropdown hidden-caret">
+                            <a class="nav-link dropdown-toggle" href="#" id="notifDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                <i class="fa fa-bell"></i>
+                                <span class="notification">@(share.Count)</span>
+                            </a>
+                            <ul class="dropdown-menu notif-box animated fadeIn" aria-labelledby="notifDropdown">
+                                <li>
+                                    <div class="dropdown-title">Bạn có @(share.Count) thông báo mới</div>
+                                </li>
+                                <li>
+                                    <div class="notif-scroll scrollbar-outer">
+                                        <div class="notif-center">
+                                            @{foreach (var item in share)
+                                                {
+                                                    var bode = DB.Bo_De.Where(x => x.Ma_BoDe == item.MA && item.Loai==0);
+                                                    if (bode.ToList().Count > 0)
+                                                    {
+
+                                                        <a href="/Admin/Home/LoadDeThi/@bode.ToList()[0].Ma_BoDe?tenmon=@bode.ToList()[0].MonHoc.TenMon">
+                                                            <div class="notif-icon notif-success"> <i class="fa fa-comment"></i> </div>
+                                                            <div class="notif-content">
+                                                                <span class="block">
+                                                                    @bode.ToList()[0].GiaoVien.TenGV đã đăng một bộ đề mới
+                                                                </span>
+                                                                <span class="time">@item.NgayDang</span>
+                                                            </div>
+                                                        </a>
+
+
+                                                    }
+                                                    else
+                                                    {
+                                                        <a href="/Admin/CauHoi/KhoCauHoi">
+                                                            <div class="notif-icon notif-success"> <i class="fa fa-comment"></i> </div>
+                                                            <div class="notif-content">
+                                                                <span class="block">
+                                                                    Ngân hàng bộ môn đã được mở
+                                                                </span>
+                                                                <span class="time">@item.NgayDang</span>
+                                                            </div>
+                                                        </a>
+                                                    }
+
+                                                }
+                                            }
+
+
+                                        </div>
+                                    </div>
+                                </li>
+                                <li>
+                                    <a class="see-all" href="javascript:void(0);">See all notifications<i class="fa fa-angle-right"></i> </a>
+                                </li>
+                            </ul>
+                        </li>
+
 
                         <li class="nav-item dropdown hidden-caret">
                             <a class="dropdown-toggle profile-pic" data-toggle="dropdown" href="#" aria-expanded="false">
@@ -98,8 +169,8 @@
                                         <div class="user-box">
                                             <div class="avatar-lg"><img src="~/assets/img/profile.jpg" alt="image profile" class="avatar-img rounded"></div>
                                             <div class="u-text">
-                                                <h4>Hizrian</h4>
-                                                <p class="text-muted">hello@example.com</p><a href="profile.html" class="btn btn-xs btn-secondary btn-sm">View Profile</a>
+                                                <h4>@gv.TenGV</h4>
+                                                @*<a href="profile.html" class="btn btn-xs btn-secondary btn-sm">View Profile</a>*@
                                             </div>
                                         </div>
                                     </li>
@@ -123,8 +194,8 @@
             @{Html.RenderAction("Menull", "Home");}
         </div>
         <!-- End Sidebar -->
-        <div class="main-panel">
-            <div class="content">
+        <div class="main-panel ">
+            <div class="content ">
                 @RenderBody()
             </div>
             <footer class="footer">
@@ -136,25 +207,55 @@
         <!-- Custom template | don't include it in your project! -->
         <!-- End Custom template -->
     </div>
-    <!--   Core JS Files   -->
+
+    @*<script src="~/assets/js/plugin/jquery-ui-1.12.1.custom/jquery-ui.min.js"></script>
+        <script src="~/assets/js/plugin/jquery-ui-touch-punch/jquery.ui.touch-punch.min.js"></script>
+
+        <script src="~/assets/js/atlantis.min.js"></script>
+        <script src="~/assets/js/plugin/jquery-scrollbar/jquery.scrollbar.min.js"></script>*@
+
+    @Scripts.Render("~/bundles/js")
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.5.3/dist/js/bootstrap.bundle.min.js" crossorigin="anonymous"></script>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.8.0/Chart.min.js" crossorigin="anonymous"></script>
+
+    <script src="https://cdn.datatables.net/1.10.20/js/dataTables.bootstrap4.min.js" crossorigin="anonymous"></script>
+
+    @*<script src="~/assets/demo/datatables1-demo.js"></script>
+        <script src="~/assets/Importfile/file1.js"></script>
+
+        <script src="~/assets/Importfile/file2.js"></script>
+        <script src="~/assets/Importfile/file3.js"></script>
+
+        <script src="~/assets/Importfile/file4.js"></script>
+        <script src="~/assets/Importfile/file5.js"></script>
+        <script src="~/assets/Importfile/file6.js"></script>
+        <script src="~/assets/Importfile/file7.js"></script>*@
+    @Scripts.Render("~/bundles/importfile")
+    @RenderSection("Jsfooter", required: false)
+    @RenderSection("scripts", required: false)
+    <script>
+
+        $(document).ready(function () {
+            var now = new Date();
+            //var now = TaoNgay(ngay, thoigian);
+            var tgbd = now.getFullYear() + '/' + (now.getMonth() + 1) + '/' + now.getDate() + '/' + now.getHours() + '/' + now.getMinutes() + '/' + now.getSeconds() + ""
+
+            $.ajax({
+                url: '/Admin/QuanLyThi/CapNhatDuLieu',
+                type: 'post',
+                data: { tgbd: tgbd },
+                success: function (data) {
+                    $('#particles1').hide();
+                }
+
+            });
+
+        })
 
 
-    <script src="~/assets/js/core/popper.min.js"></script>
-    <script src="~/assets/js/core/bootstrap.min.js"></script>
 
-    <!-- jQuery UI -->
-    <script src="~/assets/js/plugin/jquery-ui-1.12.1.custom/jquery-ui.min.js"></script>
-    <script src="~/assets/js/plugin/jquery-ui-touch-punch/jquery.ui.touch-punch.min.js"></script>
-    <script src="~/assets/js/atlantis.min.js"></script>
-    <script src="~/assets/js/plugin/jquery-scrollbar/jquery.scrollbar.min.js"></script>
-
-        <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.5.3/dist/js/bootstrap.bundle.min.js" crossorigin="anonymous"></script>
-        <script src="~/Scripts/js/JavaScript.js"></script>
-        <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.8.0/Chart.min.js" crossorigin="anonymous"></script>
-        <script src="~/Content/datepicker/js/bootstrap-datepicker.js"></script>
-        <script src="https://cdn.datatables.net/1.10.20/js/dataTables.bootstrap4.min.js" crossorigin="anonymous"></script>
-        <script src="/assets/demo/datatables1-demo.js"></script>
-        @RenderSection("Jsfooter", required: false)
-        @RenderSection("scripts", required: false)
-    </body>
-    </html>
+    </script>
+</body>
+</html>
+<noembed>

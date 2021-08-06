@@ -36,9 +36,9 @@ namespace TracNghiemOnline.Modell
         public virtual DbSet<Phong_Thi> Phong_Thi { get; set; }
         public virtual DbSet<SinhVien> SinhViens { get; set; }
         public virtual DbSet<TaiKhoan> TaiKhoans { get; set; }
-        public virtual DbSet<BoDeOnTap> BoDeOnTaps { get; set; }
         public virtual DbSet<DS_BaiHoc> DS_BaiHoc { get; set; }
         public virtual DbSet<DSGV_ThucHien> DSGV_ThucHien { get; set; }
+        public virtual DbSet<Share> Shares { get; set; }
 
         protected override void OnModelCreating(DbModelBuilder modelBuilder)
         {
@@ -49,11 +49,6 @@ namespace TracNghiemOnline.Modell
             modelBuilder.Entity<Bo_De>()
                 .Property(e => e.NguoiDuyet)
                 .IsFixedLength();
-
-            modelBuilder.Entity<Bo_De>()
-                .HasMany(e => e.BoDeOnTaps)
-                .WithOptional(e => e.Bo_De)
-                .HasForeignKey(e => e.MaBoDe);
 
             modelBuilder.Entity<Bo_De>()
                 .HasMany(e => e.CauHois)
@@ -189,11 +184,6 @@ namespace TracNghiemOnline.Modell
                 .HasForeignKey(e => e.Ma_LOP);
 
             modelBuilder.Entity<LopHocPhan>()
-                .HasMany(e => e.BoDeOnTaps)
-                .WithOptional(e => e.LopHocPhan)
-                .HasForeignKey(e => e.MaLopHP);
-
-            modelBuilder.Entity<LopHocPhan>()
                 .HasMany(e => e.Phong_Thi)
                 .WithRequired(e => e.LopHocPhan)
                 .HasForeignKey(e => e.MaLopHP)
@@ -279,16 +269,15 @@ namespace TracNghiemOnline.Modell
                 .WithOptional(e => e.TaiKhoan)
                 .HasForeignKey(e => e.MaSV);
 
-            modelBuilder.Entity<BoDeOnTap>()
-                .Property(e => e.MaLopHP)
-                .IsFixedLength()
-                .IsUnicode(false);
-
             modelBuilder.Entity<DS_BaiHoc>()
                 .Property(e => e.MaSV)
                 .IsFixedLength();
 
             modelBuilder.Entity<DSGV_ThucHien>()
+                .Property(e => e.MaGV)
+                .IsFixedLength();
+
+            modelBuilder.Entity<Share>()
                 .Property(e => e.MaGV)
                 .IsFixedLength();
         }

@@ -27,15 +27,7 @@ namespace TracNghiemOnline.Areas.Admin.Controllers
         }
 
 
-        public ActionResult ToChucThi(string id)
-        {
-            var classRom = new QuanLyThiDAO().ExamitionRoom(id);
-            classRom.Bo_De = new BoDeDao().ChapterStudy(long.Parse(classRom.MaBoDe.ToString()));
-            Session[ComMon.ComMonStants.ExamRoom] = classRom;
-            DateTime dateTime = DateTime.Parse(classRom.ThoiGianDong.ToString());
-            ViewBag.GioThi = dateTime.ToString("yyyy/MM/dd HH:mm:ss");
-            return View(classRom);
-        }
+       
 
         public ActionResult Chonde(long id)
         {
@@ -47,6 +39,7 @@ namespace TracNghiemOnline.Areas.Admin.Controllers
         public string CreatePhongThi(string MaLop, string DS, string MaSV, string nd, string GV1, string GV2,DateTime Ngay)
         {
             var DSSV = new JavaScriptSerializer().Deserialize<List<DS_SVThi>>(DS);
+
             if (MaSV.Length == 0)
             {
                 var session = (TaiKhoan)Session[ComMon.ComMonStants.UserLogin];
@@ -60,8 +53,10 @@ namespace TracNghiemOnline.Areas.Admin.Controllers
         }
         public ActionResult TaoPhong()
         {
+            DateTime dateTime = (DateTime)Session["Gio"];
+
             var session = (TaiKhoan)Session[ComMon.ComMonStants.UserLogin];
-            var PhongThi = new QuanLyThiDAO().ListAllClassRom(session.TaiKhoan1);
+            var PhongThi = new QuanLyThiDAO().ListAllClassRom(session.TaiKhoan1,dateTime);
             return View(PhongThi);
         }
     }

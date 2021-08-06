@@ -18,6 +18,7 @@
 
                 let tg = $(this).closest('tr').find("td:eq(4)").text();
                 $('#MaDe').val(ma.trim());
+                
                 $('#NoiDung').val(ten.trim());
                 $('#txtTG').val(tg.trim());
                 $('#modalSinhVien').modal();
@@ -27,14 +28,14 @@
             $(document).on('click', 'button[name=btngui]', function () {
 
                 $.ajax({
-                   
+
                     url: '/Admin/Bomon/guide', tguideype: 'post',
                     data: {
                         made: $(this).closest('tr').find("td:eq(0)").text().trim(),
-                       // trangthai: true,
+                        // trangthai: true,
                     },
                     success: function (data) {
-                        document.location = "/Admin/Home/BoMon";
+                        document.location = "/Admin/Bomon/DSDEGUI";
                     }
 
                 });
@@ -102,52 +103,51 @@
                 }
 
             });
-            function Loaddata(data) {
-
-                $('#bodeid').empty();
-                $('#modalSinhVien').hide();
-                $('#modalConfirm').modal('hide');
-                $.each(data.Bode, function (k, v) {
-                    let = '<tr>'
-
-                    let += '<td>' + v.MaDe + '</td>';
-                    let += '<td>' + v.Ten + '</td>';
-                    let += '<td>' + v.TenMon + '</td>';
-                    let += '<td>' + v.SoCau + '</td>';
-                    let += '<td>' + v.ThoiGian + '</td>';
-
-            /*        let += '<td>' + v.Giaovien + '</td>';*/
-
-                    let += '<td><a href="/Admin/Home/LoadDeThi/' + v.MaDe + '" class="btn btn-xs btn-primary"><span><i class="far fa-eye"></i></span></a>';
-
-
-                    let += '<button name="btngui" class="btn btn-xs btn-success"><i class="" aria-hidden="true" style="color:white"></i> gui admin </button>';
-
-
-                    let += '<button name="btnSua" class="btn btn-xs btn-success"><i class="far fa-edit" aria-hidden="true" style="color:white"></i></button>';
-                    let += '<button name="Delete" class="btn btn-xs btn-danger"><i class="far fa-trash-alt" aria-hidden="true"></i></button></td>';
-
-
-
-                    let += '</tr>'
-                    $('#bodeid').append(let);
-
-                });
-
-
-
-            }
+         
 
         })
+        function Loaddata(data) {
 
+            $('#bodeid').empty();
+            $('#modalSinhVien').hide();
+            $('#modalConfirm').modal('hide');
+            $.each(data.Bode, function (k, v) {
+                let = '<tr>'
+
+                let += '<td>' + v.MaDe + '</td>';
+                let += '<td>' + v.Ten + '</td>';
+                let += '<td>' + v.TenMon + '</td>';
+                let += '<td>' + v.SoCau + '</td>';
+                let += '<td>' + v.ThoiGian + '</td>';
+
+                       let += '<td>' + v.Giaovien + '</td>';
+
+                let += '<td><a href="/Admin/Home/LoadDeThi/' + v.MaDe + '" class="btn btn-xs btn-primary"><span><i class="far fa-eye"></i></span></a>&ensp; ';
+
+
+
+                let += '<button name="btnSua" class="btn btn-xs btn-success"><i class="far fa-edit" aria-hidden="true" style="color:white"></i></button>&ensp;';
+                let += '<button name="Delete" class="btn btn-xs btn-danger"><i class="far fa-trash-alt" aria-hidden="true"></i></button>&ensp;'; 
+                let += '<button name="btngui" class="btn btn-xs btn-secondary"><i class="fas fa-upload"></i></button> </td>';
+
+
+
+                let += '</tr>'
+                $('#bodeid').append(let);
+
+            });
+
+
+
+        }
     </script>
 }
 
 <div class="modal" tabindex="-1" role="dialog" id="modalConfirm">
     <div class="modal-dialog" role="document">
         <div class="modal-content">
-            <div class="modal-header bg-warning">
-                <h5 class="modal-title">CẢNH BÁO</h5>
+            <div class="modal-header">
+                <h4 class="modal-title font-weight-bold">CẢNH BÁO</h4>
 
             </div>
             <div class="modal-body">
@@ -175,10 +175,11 @@
                     var session = (TaiKhoan)Session[ComMonStants.UserLogin];
                     if (!session.ChưcVu.Equals("Admin"))
                     {
-                        <a href="/Admin/Bomon/Taodethi" class="btn btn-primary btn-round ml-auto" style="float:right">
+                        <a href="/Admin/Home/TaoDeThi" class="btn btn-primary btn-round ml-auto" style="float:right">
                             <i class="fa fa-plus"></i>
                             <span>Thêm đề thi</span>
                         </a>
+
                     }
                 }
 
@@ -198,12 +199,12 @@
                                     <th>Tên Môn Học</th>
                                     <th>Số Câu</th>
                                     <th>Thời Gian Thi</th>
-                                    @*<th>Người Tạo</th>*@
+                                    <th>Người Tạo</th>
 
                                     <th></th>
                                 </tr>
                             </thead>
-                          
+
                             <tbody id="bodeid">
                                 @foreach (var item in Model)
                                 {
@@ -213,18 +214,19 @@
                                         <td> @item.MonHoc.TenMon</td>
                                         <td> @item.CauHois.Count</td>
                                         <td id="sad"> @item.ThoiGianThi</td>
-                                        @*<td>  @item.GiaoVien.TenGV </td>*@
-                                        <td>
-                                            <a href="/Admin/Bomon/xemde/@item.Ma_BoDe?tenmon=@item.MonHoc.TenMon" class="btn btn-xs btn-primary">
-                                                <span><i class="far fa-eye"></i></span>
-                                            </a>
+                                        <td>  @item.GiaoVien.TenGV </td>
+                                    <td>
+                                        <a href="/Admin/Bomon/xemde/@item.Ma_BoDe?tenmon=@item.MonHoc.TenMon" class="btn btn-xs btn-primary">
+                                            <span><i class="far fa-eye"></i></span>
+                                        </a>
 
 
-                                            <button name="btngui" class="btn btn-xs btn-success"><i class="bi bi-arrow-bar-up" aria-hidden="true" style="color:white"></i> gui admin</button>
 
-                                            <button name="btnSua" class="btn btn-xs btn-success"><i class="far fa-edit" aria-hidden="true" style="color:white"></i></button>
-                                            <button name="Delete" class="btn btn-xs btn-danger"><i class="far fa-trash-alt" aria-hidden="true"></i></button>
-                                        </td>
+                                        <button name="btnSua" class="btn btn-xs btn-success"><i class="far fa-edit" aria-hidden="true" style="color:white"></i></button>
+                                        <button name="Delete" class="btn btn-xs btn-danger"><i class="far fa-trash-alt" aria-hidden="true"></i></button>
+                                        <button name="btngui" class="btn btn-xs btn-secondary"><i class="fas fa-upload"></i></button>
+
+                                    </td>
 
                                     </tr>
 
@@ -237,8 +239,8 @@
                 </div>
             </div>
         </div>
-        </div>
-    
+    </div>
+
 </div>
 
 
@@ -248,8 +250,8 @@
 <div class="modal" tabindex="-1" role="dialog" id="modalSinhVien">
     <div class="modal-dialog" role="document">
         <div class="modal-content">
-            <div class="modal-header bg-info" style="color:white">
-                <h5 class="modal-title">THÔNG TIN ĐỀ THI</h5>
+            <div class="modal-header">
+                <h4 class="modal-title font-weight-bold">THÔNG TIN ĐỀ THI</h4>
             </div>
             <div class="modal-body">
                 <p>
@@ -258,7 +260,7 @@
                         <input type="text" disabled class="form-control" id="MaDe">
                         <label>Nôi Dung</label>
                         <input type="text" class="form-control" id="NoiDung">
-                        <div class="form-group">
+                        <div>
                             <label>Thời Gian</label>
                             <select class=" form-control col-12" id="txtTG">
                                 <option value=""> ==========Thời Gian ============= </option>

@@ -1,13 +1,12 @@
-﻿@model List<TracNghiemOnline.Modell.Phong_Thi>
+﻿@model List<TracNghiemOnline.Model.DanhGia>
 @{
     ViewBag.Title = "DSDETHI";
     Layout = "~/Views/Share/LayOutHome.cshtml";
     var session = (TaiKhoan)Session[ComMonStants.UserLogin];
 
-
+    List<Phong_Thi> phong_This = (List<Phong_Thi>)ViewBag.phong;
 }
 @using TracNghiemOnline.Modell.Dao;
-@using TracNghiemOnline.Model;
 @using TracNghiemOnline.Modell;
 @using TracNghiemOnline.ComMon;
 
@@ -30,28 +29,23 @@
                 </thead>
 
                 <tbody>
-                    @foreach (var item in Model.OrderByDescending(x => x.ThoiGianMo))
-                    {
-                        if (new TracNghiemOnlineDB().DS_SVThi.Where(x => x.MaPhong.Equals(item.MaPhong) && x.Ma_SV.Equals(session.TaiKhoan1)).ToList().Count > 0)
-                        {
-                            foreach (var item1 in new TracNghiemOnlineDB().DS_SVThi.Where(x => x.MaPhong.Equals(item.MaPhong) && x.Ma_SV.Equals(session.TaiKhoan1)).ToList())
+                    @{
+                            int i = 0;
+                            foreach (var item in Model.OrderByDescending(x => x.ketQuaThi.NgayThi))
                             {
-                                var exam = new QuanLyThiDAO().SearDethi(item1.MaDeThi);
-                                var dethi = new QuanLyThiDAO().Mark(exam);
+                            
 
-                    <tr>
-                        <td>  @item.TenPhong  </td>
-                        <td> @dethi.ketQuaThi.Ma_DeThi </td>
-                        <td>  @item.LopHocPhan.MonHoc.TenMon  </td>
-                        <td>  @item.Bo_De.ThoiGianThi Phút </td>
-                        <td>  @dethi.ketQuaThi.DiemSo </td>
-                        <td>  @item.ThoiGianMo.Value.Day/ @item.ThoiGianMo.Value.Month/ @item.ThoiGianMo.Value.Year </td>
-                        <td> <a href="/Diemthi/@item1.MaDeThi" class="btn btn-info" style="padding: 1px 10px; color: #fff">Xem</a></td>
-                    </tr>
-                            }
-
+                            <tr>
+                                <td>  @phong_This.ToList()[i].TenPhong </td>
+                                <td> @item.ketQuaThi.Ma_DeThi </td>
+                                <td>  @phong_This.ToList()[i].Bo_De.MonHoc.TenMon  </td>
+                                <td> @phong_This.ToList()[i].Bo_De.ThoiGianThi </td>
+                                <td>  @item.ketQuaThi.DiemSo </td>
+                                <td>  @item.ketQuaThi.NgayThi.Value.Day/ @item.ketQuaThi.NgayThi.Value.Month/ @item.ketQuaThi.NgayThi.Value.Year </td>
+                                <td> <a href="/TrangChu/TinhDiem/@item.ketQuaThi.Ma_DeThi" class="btn btn-info" style="padding: 1px 10px; color: #fff">Xem</a></td>
+                            </tr>
+                            i++;
                         }
-
                     }
                 </tbody>
 

@@ -4,12 +4,48 @@
     Layout = "~/Areas/Admin/Views/Shared/LaoutShare.cshtml";
 
 }
+<style type="text/css">
+    div .note-btn i {
+        color: black
+    }
+
+    .note-btn span {
+        color: black
+    }
+</style>
+
 @section scripts{
     <script>
         var cout = 20000;
         var dem = 2000;
         var check = false;
-    
+
+        loadsummernote('textarea');
+        $(".note-icon-trash").trigger('click');
+
+        function loadsummernote(a) {
+            var myElement = $(a);
+            myElement.summernote({
+                // set editor height
+                placeholder: 'Nhập thông tin bạn muốn đăng',
+                toolbar: [
+
+                    ['style', ['style']],
+                    ['fontname', ['fontname']],
+                    ['color', ['color']],
+                    ['para', ['ul', 'ol', 'paragraph']],
+                    ['table', ['table']],
+                    ['insert', ['link']],
+                    ['view', ['fullscreen', 'undo', 'redo']],
+                ],
+                disableResizeEditor: true,
+                height: 100,
+                minHeight: null, // set minimum height of editor
+                maxHeight: null // set maximum height of editor
+                // set focus to editable area after initializing summernote
+            });
+        }
+
         function readURL(input) {
 
             if (input.files && input.files[0]) {
@@ -190,7 +226,7 @@
                                     {
                                         <input class="txtlinkHinh" id="@item.Ma_CauHoi" value="@item.HinhAnh" hidden />
                                         <div class="col-auto">
-                                            <img class="file-upload-image" id="@item.Ma_CauHoi" width="200px" src="@item.HinhAnh" alt="your image" />
+                                            <img class="file-upload-image" id="@item.Ma_CauHoi" width="300" src="@item.HinhAnh" alt="your image" />
                                         </div>
                                         <i class="col-auto bi bi-x-circle-fill remove-image " id="@item.Ma_CauHoi" style="margin-left:-4% ;margin-top:-1%; font-size: 2rem; color: #ff0000" onclick="removeUpload(this)"></i>
                                     }

@@ -92,51 +92,7 @@ namespace TracNghiemOnline.Modell.Dao
 
             return khoch;
         }
-        internal object DanhGiaKetQuatheoBoMon(string id)
-        {
-            
-            var tkbomon = db.TaiKhoans.SingleOrDefault(x => x.ChưcVu.Equals("Admin"));
-            var lophocphan = db.LopHocPhans.Where(x => x.MaGV .Equals(id) ).ToList();
-           
-            var phong = db.Phong_Thi.Where(x => x.TrangThai.Equals("Đang Thi") && x.Xoa == true && x.NguoiTao==tkbomon.TaiKhoan1).ToList();
-
-            foreach (var item in phong)
-            {
-                if (item.ThoiGianDong <= DateTime.Now)
-                {
-
-                    var p = db.Phong_Thi.Find(item.MaPhong);
-                    p.TrangThai = "Đã Đóng";
-                    db.SaveChanges();
-
-                }
-
-            }
-
-            phong = db.Phong_Thi.Where(x => x.TrangThai.Equals("Đã Đóng") && x.Xoa == true && x.NguoiTao == tkbomon.TaiKhoan1).ToList();
-
-
-            foreach (var item in phong)
-            {
-                item.LopHocPhan = (LopHocPhan)ClassRom(item.MaLopHP);
-
-            }
-            List<Phong_Thi> phongthi = new List<Phong_Thi>();
-            foreach (var lhp in lophocphan)
-            {
-                foreach (var p in phong)
-                {
-                    if (lhp.MaLop.Replace(" ", "").ToString().Equals(p.MaLopHP.Replace(" ", "").ToString()))
-                    {
-                        phongthi.Add(p);
-                    }
-                }
-            }
-
-            return phongthi;
-
-
-        }
+     
         internal object danhsachgiaovienbm(string id)
         {
             var giaovien = db.GiaoViens.Where(x => x.MaBoMon.Equals(id)).ToList();

@@ -2,21 +2,79 @@
 @{
     ViewBag.Title = "KetQuaphongthi";
     Layout = "~/Areas/Admin/Views/Shared/LaoutShare.cshtml";
-    var danhgia = (List<TracNghiemOnline.Modell.Danh_Gia>)ViewBag.DanhGia;
+   
 }
 
+<script>
+   
+    google.charts.load('current', {'packages': ['bar'] });
+   google.charts.setOnLoadCallback(drawChart);
+    function drawChart() {
+        var c = [];
+        $('#particles1').show();
+        var ten = [];
+        $('#frmdiem').hide();
+        $('#frmbieudo').slideDown();
+        var maphong = $('#txtmaphong').val();
+        $.ajax({
+            type: 'Post',
+            url: "/Admin/QuanLyThi/DanhGia/" + maphong,
+            dataType: 'json',
+            success: function (res) {
+                console.log(res.arr1);
+                $('#particles1').hide();
+                var data = google.visualization.arrayToDataTable([
+                    ['Biểu đồ thống kê các chương', 'Yếu/Kém', 'Trung bình', 'Khá', 'Giỏi'],
+
+                    [res.arr1[0].TenChuong, res.arr1[0].Yeu, res.arr1[0].tb, res.arr1[0].kha, res.arr1[0].gioi]
+                ]);
+
+                $.each(res.arr1, function (k, v) {
+                    if (k > 0) {
+                        data.addRows([[v.TenChuong, v.Yeu, v.tb, v.kha, v.gioi]]);
+                    }
+
+                })
+
+
+                var options = {
+                    // width: 1100,
+                    chart: {
+                        title: 'Biểu đồ thống kê',
+
+                    },
+                    @* axes: {
+                    y: {
+                        distance: { label: 'parsecs' }, // Left y-axis.
+                        brightness: { side: 'right', label: 'apparent magnitude' } // Right y-axis.
+                    }
+                }*@
+                };
+
+            var chart = new google.charts.Bar(document.getElementById('columnchart_material'));
+
+                chart.draw(data, google.charts.Bar.convertOptions(options))
+                
+
+        }
+        })
+
+    ;
+    }
+</script>
 @section scripts{
     <script>
+ 
         $(document).ready(function () {
+         
             var ctx = document.getElementById('myChart').getContext('2d');
             var c = [];
             var ten = [];
-            $('#frmdiem').slideDown();
-            $('#frmbieudo').hide();
+         
             var maphong = $('#txtmaphong').val();
             $.ajax({
                 type: 'Post',
-                url: "/Admin/Home/DanhGia/" + maphong,
+                url: "/Admin/QuanLyThi/DanhGia/" + maphong,
                 dataType: 'json',
                 success: function (res) {
 
@@ -61,15 +119,12 @@
                         options: {}
                     });
                 }
-
-
-
-            });
+           });
 
             $('#example').DataTable({
                 dom: 'Bfrtip',
                 buttons: [
-                    'copy', 'csv', 'excel', 'pdf', 'print'
+                    'copy', 'excel', 'pdf', 'print'
                 ]
             });
             $('#bntnhanxet').click(function () {
@@ -86,10 +141,10 @@
             });
         });
 
-    </script>
-
-}
-
+      
+  
+</script>
+    }
 <div class="modal" tabindex="-1" role="dialog" id="modalConfirm">
     <div class="modal-dialog" role="document">
         <div class="modal-content">
@@ -112,7 +167,7 @@
 
 
 <div class="col-md-12">
-    <input hidden="hidden" id="txtmon" value="@ViewBag.id" />
+
     <div class="card">
         <div class="card-header">
             <div class="d-flex align-items-center">
@@ -152,7 +207,7 @@
 
                                             </tr>
                                         </thead>
-                                       
+
                                         <tbody>
                                             @foreach (var item in Model)
                                             {
@@ -171,12 +226,12 @@
                                         </tbody>
 
                                     </table>
-                                    </ul>
+
                                 </div>
 
 
 
-                                </ul>
+
                             </div>
                         </div>
 
@@ -191,14 +246,20 @@
 
             </div>
 
+            <div class="container-fluid" id="frmbieudo1">
+                <div id="columnchart_material" class="col-12" style=" height: 500px"></div>
+               
+
+            </div>
+
             <div class="container-fluid" id="frmbieudo">
+                
                 <div class="card mb-4">
                     <canvas id="myChart" width="100" height="50">
                     </canvas>
                 </div>
 
             </div>
-
 
         </div>
 

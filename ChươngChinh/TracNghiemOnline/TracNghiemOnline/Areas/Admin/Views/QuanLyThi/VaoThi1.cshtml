@@ -11,7 +11,9 @@
         $(document).ready(function () {
 
             $('#btnBatDau').click(function () {
+            
                 var now = new Date();
+                $('#particles1').show();
                 //var now = TaoNgay(ngay, thoigian);
                 var tgbd = now.getFullYear() + '/' + (now.getMonth() + 1) + '/' + now.getDate() + '/' + now.getHours() + '/' + now.getMinutes() + '/' + now.getSeconds() + ""
                 $.ajax({
@@ -24,6 +26,7 @@
                         }
                         else {
                             alert("Phòng chưa có thí sinh thi");
+                            $('#particles1').hide();
                         }
                                         
                     }
@@ -85,7 +88,7 @@
                         @if (quyen == true)
                         {
                             <div class="col-2 mb-2 ">
-                                <button class="btn btn-danger" id="btnChon" href=""> Chọn </button>
+                                <button class="btn btn-danger" id="btnChon" > Chọn </button>
                             </div>
 
 

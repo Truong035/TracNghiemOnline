@@ -43,6 +43,7 @@ namespace TracNghiemOnline.Modell
 
         public DateTime? NgayThi { get; set; }
 
+        [StringLength(50)]
         public string ThoiGianThi { get; set; }
 
         public long? MaMon { get; set; }

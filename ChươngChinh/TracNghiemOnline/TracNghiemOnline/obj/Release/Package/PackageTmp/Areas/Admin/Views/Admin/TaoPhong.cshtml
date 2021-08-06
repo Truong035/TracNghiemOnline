@@ -15,6 +15,25 @@
                 $('#DsPhong').slideDown();
 
             });
+
+            $(document).on('click', 'button[name=btnSua]', function () {
+                let ma = $(this).closest('tr').find("td:eq(0)").text().trim();
+                $.ajax({
+                    type: "POST",
+                    data: {
+                        made: ma
+                    },
+                    url: '/Admin/QuanLyThi/UpdateExamRoom',
+                    success: function (res) {
+                        window.location = '/Admin/Admin/TaoPhong';
+
+                    }
+
+
+                });
+
+            })
+
             $('#btnSubmit').click(function () {
                 var text = $('#lop').val();
                 var text1 = $('#GV1').val();
@@ -32,15 +51,17 @@
                 else if (text1.length == 0 || text2.length == 0) {
                     alert("Bạn Vui Lòng Chọn Giám Thị Coi Thi");
                 }
-                else if (text1==text2) {
+                else if (text1 == text2) {
                     alert("Vui Lòng Chọn Lại Giáo Viên");
                 }
                 else if (NgayBD.length == null) {
                     alert("Vui Lòng Chọn Thòi Gian Bắt Đầu");
                 }
 
-              else {
+                else {
                     var arr = [];
+                    $('Lop').modal('hide');
+                    $('#particles1').show();
                     $.ajax({
                         type: 'POST',
                         url: '/Admin/Admin/CreatePhongThi/',
@@ -49,8 +70,10 @@
                             GV2: text2, Ngay: NgayBD
                         },
                         success: function (res) {
-                            $('Lop').modal('hide');
+                           
+
                             document.location = "/Admin/Admin/TaoPhong";
+                            $('#particles1').hide();
                         }
                     });
 
@@ -136,34 +159,48 @@
             });
             function LoadDe(E) {
                 var TrangThai = $(E).closest('tr').find("td:eq(5)").text().trim();
-                
+                $('#particles1').show();
                 var maPhong = $(E).closest('tr').attr('id');
                 if (TrangThai == "Chưa Thi") {
                     $.ajax({
                         type: 'Get',
                         url: '/Admin/QuanLyThi/VaoThi/' + maPhong,
                         success: function (data) {
-                            $('#DsThethi').empty();
-                            $.each(data.Bode, function (K, V) {
+                            $('#bodeid').empty();
+                            $.each(data.Bode, function (K, v) {
+
+                                var let = '<tr>'
+
+                                let += '<td>' + v.MaDe + '</td>';
+                                let += '<td>' + v.Ten + '</td>';
+                                let += '<td>' + v.TenMon + '</td>';
+                                let += '<td>' + v.SoCau + '</td>';
+                                let += '<td>' + v.ThoiGian + '</td>';
+                                let += '<td>' + v.NguoiTao + '</td>';
+                                /*        let += '<td>' + v.Giaovien + '</td>';*/
+                                let += '<td> <button name="btnSua" class="btn btn-xs btn-success">Chọn</button></td>';
+                                let += '</tr>'
+                                $('#bodeid').append(let);
 
 
-                                let de = '<div class="col-md-3">'
-                                de += '<div class="card   mb-4">'
-                                de += '<div class="card-footer bg-primary    d-flex align-items-center justify-content-between">'
-                                de += ' <h3 class="small text-white">' + V.Ten + '</h3 >'
-                                de += '</div> '
-                                de += '   <div class="card-body" > Thời Gian:' + V.ThoiGian + 'Phút </div >'
-                                de += '    <div class="card-body" > Số Câu:' + V.SoCau + 'Câu </div >'
-                                de += ' <a class="btn btn-sm  bg-danger "href = "/Admin/QuanLyThi/ChonDe/' + V.MaDe + '" > Chọn </a >'
-                                de += '  </div >'
-                                de += '   </div >'
-                                $('#DsThethi').append(de);
+                                //let de = '<div class="col-md-3">'
+                                //de += '<div class="card   mb-4">'
+                                //de += '<div class="card-footer bg-primary    d-flex align-items-center justify-content-between">'
+                                //de += ' <h3 class="small text-white">' + V.Ten + '</h3 >'
+                                //de += '</div> '
+                                //de += '   <div class="card-body" > Thời Gian:' + V.ThoiGian + 'Phút </div >'
+                                //de += '    <div class="card-body" > Số Câu:' + V.SoCau + 'Câu </div >'
+                                //de += ' <a class="btn btn-sm  bg-danger "href = "/Admin/QuanLyThi/ChonDe/' + V.MaDe + '" > Chọn </a >'
+                                //de += '  </div >'
+                                //de += '   </div >'
+                                //$('#DsThethi').append(de);
 
                             });
 
                             $('#ChonDe').show();
 
                             $('#DsPhong').hide();
+                            $('#particles1').hide();
                         }
 
                     });
@@ -171,8 +208,8 @@
                 else {
                     alert("Cuộc Thi Đã Diễn Ra Không Thể Đổi");
                 }
-                    
-            
+
+
             }
         });
     </script>
@@ -196,7 +233,7 @@
         <div class="card-body">
             <div class="table-responsive">
                 <div id="add-row_wrapper" class="dataTables_wrapper container-fluid dt-bootstrap4">
-                    <div class="col-sm-12">
+                    
                         <table id="dataTable" class="display table table-striped table-hover dataTable" role="grid" aria-describedby="add-row_info">
 
                             <thead>
@@ -207,7 +244,7 @@
                                     <th>Sĩ Số  </th>
                                     <th> Mã đề </th>
 
-                                    <th> Trạng Thái </th>
+
 
                                     <th></th>
 
@@ -217,32 +254,33 @@
                             <tbody>
                                 @foreach (var item in Model)
                                 {
-                                <tr id="@item.MaPhong">
-                                    <td> @item.MaPhong </td>
-                                    <td> @item.TenPhong </td>
-                                    <td> @item.LopHocPhan.TenLop </td>
-                                    <td> @item.DS_SVThi.Count </td>
-                                    @if (item.MaBoDe == null)
-                                    {
-                                        <td>
-                                            Vui lòng chọn đề
-                                        </td>
-                                    }
-                                    @if (item.MaBoDe != null)
+                                    <tr id="@item.MaPhong">
+                                        <td> @item.MaPhong </td>
+                                        <td> @item.TenPhong </td>
+                                        <td> @item.LopHocPhan.TenLop </td>
+                                        <td> @item.DS_SVThi.Count </td>
+                                        @if (item.MaBoDe == null)
+                                        {
+                                            <td>
+                                                Vui lòng chọn đề
+                                            </td>
+                                        }
+                                        @if (item.MaBoDe != null)
 
-                                    { <td>
-    @item.MaBoDe
-</td>
-                                    
-                                    }
+                                        {
+                                            <td>
+                                                @item.MaBoDe
+                                            </td>
+
+                                        }
                                         <td>
                                             @item.TrangThai
-                                            
-                                           
+
+
                                         </td>
                                         <td id="@item.MaBoDe">
 
-                                            <a class="btn btn-xs btn-primary" href="/Admin/Home/DSSVThi/@item.MaPhong"> Xem danh sách </a>
+                                            <a class="btn btn-xs btn-primary" href="/Admin/Home/DSSVThi/@item.MaPhong">Danh sách </a>
                                             <button class="btn btn-xs btn-success " name="btnVaoThi" href="/Admin/QuanLyThi/VaoThi/@item.MaPhong"> Chọn đề</button>
 
                                             <button class="btn btn-xs btn-danger " name="btnHuyPhong" href="/Admin/QuanLyThi/VaoThi/@item.MaPhong"> Hủy Phòng </button>
@@ -256,99 +294,125 @@
                         </table>
                     </div>
                 </div>
-                    </div>
-                </div>
             </div>
         </div>
+    </div>
 
+
+<div class="container-fluid" id="ChonDe">
+    <div class="card">
+        <div class="card-header">
+            <div class="d-flex align-items-center">
+                <h4 class="card-title">DANH SÁCH ĐỀ THI</h4>
+
+            </div>
+        </div>
+        <div style="width:auto; height:3px; background-color:rgb(248,249,250);"></div>
         <div class="card-body">
-            <div class="container-fluid" id="ChonDe">
-                <div class="row ">
-                    <h1 class=" col-10 mt-4">Đề Thi </h1>
-                    <div class="col-2 mt-4" style="float:right"><button id="btnDong" class="btn badge-danger">Quay Lai</button></div>
-                </div>
+            <div class="table-responsive">
+                <div id="add-row_wrapper" class="dataTables_wrapper container-fluid dt-bootstrap4">
 
-                <div class="row" id="DsThethi">
+                    <div class="col-sm-12">
+                        <table id="dataTable" class="display table table-striped table-hover dataTable" role="grid" aria-describedby="add-row_info">
 
-                </div>
-            </div>
-        </div>
-        <div class="modal" tabindex="-1" role="dialog" id="modalConfirm">
-            <div class="modal-dialog" role="document">
-                <div class="modal-content">
-                    <div class="modal-header bg-primary">
-                        <h5 class="modal-title">CẢNH BÁO</h5>
+                            <thead>
+                                <tr>
+                                    <th>Mã Đề </th>
+                                    <th>Nội Dung </th>
+                                    <th>Tên Môn Học</th>
+                                    <th>Số Câu</th>
+                                    <th>Thời Gian Thi</th>
+                                    <th>Người gửi</th>
+                                    <th></th>
+                                </tr>
+                            </thead>
 
+                            <tbody id="bodeid">
+                            </tbody>
+                        </table>
                     </div>
-                    <div class="modal-body">
-                        <input type="text" hidden id="ma" value="" />
-                        Bạn có chắc chắn muốn xóa?
-                    </div>
-                    <div class="modal-footer">
-                        <button type="button" class="btn btn-success" id="btnYes">Xác nhận</button>
-                        <button type="button" class="btn btn-secondary" data-dismiss="modal" id="btnDong">Đóng</button>
-                    </div>
+
                 </div>
             </div>
         </div>
+    </div>
+</div>
 
-        @*  Them Phong *@
+<div class="modal" tabindex="-1" role="dialog" id="modalConfirm">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header bg-primary">
+                <h5 class="modal-title">CẢNH BÁO</h5>
 
-                                            <div class="modal" tabindex="-1" role="dialog" id="modalLopHP">
-                                                <div class="modal-dialog" role="document">
-                                                    <div class="modal-content">
-                                                        <div class="modal-header bg-primary">
-                                                            Bạn vui lòng chọn lớp học phần
-                                                        </div>
-                                                        <div class="modal-body">
-                                                            <p>
-                                                                <label>Tên Phòng</label>
-                                                                <input type="text" class="form-control" id="tenPhong" placeholder="Nhập Tên Phòng">
-                                                                <div class="form-group">
-                                                                    <label>Lớp Học Phần </label>
-                                                                    <div class="form-group" id="LopHP">
-                                                                        <select id="lop" class="form-control">
-                                                                        </select>
+            </div>
+            <div class="modal-body">
+                <input type="text" hidden id="ma" value="" />
+                Bạn có chắc chắn muốn xóa?
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-success" id="btnYes">Xác nhận</button>
+                <button type="button" class="btn btn-secondary" data-dismiss="modal" id="btnDong">Đóng</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+@*  Them Phong *@
+
+<div class="modal" tabindex="-1" role="dialog" id="modalLopHP">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h4 class="font-weight-bold" style="margin-left:25%">THÔNG TIN PHÒNG THI</h4>
+            </div>
+            <div class="modal-body">
+                <p>
+                    <div class="form-group">
+                        <label>Tên Phòng</label>
+                        <input type="text" class="form-control" id="tenPhong" placeholder="Nhập Tên Phòng">
+                    </div>
+                    <div class="form-group">
+                        <label>Lớp Học Phần </label>
+                        <div id="LopHP">
+                            <select id="lop" class="form-control">
+                            </select>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label>Thời Gian Bắt Đầu </label>
+                        <input class="form-control" type="datetime-local" id="TGBD" name="DateOfBirth" data-date-format />
+                    </div>
+                    <div class="form-group">
+                        <label> Giám Thị 1 </label>
+                        <div >
+                            <select id="GV1" class="form-control">
+                                <option> SDDAA</option>
+                                <option> SDDAA</option>
+                                <option> SDDAA</option>
+
+                            </select>
 
 
-                                                                    </div>
-                                                                </div>
-                                                                <div class="form-group">
-                                                                    <label>Thời Gian Bắt Đầu </label>
-                                                                    <input class="form-control" type="datetime-local" id="TGBD" name="DateOfBirth" data-date-format />
-                                                                </div>
-                                                                <div class="form-group">
-
-                                                                    <label> Giám Thị 1 </label>
-                                                                    <div class="form-group">
-                                                                        <select id="GV1" class="form-control">
-                                                                            <option> SDDAA</option>
-                                                                            <option> SDDAA</option>
-                                                                            <option> SDDAA</option>
-
-                                                                        </select>
-
-
-                                                                    </div>
-                                                                </div>
-                                                                <div class="form-group">
-                                                                    <label> Giám Thị 1 </label>
-                                                                    <div class="form-group">
-                                                                        <select id="GV2" class="form-control">
-                                                                            <option> SDDAA</option>
-                                                                            <option> SDDAA</option>
-                                                                            <option> SDDAA</option>
-                                                                        </select>
-                                                                    </div>
-                                                                </div>
-                                                            </p>
-                                                        </div>
-                                                        <div class="modal-footer">
-                                                            <button type="button" class="btn btn-success" id="btnSubmit">Xác nhận</button>
-                                                            <button type="button" class="btn btn-secondary" data-dismiss="modal" id="btnDong">Đóng</button>
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                            </div>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label> Giám Thị 1 </label>
+                        <div >
+                            <select id="GV2" class="form-control">
+                                <option> SDDAA</option>
+                                <option> SDDAA</option>
+                                <option> SDDAA</option>
+                            </select>
+                        </div>
+                    </div>
+                </p>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-success" id="btnSubmit">Xác nhận</button>
+                <button type="button" class="btn btn-secondary" data-dismiss="modal" id="btnDong">Đóng</button>
+            </div>
+        </div>
+    </div>
+</div>
 
 

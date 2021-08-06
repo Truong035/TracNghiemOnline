@@ -3,33 +3,148 @@
     ViewBag.Title = "LoadDeThi";
     Layout = "~/Areas/Admin/Views/Shared/LaoutShare.cshtml";
     string mess = (string)ViewBag.Mess;
+    var session = (TaiKhoan)Session[ComMonStants.UserLogin];
 }
+@using TracNghiemOnline.ComMon;
+@using TracNghiemOnline.Modell;
 
 @section scripts{
     <script>
-
         function GuiDe(id) {
-
+            var now = new Date();
+            //var now = TaoNgay(ngay, thoigian);
+            var tgbd = now.getFullYear() + '/' + (now.getMonth() + 1) + '/' + now.getDate() + '/' + now.getHours() + '/' + now.getMinutes() + '/' + now.getSeconds() + ""
+            $('#particles1').show();
             $.ajax({
-                url: "/Admin/Home/GuiboMon/" + id,
+                url: "/Admin/Home/GuiboMon/",
                 type: 'Get',
+                data: { id: id, tgbd: tgbd },
                 success: function (res) {
                     document.location = "/Admin/Home/BoMon";
                 }
-
-
             });
         }
+        var check1;
+        var made;
+        var boleen;
+        function Close(check) {
+            boleen = check.checked
+            made = check.id;
+            check1 = check;
+            if (boleen == true) {
+                $('#modalConfirm').show();
+            }
+            else {
+                $('#particles1').show();
+                $.ajax({
+                    type: 'POST',
+                    url: '/Admin/Home/ChiaSeDe',
+                    data: { s: false, dethi: made },
+                    success: function (res) {
+                        $('#particles1').hide();
+                    }
+
+                });
+
+            }
+        }
+        $(document).ready(function () {
+            $('#btnDong').click(function () {
+                //clearInterval(x);
+                //$.ajax({
+                //    type: 'POST',
+                //    url: '/Admin/QuanLyThi/LoadPhongThi',
+                //    success: function (res) {
+                //        Loaddata(res);
+                //        load();
+                //    }
+
+                //});
+                check1.checked = false;
+                
+                $('#modalConfirm').hide();
+                //  $('#txtlydo').val("");
+
+            });
+            $('#btnSubmit').click(function () {
+                $('#modalConfirm').hide();
+                $('#particles1').show();
+                $.ajax({
+                    url: '/Admin/Home/ChiaSeDe',
+                    type: 'Get',
+                    data: { s: true, dethi: made},
+                    success: function (res) {
+                        alert("Chia sẻ thành công");
+                     //   Loaddata(res);
+                      //  load();
+                    //    $('#txtlydo').val("");
+                        $('#particles1').hide();
+                    }
+
+                });
+
+            });
+        })
+        
     </script>
 }
 
+<div class="modal" tabindex="-1" role="dialog" id="modalConfirm">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header header-title card-header-info btn-info">
+                <h5 class="modal-title text-center">Thông Báo</h5>
+            </div>
+            <div class="modal-body">
+                <div class="form-group">
+                    <h4>Bạn Có Chắc Muốn Chia Sẽ Bộ Đề Này Hay Không</h4>
+                   
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-primary btn-sm" id="btnSubmit">Xác nhận</button>
+                <button type="button" class="btn btn-danger btn-sm" id="btnDong">Hủy</button>
+            </div>
+        </div>
+    </div>
+</div>
 
 
 <div class="card" style="margin:2rem">
     <table class="display table dataTable no-footer" role="grid" style="margin-left:2rem">
         <tbody>
             <tr role="row" class="odd">
-                <td><p style="text-transform:uppercase; font-weight:700; margin-bottom:0">@ViewBag.TenDe</p><p style="margin-bottom:0">Môn thi: @ViewBag.MonThi</p><p>Thời gian: @ViewBag.ThoiGianThi phút</p></td>
+                <td>
+                    <div class="row">
+                        <p style="text-transform:uppercase; font-weight:700; margin-bottom:0">
+                            @ViewBag.TenDe
+
+                        </p>
+                        @if (session.ChưcVu.Equals("Cán Bộ") && Model.LoaiDe == false && Model.Ma_NguoiTao.Equals(session.TaiKhoan1))
+                        {
+                            if (Model.Share == true)
+                            {
+                                <div class="custom-control custom-switch ml-5">
+                                    <input type="checkbox" onclick="Close(this)" checked="checked" class="custom-control-input" id="@Model.Ma_BoDe">
+                                    <label class="custom-control-label" for="@Model.Ma_BoDe"></label>
+                                </div>
+
+                            }
+                            else
+                            {
+
+                                <div class="custom-control custom-switch ml-5">
+                                    <input type="checkbox" onclick="Close(this)" class="custom-control-input" id="@Model.Ma_BoDe">
+                                    <label class="custom-control-label" for="@Model.Ma_BoDe"></label>
+                                </div>
+                            }
+                        }
+
+                    </div>
+
+
+                    <p style="margin-bottom:0">Môn thi: @ViewBag.MonThi</p><p>Thời gian: @ViewBag.ThoiGianThi phút</p>
+                </td>
             </tr>
         </tbody>
     </table>
@@ -135,15 +250,15 @@
                         }
                         catch
                         {
+                            <div class="card-body">
+                                <a class=" btn btn-danger " href="/Admin/Home/DSDETHI"> Quay Lại </a>
+
+                                <a class=" btn btn-success" href="@ViewBag.linkpdf" download=""> Xuất PDF </a>
+                            </div>
 
                         }
 
-
-
-
                     }
-
-
                 }
                 catch
                 {

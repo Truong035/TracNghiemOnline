@@ -30,14 +30,14 @@
                             </thead>
 
                             <tbody>
-                                @foreach (var item in Model)
+                                @foreach (var item in Model.Where(x=>x.TrangThai==true))
                                 {
                                     <tr>
                                         <td> @item.Ma_Mon </td>
                                         <td> @item.TenMon</td>
                                         <td> @item.TenMon </td>
                                         <td>
-                                            <a href="/Admin/Home/ChuongHoc/@item.Ma_Mon" class="btn btn-sm btn-primary">
+                                            <a href="/Admin/CauHoi/DSChuong/@item.Ma_Mon" class="btn btn-sm btn-primary">
                                                 <span><i class="far fa-eye"></i></span>
                                             </a>&ensp;
                                         </td>
@@ -54,6 +54,5 @@
             </div>
         </div>
     </div>
-</div>
 </div>
 

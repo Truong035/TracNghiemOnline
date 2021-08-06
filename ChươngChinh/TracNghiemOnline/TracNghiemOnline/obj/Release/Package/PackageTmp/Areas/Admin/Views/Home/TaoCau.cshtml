@@ -1,0 +1,220 @@
+﻿@{
+    ViewBag.Title = "TaoCau";
+    Layout = "~/Areas/Admin/Views/Shared/LaoutShare.cshtml";
+    List<Chuong_Hoc> chuong_s = (List<Chuong_Hoc>)ViewBag.Chuong;
+    Bo_De bo_De = (Bo_De)ViewBag.bode;
+    var session = (TaiKhoan)Session[ComMonStants.UserLogin];
+
+}
+@using TracNghiemOnline.ComMon;
+@using TracNghiemOnline.Modell;
+@section  Jsfooter{
+    <script>
+        $(document).ready(function () {
+            $('#btnTao').click(function () {
+                var NhanBiet = $('.txtNhanBiet');
+                var ThongHieu = $('.txtThongHieu');
+                var VanDung = $('.txtVanDung');
+                var VanDungCao = $('.txtVanDungCao');
+                var arr = [];
+                $.each(NhanBiet, function (i, item) {
+                    arr.push({
+                        chuong: {
+                            Ma_Chuong: $(item).data('id')
+                        },
+                        nhanbiet: $(item).val(),
+                        thongHieu: "0",
+                        vandung: "0",
+                        vandungcao: "0"
+                    });
+
+                });
+                $.each(ThongHieu, function (i, item) {
+                    arr[i].thongHieu = $(item).val()
+
+                });
+                $.each(VanDung, function (i, item) {
+                    arr[i].vandung = $(item).val()
+
+                });
+                $.each(VanDungCao, function (i, item) {
+                    arr[i].vandungcao = $(item).val()
+
+                });
+                $.ajax({
+                    type: 'POST',
+                    url: "/Home/TaoDe",
+                    data: { SoLuong: JSON.stringify(arr) },
+                    dataType: 'json',
+                    success: function (res) {
+                        if (res.status == true) {
+                            window.location = "/Admin/Home/LoadDeThi"
+                        }
+                    }
+                });
+            });
+        });
+
+        function Soluon(){
+            var NhanBiet = $('.txtNhanBiet');
+            var ThongHieu = $('.txtThongHieu');
+            var VanDung = $('.txtVanDung');
+            var VanDungCao = $('.txtVanDungCao');
+            let socau = 0;
+            $.each(NhanBiet, function (i, item) {
+
+                socau = socau + Number($(item).val());
+
+
+            });
+            $.each(ThongHieu, function (i, item) {
+                socau = socau + Number($(item).val());
+
+            });
+            $.each(VanDung, function (i, item) {
+                socau = socau + Number($(item).val());
+
+            });
+            $.each(VanDungCao, function (i, item) {
+                socau = socau + Number($(item).val());
+
+            });
+            $('#txtsocau').text(`Số câu hỏi : ` + socau + ` Câu`)
+        }
+    </script>
+}
+
+<div class="container-fluid">
+    <form>
+        <div class="card">
+            <div class="card-body card-header ">
+                <div class="mt-lg-2">
+                    THÔNG TIN ĐỀ THI
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-2 ">
+                    <div class="card-body">
+                        <label>Môn Học </label>
+                    </div>
+                </div>
+                <div class="col-10 ">
+                    <div class="card-body">
+                        <label> @bo_De.MonHoc.TenMon </label>
+                    </div>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-2 ">
+                    <div class="card-body">
+                        <label>Tên Đề : </label>
+                    </div>
+                </div>
+                <div class="col-10 ">
+                    <div class="card-body">
+                        <label> @bo_De.NoiDung</label>
+                    </div>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-2 ">
+                    <div class="card-body">
+                        <label>Thời Gian Thi </label>
+                    </div>
+                </div>
+                <div class="col-10 ">
+                    <div class="card-body">
+                        <label> @bo_De.ThoiGianThi Phút  </label>
+                    </div>
+                </div>
+
+            </div>
+            <div class="card-body row ">
+
+                <div class="col">
+                    <h5> Danh Sách Chương </h5>
+                </div>
+                <div class="col">
+
+                    <label id="txtsocau"> Số câu hỏi : 0 Câu  </label>
+
+                </div>
+            </div>
+            <div class="card">
+                <div class="row">
+                    <div class="col-3 ">
+                        <div class="card-body">
+                            <h6> Tên Chương  </h6>
+                        </div>
+                    </div>
+                    <div class="col-2 ">
+                        <div class="card-body">
+                            <h6> Nhận Biết  </h6>
+                        </div>
+                    </div>
+                    <div class="col-2 ">
+                        <div class="card-body">
+                            <h6> Thông Hiểu   </h6>
+                        </div>
+                    </div>
+                    <div class="col-2 ">
+                        <div class="card-body">
+                            <h6> Vận Dụng  </h6>
+                        </div>
+                    </div>
+                    <div class="col-2 ">
+                        <div class="card-body">
+                            <h6> Vận Dụng Cao </h6>
+                        </div>
+                    </div>
+                </div>
+                @foreach (var item in chuong_s)
+                {
+                    <div class="card-body">
+                        <div class="row">
+                            <div class="col-3">
+
+                                <label>  @item.TenChuong  </label>
+
+                            </div>
+                            <div class="col-2 ">
+                                <div class="col-10">
+                                    <input type="number" value="0" onchange="Soluon()" style="width:60px" class="txtNhanBiet" min="0" max="@item.Kho_CauHoi.Where(x=>x.Ma_Chuong==item.Ma_Chuong && x.MucDo.Contains("Nhận Biết") && x.NguoiTao.Equals(session.TaiKhoan1)&& x.Xoa==true && x.TrangThai ==true).ToList().Count" data-id="@item.Ma_Chuong" />
+                                </div>
+
+                            </div>
+                            <div class="col-2 ">
+                                <div class="col-10">
+                                    <input type="number" onchange="Soluon()" value="0" style="width:60px" class="txtThongHieu" min="0" max="@item.Kho_CauHoi.Where(x=>x.Ma_Chuong==item.Ma_Chuong && x.MucDo.Contains("Thông Hiểu") && x.NguoiTao.Equals(session.TaiKhoan1) && x.Xoa==true && x.TrangThai ==true).ToList().Count" data-id="@item.Ma_Chuong" />
+                                </div>
+
+                            </div>
+                            <div class="col-2 ">
+                                <div class="col-10">
+                                    <input type="number" onchange="Soluon()" value="0" style="width:60px" class="txtVanDung" min="0" max="@item.Kho_CauHoi.Where(x=>x.Ma_Chuong==item.Ma_Chuong && x.MucDo.Equals("Vận Dụng") &&  x.NguoiTao.Equals(session.TaiKhoan1) && x.Xoa==true && x.TrangThai ==true).ToList().Count" data-id="@item.Ma_Chuong" />
+                                </div>
+
+                            </div>
+                            <div class="col-2 ">
+                                <div class="col-10">
+                                    <input type="number" onchange="Soluon()" value="0" style="width:60px" class="txtVanDungCao" min="0" max="@item.Kho_CauHoi.Where(x=>x.Ma_Chuong==item.Ma_Chuong && x.MucDo.Equals("Vận Dụng Cao") &&  x.NguoiTao.Equals(session.TaiKhoan1) && x.Xoa==true && x.TrangThai ==true).ToList().Count" data-id="@item.Ma_Chuong" />
+                                </div>
+
+                            </div>
+
+                        </div>
+                    </div>
+                }
+            </div>
+
+            <div class="card-body" style="text-align:center">
+                <button class="btn btn-success" id="btnTao" type="button"> Hoàn Thành  </button>
+                <a class="badge-danger btn " href="/Admin/Home/TaoDeThi"> Hủy bỏ </a>
+            </div>
+        </div>
+
+
+    </form>
+</div>
+
+
